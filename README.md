@@ -1,5 +1,5 @@
 # NLM 
-## Utilities for interacting with different databases/APIs provided by the National Library of Medicine (NLM)
+## Utilities to interact with databases/APIs provided by the National Library of Medicine (NLM)
 
 Supported databases/APIS include:
 
