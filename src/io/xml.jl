@@ -31,16 +31,19 @@ end
 # replace any newline characters.
 
 function xml2dict(element_node, replace_newline = nothing)
+
+
+
     if has_any_children(element_node)
         ces = collect(child_elements(element_node))
         dict_res = MultiDict{Any, Any}()
-        for (ic, c) in enumerate(ces)
+        for c in ces
             childname = name(c)
             value = xml2dict(c, replace_newline)
             if isa(value, ASCIIString) && isnumeric(value)
                 value = parse(value)
             elseif !isa(replace_newline, Void) && isa(value, ASCIIString)
-               value = replace(value, "\n", replace_newline)
+                value = replace(value, "\n", replace_newline)
             end
             insert!(dict_res, childname, value)
         end
