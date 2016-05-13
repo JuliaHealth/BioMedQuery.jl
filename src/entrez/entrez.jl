@@ -10,8 +10,7 @@ using Requests
 using LightXML
 using HttpCommon
 
-include("../io/io.jl")
-using  .io.xml: xml2dict, show_key_structure
+using  XMLconvert: xml2dict, show_key_structure
 
 include("entrezDB.jl")
 using .DB
