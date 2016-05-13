@@ -1,6 +1,4 @@
 #Database utilities for entrez query_unique_mesh
-
-
 module DB
 import SQLite
 using DataStreams
@@ -15,6 +13,8 @@ const NULL = SQLite.NullType()
 # is asked whether he intended to clean the existing file
 function init_database(path)
 
+    println("Initializing Database")
+
     if isfile(path)
         println("Database found. Returning existing database.")
         return SQLite.DB(path)
@@ -25,31 +25,31 @@ function init_database(path)
 
     #Create tables to store
     SQLite.query(db, "CREATE TABLE
-    article (pmid INTEGER NOT NULL PRIMARY KEY,
+    article(pmid INTEGER NOT NULL PRIMARY KEY,
     title TEXT,
-    pubYear TEXT )")
+    pubYear INTEGER)")
 
 
     SQLite.query(db, "CREATE TABLE
-    author (id INTEGER PRIMARY KEY AUTOINCREMENT,
+    author(id INTEGER PRIMARY KEY AUTOINCREMENT,
     forename TEXT,
     lastname TEXT,
-    CONSTRAINT unq UNIQUE(forename,  lastname) )")
+    CONSTRAINT unq UNIQUE(forename,  lastname))")
 
     SQLite.query(db, "CREATE TABLE
-    author2article ( aid INTEGER, pmid INTEGER,
+    author2article(aid INTEGER, pmid INTEGER,
     FOREIGN KEY(aid) REFERENCES author(id),
     FOREIGN KEY(pmid) REFERENCES article(pmid),
-    PRIMARY KEY(aid, pmid) )")
+    PRIMARY KEY(aid, pmid))")
 
     SQLite.query(db, "CREATE TABLE
-    mesh (name TEXT PRIMARY KEY )")
+    mesh(name TEXT PRIMARY KEY)")
 
     SQLite.query(db, "CREATE TABLE
-    mesh2article (mesh TEXT, pmid INTEGER,
+    mesh2article(mesh TEXT, pmid INTEGER,
     FOREIGN KEY(mesh) REFERENCES mesh(name),
     FOREIGN KEY(pmid) REFERENCES article(pmid),
-    PRIMARY KEY(mesh, pmid) )")
+    PRIMARY KEY(mesh, pmid))")
 
     return db
 
