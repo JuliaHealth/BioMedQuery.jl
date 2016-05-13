@@ -119,6 +119,7 @@ function save_efetch(efetch_dict, path)
 
         # PMID is used as primary key - therefore it must be present
         if haskey(article["MedlineCitation"][1],"PMID")
+            pmid = article["MedlineCitation"][1]["PMID"][1]
         else
             println("Error: Could not save to DB key:PMID not found - cannot be NULL")
             return
@@ -144,6 +145,7 @@ function save_efetch(efetch_dict, path)
             forename = DB.NULL
             lastname = DB.NULL
             if haskey(article["MedlineCitation"][1]["Article"][1], "AuthorList")
+                authors = article["MedlineCitation"][1]["Article"][1]["AuthorList"][1]["Author"]
                 for author in authors
                     if haskey(author, "ForeName")
                         forename = author["ForeName"][1]
