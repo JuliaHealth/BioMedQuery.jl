@@ -9,7 +9,9 @@ module Entrez
 using Requests
 using LightXML
 using HttpCommon
-import io.xml:xml2dict
+
+include("../io/io.jl")
+using  .io.xml: xml2dict, show_key_structure
 
 include("entrezDB.jl")
 using .DB
@@ -69,6 +71,7 @@ end
 
 function eparse(response)
     xdoc = parse_string(response)
+
     # get the root element
     xroot = root(xdoc)  # an instance of XMLElement
     # get all child nodes and append to dictionary
@@ -116,7 +119,6 @@ function save_efetch(efetch_dict, path)
 
         # PMID is used as primary key - therefore it must be present
         if haskey(article["MedlineCitation"][1],"PMID")
-            pmid = parse(Int64, article["MedlineCitation"][1]["PMID"][1])
         else
             println("Error: Could not save to DB key:PMID not found - cannot be NULL")
             return
@@ -142,7 +144,6 @@ function save_efetch(efetch_dict, path)
             forename = DB.NULL
             lastname = DB.NULL
             if haskey(article["MedlineCitation"][1]["Article"][1], "AuthorList")
-                authors = article["MedlineCitation"][1]["Article"][1]["AuthorList"]
                 for author in authors
                     if haskey(author, "ForeName")
                         forename = author["ForeName"][1]
