@@ -1,0 +1,22 @@
+# @Author: isa
+# @Date:   2016-05-19T16:17:24-04:00
+# @Last modified by:   isa
+# @Last modified time: 2016-05-19T16:17:36-04:00
+
+
+
+# Documentation: http://docs.travis-ci.com/user/languages/julia/
+language: julia
+os:
+  - linux
+  - osx
+julia:
+  - 0.4
+  - release
+  - nightly
+notifications:
+  email: false
+# uncomment the following lines to override the default test script
+script:
+  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+  - julia -e 'Pkg.clone(pwd()); Pkg.build("NLM"); Pkg.test("NLM"; coverage=true)'
