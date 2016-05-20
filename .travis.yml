@@ -1,7 +1,7 @@
 # @Author: isa
 # @Date:   2016-05-19T16:17:24-04:00
 # @Last modified by:   isa
-# @Last modified time: 2016-05-19T16:19:43-04:00
+# @Last modified time: 2016-05-20T11:15:05-04:00
 
 
 
@@ -13,7 +13,7 @@ os:
 julia:
   - 0.4
   - release
-  - nightly
+  # - nightly
 notifications:
   email: false
 # uncomment the following lines to override the default test script
