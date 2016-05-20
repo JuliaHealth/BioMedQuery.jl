@@ -1,5 +1,5 @@
 
-# Pkg.clone("https://github.com/bcbi/XMLconvert.jl.git")
+Pkg.clone("https://github.com/bcbi/XMLconvert.jl.git")
 using XMLconvert
 using Base.Test
 
