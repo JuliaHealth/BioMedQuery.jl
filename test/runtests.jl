@@ -5,7 +5,6 @@ using Base.Test
 
 ### CT
 using NLM
-# import NLM.CT
 Pkg.add("ZipFile")
 using ZipFile
 

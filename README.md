@@ -14,3 +14,8 @@ Supported databases/APIS include:
 
 - Entrez Programming Utilities (E-utilities) - http://www.ncbi.nlm.nih.gov/books/NBK25501/
 - UML REST API - https://documentation.uts.nlm.nih.gov/rest/home.html
+- Clinical Trials - https://clinicaltrials.gov/
+
+```{Julia}
+Pkg.clone("https://github.com/bcbi/NLM.jl.git")
+```
