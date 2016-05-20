@@ -1,4 +1,3 @@
-
 Pkg.clone("https://github.com/bcbi/XMLconvert.jl.git")
 using XMLconvert
 using Base.Test
@@ -7,6 +6,7 @@ using Base.Test
 ### CT
 using NLM
 # import NLM.CT
+Pkg.add(ZipFile)
 using ZipFile
 
 query = Dict("term" => "acne", "age"=>0)
