@@ -1,16 +1,17 @@
 
-Pkg.clone("https://github.com/bcbi/XMLconvert.jl.git")
+# Pkg.clone("https://github.com/bcbi/XMLconvert.jl.git")
 using XMLconvert
 using Base.Test
 
 
 ### CT
-using NLM.CT
+using NLM
+# import NLM.CT
 using ZipFile
 
 query = Dict("term" => "acne", "age"=>0)
 fout= "./test_CT_search.zip"
-status = CT.search_ct(query, fout;)
+status = NLM.CT.search_ct(query, fout;)
 
 #minimal test - http response succeded
 @test status == 200

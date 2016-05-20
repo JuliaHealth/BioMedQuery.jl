@@ -1,9 +1,3 @@
-# @Author: isa
-# @Date:   2016-05-19T16:17:24-04:00
-# @Last modified by:   isa
-# @Last modified time: 2016-05-20T11:15:05-04:00
-
-
 
 # Documentation: http://docs.travis-ci.com/user/languages/julia/
 language: julia
