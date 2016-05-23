@@ -28,10 +28,10 @@ Pkg.clone("https://github.com/bcbi/NLM.jl.git")
 Formulate a dictionary to search PubMed for 100 articles between 2000 and 2012
 with obesity indicated as the major MeSH descriptor.
 
-` println("------Searching Entrez--------")
-  search_dic = Dict("db"=>"pubmed","term" => "obesity",
-  "retstart" => 0, "retmax"=>100, "tool" =>"BioJulia",
-  "email" => email, "mindate"=>"2000","maxdate"=>"2012" )`
+
+```  search_dic = Dict("db"=>"pubmed","term" => "obesity",
+    "retstart" => 0, "retmax"=>100, "tool" =>"BioJulia",
+    "email" => email, "mindate"=>"2000","maxdate"=>"2012" )```
 
 Use esearch
 
@@ -43,23 +43,24 @@ Convert response-xml to dictionary
 
 #### EFetch
 Retrieve the list of ID's returned by esearch
-`   if !haskey(esearch_dict, "IdList")
+```   if !haskey(esearch_dict, "IdList")
         error("Error: IdList not found")
     end
 
     ids = []
     for id_node in esearch_dict["IdList"][1]["Id"]
         push!(ids, id_node)
-    end`
+    end```
 
 Define the fetch dictionary
-`fetch_dic = Dict("db"=>"pubmed","tool" =>"BioJulia", "email" => email,
-                 "retmode" => "xml", "rettype"=>"null")
 
-efetch_response = efetch(fetch_dic, ids)`
+```fetch_dic = Dict("db"=>"pubmed","tool" =>"BioJulia", "email" => email, "retmode" => "xml", "rettype"=>"null")
+efetch_response = efetch(fetch_dic, ids)```
+
 Convert response-xml to dictionary
+
 `efetch_dict = eparse(efetch_response)`
 
 Optional - save the results of an entrez fetch to a sqlite database
-`db = save_efetch(efetch_dict, db_path)
-`
+
+`db = save_efetch(efetch_dict, db_path)`
