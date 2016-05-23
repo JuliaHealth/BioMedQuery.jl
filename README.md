@@ -48,14 +48,14 @@ with obesity indicated as the major MeSH descriptor.
 - Retrieve the list of ID's returned by esearch
     
  ```{Julia}
-    if !haskey(esearch_dict, "IdList")
-        error("Error: IdList not found")
-    end
-
-    ids = []
-    for id_node in esearch_dict["IdList"][1]["Id"]
-        push!(ids, id_node)
-    end
+  if !haskey(esearch_dict, "IdList")
+      error("Error: IdList not found")
+  end
+  
+  ids = []
+  for id_node in esearch_dict["IdList"][1]["Id"]
+      push!(ids, id_node)
+  end
   ```
 
 - Define the fetch dictionary
