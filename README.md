@@ -13,7 +13,7 @@
 Supported databases/APIS include:
 
 - [Entrez Programming Utilities (E-utilities)](#entrez) 
-- [UML REST API](#uml) - https://documentation.uts.nlm.nih.gov/rest/home.html
+- [UML REST API](#uml) 
 - Clinical Trials - https://clinicaltrials.gov/
 
 ### Installation
@@ -67,4 +67,5 @@ Optional - save the results of an entrez fetch to a sqlite database
 
 `db = save_efetch(efetch_dict, db_path)`
 
-#uml
+#Uml
+Ununified Markdown Langauge. API details https://documentation.uts.nlm.nih.gov/rest/home.html
