@@ -13,7 +13,7 @@
 Supported databases/APIS include:
 
 - [Entrez Programming Utilities (E-utilities)](#entrez) 
-- [UML REST API](#uml) 
+- [Unified Medical Language System (UMLS)](#umls) 
 - Clinical Trials - https://clinicaltrials.gov/
 
 ### Installation
@@ -67,13 +67,13 @@ Optional - save the results of an entrez fetch to a sqlite database
 
 `db = save_efetch(efetch_dict, db_path)`
 
-#UML
-Ununified Markdown Langauge. API details https://documentation.uts.nlm.nih.gov/rest/home.html
+#UMLS
+Search Unified Medical Language System. For more details on the REST API see https://documentation.uts.nlm.nih.gov/rest/home.html
 
 ####Import
 `using NLM.umls`
 
-#### Search
+#### Search by term
 
 Search UMLS using the Rest API. The user needs approved credentials and a query dictionary.
 
@@ -90,4 +90,12 @@ credentials = Credentials(user, psswd)```
 
 `all_results= search_umls(credentials, query)`
 
+#### Get best CUI
 
+-To retrive the CUI for the rest match
+
+`cui = best_match_cui(all_results, term)`
+
+#### Get UMLS concepts associated with a CUI
+
+`all_concepts = get_concepts(c, cui)`
