@@ -14,7 +14,7 @@ Supported databases/APIS include:
 
 - [Entrez Programming Utilities (E-utilities)](#entrez)
 - [Unified Medical Language System (UMLS)](#umls)
-- [Clinical Trials](#clinical-trials) - https://clinicaltrials.gov/
+- [Clinical Trials](#clinical-trials)
 
 ### Installation
 ```{Julia}
@@ -102,7 +102,7 @@ credentials = Credentials(user, psswd)```
 
 #Clinical Trials
 
-Submit and save queries to clinicaltrials.gov
+Submit and save queries to  https://clinicaltrials.gov/
 
 #### Importing
 `using NLM.CT`
@@ -114,9 +114,11 @@ Submit and save queries to clinicaltrials.gov
 `query = Dict("term" => "acne", "age"=>Int(CT.child), "locn" => "Providence, RI")`
 
 Note: The term can also indicate joint searches, e.g.
+
  `"term" => "aspirin OR ibuprofen"`
  
 - Submit query and save to a specified location
+
 ```fout= "./test_CT_search.zip"
 status = NLM.CT.search_ct(query, fout;)```
 
