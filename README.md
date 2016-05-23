@@ -44,14 +44,14 @@ Convert response-xml to dictionary
 #### EFetch
 Retrieve the list of ID's returned by esearch
 
-    `if !haskey(esearch_dict, "IdList")
+    if !haskey(esearch_dict, "IdList")
         error("Error: IdList not found")
     end
 
     ids = []
     for id_node in esearch_dict["IdList"][1]["Id"]
         push!(ids, id_node)
-    end`
+    end
 
 Define the fetch dictionary
 
