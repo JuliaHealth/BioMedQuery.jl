@@ -4,7 +4,6 @@ using Base.Test
 
 
 ### CT
-Pkg.clone("https://github.com/bcbi/NLM.jl.git")
 using NLM
 # Pkg.add("ZipFile")
 using ZipFile
