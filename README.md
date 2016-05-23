@@ -16,6 +16,7 @@ Supported databases/APIS include:
 - UML REST API - https://documentation.uts.nlm.nih.gov/rest/home.html
 - Clinical Trials - https://clinicaltrials.gov/
 
+### Installation
 ```{Julia}
 Pkg.clone("https://github.com/bcbi/NLM.jl.git")
 ```
