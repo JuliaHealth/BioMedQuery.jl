@@ -27,15 +27,15 @@ Pkg.clone("https://github.com/bcbi/NLM.jl.git")
 #### ESearch
 Formulate a dictionary to search PubMed for 100 articles between 2000 and 2012
 with obesity indicated as the major MeSH descriptor.
+
 ` println("------Searching Entrez--------")
-    search_dic = Dict("db"=>"pubmed","term" => "obesity",
-    "retstart" => 0, "retmax"=>100, "tool" =>"BioJulia",
-    "email" => email, "mindate"=>"2000","maxdate"=>"2012" )`
+  search_dic = Dict("db"=>"pubmed","term" => "obesity",
+  "retstart" => 0, "retmax"=>100, "tool" =>"BioJulia",
+  "email" => email, "mindate"=>"2000","maxdate"=>"2012" )`
 
 Use esearch
 
 ` esearch_response = esearch(search_dic)`
-
 
 Convert response-xml to dictionary
 
