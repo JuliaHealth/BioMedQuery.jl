@@ -1,6 +1,6 @@
-using NLM
 Pkg.clone("https://github.com/bcbi/XMLconvert.jl.git")
 using XMLconvert
+using NLM
 using Base.Test
 Pkg.add("ZipFile")
 using ZipFile
