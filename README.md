@@ -12,8 +12,8 @@
 [![Build Status](https://travis-ci.org/bcbi/NLM.jl.svg?branch=master)](https://travis-ci.org/bcbi/NLM.jl)
 Supported databases/APIS include:
 
-- [Entrez Programming Utilities (E-utilities)](#entrez) 
-- [Unified Medical Language System (UMLS)](#umls) 
+- [Entrez Programming Utilities (E-utilities)](#entrez)
+- [Unified Medical Language System (UMLS)](#umls)
 - Clinical Trials - https://clinicaltrials.gov/
 
 ### Installation
@@ -79,10 +79,10 @@ Search UMLS using the Rest API. The user needs approved credentials and a query 
 
 -To create credentials
 
-```import NLM.umls:Credentials 
+```import NLM.umls:Credentials
 credentials = Credentials(user, psswd)```
 
--To compose the query 
+-To compose the query
 
 `query = Dict("string"=>term, "searchType"=>"exact" )`
 
@@ -99,3 +99,5 @@ credentials = Credentials(user, psswd)```
 #### Get UMLS concepts associated with a CUI
 
 `all_concepts = get_concepts(c, cui)`
+
+####CT
