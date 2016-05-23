@@ -29,9 +29,9 @@ Formulate a dictionary to search PubMed for 100 articles between 2000 and 2012
 with obesity indicated as the major MeSH descriptor.
 
 
- ```search_dic = Dict("db"=>"pubmed","term" => "obesity",
+`search_dic = Dict("db"=>"pubmed","term" => "obesity",
  "retstart" => 0, "retmax"=>100, "tool" =>"BioJulia",
- "email" => email, "mindate"=>"2000","maxdate"=>"2012" )```
+ "email" => email, "mindate"=>"2000","maxdate"=>"2012" )`
 
 Use esearch
 
@@ -44,14 +44,14 @@ Convert response-xml to dictionary
 #### EFetch
 Retrieve the list of ID's returned by esearch
 
-    ```if !haskey(esearch_dict, "IdList")
+    `if !haskey(esearch_dict, "IdList")
         error("Error: IdList not found")
     end
 
     ids = []
     for id_node in esearch_dict["IdList"][1]["Id"]
         push!(ids, id_node)
-    end```
+    end`
 
 Define the fetch dictionary
 
