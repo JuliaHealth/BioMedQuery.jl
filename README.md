@@ -20,7 +20,7 @@ Supported databases/APIS include:
 ```{Julia}
 Pkg.clone("https://github.com/bcbi/NLM.jl.git")
 ```
-
+(#some-markdown-heading)
 
 ## Entrez
 
