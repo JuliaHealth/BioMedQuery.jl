@@ -82,6 +82,7 @@ Search Unified Medical Language System. For more details on the REST API see htt
 #### Search by term
 
 Search UMLS using the Rest API. The user needs approved credentials and a query dictionary.
+To sign up for credentials see https://uts.nlm.nih.gov//license.html
 
 - To create credentials
 
