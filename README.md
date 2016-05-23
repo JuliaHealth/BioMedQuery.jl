@@ -30,9 +30,11 @@ API details at  http://www.ncbi.nlm.nih.gov/books/NBK25501/
 with obesity indicated as the major MeSH descriptor.
 
 
- `search_dic = Dict("db"=>"pubmed","term" => "obesity",
+ ```{Julia}
+ search_dic = Dict("db"=>"pubmed","term" => "obesity",
   "retstart" => 0, "retmax"=>100, "tool" =>"BioJulia",
-  "email" => email, "mindate"=>"2000","maxdate"=>"2012" )`
+  "email" => email, "mindate"=>"2000","maxdate"=>"2012" )
+  ```
 
 - Use esearch
 
@@ -44,7 +46,8 @@ with obesity indicated as the major MeSH descriptor.
 
 #### EFetch
 - Retrieve the list of ID's returned by esearch
-
+    
+ ```{Julia}
     if !haskey(esearch_dict, "IdList")
         error("Error: IdList not found")
     end
@@ -53,11 +56,14 @@ with obesity indicated as the major MeSH descriptor.
     for id_node in esearch_dict["IdList"][1]["Id"]
         push!(ids, id_node)
     end
+  ```
 
 - Define the fetch dictionary
 
- ```fetch_dic = Dict("db"=>"pubmed","tool" =>"BioJulia", "email" => email, "retmode" => "xml", "rettype"=>"null")
- efetch_response = efetch(fetch_dic, ids)```
+ ```{Julia}
+ fetch_dic = Dict("db"=>"pubmed","tool" =>"BioJulia", "email" => email, "retmode" => "xml", "rettype"=>"null")
+ efetch_response = efetch(fetch_dic, ids)
+ ```
 
 - Convert response-xml to dictionary
 
@@ -79,26 +85,28 @@ Search UMLS using the Rest API. The user needs approved credentials and a query 
 
 - To create credentials
 
-```import NLM.umls:Credentials
-credentials = Credentials(user, psswd)```
+ ```{Julia}
+ import NLM.umls:Credentials
+ credentials = Credentials(user, psswd)
+ ```
 
 - To compose the query
 
-`query = Dict("string"=>term, "searchType"=>"exact" )`
+ `query = Dict("string"=>term, "searchType"=>"exact" )`
 
 - To search all concepts associeted with the indicated term
 
-`all_results= search_umls(credentials, query)`
+ `all_results= search_umls(credentials, query)`
 
 #### Get best CUI
 
 - To retrive the CUI for the rest match
 
-`cui = best_match_cui(all_results, term)`
+ `cui = best_match_cui(all_results, term)`
 
 #### Get UMLS concepts associated with a CUI
 
-`all_concepts = get_concepts(c, cui)`
+ `all_concepts = get_concepts(c, cui)`
 
 ###Clinical Trials
 
@@ -111,7 +119,7 @@ Submit and save queries to  https://clinicaltrials.gov/
 
 - Create a query, for instance:
 
-`query = Dict("term" => "acne", "age"=>Int(CT.child), "locn" => "Providence, RI")`
+ `query = Dict("term" => "acne", "age"=>Int(CT.child), "locn" => "Providence, RI")`
 
 Note: The term can also indicate joint searches, e.g.
 
@@ -119,7 +127,9 @@ Note: The term can also indicate joint searches, e.g.
  
 - Submit query and save to a specified location
 
-```fout= "./test_CT_search.zip"
-status = NLM.CT.search_ct(query, fout;)```
+ ```
+ fout= "./test_CT_search.zip"
+ status = NLM.CT.search_ct(query, fout;)
+ ```
 
 
