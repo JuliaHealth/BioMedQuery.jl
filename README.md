@@ -20,6 +20,7 @@ Supported databases/APIS include:
 ```{Julia}
 Pkg.clone("https://github.com/bcbi/NLM.jl.git")
 ```
+-------------------------
 
 ###Entrez
 
@@ -73,6 +74,8 @@ with obesity indicated as the major MeSH descriptor.
 
  `db = save_efetch(efetch_dict, db_path)`
 
+-------------------------
+
 ###UMLS
 Search Unified Medical Language System. For more details on the REST API see https://documentation.uts.nlm.nih.gov/rest/home.html
 
@@ -108,6 +111,8 @@ To sign up for credentials see https://uts.nlm.nih.gov//license.html
 #### Get UMLS concepts associated with a CUI
 
  `all_concepts = get_concepts(c, cui)`
+
+-------------------------
 
 ###Clinical Trials
 
