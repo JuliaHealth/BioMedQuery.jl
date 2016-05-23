@@ -31,4 +31,4 @@ build_script:
       Pkg.clone(pwd(), \"NLM\"); Pkg.build(\"NLM\")"
 
 test_script:
-  - C:\projects\julia\bin\julia --check-bounds=yes -e "Pkg.test(\"NLM\")"
+  - C:\projects\julia\bin\julia  -e "Pkg.test(\"NLM\")"

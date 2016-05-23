@@ -5,7 +5,7 @@ using Base.Test
 
 ### CT
 using NLM
-Pkg.add("ZipFile")
+# Pkg.add("ZipFile")
 using ZipFile
 
 query = Dict("term" => "acne", "age"=>0)
