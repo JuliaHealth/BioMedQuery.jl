@@ -1,4 +1,4 @@
-module umls
+module UMLS
 
   using Gumbo
   using Requests
