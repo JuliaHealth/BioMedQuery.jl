@@ -12,7 +12,7 @@
 [![Build Status](https://travis-ci.org/bcbi/NLM.jl.svg?branch=master)](https://travis-ci.org/bcbi/NLM.jl)
 Supported databases/APIS include:
 
-- [Entrez Programming Utilities (E-utilities)](#entrez)
+- [Entrez Programming Utilities (E-utilities)](##entrez)
 - [Unified Medical Language System (UMLS)](#umls)
 - [Clinical Trials](#clinical-trials)
 
@@ -21,7 +21,7 @@ Supported databases/APIS include:
 Pkg.clone("https://github.com/bcbi/NLM.jl.git")
 ```
 
-#Entrez
+##Entrez
 
 API details at  http://www.ncbi.nlm.nih.gov/books/NBK25501/
 
