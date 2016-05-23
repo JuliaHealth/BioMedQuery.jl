@@ -12,8 +12,8 @@
 [![Build Status](https://travis-ci.org/bcbi/NLM.jl.svg?branch=master)](https://travis-ci.org/bcbi/NLM.jl)
 Supported databases/APIS include:
 
-- [Entrez Programming Utilities (E-utilities)](##entrez) - http://www.ncbi.nlm.nih.gov/books/NBK25501/
-- UML REST API - https://documentation.uts.nlm.nih.gov/rest/home.html
+- [Entrez Programming Utilities (E-utilities)](#entrez) - http://www.ncbi.nlm.nih.gov/books/NBK25501/
+- [UML REST API](#uml) - https://documentation.uts.nlm.nih.gov/rest/home.html
 - Clinical Trials - https://clinicaltrials.gov/
 
 ### Installation
@@ -21,7 +21,7 @@ Supported databases/APIS include:
 Pkg.clone("https://github.com/bcbi/NLM.jl.git")
 ```
 
-## Entrez
+#entrez
 
 #### ESearch
 Formulate a dictionary to search PubMed for 100 articles between 2000 and 2012
@@ -64,3 +64,6 @@ Convert response-xml to dictionary
 Optional - save the results of an entrez fetch to a sqlite database
 
 `db = save_efetch(efetch_dict, db_path)`
+
+
+(#uml)
