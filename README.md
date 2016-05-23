@@ -12,8 +12,8 @@
 [![Build Status](https://travis-ci.org/bcbi/NLM.jl.svg?branch=master)](https://travis-ci.org/bcbi/NLM.jl)
 Supported databases/APIS include:
 
-- Entrez Programming Utilities (E-utilities) - http://www.ncbi.nlm.nih.gov/books/NBK25501/
-- UML REST API - https://documentation.uts.nlm.nih.gov/rest/home.html
+- [Entrez Programming Utilities (E-utilities)](#entrez) 
+- [Unified Medical Language System (UMLS)](#umls) 
 - Clinical Trials - https://clinicaltrials.gov/
 
 ### Installation
@@ -21,21 +21,22 @@ Supported databases/APIS include:
 Pkg.clone("https://github.com/bcbi/NLM.jl.git")
 ```
 
+#Entrez
 
-## Entrez
+API details at  http://www.ncbi.nlm.nih.gov/books/NBK25501/
 
 #### ESearch
 Formulate a dictionary to search PubMed for 100 articles between 2000 and 2012
 with obesity indicated as the major MeSH descriptor.
-` println("------Searching Entrez--------")
-    search_dic = Dict("db"=>"pubmed","term" => "obesity",
-    "retstart" => 0, "retmax"=>100, "tool" =>"BioJulia",
-    "email" => email, "mindate"=>"2000","maxdate"=>"2012" )`
+
+
+`search_dic = Dict("db"=>"pubmed","term" => "obesity",
+ "retstart" => 0, "retmax"=>100, "tool" =>"BioJulia",
+ "email" => email, "mindate"=>"2000","maxdate"=>"2012" )`
 
 Use esearch
 
 ` esearch_response = esearch(search_dic)`
-
 
 Convert response-xml to dictionary
 
@@ -43,23 +44,58 @@ Convert response-xml to dictionary
 
 #### EFetch
 Retrieve the list of ID's returned by esearch
-`   if !haskey(esearch_dict, "IdList")
+
+    if !haskey(esearch_dict, "IdList")
         error("Error: IdList not found")
     end
 
     ids = []
     for id_node in esearch_dict["IdList"][1]["Id"]
         push!(ids, id_node)
-    end`
+    end
 
 Define the fetch dictionary
-`fetch_dic = Dict("db"=>"pubmed","tool" =>"BioJulia", "email" => email,
-                 "retmode" => "xml", "rettype"=>"null")
 
-efetch_response = efetch(fetch_dic, ids)`
+```fetch_dic = Dict("db"=>"pubmed","tool" =>"BioJulia", "email" => email, "retmode" => "xml", "rettype"=>"null")
+efetch_response = efetch(fetch_dic, ids)```
+
 Convert response-xml to dictionary
+
 `efetch_dict = eparse(efetch_response)`
 
 Optional - save the results of an entrez fetch to a sqlite database
-`db = save_efetch(efetch_dict, db_path)
-`
+
+`db = save_efetch(efetch_dict, db_path)`
+
+#UMLS
+Search Unified Medical Language System. For more details on the REST API see https://documentation.uts.nlm.nih.gov/rest/home.html
+
+####Import
+`using NLM.umls`
+
+#### Search by term
+
+Search UMLS using the Rest API. The user needs approved credentials and a query dictionary.
+
+-To create credentials
+
+```import NLM.umls:Credentials 
+credentials = Credentials(user, psswd)```
+
+-To compose the query 
+
+`query = Dict("string"=>term, "searchType"=>"exact" )`
+
+-To search all concepts associeted with the indicated term
+
+`all_results= search_umls(credentials, query)`
+
+#### Get best CUI
+
+-To retrive the CUI for the rest match
+
+`cui = best_match_cui(all_results, term)`
+
+#### Get UMLS concepts associated with a CUI
+
+`all_concepts = get_concepts(c, cui)`
