@@ -67,5 +67,27 @@ Optional - save the results of an entrez fetch to a sqlite database
 
 `db = save_efetch(efetch_dict, db_path)`
 
-#Uml
+#UML
 Ununified Markdown Langauge. API details https://documentation.uts.nlm.nih.gov/rest/home.html
+
+####Import
+`using NLM.umls`
+
+#### Search
+
+Search UMLS using the Rest API. The user needs approved credentials and a query dictionary.
+
+-To create credentials
+
+```import NLM.umls:Credentials 
+credentials = Credentials(user, psswd)```
+
+-To compose the query 
+
+`query = Dict("string"=>term, "searchType"=>"exact" )`
+
+-To search all concepts associeted with the indicated term
+
+`all_results= search_umls(credentials, query)`
+
+
