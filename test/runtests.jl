@@ -1,3 +1,5 @@
+#!/usr/bin/env julia
+
 Pkg.clone("https://github.com/bcbi/XMLconvert.jl.git")
 using XMLconvert
 using NLM
