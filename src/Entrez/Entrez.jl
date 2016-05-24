@@ -12,7 +12,7 @@ using HttpCommon
 
 using  XMLconvert: xml2dict, show_key_structure
 
-include("entrezDB.jl")
+include("EntrezDB.jl")
 using .DB
 
 export esearch, efetch, eparse, save_efetch
