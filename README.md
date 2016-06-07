@@ -125,7 +125,7 @@ Submit and save queries to  https://clinicaltrials.gov/
 
 - Create a query, for instance:
 
- `query = Dict("term" => "acne", "age"=>Int(CT.child), "locn" => "Providence, RI")`
+ `query = Dict("term" => "acne", "age"=>Int(CT.child), "locn" => "New York, NY")`
 
 Note: The term can also indicate joint searches, e.g.
 
