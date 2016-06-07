@@ -26,7 +26,8 @@ export search_ct
 # For more information on possible searche critiria see:
  # https://clinicaltrials.gov/ct2/search/advanced
 function search_ct(query, fout; results=false)
-
+    query = convert(Dict{ASCIIString, Any}, query)
+    
     ext = splitext(fout)[2]
     if  !isequal(ext,".zip")
         println("Error: Output file must have a .zip extension")
