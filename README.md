@@ -39,12 +39,16 @@ with obesity indicated as the major MeSH descriptor.
 
 - Use esearch
 
- ` esearch_response = esearch(search_dic)`
+ ```{Julia}
+ esearch_response = esearch(search_dic)
+ ```
 
 - Convert response-xml to dictionary
 
- `esearch_dict = eparse(esearch_response)`  
-
+ ```{Julia}
+ esearch_dict = eparse(esearch_response)
+ ```
+ 
 #### EFetch
 - Retrieve the list of ID's returned by esearch
     
@@ -68,19 +72,24 @@ with obesity indicated as the major MeSH descriptor.
 
 - Convert response-xml to dictionary
 
- `efetch_dict = eparse(efetch_response)`
+ ```{Julia}
+ efetch_dict = eparse(efetch_response)
+ ```
 
 - Optional - save the results of an entrez fetch to a sqlite database
 
- `db = save_efetch(efetch_dict, db_path)`
-
+ ```{Julia}
+ db = save_efetch(efetch_dict, db_path)
+ ```
 -------------------------
 
 ###UMLS
 Search Unified Medical Language System. For more details on the REST API see https://documentation.uts.nlm.nih.gov/rest/home.html
 
 ####Import
-`using NLM.umls`
+```{Julia}
+using NLM.umls
+```
 
 #### Search by term
 
@@ -96,22 +105,28 @@ To sign up for credentials see https://uts.nlm.nih.gov//license.html
 
 - To compose the query
 
- `query = Dict("string"=>term, "searchType"=>"exact" )`
+ ```{Julia}
+ query = Dict("string"=>term, "searchType"=>"exact" )
+ ```
 
 - To search all concepts associeted with the indicated term
 
- `all_results= search_umls(credentials, query)`
+ ```{Julia}
+ all_results= search_umls(credentials, query)
+ ```
 
 #### Get best CUI
 
 - To retrive the CUI for the rest match
 
- `cui = best_match_cui(all_results, term)`
-
+ ```{Julia}
+ cui = best_match_cui(all_results, term)
+```
 #### Get UMLS concepts associated with a CUI
 
- `all_concepts = get_concepts(c, cui)`
-
+```{Julia}
+all_concepts = get_concepts(c, cui)
+```
 -------------------------
 
 ###Clinical Trials
@@ -119,21 +134,25 @@ To sign up for credentials see https://uts.nlm.nih.gov//license.html
 Submit and save queries to  https://clinicaltrials.gov/
 
 #### Importing
-`using NLM.CT`
+```{Julia}
+using NLM.CT
+```
 
 #### Search and save
 
 - Create a query, for instance:
 
- `query = Dict("term" => "acne", "age"=>Int(CT.child), "locn" => "New York, NY")`
-
+```{Julia}
+query = Dict("term" => "acne", "age"=>Int(CT.child), "locn" => "New York, NY")
+```
 Note: The term can also indicate joint searches, e.g.
 
- `"term" => "aspirin OR ibuprofen"`
- 
+```{Julia}
+"term" => "aspirin OR ibuprofen"
+```
 - Submit query and save to a specified location
 
- ```
+ ```{Julia}
  fout= "./test_CT_search.zip"
  status = NLM.CT.search_ct(query, fout;)
  ```
