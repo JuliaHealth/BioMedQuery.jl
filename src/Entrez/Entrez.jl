@@ -158,6 +158,9 @@ function save_efetch(efetch_dict, path)
                     :forename => forename,
                     :lastname => lastname))
 
+                    # TO DO: Author insertion may have failed because of
+                    # puplicate - this doesn't mean that relationship
+                    # shoulden't be created
                     if (author_id >= 0 )
                         DB.insert_row(db, "author2article",
                         Dict(:aid =>author_id, :pmid => pmid))
@@ -172,12 +175,13 @@ function save_efetch(efetch_dict, path)
                     keywords = article["MedlineCitation"][1]["KeywordList"][1]["Keyword"]
                     for k in keywords
                         # Save keyword to database
+                        k_norm  = normalize_string(k, casefold=true)
                         mesh_id  = DB.insert_row(db, "mesh",
-                        Dict(:name=>normalize_string(k, casefold=true)))
-                        if mesh_id > 0
-                            DB.insert_row(db, "mesh2article",
-                            Dict(:mesh=>k, :pmid=>pmid))
-                        end
+                        Dict(:name=>k_norm))
+                        # TO DO: Verify that mesh exists in mesh table
+                        DB.insert_row(db, "mesh2article",
+                        Dict(:mesh=>k_norm, :pmid=>pmid))
+
                     end
                 end
             end
