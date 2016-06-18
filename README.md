@@ -88,7 +88,7 @@ Search Unified Medical Language System. For more details on the REST API see htt
 
 ####Import
 ```{Julia}
-using NLM.umls
+using NLM.UMLS
 ```
 
 #### Search by term
