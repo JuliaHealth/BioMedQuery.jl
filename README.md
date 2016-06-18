@@ -99,7 +99,7 @@ To sign up for credentials see https://uts.nlm.nih.gov//license.html
 - To create credentials
 
  ```{Julia}
- import NLM.umls:Credentials
+ import NLM.UMLS:Credentials
  credentials = Credentials(user, psswd)
  ```
 
