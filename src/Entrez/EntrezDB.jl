@@ -34,22 +34,41 @@ function init_database(path)
     author(id INTEGER PRIMARY KEY AUTOINCREMENT,
     forename TEXT,
     lastname TEXT,
-    CONSTRAINT unq UNIQUE(forename,  lastname))")
+    CONSTRAINT unq UNIQUE(forename,  lastname) ON CONFLICT IGNORE)")
 
     SQLite.query(db, "CREATE TABLE
     author2article(aid INTEGER, pmid INTEGER,
     FOREIGN KEY(aid) REFERENCES author(id),
     FOREIGN KEY(pmid) REFERENCES article(pmid),
-    PRIMARY KEY(aid, pmid))")
+    PRIMARY KEY(aid, pmid) ON CONFLICT IGNORE)")
 
-    SQLite.query(db, "CREATE TABLE
-    mesh(name TEXT PRIMARY KEY)")
+    #--------------------------
+    # MeshHeading Tables
+    #--------------------------
 
+    #Descriptor
+    #The id corresponds to the DUI of mesh library
+    #Adding a "D" at the beginning of the id, allows for
+    #lookup in the mesh browerser
+    # https://www.nlm.nih.gov/mesh/MBrowser.html
     SQLite.query(db, "CREATE TABLE
-    mesh2article(mesh TEXT, pmid INTEGER,
-    FOREIGN KEY(mesh) REFERENCES mesh(name),
-    FOREIGN KEY(pmid) REFERENCES article(pmid),
-    PRIMARY KEY(mesh, pmid))")
+    mesh_descriptor(id INTEGER NOT NULL PRIMARY KEY ON CONFLICT IGNORE,
+                    name TEXT UNIQUE ON CONFLICT IGNORE )")
+
+    #Qualifier
+    SQLite.query(db, "CREATE TABLE
+    mesh_qualifier(id INTEGER NOT NULL PRIMARY KEY ON CONFLICT IGNORE,
+                   name TEXT UNIQUE ON CONFLICT IGNORE )")
+
+    #Heading
+    SQLite.query(db, "CREATE TABLE
+    mesh_heading(id INTEGER PRIMARY KEY AUTOINCREMENT,
+                 pmid INTEGER, did INTEGER, qid INTEGER,
+                 dmjr INTEGER, qmjr INTEGER,
+                 FOREIGN KEY(pmid) REFERENCES article(pmid),
+                 FOREIGN KEY(did) REFERENCES mesh_descriptor(id),
+                 FOREIGN KEY(qid) REFERENCES mesh_qualifier(id),
+                 CONSTRAINT unq UNIQUE(pmid, did, qid) )")
 
     return db
 
@@ -62,37 +81,64 @@ function insert_row(db, tablename, values)
     if tablename == "article"
         try
             SQLite.query(db, "INSERT INTO article VALUES  (@pmid, @title, @pubYear)", values)
-        catch
+            id_query = SQLite.query(db, "SELECT rowid, * FROM article WHERE pmid=? ", [values[:pmid]])
+            id = get(id_query.data[1][1], -1)
+            return id
+        catch exception
             println("Row not inserted into table: article ")
+            println("Msg: ", exception.msg)
             return -1
         end
     elseif tablename == "author"
         try
             SQLite.query(db, "INSERT INTO author VALUES  (@id, @forename, @lastname)", values)
-        catch
-            # println("Row not inserted into table: author")
+            id_query = SQLite.query(db, "SELECT rowid, * FROM author WHERE forename=?1 AND lastname=?2 ", [values[:forename], values[:lastname]])
+            id = get(id_query.data[1][1], -1)
+            return id
+        catch exception
+            println("Row not inserted into table: author, value: ", values)
+            # println("Msg: ", exception.msg)
             return -1
         end
     elseif tablename == "author2article"
         try
             SQLite.query(db, "INSERT INTO author2article VALUES  (@aid, @pmid)", values)
-        catch
-            # println("Row not inserted into table: author2article")
+            id_query = SQLite.query(db, "SELECT rowid, * FROM author2article WHERE aid=?1 AND pmid=?2 ", [values[:aid], values[:pmid]])
+            id = get(id_query.data[1][1], -1)
+            return id
+        catch exception
+            println("Row not inserted into table: author2article")
+            println("Msg: ", exception.msg)
+            print(values)
             return -1
         end
-    elseif tablename == "mesh"
+    elseif tablename == "mesh_descriptor"
         try
-            SQLite.query(db, "INSERT INTO mesh VALUES  (@name)", values)
-        catch
-            # println("Row not inserted into table: mesh")
-            # println(values)
+            SQLite.query(db, "INSERT INTO mesh_descriptor VALUES  (@id, @name)", values)
+            id_query = SQLite.query(db, "SELECT rowid, * FROM mesh_descriptor WHERE name=? ", [values[:name]])
+            id = values[:id]
+            return id
+        catch exception
+            println("Row not inserted into table: mesh_descriptor, value: ", values)
+            println("Msg: ", exception.msg)
             return -1
         end
-    elseif tablename == "mesh2article"
+    elseif tablename == "mesh_qualifier"
         try
-            SQLite.query(db, "INSERT INTO mesh2article VALUES  (@mesh, @pmid)", values)
-        catch
-            println("Row not inserted into table: mesh2article")
+            SQLite.query(db, "INSERT INTO mesh_qualifier VALUES  (@id, @name)", values)
+            id = values[:id]
+            return id
+        catch exception
+            println("Row not inserted into table: mesh_qualifier, value: ", values)
+            println("Msg: ", exception.msg)
+            return -1
+        end
+    elseif tablename == "mesh_heading"
+        try
+            SQLite.query(db, "INSERT INTO mesh_heading VALUES  (@id, @pmid, @did, @qid, @dmjr, @qmjr)", values)
+        catch exception
+            println("Row not inserted into table: mesh_heading, value: ", values)
+            println("Msg: ", exception.msg)
             return -1
         end
     end

@@ -10,7 +10,7 @@ using Requests
 using LightXML
 using HttpCommon
 
-using  XMLconvert: xml2dict, show_key_structure
+using  XMLconvert
 
 include("EntrezDB.jl")
 using .DB
@@ -34,7 +34,7 @@ function open_entrez(cgi, params, post=false)
         params["tool"] = "BioJulia"
     end
     if get(params, "email", "") == ""
-        params["email"] = "maria_restrepo@brown.edu"
+        error("Email address is required to search Entrez")
     end
     #open a handle to Entrez
     if post
@@ -75,6 +75,8 @@ function eparse(response)
     xroot = root(xdoc)  # an instance of XMLElement
     # get all child nodes and append to dictionary
     node_element = xroot
+    #convert attributes to elements
+    attributes_to_elements!(xroot)
     #convert to a dictionary
     dict = xml2dict(xroot)
     return dict
@@ -118,7 +120,7 @@ function save_efetch(efetch_dict, path)
 
         # PMID is used as primary key - therefore it must be present
         if haskey(article["MedlineCitation"][1],"PMID")
-            pmid = article["MedlineCitation"][1]["PMID"][1]
+            pmid = article["MedlineCitation"][1]["PMID"][1]["PMID"][1]
         else
             println("Error: Could not save to DB key:PMID not found - cannot be NULL")
             return
@@ -133,6 +135,17 @@ function save_efetch(efetch_dict, path)
                 if haskey(article["MedlineCitation"][1]["Article"][1]["ArticleDate"][1], "Year")
                     pubYear = article["MedlineCitation"][1]["Article"][1]["ArticleDate"][1]["Year"][1]
                 end
+            else  #series of attempts to pull a publication year from alternative xml elements
+                try
+                    pubYear = article["MedlineCitation"][1]["Article"][1]["Journal"][1]["JournalIssue"][1]["PubDate"][1]["Year"][1]
+                catch
+                    try
+                        pubYear = article["MedlineCitation"][1]["Article"][1]["Journal"][1]["JournalIssue"][1]["PubDate"][1]["MedlineDate"][1]
+                        pubYear = parse(Int64, pubYear[1:4])
+                    catch
+                        println("Warning: No date found")
+                    end
+                end
             end
 
             # Save article data
@@ -146,6 +159,11 @@ function save_efetch(efetch_dict, path)
             if haskey(article["MedlineCitation"][1]["Article"][1], "AuthorList")
                 authors = article["MedlineCitation"][1]["Article"][1]["AuthorList"][1]["Author"]
                 for author in authors
+
+                    if author["ValidYN"][1] == "N"
+                        continue
+                    end
+
                     if haskey(author, "ForeName")
                         forename = author["ForeName"][1]
                     end
@@ -170,18 +188,55 @@ function save_efetch(efetch_dict, path)
             end
 
             # Save related "keywords" of MESH Descriptors
-            if haskey(article["MedlineCitation"][1], "KeywordList")
-                if haskey(article["MedlineCitation"][1]["KeywordList"][1], "Keyword")
-                    keywords = article["MedlineCitation"][1]["KeywordList"][1]["Keyword"]
-                    for k in keywords
-                        # Save keyword to database
-                        k_norm  = normalize_string(k, casefold=true)
-                        mesh_id  = DB.insert_row(db, "mesh",
-                        Dict(:name=>k_norm))
-                        # TO DO: Verify that mesh exists in mesh table
-                        DB.insert_row(db, "mesh2article",
-                        Dict(:mesh=>k_norm, :pmid=>pmid))
+            if haskey(article["MedlineCitation"][1], "MeshHeadingList")
+                if haskey(article["MedlineCitation"][1]["MeshHeadingList"][1], "MeshHeading")
+                    mesh_headings = article["MedlineCitation"][1]["MeshHeadingList"][1]["MeshHeading"]
+                    for heading in mesh_headings
 
+                        if !haskey(heading,"DescriptorName")
+                            println("Error: MeshHeading must have DescriptorName")
+                            return
+                        end
+
+                        #save descriptor
+                        descriptor_name = heading["DescriptorName"][1]["DescriptorName"][1]
+                        descriptor_name = normalize_string(descriptor_name, casefold=true)
+
+                        did = heading["DescriptorName"][1]["UI"][1]
+                        did_int = parse(Int64, did[2:end])  #remove preceding D
+
+                        DB.insert_row(db, "mesh_descriptor",
+                        Dict(:id=>did_int, :name=>descriptor_name))
+
+                        heading["DescriptorName"][1]["MajorTopicYN"][1] == "Y" ? dmjr = 1 : dmjr = 0
+
+
+                        #save the qualifiers
+                        if haskey(heading,"QualifierName")
+                            qualifiers = heading["QualifierName"]
+                            for qual in qualifiers
+                                qualifier_name = qual["QualifierName"][1]
+                                qualifier_name = normalize_string(qualifier_name, casefold=true)
+
+                                qid = qual["UI"][1]
+                                qid_int = parse(Int64, qid[2:end])  #remove preceding Q
+
+                                DB.insert_row(db, "mesh_qualifier",
+                                Dict(:id=>qid_int, :name=>qualifier_name) )
+
+                                qual["MajorTopicYN"][1] == "Y" ? qmjr = 1 : qmjr = 0
+
+                                #save the heading related to this paper
+                                DB.insert_row(db, "mesh_heading",
+                                Dict(:id=>DB.NULL, :pmid=> pmid, :did=>did_int,
+                                :qid=>qid_int, :dmjr=>dmjr, :qmjr=>qmjr) )
+                            end
+                        else
+                            #save the heading related to this paper
+                            DB.insert_row(db, "mesh_heading",
+                            Dict(:id=>DB.NULL, :pmid=> pmid, :did=>did_int,
+                            :qid=>DB.NULL, :dmjr=>dmjr, :qmjr=>DB.NULL) )
+                        end
                     end
                 end
             end
