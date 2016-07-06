@@ -24,7 +24,6 @@ Pkg.clone("https://github.com/bcbi/NLM.jl.git")
 ### Documentation
 
 For details, usage and example read the [documentation](http://bcbi.github.io/NLM.jl)
--------------------------
 
 
 
