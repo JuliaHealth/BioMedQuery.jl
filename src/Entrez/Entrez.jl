@@ -87,11 +87,6 @@ function save_efetch(efetch_dict, path)
     #init database with its structure only if file doesn't exist
     db = DB.init_database(path)
 
-
-    #Create database file
-    # db = SQLite.DB(path)
-    #for each article save related info
-
     if !haskey(efetch_dict, "PubmedArticle")
         println("Error: Could not save to DB key:PubmedArticleSet not found")
         return
@@ -176,9 +171,6 @@ function save_efetch(efetch_dict, path)
                     :forename => forename,
                     :lastname => lastname))
 
-                    # TO DO: Author insertion may have failed because of
-                    # puplicate - this doesn't mean that relationship
-                    # shoulden't be created
                     if (author_id >= 0 )
                         DB.insert_row(db, "author2article",
                         Dict(:aid =>author_id, :pmid => pmid))
@@ -209,7 +201,6 @@ function save_efetch(efetch_dict, path)
                         Dict(:id=>did_int, :name=>descriptor_name))
 
                         heading["DescriptorName"][1]["MajorTopicYN"][1] == "Y" ? dmjr = 1 : dmjr = 0
-
 
                         #save the qualifiers
                         if haskey(heading,"QualifierName")
