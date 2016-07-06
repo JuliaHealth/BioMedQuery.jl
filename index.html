@@ -1,105 +1,203 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        
-        
-        <link rel="shortcut icon" href="./img/favicon.ico">
-
-	<title>NLM</title>
-
-        <link href="./css/bootstrap-custom.min.css" rel="stylesheet">
-        <link href="./css/font-awesome-4.0.3.css" rel="stylesheet">
-        <link rel="stylesheet" href="./css/highlight.css">
-        <link href="./css/base.css" rel="stylesheet">
-
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-        <![endif]-->
-
-        
-    </head>
-
-    <body>
-
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container">
-
-        <!-- Collapsed navigation -->
-        <div class="navbar-header">
-            <!-- Expander button -->
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-
-            <!-- Main title -->
-            <a class="navbar-brand" href=".">NLM</a>
-        </div>
-
-        <!-- Expanded navigation -->
-        <div class="navbar-collapse collapse">
-            <!-- Main navigation -->
-            <ul class="nav navbar-nav">
-            
-            
-                <li class="active">
-                    <a href=".">Home</a>
-                </li>
-            
-            
-            </ul>
-
-            <!-- Search, Navigation and Repo links -->
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
-                        <i class="fa fa-search"></i> Search
-                    </a>
-                </li>
-                <li class="disabled">
-                    <a rel="next" >
-                        <i class="fa fa-arrow-left"></i> Previous
-                    </a>
-                </li>
-                <li class="disabled">
-                    <a rel="prev" >
-                        Next <i class="fa fa-arrow-right"></i>
-                    </a>
-                </li>
-                
-            </ul>
-        </div>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>NLM Julia Package</title>
+      
+      
+      
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="NLM Julia Package">
+    <meta property="og:image" content="None/./">
+    <meta name="apple-mobile-web-app-title" content="NLM Julia Package">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="./assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="./assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('./assets/fonts/icon.eot?52m981');
+      	src: url('./assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('./assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('./assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('./assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="./assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+    <script src="./assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
     </div>
-</div>
-
-        <div class="container">
-            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+          </span>
+        
+        NLM Julia Package
+      </div>
+    </div>
     
-        <li class="main active"><a href="#nlm-julia-package">NLM Julia Package</a></li>
-        
-            <li><a href="#installation">Installation</a></li>
-        
-            <li><a href="#entrez">Entrez</a></li>
-        
-            <li><a href="#umls">UMLS</a></li>
-        
-            <li><a href="#clinical-trials">Clinical Trials</a></li>
-        
     
-    </ul>
-</div></div>
-            <div class="col-md-9" role="main">
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="/" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          NLM Julia Package
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="current" title="Overview" href=".">
+      Overview
+    </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Installation" href="#installation">
+                Installation
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
 
-<h1 id="nlm-julia-package">NLM Julia Package</h1>
+          
+            
+  <li>
+    <a class="" title="Entrez" href="entrez/">
+      Entrez
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="UMLS" href="umls/">
+      UMLS
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Clinical Trials" href="ct/">
+      Clinical Trials
+    </a>
+    
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <h1 id="nlm-julia-package">NLM Julia Package</h1>
 <p>Julia langauge utilities to interact with databases/APIs provided by the National Library of Medicine (NLM)</p>
 <p>Supported databases/APIS include:</p>
 <ul>
@@ -107,171 +205,69 @@
 <li><a href="#umls">Unified Medical Language System (UMLS)</a></li>
 <li><a href="#clinical-trials">Clinical Trials</a></li>
 </ul>
+<hr />
 <h3 id="installation">Installation</h3>
 <pre><code>Pkg.clone(&quot;https://github.com/bcbi/NLM.jl.git&quot;)
 </code></pre>
 
 <hr />
-<h3 id="entrez">Entrez</h3>
-<p>API details at  http://www.ncbi.nlm.nih.gov/books/NBK25501/
-The following functions have been implemented
--[ESearch]
--</p>
-<h4 id="esearch">ESearch</h4>
-<ul>
-<li>Formulate a dictionary to search PubMed for 100 articles between 2000 and 2012
-with obesity indicated as the major MeSH descriptor.</li>
-</ul>
-<pre><code>search_dic = Dict(&quot;db&quot;=&gt;&quot;pubmed&quot;,&quot;term&quot; =&gt; &quot;obesity&quot;,
-&quot;retstart&quot; =&gt; 0, &quot;retmax&quot;=&gt;100, &quot;tool&quot; =&gt;&quot;BioJulia&quot;,
-&quot;email&quot; =&gt; email, &quot;mindate&quot;=&gt;&quot;2000&quot;,&quot;maxdate&quot;=&gt;&quot;2012&quot; )
-</code></pre>
-
-<ul>
-<li>Use esearch</li>
-</ul>
-<pre><code>esearch_response = esearch(search_dic)
-</code></pre>
-
-<ul>
-<li>Convert response-xml to dictionary</li>
-</ul>
-<pre><code>esearch_dict = eparse(esearch_response)
-</code></pre>
-
-<h4 id="efetch">EFetch</h4>
-<ul>
-<li>Retrieve the list of ID's returned by esearch</li>
-</ul>
-<pre><code>if !haskey(esearch_dict, &quot;IdList&quot;)
-  error(&quot;Error: IdList not found&quot;)
-end
-
-ids = []
-for id_node in esearch_dict[&quot;IdList&quot;][1][&quot;Id&quot;]
-  push!(ids, id_node)
-end
-</code></pre>
-
-<ul>
-<li>Define the fetch dictionary</li>
-</ul>
-<pre><code>fetch_dic = Dict(&quot;db&quot;=&gt;&quot;pubmed&quot;,&quot;tool&quot; =&gt;&quot;BioJulia&quot;, &quot;email&quot; =&gt; email, &quot;retmode&quot; =&gt; &quot;xml&quot;, &quot;rettype&quot;=&gt;&quot;null&quot;)
-efetch_response = efetch(fetch_dic, ids)
-</code></pre>
-
-<ul>
-<li>Convert response-xml to dictionary</li>
-</ul>
-<pre><code>efetch_dict = eparse(efetch_response)
-</code></pre>
-
-<ul>
-<li>Optional - save the results of an entrez fetch to a sqlite database</li>
-</ul>
-<pre><code>db = save_efetch(efetch_dict, db_path)
-</code></pre>
-
-<hr />
-<h3 id="umls">UMLS</h3>
-<p>Search Unified Medical Language System. For more details on the REST API see https://documentation.uts.nlm.nih.gov/rest/home.html</p>
-<h4 id="import">Import</h4>
-<pre><code class="Julia">using NLM.UMLS
-</code></pre>
-
-<h4 id="search-by-term">Search by term</h4>
-<p>Search UMLS using the Rest API. The user needs approved credentials and a query dictionary.
-To sign up for credentials see https://uts.nlm.nih.gov//license.html</p>
-<ul>
-<li>To create credentials</li>
-</ul>
-<p><code>{Julia}
- import NLM.UMLS:Credentials
- credentials = Credentials(user, psswd)</code></p>
-<ul>
-<li>To compose the query</li>
-</ul>
-<p><code>{Julia}
- query = Dict("string"=&gt;term, "searchType"=&gt;"exact" )</code></p>
-<ul>
-<li>To search all concepts associeted with the indicated term</li>
-</ul>
-<p><code>{Julia}
- all_results= search_umls(credentials, query)</code></p>
-<h4 id="get-best-cui">Get best CUI</h4>
-<ul>
-<li>To retrive the CUI for the rest match</li>
-</ul>
-<p>```{Julia}
- cui = best_match_cui(all_results, term)</p>
-<pre><code>#### Get UMLS concepts associated with a CUI
-
-```{Julia}
-all_concepts = get_concepts(c, cui)
-</code></pre>
-
-<hr />
-<h3 id="clinical-trials">Clinical Trials</h3>
-<p>Submit and save queries to  https://clinicaltrials.gov/</p>
-<h4 id="importing">Importing</h4>
-<pre><code class="Julia">using NLM.CT
-</code></pre>
-
-<h4 id="search-and-save">Search and save</h4>
-<ul>
-<li>Create a query, for instance:</li>
-</ul>
-<pre><code class="Julia">query = Dict(&quot;term&quot; =&gt; &quot;acne&quot;, &quot;age&quot;=&gt;Int(CT.child), &quot;locn&quot; =&gt; &quot;New York, NY&quot;)
-</code></pre>
-
-<p>Note: The term can also indicate joint searches, e.g.</p>
-<pre><code class="Julia">&quot;term&quot; =&gt; &quot;aspirin OR ibuprofen&quot;
-</code></pre>
-
-<ul>
-<li>Submit query and save to a specified location</li>
-</ul>
-<p><code>{Julia}
- fout= "./test_CT_search.zip"
- status = NLM.CT.search_ct(query, fout;)</code></p></div>
-        </div>
-
-        <footer class="col-md-12">
-            <hr>
+          <aside class="copyright" role="note">
             
-            <center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
-        </footer>
-
-        <script src="./js/jquery-1.10.2.min.js"></script>
-        <script src="./js/bootstrap-3.0.3.min.js"></script>
-        <script src="./js/highlight.pack.js"></script>
-        <script>var base_url = '.';</script>
-        <script data-main="./mkdocs/js/search.js" src="./mkdocs/js/require.js"></script>
-        <script src="./js/base.js"></script>
-
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" id="exampleModalLabel">Search</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>
-                            From here you can search these documents. Enter
-                            your search terms below.
-                        </p>
-                        <form role="form">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
-                            </div>
-                        </form>
-                        <div id="mkdocs-search-results"></div>
-                    </div>
-                    <div class="modal-footer">
-                    </div>
-                </div>
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+    </div>
+    <div class="next">
+      
+        <a href="entrez/" title="Entrez">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Entrez
+              </div>
             </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
         </div>
-    </body>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '.';
+      var repo_id  = '';
+    </script>
+    <script src="./assets/javascripts/application-997097ee0c.js"></script>
+    
+    
+  </body>
 </html>
