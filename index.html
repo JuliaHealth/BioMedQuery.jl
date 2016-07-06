@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Nlm.jl by bcbi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Nlm.jl</h1>
+      <h2 class="project-tagline">Utilities for interacting with different databases provided by the National Library of Medicine (NLM)</h2>
+      <a href="https://github.com/bcbi/NLM.jl" class="btn">View on GitHub</a>
+      <a href="https://github.com/bcbi/NLM.jl/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/bcbi/NLM.jl/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      
+
+<h1>
+<a id="nlm" class="anchor" href="#nlm" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>NLM</h1>
+
+<h2>
+<a id="utilities-to-interact-with-databasesapis-provided-by-the-national-library-of-medicine-nlm" class="anchor" href="#utilities-to-interact-with-databasesapis-provided-by-the-national-library-of-medicine-nlm" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Utilities to interact with databases/APIs provided by the National Library of Medicine (NLM)</h2>
+
+<p><a href="https://travis-ci.org/bcbi/NLM.jl"><img src="https://travis-ci.org/bcbi/NLM.jl.svg?branch=master" alt="Build Status"></a>
+Supported databases/APIS include:</p>
+
+<ul>
+<li><a href="#entrez">Entrez Programming Utilities (E-utilities)</a></li>
+<li><a href="#umls">Unified Medical Language System (UMLS)</a></li>
+<li><a href="#clinical-trials">Clinical Trials</a></li>
+</ul>
+
+<h3>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h3>
+
+<div class="highlight highlight-source-julia"><pre>Pkg<span class="pl-k">.</span><span class="pl-c1">clone</span>(<span class="pl-s"><span class="pl-pds">"</span>https://github.com/bcbi/NLM.jl.git<span class="pl-pds">"</span></span>)</pre></div>
+
+<hr>
+
+<h3>
+<a id="entrez" class="anchor" href="#entrez" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Entrez</h3>
+
+<p>API details at  <a href="http://www.ncbi.nlm.nih.gov/books/NBK25501/">http://www.ncbi.nlm.nih.gov/books/NBK25501/</a></p>
+
+<h4>
+<a id="esearch" class="anchor" href="#esearch" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ESearch</h4>
+
+<ul>
+<li>
+<p>Formulate a dictionary to search PubMed for 100 articles between 2000 and 2012
+with obesity indicated as the major MeSH descriptor.</p>
+
+<div class="highlight highlight-source-julia"><pre>search_dic <span class="pl-k">=</span> <span class="pl-c1">Dict</span>(<span class="pl-s"><span class="pl-pds">"</span>db<span class="pl-pds">"</span></span><span class="pl-k">=</span><span class="pl-k">&gt;</span><span class="pl-s"><span class="pl-pds">"</span>pubmed<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>term<span class="pl-pds">"</span></span> <span class="pl-k">=</span><span class="pl-k">&gt;</span> <span class="pl-s"><span class="pl-pds">"</span>obesity<span class="pl-pds">"</span></span>,
+<span class="pl-s"><span class="pl-pds">"</span>retstart<span class="pl-pds">"</span></span> <span class="pl-k">=</span><span class="pl-k">&gt;</span> <span class="pl-c1">0</span>, <span class="pl-s"><span class="pl-pds">"</span>retmax<span class="pl-pds">"</span></span><span class="pl-k">=</span><span class="pl-k">&gt;</span><span class="pl-c1">100</span>, <span class="pl-s"><span class="pl-pds">"</span>tool<span class="pl-pds">"</span></span> <span class="pl-k">=</span><span class="pl-k">&gt;</span><span class="pl-s"><span class="pl-pds">"</span>BioJulia<span class="pl-pds">"</span></span>,
+<span class="pl-s"><span class="pl-pds">"</span>email<span class="pl-pds">"</span></span> <span class="pl-k">=</span><span class="pl-k">&gt;</span> email, <span class="pl-s"><span class="pl-pds">"</span>mindate<span class="pl-pds">"</span></span><span class="pl-k">=</span><span class="pl-k">&gt;</span><span class="pl-s"><span class="pl-pds">"</span>2000<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>maxdate<span class="pl-pds">"</span></span><span class="pl-k">=</span><span class="pl-k">&gt;</span><span class="pl-s"><span class="pl-pds">"</span>2012<span class="pl-pds">"</span></span> )</pre></div>
+</li>
+<li>
+<p>Use esearch</p>
+
+<div class="highlight highlight-source-julia"><pre>esearch_response <span class="pl-k">=</span> <span class="pl-c1">esearch</span>(search_dic)</pre></div>
+</li>
+<li>
+<p>Convert response-xml to dictionary</p>
+
+<div class="highlight highlight-source-julia"><pre>esearch_dict <span class="pl-k">=</span> <span class="pl-c1">eparse</span>(esearch_response)</pre></div>
+</li>
+</ul>
+
+<h4>
+<a id="efetch" class="anchor" href="#efetch" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>EFetch</h4>
+
+<ul>
+<li>
+<p>Retrieve the list of ID's returned by esearch</p>
+
+<div class="highlight highlight-source-julia"><pre><span class="pl-k">if</span> <span class="pl-k">!</span><span class="pl-c1">haskey</span>(esearch_dict, <span class="pl-s"><span class="pl-pds">"</span>IdList<span class="pl-pds">"</span></span>)
+    <span class="pl-c1">error</span>(<span class="pl-s"><span class="pl-pds">"</span>Error: IdList not found<span class="pl-pds">"</span></span>)
+<span class="pl-k">end</span>
+
+ids <span class="pl-k">=</span> []
+<span class="pl-k">for</span> id_node <span class="pl-k">in</span> esearch_dict[<span class="pl-s"><span class="pl-pds">"</span>IdList<span class="pl-pds">"</span></span>][<span class="pl-c1">1</span>][<span class="pl-s"><span class="pl-pds">"</span>Id<span class="pl-pds">"</span></span>]
+    <span class="pl-c1">push!</span>(ids, id_node)
+<span class="pl-k">end</span></pre></div>
+</li>
+<li>
+<p>Define the fetch dictionary</p>
+
+<div class="highlight highlight-source-julia"><pre>fetch_dic <span class="pl-k">=</span> <span class="pl-c1">Dict</span>(<span class="pl-s"><span class="pl-pds">"</span>db<span class="pl-pds">"</span></span><span class="pl-k">=</span><span class="pl-k">&gt;</span><span class="pl-s"><span class="pl-pds">"</span>pubmed<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>tool<span class="pl-pds">"</span></span> <span class="pl-k">=</span><span class="pl-k">&gt;</span><span class="pl-s"><span class="pl-pds">"</span>BioJulia<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>email<span class="pl-pds">"</span></span> <span class="pl-k">=</span><span class="pl-k">&gt;</span> email, <span class="pl-s"><span class="pl-pds">"</span>retmode<span class="pl-pds">"</span></span> <span class="pl-k">=</span><span class="pl-k">&gt;</span> <span class="pl-s"><span class="pl-pds">"</span>xml<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>rettype<span class="pl-pds">"</span></span><span class="pl-k">=</span><span class="pl-k">&gt;</span><span class="pl-s"><span class="pl-pds">"</span>null<span class="pl-pds">"</span></span>)
+efetch_response <span class="pl-k">=</span> <span class="pl-c1">efetch</span>(fetch_dic, ids)</pre></div>
+</li>
+<li>
+<p>Convert response-xml to dictionary</p>
+
+<div class="highlight highlight-source-julia"><pre>efetch_dict <span class="pl-k">=</span> <span class="pl-c1">eparse</span>(efetch_response)</pre></div>
+</li>
+<li>
+<p>Optional - save the results of an entrez fetch to a sqlite database</p>
+
+<div class="highlight highlight-source-julia"><pre>db <span class="pl-k">=</span> <span class="pl-c1">save_efetch</span>(efetch_dict, db_path)</pre></div>
+
+<hr>
+</li>
+</ul>
+
+<h3>
+<a id="umls" class="anchor" href="#umls" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>UMLS</h3>
+
+<p>Search Unified Medical Language System. For more details on the REST API see <a href="https://documentation.uts.nlm.nih.gov/rest/home.html">https://documentation.uts.nlm.nih.gov/rest/home.html</a></p>
+
+<h4>
+<a id="import" class="anchor" href="#import" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Import</h4>
+
+<div class="highlight highlight-source-julia"><pre><span class="pl-k">using</span> NLM<span class="pl-k">.</span>UMLS</pre></div>
+
+<h4>
+<a id="search-by-term" class="anchor" href="#search-by-term" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search by term</h4>
+
+<p>Search UMLS using the Rest API. The user needs approved credentials and a query dictionary.
+To sign up for credentials see <a href="https://uts.nlm.nih.gov//license.html">https://uts.nlm.nih.gov//license.html</a></p>
+
+<ul>
+<li>
+<p>To create credentials</p>
+
+<div class="highlight highlight-source-julia"><pre><span class="pl-k">import</span> NLM<span class="pl-k">.</span>UMLS<span class="pl-c1">:Credentials</span>
+credentials <span class="pl-k">=</span> <span class="pl-c1">Credentials</span>(user, psswd)</pre></div>
+</li>
+<li>
+<p>To compose the query</p>
+
+<div class="highlight highlight-source-julia"><pre>query <span class="pl-k">=</span> <span class="pl-c1">Dict</span>(<span class="pl-s"><span class="pl-pds">"</span>string<span class="pl-pds">"</span></span><span class="pl-k">=</span><span class="pl-k">&gt;</span>term, <span class="pl-s"><span class="pl-pds">"</span>searchType<span class="pl-pds">"</span></span><span class="pl-k">=</span><span class="pl-k">&gt;</span><span class="pl-s"><span class="pl-pds">"</span>exact<span class="pl-pds">"</span></span> )</pre></div>
+</li>
+<li>
+<p>To search all concepts associeted with the indicated term</p>
+
+<div class="highlight highlight-source-julia"><pre>all_results<span class="pl-k">=</span> <span class="pl-c1">search_umls</span>(credentials, query)</pre></div>
+</li>
+</ul>
+
+<h4>
+<a id="get-best-cui" class="anchor" href="#get-best-cui" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get best CUI</h4>
+
+<ul>
+<li>
+<p>To retrive the CUI for the rest match</p>
+
+<div class="highlight highlight-source-julia"><pre>cui <span class="pl-k">=</span> <span class="pl-c1">best_match_cui</span>(all_results, term)</pre></div>
+
+<h4>
+<a id="get-umls-concepts-associated-with-a-cui" class="anchor" href="#get-umls-concepts-associated-with-a-cui" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get UMLS concepts associated with a CUI</h4>
+</li>
+</ul>
+
+<div class="highlight highlight-source-julia"><pre>all_concepts <span class="pl-k">=</span> <span class="pl-c1">get_concepts</span>(c, cui)</pre></div>
+
+<hr>
+
+<h3>
+<a id="clinical-trials" class="anchor" href="#clinical-trials" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Clinical Trials</h3>
+
+<p>Submit and save queries to  <a href="https://clinicaltrials.gov/">https://clinicaltrials.gov/</a></p>
+
+<h4>
+<a id="importing" class="anchor" href="#importing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Importing</h4>
+
+<div class="highlight highlight-source-julia"><pre><span class="pl-k">using</span> NLM<span class="pl-k">.</span>CT</pre></div>
+
+<h4>
+<a id="search-and-save" class="anchor" href="#search-and-save" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search and save</h4>
+
+<ul>
+<li>Create a query, for instance:</li>
+</ul>
+
+<div class="highlight highlight-source-julia"><pre>query <span class="pl-k">=</span> <span class="pl-c1">Dict</span>(<span class="pl-s"><span class="pl-pds">"</span>term<span class="pl-pds">"</span></span> <span class="pl-k">=</span><span class="pl-k">&gt;</span> <span class="pl-s"><span class="pl-pds">"</span>acne<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span><span class="pl-k">=</span><span class="pl-k">&gt;</span><span class="pl-c1">Int</span>(CT<span class="pl-k">.</span>child), <span class="pl-s"><span class="pl-pds">"</span>locn<span class="pl-pds">"</span></span> <span class="pl-k">=</span><span class="pl-k">&gt;</span> <span class="pl-s"><span class="pl-pds">"</span>New York, NY<span class="pl-pds">"</span></span>)</pre></div>
+
+<p>Note: The term can also indicate joint searches, e.g.</p>
+
+<div class="highlight highlight-source-julia"><pre><span class="pl-s"><span class="pl-pds">"</span>term<span class="pl-pds">"</span></span> <span class="pl-k">=</span><span class="pl-k">&gt;</span> <span class="pl-s"><span class="pl-pds">"</span>aspirin OR ibuprofen<span class="pl-pds">"</span></span></pre></div>
+
+<ul>
+<li>
+<p>Submit query and save to a specified location</p>
+
+<div class="highlight highlight-source-julia"><pre>fout<span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>./test_CT_search.zip<span class="pl-pds">"</span></span>
+status <span class="pl-k">=</span> NLM<span class="pl-k">.</span>CT<span class="pl-k">.</span><span class="pl-c1">search_ct</span>(query, fout;)</pre></div>
+</li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/bcbi/NLM.jl">Nlm.jl</a> is maintained by <a href="https://github.com/bcbi">bcbi</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
