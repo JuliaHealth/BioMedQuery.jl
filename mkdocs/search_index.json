@@ -1,0 +1,69 @@
+{
+    "docs": [
+        {
+            "location": "/", 
+            "text": "NLM Julia Package\n\n\nJulia langauge utilities to interact with databases/APIs provided by the National Library of Medicine (NLM)\n\n\nSupported databases/APIS include:\n\n\n\n\nEntrez Programming Utilities (E-utilities)\n\n\nUnified Medical Language System (UMLS)\n\n\nClinical Trials\n\n\n\n\nInstallation\n\n\nPkg.clone(\nhttps://github.com/bcbi/NLM.jl.git\n)\n\n\n\n\n\n\nEntrez\n\n\nAPI details at  http://www.ncbi.nlm.nih.gov/books/NBK25501/\nThe following functions have been implemented\n-[ESearch]\n-\n\n\nESearch\n\n\n\n\nFormulate a dictionary to search PubMed for 100 articles between 2000 and 2012\nwith obesity indicated as the major MeSH descriptor.\n\n\n\n\nsearch_dic = Dict(\ndb\n=\npubmed\n,\nterm\n =\n \nobesity\n,\n\nretstart\n =\n 0, \nretmax\n=\n100, \ntool\n =\nBioJulia\n,\n\nemail\n =\n email, \nmindate\n=\n2000\n,\nmaxdate\n=\n2012\n )\n\n\n\n\n\n\nUse esearch\n\n\n\n\nesearch_response = esearch(search_dic)\n\n\n\n\n\n\nConvert response-xml to dictionary\n\n\n\n\nesearch_dict = eparse(esearch_response)\n\n\n\n\nEFetch\n\n\n\n\nRetrieve the list of ID's returned by esearch\n\n\n\n\nif !haskey(esearch_dict, \nIdList\n)\n  error(\nError: IdList not found\n)\nend\n\nids = []\nfor id_node in esearch_dict[\nIdList\n][1][\nId\n]\n  push!(ids, id_node)\nend\n\n\n\n\n\n\nDefine the fetch dictionary\n\n\n\n\nfetch_dic = Dict(\ndb\n=\npubmed\n,\ntool\n =\nBioJulia\n, \nemail\n =\n email, \nretmode\n =\n \nxml\n, \nrettype\n=\nnull\n)\nefetch_response = efetch(fetch_dic, ids)\n\n\n\n\n\n\nConvert response-xml to dictionary\n\n\n\n\nefetch_dict = eparse(efetch_response)\n\n\n\n\n\n\nOptional - save the results of an entrez fetch to a sqlite database\n\n\n\n\ndb = save_efetch(efetch_dict, db_path)\n\n\n\n\n\n\nUMLS\n\n\nSearch Unified Medical Language System. For more details on the REST API see https://documentation.uts.nlm.nih.gov/rest/home.html\n\n\nImport\n\n\nusing NLM.UMLS\n\n\n\n\nSearch by term\n\n\nSearch UMLS using the Rest API. The user needs approved credentials and a query dictionary.\nTo sign up for credentials see https://uts.nlm.nih.gov//license.html\n\n\n\n\nTo create credentials\n\n\n\n\n{Julia}\n import NLM.UMLS:Credentials\n credentials = Credentials(user, psswd)\n\n\n\n\nTo compose the query\n\n\n\n\n{Julia}\n query = Dict(\"string\"=\nterm, \"searchType\"=\n\"exact\" )\n\n\n\n\nTo search all concepts associeted with the indicated term\n\n\n\n\n{Julia}\n all_results= search_umls(credentials, query)\n\n\nGet best CUI\n\n\n\n\nTo retrive the CUI for the rest match\n\n\n\n\n```{Julia}\n cui = best_match_cui(all_results, term)\n\n\n#### Get UMLS concepts associated with a CUI\n\n```{Julia}\nall_concepts = get_concepts(c, cui)\n\n\n\n\n\n\nClinical Trials\n\n\nSubmit and save queries to  https://clinicaltrials.gov/\n\n\nImporting\n\n\nusing NLM.CT\n\n\n\n\nSearch and save\n\n\n\n\nCreate a query, for instance:\n\n\n\n\nquery = Dict(\nterm\n =\n \nacne\n, \nage\n=\nInt(CT.child), \nlocn\n =\n \nNew York, NY\n)\n\n\n\n\nNote: The term can also indicate joint searches, e.g.\n\n\nterm\n =\n \naspirin OR ibuprofen\n\n\n\n\n\n\n\nSubmit query and save to a specified location\n\n\n\n\n{Julia}\n fout= \"./test_CT_search.zip\"\n status = NLM.CT.search_ct(query, fout;)", 
+            "title": "Home"
+        }, 
+        {
+            "location": "/#nlm-julia-package", 
+            "text": "Julia langauge utilities to interact with databases/APIs provided by the National Library of Medicine (NLM)  Supported databases/APIS include:   Entrez Programming Utilities (E-utilities)  Unified Medical Language System (UMLS)  Clinical Trials", 
+            "title": "NLM Julia Package"
+        }, 
+        {
+            "location": "/#installation", 
+            "text": "Pkg.clone( https://github.com/bcbi/NLM.jl.git )", 
+            "title": "Installation"
+        }, 
+        {
+            "location": "/#entrez", 
+            "text": "API details at  http://www.ncbi.nlm.nih.gov/books/NBK25501/\nThe following functions have been implemented\n-[ESearch]\n-", 
+            "title": "Entrez"
+        }, 
+        {
+            "location": "/#esearch", 
+            "text": "Formulate a dictionary to search PubMed for 100 articles between 2000 and 2012\nwith obesity indicated as the major MeSH descriptor.   search_dic = Dict( db = pubmed , term  =   obesity , retstart  =  0,  retmax = 100,  tool  = BioJulia , email  =  email,  mindate = 2000 , maxdate = 2012  )   Use esearch   esearch_response = esearch(search_dic)   Convert response-xml to dictionary   esearch_dict = eparse(esearch_response)", 
+            "title": "ESearch"
+        }, 
+        {
+            "location": "/#efetch", 
+            "text": "Retrieve the list of ID's returned by esearch   if !haskey(esearch_dict,  IdList )\n  error( Error: IdList not found )\nend\n\nids = []\nfor id_node in esearch_dict[ IdList ][1][ Id ]\n  push!(ids, id_node)\nend   Define the fetch dictionary   fetch_dic = Dict( db = pubmed , tool  = BioJulia ,  email  =  email,  retmode  =   xml ,  rettype = null )\nefetch_response = efetch(fetch_dic, ids)   Convert response-xml to dictionary   efetch_dict = eparse(efetch_response)   Optional - save the results of an entrez fetch to a sqlite database   db = save_efetch(efetch_dict, db_path)", 
+            "title": "EFetch"
+        }, 
+        {
+            "location": "/#umls", 
+            "text": "Search Unified Medical Language System. For more details on the REST API see https://documentation.uts.nlm.nih.gov/rest/home.html", 
+            "title": "UMLS"
+        }, 
+        {
+            "location": "/#import", 
+            "text": "using NLM.UMLS", 
+            "title": "Import"
+        }, 
+        {
+            "location": "/#search-by-term", 
+            "text": "Search UMLS using the Rest API. The user needs approved credentials and a query dictionary.\nTo sign up for credentials see https://uts.nlm.nih.gov//license.html   To create credentials   {Julia}\n import NLM.UMLS:Credentials\n credentials = Credentials(user, psswd)   To compose the query   {Julia}\n query = Dict(\"string\"= term, \"searchType\"= \"exact\" )   To search all concepts associeted with the indicated term   {Julia}\n all_results= search_umls(credentials, query)", 
+            "title": "Search by term"
+        }, 
+        {
+            "location": "/#get-best-cui", 
+            "text": "To retrive the CUI for the rest match   ```{Julia}\n cui = best_match_cui(all_results, term)  #### Get UMLS concepts associated with a CUI\n\n```{Julia}\nall_concepts = get_concepts(c, cui)", 
+            "title": "Get best CUI"
+        }, 
+        {
+            "location": "/#clinical-trials", 
+            "text": "Submit and save queries to  https://clinicaltrials.gov/", 
+            "title": "Clinical Trials"
+        }, 
+        {
+            "location": "/#importing", 
+            "text": "using NLM.CT", 
+            "title": "Importing"
+        }, 
+        {
+            "location": "/#search-and-save", 
+            "text": "Create a query, for instance:   query = Dict( term  =   acne ,  age = Int(CT.child),  locn  =   New York, NY )  Note: The term can also indicate joint searches, e.g.  term  =   aspirin OR ibuprofen    Submit query and save to a specified location   {Julia}\n fout= \"./test_CT_search.zip\"\n status = NLM.CT.search_ct(query, fout;)", 
+            "title": "Search and save"
+        }
+    ]
+}
