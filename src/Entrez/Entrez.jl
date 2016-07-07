@@ -63,10 +63,31 @@ function efetch(fetch_dic, id_list)
         post = true
     end
     id_list = join(id_list,",")
-    variables = Dict("db"=>"db", "id"=>id_list)
+    variables = Dict("id"=>id_list)
     variables = merge(variables, fetch_dic)
     return open_entrez(cgi, variables,  post)
 end
+
+function elink(elink_dict)
+    cgi = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi"
+    return open_entrez(cgi, elink_dict)
+end
+
+
+function esummary(esummary_dict)
+    cgi = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
+    return open_entrez(cgi, esummary_dict)
+end
+
+# Testing elink() behavior
+# pmid = "19304878"
+# elink_dict = Dict("dbfrom" =>"pubmed", "id" => pmid, "linkname" => "pubmed_pubmed")
+# elink(elink_dict)
+
+
+# Testing esummary() behavior
+# esummary_dict = Dict(db => "pubmed", id => "30367")
+# esummary(esummary_dict)
 
 function eparse(response)
     xdoc = parse_string(response)

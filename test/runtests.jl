@@ -1,12 +1,21 @@
 #!/usr/bin/env julia
 
-Pkg.clone("https://github.com/bcbi/XMLconvert.jl.git")
+try
+    if Pkg.installed("XMLconvert") == nothing
+        Pkg.clone("https://github.com/bcbi/XMLconvert.jl.git")
+    end
+catch
+    Pkg.clone("https://github.com/bcbi/XMLconvert.jl.git")
+end
+
 using XMLconvert
 using NLM
 using Base.Test
+
 Pkg.add("ZipFile")
 using ZipFile
 
+#------------------Clinical Trials -------------------
 query = Dict("term" => "acne", "age"=>0)
 fout= "./test_CT_search.zip"
 status = NLM.CT.search_ct(query, fout;)
@@ -29,4 +38,19 @@ end
 #remove test file
 if isfile(fout)
     rm(fout)
+end
+
+#------------------ NLM -------------------
+cred_file = "../credentials.txt"
+if isfile(cred_file)
+    cred = open(cred_file)
+    lines = readlines(cred)
+    println(lines[1])
+else
+    println("NLM tests require credeintials file:")
+    println("NLM/credentials.txt")
+    println("Line 1: email")
+    println("Line 2: umls-user")
+    println("Line 2: umls-passwd")
+    @test 1==2
 end

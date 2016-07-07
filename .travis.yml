@@ -1,16 +1,15 @@
-
-# Documentation: http://docs.travis-ci.com/user/languages/julia/
 language: julia
 os:
-  - linux
-  - osx
+- linux
+- osx
 julia:
-  - 0.4
-  - release
-  # - nightly
+- 0.4
+- release
 notifications:
   email: false
-# uncomment the following lines to override the default test script
 script:
-  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-  - julia -e 'Pkg.clone(pwd()); Pkg.build("NLM"); Pkg.test("NLM"; coverage=true)'
+- if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+- julia -e 'Pkg.clone(pwd()); Pkg.build("NLM"); Pkg.test("NLM"; coverage=true)'
+before_install:
+- openssl aes-256-cbc -K $encrypted_87475759314c_key -iv $encrypted_87475759314c_iv
+  -in credentials.txt.enc -out credentials.txt -d
