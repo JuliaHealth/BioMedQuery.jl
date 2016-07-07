@@ -41,7 +41,10 @@ if isfile(fout)
 end
 
 #------------------ NLM -------------------
+
 cred_file = "../credentials.txt"
+println(readdir("./"))
+println(readdir("../"))
 if isfile(cred_file)
     cred = open(cred_file)
     lines = readlines(cred)
