@@ -50,7 +50,7 @@ if isfile(cred_file)
     lines = readlines(cred)
     println(lines[1])
 else
-    println("NLM tests require credeintials file:")
+    println("NLM tests require credentials file:")
     println("NLM/credentials.txt")
     println("Line 1: email")
     println("Line 2: umls-user")
