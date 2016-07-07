@@ -13,3 +13,4 @@ script:
 before_install:
 - openssl aes-256-cbc -K $encrypted_87475759314c_key -iv $encrypted_87475759314c_iv
   -in credentials.txt.enc -out credentials.txt -d
+- ls
