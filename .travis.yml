@@ -10,6 +10,8 @@ notifications:
 script:
 - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
 - julia -e 'Pkg.clone(pwd()); Pkg.build("NLM"); Pkg.test("NLM"; coverage=true)'
-before_install:
+before_script:
+- pwd
+- ls
 - echo "NCBI_EMAIL=$NCBI_EMAIL" >> credentials.txt
 - ls

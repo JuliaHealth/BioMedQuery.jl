@@ -42,14 +42,13 @@ end
 
 #------------------ NLM -------------------
 
-cred_file = "../credentials.txt"
 println(readdir("./"))
 println(readdir("../"))
-if isfile(cred_file)
-    cred = open(cred_file)
-    lines = readlines(cred)
-    println(lines[1])
-else
+try ENV["NCBI_EMAIL"]
+    # cred = open(cred_file)
+    # lines = readlines(cred)
+    # println(lines[1])
+catch
     println("NLM tests require credentials file:")
     println("NLM/credentials.txt")
     println("Line 1: email")
