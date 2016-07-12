@@ -1,6 +1,6 @@
 
 
-#------------------ NLM -------------------
+#------------------ BioMedQuery -------------------
 @testset "Testing Entrez" begin
 
     #testset "globals"
@@ -23,10 +23,10 @@
         "retstart" => 0, "retmax"=>narticles, "tool" =>"BioJulia",
         "email" => email)
 
-        esearch_response = NLM.Entrez.esearch(search_dic)
+        esearch_response = BioMedQuery.Entrez.esearch(search_dic)
 
         #convert xml to dictionary
-        esearch_dict = NLM.Entrez.eparse(esearch_response)
+        esearch_dict = BioMedQuery.Entrez.eparse(esearch_response)
 
         #examine how many ids were returned
         @test haskey(esearch_dict, "IdList")
@@ -42,8 +42,8 @@
     @testset "Testing EFetch"    begin
         fetch_dic = Dict("db"=>"pubmed","tool" =>"BioJulia", "email" => email,
                          "retmode" => "xml", "rettype"=>"null")
-        efetch_response = NLM.Entrez.efetch(fetch_dic, ids)
-        efetch_dict = NLM.Entrez.eparse(efetch_response)
+        efetch_response = BioMedQuery.Entrez.efetch(fetch_dic, ids)
+        efetch_dict = BioMedQuery.Entrez.eparse(efetch_response)
 
 
         @test haskey(efetch_dict, "PubmedArticle")
@@ -57,7 +57,7 @@
 
     # save the results of an entrez fetch to a sqlite database
     @testset "Testing SQLite Saving" begin
-        db = NLM.Entrez.save_efetch(efetch_dict, db_path)
+        db = BioMedQuery.Entrez.save_efetch(efetch_dict, db_path)
 
         #query the article table and make sure the count is correct
         so = SQLite.Source(db,"SELECT pmid FROM article;")
@@ -84,9 +84,9 @@
         pmid = "19304878"
         elink_dict = Dict("dbfrom" =>"pubmed", "id" => pmid,
                           "linkname" => "pubmed_pubmed", "email"=>email)
-        elink_response = NLM.Entrez.elink(elink_dict)
+        elink_response = BioMedQuery.Entrez.elink(elink_dict)
 
-        elink_response_dict = NLM.Entrez.eparse(elink_response)
+        elink_response_dict = BioMedQuery.Entrez.eparse(elink_response)
 
         @test haskey( elink_response_dict, "LinkSet")
     end
@@ -94,9 +94,9 @@
     @testset "Testing ESummary" begin
         pmid = "30367"
         esummary_dict = Dict("db" =>"pubmed", "id" => pmid, "email"=>email)
-        esummary_response = NLM.Entrez.esummary(esummary_dict)
+        esummary_response = BioMedQuery.Entrez.esummary(esummary_dict)
 
-        esummary_response_dict = NLM.Entrez.eparse(esummary_response)
+        esummary_response_dict = BioMedQuery.Entrez.eparse(esummary_response)
 
         @test haskey( esummary_response_dict, "DocSum")
     end

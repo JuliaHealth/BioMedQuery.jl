@@ -10,17 +10,17 @@ catch
     println("UMLS_PSSWD")
 end
 
-credentials = NLM.UMLS.Credentials(user, psswd)
+credentials = BioMedQuery.UMLS.Credentials(user, psswd)
 println(credentials)
 term = "obesity"
 query = Dict("string"=>term, "searchType"=>"exact" )
 
 
 @testset "Testing UMLS" begin
-    all_results= NLM.UMLS.search_umls(credentials, query)
+    all_results= BioMedQuery.UMLS.search_umls(credentials, query)
     @test length(all_results[1]["result"]["results"]) == 2
-    cui = NLM.UMLS.best_match_cui(all_results, term)
+    cui = BioMedQuery.UMLS.best_match_cui(all_results, term)
     @test cui == "C0028754"
-    sm = NLM.UMLS.get_semantic_type(credentials, cui)
+    sm = BioMedQuery.UMLS.get_semantic_type(credentials, cui)
     println(sm)
 end

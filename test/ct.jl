@@ -5,7 +5,7 @@ using ZipFile
 @testset "Clinical Trials" begin
     query = Dict("term" => "acne", "age"=>0)
     fout= "./test_CT_search.zip"
-    status = NLM.CT.search_ct(query, fout;)
+    status = BioMedQuery.CT.search_ct(query, fout;)
 
     #minimal test - http response succeded
     @test status == 200

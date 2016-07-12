@@ -18,15 +18,13 @@ else
 end
 
 using XMLconvert
-using NLM
+using BioMedQuery
 using SQLite
 using DataStreams
 
-# my_tests = ["entrez.jl",
-#             "ct.jl",
-#             "umls.jl"]
-
-my_tests = ["umls.jl"]
+my_tests = ["entrez.jl",
+            "ct.jl",
+            "umls.jl"]
 
 println("Running tests:")
 

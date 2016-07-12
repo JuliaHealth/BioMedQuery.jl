@@ -9,4 +9,4 @@ notifications:
   email: false
 script:
 - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-- julia -e 'Pkg.clone(pwd()); Pkg.build("NLM"); Pkg.test("NLM"; coverage=true)'
+- julia -e 'Pkg.clone(pwd()); Pkg.build("BioMedQuery"); Pkg.test("BioMedQuery"; coverage=true)'

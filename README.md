@@ -7,9 +7,9 @@
 
 
 
-# NLM
-## Utilities to interact with databases/APIs provided by the National Library of Medicine (NLM)
-[![Build Status](https://travis-ci.org/bcbi/NLM.jl.svg?branch=master)](https://travis-ci.org/bcbi/NLM.jl)
+# BioMedQuery
+## Utilities to interact with databases/APIs provided by the National Library of Medicine (BioMedQuery)
+[![Build Status](https://travis-ci.org/bcbi/BioMedQuery.jl.svg?branch=master)](https://travis-ci.org/bcbi/BioMedQuery.jl)
 Supported databases/APIS include:
 
 - Entrez Programming Utilities (E-utilities)
@@ -18,12 +18,12 @@ Supported databases/APIS include:
 
 ### Installation
 ```{Julia}
-Pkg.clone("https://github.com/bcbi/NLM.jl.git")
+Pkg.clone("https://github.com/bcbi/BioMedQuery.jl.git")
 ```
 
 ### Documentation
 
-For details, usage and example read the [documentation](http://bcbi.github.io/NLM.jl)
+For details, usage and example read the [documentation](http://bcbi.github.io/BioMedQuery.jl)
 
 
 
