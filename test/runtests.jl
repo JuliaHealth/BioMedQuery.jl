@@ -1,4 +1,6 @@
-#!/usr/bin/env julia
+#
+# Correctness Tests
+#
 
 try
     if Pkg.installed("XMLconvert") == nothing
@@ -8,51 +10,27 @@ catch
     Pkg.clone("https://github.com/bcbi/XMLconvert.jl.git")
 end
 
+if VERSION >= v"0.5.0-"
+    using Base.Test
+else
+    using BaseTestNext
+    const Test = BaseTestNext
+end
+
 using XMLconvert
 using NLM
-using Base.Test
+using SQLite
+using DataStreams
 
-Pkg.add("ZipFile")
-using ZipFile
+# my_tests = ["entrez.jl",
+#             "ct.jl",
+#             "umls.jl"]
 
-#------------------Clinical Trials -------------------
-query = Dict("term" => "acne", "age"=>0)
-fout= "./test_CT_search.zip"
-status = NLM.CT.search_ct(query, fout;)
+my_tests = ["umls.jl"]
 
-#minimal test - http response succeded
-@test status == 200
+println("Running tests:")
 
-#test all files are .xml
-not_xml = false
-r = ZipFile.Reader(fout);
-for f in r.files
-    if Base.search(f.name, ".xml") == 0:-1
-      not_xml = true
-      break
-    end
-end
-
-@test not_xml == false
-
-#remove test file
-if isfile(fout)
-    rm(fout)
-end
-
-#------------------ NLM -------------------
-
-println(readdir("./"))
-println(readdir("../"))
-try ENV["NCBI_EMAIL"]
-    # cred = open(cred_file)
-    # lines = readlines(cred)
-    # println(lines[1])
-catch
-    println("NLM tests require credentials file:")
-    println("NLM/credentials.txt")
-    println("Line 1: email")
-    println("Line 2: umls-user")
-    println("Line 2: umls-passwd")
-    @test 1==2
+for my_test in my_tests
+    @printf " * %s\n" my_test
+    include(my_test)
 end

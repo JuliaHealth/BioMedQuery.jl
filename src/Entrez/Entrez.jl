@@ -79,15 +79,6 @@ function esummary(esummary_dict)
     return open_entrez(cgi, esummary_dict)
 end
 
-# Testing elink() behavior
-# pmid = "19304878"
-# elink_dict = Dict("dbfrom" =>"pubmed", "id" => pmid, "linkname" => "pubmed_pubmed")
-# elink(elink_dict)
-
-
-# Testing esummary() behavior
-# esummary_dict = Dict(db => "pubmed", id => "30367")
-# esummary(esummary_dict)
 
 function eparse(response)
     xdoc = parse_string(response)

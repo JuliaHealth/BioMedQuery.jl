@@ -4,7 +4,7 @@ module UMLS
   using Requests
   import Requests: post, get
 
-  export Credentials, search_umls, best_match_cui, get_concepts
+  export Credentials, search_umls, best_match_cui, get_semantic_type
 
   const uri="https://utslogin.nlm.nih.gov"
   const auth_endpoint = "/cas/v1/tickets/"
@@ -89,7 +89,7 @@ module UMLS
   end
 
   #Get umls concepts (semantic types) associated with a cui
-  function get_concepts(c::Credentials, cui)
+  function get_semantic_type(c::Credentials, cui)
     # Ticket granting ticket
     tgt = get_tgt(c)
     content_endpoint = "/rest/content/current/CUI/"*cui
