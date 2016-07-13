@@ -1,0 +1,24 @@
+{
+    "docs": [
+        {
+            "location": "/", 
+            "text": "NLM Julia Package\n\n\nJulia langauge utilities to interact with databases/APIs provided by the National Library of Medicine (NLM)\n\n\nSupported databases/APIS include:\n\n\n\n\nEntrez Programming Utilities (E-utilities)\n\n\nUnified Medical Language System (UMLS)\n\n\nClinical Trials\n \u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013-\n\n\n\n\n\n\nInstallation\n\n\nPkg.clone(\nhttps://github.com/bcbi/BioMedQuery.jl.git\n)\n\n\n\n\n\n\nSister Packages\n\n\n\n\nPubMedMiner\n - Executables to search PubMed, link Mesh Descriptors to to UMLS concepts and visualize results.\n\n\nXMLConvert\n - Utilities to convert, flatten and explore XML file. Useful to investigate server responses.", 
+            "title": "Overview"
+        }, 
+        {
+            "location": "/#nlm-julia-package", 
+            "text": "Julia langauge utilities to interact with databases/APIs provided by the National Library of Medicine (NLM)  Supported databases/APIS include:   Entrez Programming Utilities (E-utilities)  Unified Medical Language System (UMLS)  Clinical Trials  \u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013-", 
+            "title": "NLM Julia Package"
+        }, 
+        {
+            "location": "/#installation", 
+            "text": "Pkg.clone( https://github.com/bcbi/BioMedQuery.jl.git )", 
+            "title": "Installation"
+        }, 
+        {
+            "location": "/#sister-packages", 
+            "text": "PubMedMiner  - Executables to search PubMed, link Mesh Descriptors to to UMLS concepts and visualize results.  XMLConvert  - Utilities to convert, flatten and explore XML file. Useful to investigate server responses.", 
+            "title": "Sister Packages"
+        }
+    ]
+}
