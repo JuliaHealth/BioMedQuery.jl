@@ -10,3 +10,6 @@ notifications:
 script:
 - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
 - julia -e 'Pkg.clone(pwd()); Pkg.build("BioMedQuery"); Pkg.test("BioMedQuery"; coverage=true)'
+after_success:
+  - julia -e 'Pkg.add("Documenter")'
+  - julia -e 'cd(Pkg.dir("BioMedQuery")); include(joinpath("docs", "make.jl"))'
