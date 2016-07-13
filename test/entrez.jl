@@ -2,7 +2,7 @@
 using DataFrames
 
 #------------------ BioMedQuery -------------------
-@testset "Testing Entrez" begin
+    @testset "Testing Entrez" begin
 
     #testset "globals"
     narticles = 10
