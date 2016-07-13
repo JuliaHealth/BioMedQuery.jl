@@ -3,7 +3,7 @@ repo_url:         https://github.com/bcbi/BioMedQuery.jl
 site_description: Julia connection to BioMedial Search APIs
 site_author:      bcbi
 
-theme: readthedocs
+theme: material
 
 extra_css:
   - assets/Documenter.css
@@ -16,9 +16,15 @@ markdown_extensions:
   - extra
   - tables
   - fenced_code
-  - mdx_math
+  # - mdx_math
 
 docs_dir: 'build'
 
 pages:
-  - Overview: index.md
+- Overview: index.md
+- Entrez: entrez.md
+- UMLS: umls.md
+- Clinical Trials: ct.md
+
+extra:
+  logo: 'images/bcbi_logo.jpeg'
