@@ -1,4 +1,5 @@
 
+using DataFrames
 
 #------------------ BioMedQuery -------------------
 @testset "Testing Entrez" begin
@@ -61,10 +62,12 @@
 
         #query the article table and make sure the count is correct
         so = SQLite.Source(db,"SELECT pmid FROM article;")
-        ds = DataStreams.Data.stream!(so, DataStreams.Data.Table)
+        ds = DataStreams.Data.stream!(so, DataFrame)
+
+        println(ds)
 
         #get the array of terms - is there a better way?
-        all_pmids =ds.data[1]
+        all_pmids =ds.columns[1]
         @test length(all_pmids) == narticles
 
         #check that reminder of tables are not empty
@@ -74,8 +77,8 @@
         for t in tables
             query_str = "SELECT count(*) FROM "*t*";"
             so = SQLite.Source(db, query_str)
-            ds = DataStreams.Data.stream!(so, DataStreams.Data.Table)
-            count = get(ds.data[1][1])
+            ds = DataStreams.Data.stream!(so, DataFrame)
+            count = get(ds.columns[1][1])
             @test count > 0
         end
     end
