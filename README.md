@@ -8,7 +8,7 @@
 
 
 # BioMedQuery
-## Julia utilities to interact with BioMedical databases/APIs.
+## Julia utilities to interact with BioMedical Databases and APIs.
 [![Build Status](https://travis-ci.org/bcbi/BioMedQuery.jl.svg?branch=master)](https://travis-ci.org/bcbi/BioMedQuery.jl)
 
 <!-- [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://bcbi.github.io/BioMedQuery.jl/stable) -->
