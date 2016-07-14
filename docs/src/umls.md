@@ -2,7 +2,7 @@ Search the Unified Medical Language System (UMLS). For more details on the [REST
 
 ##Import
 ```
-using NLM.UMLS
+using BioMedQuery.UMLS
 ```
 
 ## Search by term
@@ -13,7 +13,7 @@ Sign up for credentials [here](https://uts.nlm.nih.gov//license.html)
 ### To create credentials
 
  ```
- import NLM.UMLS:Credentials
+ import BioMedQuery.UMLS:Credentials
  credentials = Credentials(user, psswd)
  ```
 
@@ -40,4 +40,3 @@ Sign up for credentials [here](https://uts.nlm.nih.gov//license.html)
 ```
 all_concepts = get_concepts(c, cui)
 ```
--------------------------
