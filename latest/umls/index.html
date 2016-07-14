@@ -9,10 +9,8 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>BioMedQuery.jl - Julia connection to BioMedial Search APIs</title>
+        <title>UMLS - BioMedQuery.jl</title>
       
-      
-        <meta name="description" content="Julia connection to BioMedial Search APIs">
       
       
       
@@ -21,33 +19,33 @@
     
     <meta property="og:url" content="None">
     <meta property="og:title" content="BioMedQuery.jl">
-    <meta property="og:image" content="None/./images/bcbi_logo.jpeg">
+    <meta property="og:image" content="None/../images/bcbi_logo.jpeg">
     <meta name="apple-mobile-web-app-title" content="BioMedQuery.jl">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
-      <link rel="apple-touch-icon" href="./images/bcbi_logo.jpeg">
+      <link rel="apple-touch-icon" href="../images/bcbi_logo.jpeg">
     
     
-    <link rel="shortcut icon" type="image/x-icon" href="./assets/images/favicon-e565ddfa3b.ico">
-    <link rel="icon" type="image/x-icon" href="./assets/images/favicon-e565ddfa3b.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon-e565ddfa3b.ico">
     <style>
       @font-face {
       	font-family: 'Icon';
-      	src: url('./assets/fonts/icon.eot?52m981');
-      	src: url('./assets/fonts/icon.eot?#iefix52m981')
+      	src: url('../assets/fonts/icon.eot?52m981');
+      	src: url('../assets/fonts/icon.eot?#iefix52m981')
                format('embedded-opentype'),
-      		   url('./assets/fonts/icon.woff?52m981')
+      		   url('../assets/fonts/icon.woff?52m981')
                format('woff'),
-      		   url('./assets/fonts/icon.ttf?52m981')
+      		   url('../assets/fonts/icon.ttf?52m981')
                format('truetype'),
-      		   url('./assets/fonts/icon.svg?52m981#icon')
+      		   url('../assets/fonts/icon.svg?52m981#icon')
                format('svg');
       	font-weight: normal;
       	font-style: normal;
       }
     </style>
-    <link rel="stylesheet" href="./assets/stylesheets/application-a422ff04cc.css">
+    <link rel="stylesheet" href="../assets/stylesheets/application-a422ff04cc.css">
     
     
       
@@ -64,9 +62,9 @@
       </style>
     
     
-      <link rel="stylesheet" href="./assets/Documenter.css">
+      <link rel="stylesheet" href="../assets/Documenter.css">
     
-    <script src="./assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    <script src="../assets/javascripts/modernizr-4ab42b99fd.js"></script>
     
   </head>
   
@@ -98,7 +96,7 @@
             
           </span>
         
-        BioMedQuery.jl
+        UMLS
       </div>
     </div>
     
@@ -131,7 +129,7 @@
     <div class="banner">
       
         <div class="logo">
-          <img src="./images/bcbi_logo.jpeg">
+          <img src="../images/bcbi_logo.jpeg">
         </div>
       
       <div class="name">
@@ -172,25 +170,41 @@
           
             
   <li>
-    <a class="current" title="Overview" href=".">
+    <a class="" title="Overview" href="..">
       Overview
     </a>
     
-      
-        
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Entrez" href="../entrez/">
+      Entrez
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="current" title="UMLS" href="./">
+      UMLS
+    </a>
+    
       
       
         <ul>
           
             <li class="anchor">
-              <a title="Installation" href="#installation">
-                Installation
+              <a title="Import" href="#import">
+                Import
               </a>
             </li>
           
             <li class="anchor">
-              <a title="Sister Packages" href="#sister-packages">
-                Sister Packages
+              <a title="Search by term" href="#search-by-term">
+                Search by term
               </a>
             </li>
           
@@ -202,25 +216,7 @@
           
             
   <li>
-    <a class="" title="Entrez" href="entrez/">
-      Entrez
-    </a>
-    
-  </li>
-
-          
-            
-  <li>
-    <a class="" title="UMLS" href="umls/">
-      UMLS
-    </a>
-    
-  </li>
-
-          
-            
-  <li>
-    <a class="" title="Clinical Trials" href="ct/">
+    <a class="" title="Clinical Trials" href="../ct/">
       Clinical Trials
     </a>
     
@@ -237,26 +233,45 @@
       <article class="article">
         <div class="wrapper">
           
-          <p><a id='NLM-Julia-Package-1'></a></p>
-<h1 id="nlm-julia-package">NLM Julia Package</h1>
-<p>Julia langauge utilities to interact with databases/APIs provided by the National Library of Medicine (NLM)</p>
-<p>Supported databases/APIS include:</p>
-<ul>
-<li><a href="#entrez">Entrez Programming Utilities (E-utilities)</a></li>
-<li><a href="#umls">Unified Medical Language System (UMLS)</a></li>
-<li><a href="#clinical-trials">Clinical Trials</a> ––––––––––––-</li>
-</ul>
-<p><a id='Installation-1'></a></p>
-<h3 id="installation">Installation</h3>
-<pre><code>Pkg.clone(&quot;https://github.com/bcbi/BioMedQuery.jl.git&quot;)
+            <h1>UMLS</h1>
+          
+          <p>Search the Unified Medical Language System (UMLS). For more details on the <a href="https://documentation.uts.nlm.nih.gov/rest/home.html">REST API</a></p>
+<h2 id="import">Import</h2>
+<pre><code>using NLM.UMLS
 </code></pre>
 
-<p><a id='Sister-Packages-1'></a></p>
-<h3 id="sister-packages">Sister Packages</h3>
-<ul>
-<li><a href="https://github.com/bcbi/PubMedMiner.jl">PubMedMiner</a> - Executables to search PubMed, link Mesh Descriptors to to UMLS concepts and visualize results.</li>
-<li><a href="https://github.com/bcbi/XMLconvert.jl">XMLConvert</a> - Utilities to convert, flatten and explore XML file. Useful to investigate server responses.</li>
-</ul>
+<p><a id='Search-by-term-1'></a></p>
+<h2 id="search-by-term">Search by term</h2>
+<p>Search UMLS using the Rest API. The user needs approved credentials and a query dictionary. Sign up for credentials <a href="https://uts.nlm.nih.gov//license.html">here</a></p>
+<p><a id='To-create-credentials-1'></a></p>
+<h3 id="to-create-credentials">To create credentials</h3>
+<pre><code> import NLM.UMLS:Credentials
+ credentials = Credentials(user, psswd)
+ ```
+
+### To compose the query
+
+ ```
+ query = Dict(&quot;string&quot;=&gt;term, &quot;searchType&quot;=&gt;&quot;exact&quot; )
+ ```
+
+### To search all concepts associeted with the indicated term
+
+ ```
+ all_results= search_umls(credentials, query)
+ ```
+
+###To retrieve the CUI for the rest match
+
+</code></pre>
+
+<p>cui = best_match_cui(all_results, term)</p>
+<pre><code>
+### Get UMLS concepts associated with a CUI
+
+</code></pre>
+
+<p>all_concepts = get_concepts(c, cui) ``` ––––––––––––-</p>
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -273,17 +288,33 @@
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
+        <a href="../entrez/" title="Entrez">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Entrez
+              </div>
+            </div>
+          </div>
+        </a>
+      
     </div>
     <div class="next">
       
-        <a href="entrez/" title="Entrez">
+        <a href="../ct/" title="Clinical Trials">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Entrez
+                Clinical Trials
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">
@@ -309,14 +340,14 @@
       </div>
     </main>
     <script>
-      var base_url = '.';
+      var base_url = '..';
       var repo_id  = 'bcbi/BioMedQuery.jl';
     </script>
-    <script src="./assets/javascripts/application-997097ee0c.js"></script>
+    <script src="../assets/javascripts/application-997097ee0c.js"></script>
     
       <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-      <script src="./assets/mathjaxhelper.js"></script>
+      <script src="../assets/mathjaxhelper.js"></script>
     
     
   </body>
