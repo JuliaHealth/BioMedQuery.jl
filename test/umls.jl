@@ -16,12 +16,11 @@ term = "obesity"
 query = Dict("string"=>term, "searchType"=>"exact" )
 
 
-# @testset "Testing UMLS" begin
-    @test 1==1
+@testset "Testing UMLS" begin
     all_results= BioMedQuery.UMLS.search_umls(credentials, query)
-    # @test length(all_results[1]["result"]["results"]) == 2
-    # cui = BioMedQuery.UMLS.best_match_cui(all_results, term)
-    # @test cui == "C0028754"
-    # sm = BioMedQuery.UMLS.get_semantic_type(credentials, cui)
-    # println(sm)
-# end
+    @test length(all_results[1]["result"]["results"]) == 2
+    cui = BioMedQuery.UMLS.best_match_cui(all_results, term)
+    @test cui == "C0028754"
+    sm = BioMedQuery.UMLS.get_semantic_type(credentials, cui)
+    println(sm)
+end
