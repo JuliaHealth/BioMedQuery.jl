@@ -17,14 +17,6 @@ using .DB
 
 export esearch, efetch, eparse, save_efetch
 
-function esearch(search_dic)
-    # Seach Entrez database
-    cgi = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
-    variables = Dict("db"=>"db")
-    variables = merge(variables, search_dic)
-    # return variables
-    return open_entrez(cgi, variables, false)
-end
 
 
 # Helper function to build the url and open a handle to it
@@ -54,6 +46,85 @@ function open_entrez(cgi, params, post=false)
     return ASCIIString(response.data)
 end
 
+
+"""
+    esearch(search_dict)
+
+Request list of UIDs matiching a query - see [NCBI Entrez:Esearch](http://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.ESearch)
+
+###Arguments
+
+* `search_dic::Dict`: dictionary specifying search criteria
+
+###Output
+
+* `::ASCIIString`: XML response from NCBI
+
+###Example
+
+```julia
+search_dic = Dict("db"=>"pubmed", "term" => search_term,
+"retstart" => 0, "retmax"=>5, "tool" =>"BioJulia",
+"email" => "email")
+esearch_response = esearch(search_dic)
+```
+
+###Note
+
+* email must be a valid email address (otherwise pubmed will block you)
+* search_term corresponds to a valid [PubMed Search](http://www.ncbi.nlm.nih.gov/pubmed/advanced). It may contain one or more filtering criteria using AND/OR.
+For instance:
+
+`search_term = (asthma[MeSH Terms]) AND ("2001/01/29"[Date - Publication] : "2010"[Date - Publication])`.
+
+"""
+function esearch(search_dic)
+    # Seach Entrez database
+    cgi = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
+    variables = Dict("db"=>"db")
+    variables = merge(variables, search_dic)
+    # return variables
+    return open_entrez(cgi, variables, false)
+end
+
+
+"""
+    efetch(fetch_dic, id_list)
+
+Retrieve data records from a list of UIDs - see [NCBI Entrez: EFetch](http://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.EFetch)
+
+###Arguments
+
+* `fetch_dic::Dict` - Dictionary specifying fetch criteria
+* `id_list::Array` - List of ids e.g those embedded in response from esearch
+
+###Results
+
+* `::ASCIIString` - XML response from NCBI
+
+###Example
+
+```julia
+# get the list of ids
+if !haskey(esearch_dict, "IdList")
+  error("Error: IdList not found")
+end
+
+ids = []
+
+for id_node in esearch_dict["IdList"][1]["Id"]
+  push!(ids, id_node)
+end
+
+# define the fetch dictionary
+fetch_dic = Dict("db"=>"pubmed","tool" =>"BioJulia",
+"email" => email, "retmode" => "xml", "rettype"=>"null")
+
+# fetch
+efetch_response = efetch(fetch_dic, ids)
+```
+
+"""
 function efetch(fetch_dic, id_list)
     post = false
     cgi = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
@@ -68,21 +139,71 @@ function efetch(fetch_dic, id_list)
     return open_entrez(cgi, variables,  post)
 end
 
+"""
+    elink(elink_dict)
+
+Lists, checks or returns UIDs linked to an input list of UIDs in the same or
+different Entrez database. For more info see
+[NCBI Entrez:ELink](http://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.ELink)
+
+###Arguments
+
+* `elink_dict::Dict`: dictionary specifying elink inputs as credentials, ids...
+
+###Output
+
+* `::ASCIIString`: XML response from NCBI
+
+###Example
+
+```julia
+pmid = "19304878"
+elink_dict = Dict("dbfrom" =>"pubmed", "id" => pmid,
+                  "linkname" => "pubmed_pubmed", "email"=>email)
+elink_response = elink(elink_dict)
+```
+"""
+
 function elink(elink_dict)
     cgi = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi"
     return open_entrez(cgi, elink_dict)
 end
 
+"""
+    esummary(esummary_dict)
 
+Return document summaries for a list of input UIDs. For more info see
+[NCBI Entrez:ESummary](http://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.ESummary)
+
+###Arguments
+
+* `esummary_dict::Dict`: dictionary specifying esummary inputs as credentials, ids...
+
+###Output
+
+* `::ASCIIString`: XML response from NCBI
+
+###Example
+
+```julia
+pmid = "30367"
+esummary_dict = Dict("db" =>"pubmed", "id" => pmid, "email"=>email)
+esummary_response = esummary(esummary_dict)
+```
+"""
 function esummary(esummary_dict)
     cgi = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
     return open_entrez(cgi, esummary_dict)
 end
 
+"""
+    eparse(response::ASCIIString)
 
-function eparse(response)
-    xdoc = parse_string(response)
+Converts NCBI XML response into a Julia dictionary
 
+"""
+function eparse(ncbi_response::ASCIIString)
+    xdoc = parse_string(ncbi_response)
     # get the root element
     xroot = root(xdoc)  # an instance of XMLElement
     # get all child nodes and append to dictionary
@@ -94,10 +215,28 @@ function eparse(response)
     return dict
 end
 
-#save the results (dictionary) of an entrez fetch to a SQlite databass
-function save_efetch(efetch_dict, path)
+"""
+    save_efetch(efetch_dict, db_path)
+
+Save the results (dictionary) of an entrez fetch to a SQLite database.
+
+####Note:
+
+It is best to assure the databese file does not exist. If the file
+path corresponds to an exixting database, the system
+attempts to use that database, which must contain the correct tables.
+
+###Example
+
+```julia
+db_path = "test_db.slite"
+db = save_efetch(efetch_dict, db_path)
+```
+
+"""
+function save_efetch(efetch_dict, db_path)
     #init database with its structure only if file doesn't exist
-    db = DB.init_database(path)
+    db = DB.init_database(db_path)
 
     if !haskey(efetch_dict, "PubmedArticle")
         println("Error: Could not save to DB key:PubmedArticleSet not found")
@@ -251,4 +390,5 @@ function save_efetch(efetch_dict, path)
     return db
 
 end
+
 end

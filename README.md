@@ -8,10 +8,16 @@
 
 
 # BioMedQuery
-## Utilities to interact with databases/APIs provided by the National Library of Medicine (BioMedQuery)
-[![Build Status](https://travis-ci.org/bcbi/BioMedQuery.jl.svg?branch=master)](https://travis-ci.org/bcbi/BioMedQuery.jl)
+## Julia utilities to interact with BioMedical databases/APIs.
+ Status](https://travis-ci.org/bcbi/BioMedQuery.jl.svg?branch=master)](https://travis-ci.org/bcbi/BioMedQuery.jl)
+
+<!-- [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://bcbi.github.io/BioMedQuery.jl/stable) -->
+[![](https://img.shields.io/badge/docs-latest-blue.svg)](https://bcbi.github.io/BioMedQuery.jl/latest)
+
+
 Supported databases/APIS include:
 
+### National Library of Medicine (NLM)
 - Entrez Programming Utilities (E-utilities)
 - Unified Medical Language System (UMLS)
 - Clinical Trials
@@ -24,6 +30,3 @@ Pkg.clone("https://github.com/bcbi/BioMedQuery.jl.git")
 ### Documentation
 
 For details, usage and example read the [documentation](http://bcbi.github.io/BioMedQuery.jl)
-
-
-
