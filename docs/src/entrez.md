@@ -1,130 +1,76 @@
 Julia interface to [Entrez Utilities API](http://www.ncbi.nlm.nih.gov/books/NBK25501/).
-For executables to search PubMed, see the sister package [PubMedMiner](https://github.com/bcbi/PubMedMiner.jl) 
 
-The following functions have been implemented:
+For executables that use this package to search PubMed, see the sister package [PubMedMiner](https://github.com/bcbi/PubMedMiner.jl)
+
+The following E-utils functions have been implemented:
 
 - [ESearch](#esearch)
 - [EFetch](#efetch)
--------------------------
-##Import
+- [ELink](#elink)
+- [ESummary](#esummary)
+
+In addition, the following utility functions are available to handle and store
+NCBI responses
+
+- [EParse](#eparse) : Convert XML response to Julia Dict
+- [SaveEFetch](#databasesave) : Save response dictionary to a Database
+
+
+##Import Module
 ```
-using NLM.Entrez
+using BioMedQuery.Entrez
 ```
 
 ## ESearch
 
-`Entrez.esearch` - Function
-
-###Arguments
-
-- `search_dic::Dict` - Dictionary specifying search criteria
-
-###Results
-
-- `::ASCIIString` - XML response from NCBI
-
-###Usage Example
-
-```
-search_term = "obstructive sleep apnea[MeSH Major Topic]"
-search_dic = Dict("db"=>"pubmed", "term" => search_term,
-"retstart" => 0, "retmax"=>10000, "tool" =>"BioJulia",
-"email" => "email")
-esearch_response = esearch(search_dic)
+```@meta
+CurrentModule = BioMedQuery.Entrez
 ```
 
-####Note:
-- email must be a valid email address (otherwise pubmed will block you)
-- the search term corresponds to the string to submit to PubMed. It may contain one or more filtering criteria using AND/OR.
-For instance:
-
-    `(asthma[MeSH Terms]) AND ("2001/01/29"[Date - Publication] : "2010"[Date - Publication])`.
-    See [NCBI-search](http://www.ncbi.nlm.nih.gov/pubmed/advanced)
-
-
-
-### XML to dictionary
-It may be useful to convert the XML string to a dictionary using [Entrez.eparse](#eparse)
-
+```@docs
+esearch(search_dict)
+```
 
 ## EFetch
 
-`Entrez.efetch` - Function
-
-Retrieves the list of ID's returned by esearch
-
-###Arguments
-
-- `fetch_dic::Dict` - Dictionary specifying fetch criteria
-- `id_list::Array` - List of ids embedded in response from esearch
-
-###Results
-
-- `::ASCIIString` - XML response from NCBI
-
-###Usage Example
-
-####Get the list of ids
-
-```
-if !haskey(esearch_dict, "IdList")
-  error("Error: IdList not found")
-end
-
-ids = []
-
-for id_node in esearch_dict["IdList"][1]["Id"]
-  push!(ids, id_node)
-end
+```@docs
+efetch(fetch_dic, id_list)
 ```
 
-####Define the fetch dictionary
-
-```
-fetch_dic = Dict("db"=>"pubmed","tool" =>"BioJulia",
-"email" => email, "retmode" => "xml", "rettype"=>"null")
+## ELink
+```@docs
+elink(elink_dict)
 ```
 
-####Fetch
-`efetch_response = efetch(fetch_dic, ids)`
-
-###Convert response-xml to dictionary
-
-Use [Entrez.eparse](#eparse)
-
+## ESummary
+```@docs
+esummary(esummary_dict)
 ```
-efetch_dict = eparse(efetch_response)
-```
-
-###Save the results to a sqlite database
-
-Use [Entrez.save_efetch](#SaveEFetch)
-
-
 
 ##EParse
+```@docs
+eparse(ncbi_response::ASCIIString)
 ```
-esearch_dict = eparse(esearch_response)
+
+##Saving NCBI Responses to XML
+
+You can save directly the XML String to file using the
+[XMLconvert Package](https://github.com/bcbi/XMLconvert.jl)
+
+###Example
+
+```
+    XMLconvert.xmlASCII2file(efetch_response, "./efetch.xml")
 ```
 
 ##SaveEFetch
 
-`Entrez.save_efetch` - Function
+```@docs
+save_efetch(efetch_dict, db_path)
+```
 
-###Arguments
-
-- `efetch_dict::Dict` - Dictionary corresponding to an EFetch response
-- `db_path:ASCIIString` - Path to database file. If it doesn't exist it will create one. The user is responsible for cleanning.
-
-###Response
-
-- `::SQLite.DB` - sqlite database, where the results have been stored
-
-The following schema has been used to store the results. If you are interested in having this module store additional fields, feel free to open an issue
+The following schema has been used to store the results.
+If you are interested in having this module store additional fields, feel free
+to open an issue
 
 ![Alt](/images/save_efetch_schema.001.jpeg)
-
-### Usage Example
-```
-db = save_efetch(efetch_dict, db_path)
-```
