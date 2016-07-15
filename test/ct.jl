@@ -1,4 +1,3 @@
-Pkg.add("ZipFile")
 using ZipFile
 
 #------------------ Test Clinical Trials -------------------
