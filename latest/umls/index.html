@@ -237,7 +237,7 @@
           
           <p>Search the Unified Medical Language System (UMLS). For more details on the <a href="https://documentation.uts.nlm.nih.gov/rest/home.html">REST API</a></p>
 <h2 id="import">Import</h2>
-<pre><code>using NLM.UMLS
+<pre><code>using BioMedQuery.UMLS
 </code></pre>
 
 <p><a id='Search-by-term-1'></a></p>
@@ -245,7 +245,7 @@
 <p>Search UMLS using the Rest API. The user needs approved credentials and a query dictionary. Sign up for credentials <a href="https://uts.nlm.nih.gov//license.html">here</a></p>
 <p><a id='To-create-credentials-1'></a></p>
 <h3 id="to-create-credentials">To create credentials</h3>
-<pre><code> import NLM.UMLS:Credentials
+<pre><code> import BioMedQuery.UMLS:Credentials
  credentials = Credentials(user, psswd)
  ```
 
@@ -271,7 +271,7 @@
 
 </code></pre>
 
-<p>all_concepts = get_concepts(c, cui) ``` ––––––––––––-</p>
+<p>all_concepts = get_concepts(c, cui) ```</p>
           <aside class="copyright" role="note">
             
             Documentation built with

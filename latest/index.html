@@ -183,8 +183,20 @@
         <ul>
           
             <li class="anchor">
+              <a title="National Library of Medicine (NLM)" href="#national-library-of-medicine-nlm">
+                National Library of Medicine (NLM)
+              </a>
+            </li>
+          
+            <li class="anchor">
               <a title="Installation" href="#installation">
                 Installation
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Dependencies" href="#dependencies">
+                Dependencies
               </a>
             </li>
           
@@ -237,22 +249,44 @@
       <article class="article">
         <div class="wrapper">
           
-          <p><a id='NLM-Julia-Package-1'></a></p>
-<h1 id="nlm-julia-package">NLM Julia Package</h1>
-<p>Julia langauge utilities to interact with databases/APIs provided by the National Library of Medicine (NLM)</p>
+          <p><a id='BioMedQuery-Julia-Package-1'></a></p>
+<h1 id="biomedquery-julia-package">BioMedQuery Julia Package</h1>
+<p>Julia utilities to interact with BioMedical databases/APIs.</p>
 <p>Supported databases/APIS include:</p>
+<p><a id='National-Library-of-Medicine-(NLM)-1'></a></p>
+<h3 id="national-library-of-medicine-nlm">National Library of Medicine (NLM)</h3>
 <ul>
-<li><a href="#entrez">Entrez Programming Utilities (E-utilities)</a></li>
-<li><a href="#umls">Unified Medical Language System (UMLS)</a></li>
-<li><a href="#clinical-trials">Clinical Trials</a> ––––––––––––-</li>
+<li>Entrez Programming Utilities (E-utilities)</li>
+<li>Unified Medical Language System (UMLS)</li>
+<li>Clinical Trials</li>
 </ul>
 <p><a id='Installation-1'></a></p>
-<h3 id="installation">Installation</h3>
+<h2 id="installation">Installation</h2>
 <pre><code>Pkg.clone(&quot;https://github.com/bcbi/BioMedQuery.jl.git&quot;)
 </code></pre>
 
+<p><a id='Dependencies-1'></a></p>
+<h2 id="dependencies">Dependencies</h2>
+<h3 id="registered-packages-automatically-installed">Registered Packages - automatically installed</h3>
+<ul>
+<li>ArgParse</li>
+<li>SQLite</li>
+<li>Gumbo</li>
+<li>Requests</li>
+<li>DataStreams</li>
+<li>LightXML</li>
+<li>Requests</li>
+<li>HttpCommon</li>
+<li>BaseTestNext</li>
+</ul>
+<p><a id='Unregistered-Packages-need-to-be-installed-manually-1'></a></p>
+<h3 id="unregistered-packages-need-to-be-installed-manually">Unregistered Packages - need to be installed manually</h3>
+<h4 id="xmlconvert">XMLconvert</h4>
+<pre><code>Pkg.clone(&quot;https://github.com/bcbi/XMLconvert.jl.git&quot;)
+</code></pre>
+
 <p><a id='Sister-Packages-1'></a></p>
-<h3 id="sister-packages">Sister Packages</h3>
+<h2 id="sister-packages">Sister Packages</h2>
 <ul>
 <li><a href="https://github.com/bcbi/PubMedMiner.jl">PubMedMiner</a> - Executables to search PubMed, link Mesh Descriptors to to UMLS concepts and visualize results.</li>
 <li><a href="https://github.com/bcbi/XMLconvert.jl">XMLConvert</a> - Utilities to convert, flatten and explore XML file. Useful to investigate server responses.</li>

@@ -2,18 +2,43 @@
     "docs": [
         {
             "location": "/", 
-            "text": "NLM Julia Package\n\n\nJulia langauge utilities to interact with databases/APIs provided by the National Library of Medicine (NLM)\n\n\nSupported databases/APIS include:\n\n\n\n\nEntrez Programming Utilities (E-utilities)\n\n\nUnified Medical Language System (UMLS)\n\n\nClinical Trials\n \u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013-\n\n\n\n\n\n\nInstallation\n\n\nPkg.clone(\nhttps://github.com/bcbi/BioMedQuery.jl.git\n)\n\n\n\n\n\n\nSister Packages\n\n\n\n\nPubMedMiner\n - Executables to search PubMed, link Mesh Descriptors to to UMLS concepts and visualize results.\n\n\nXMLConvert\n - Utilities to convert, flatten and explore XML file. Useful to investigate server responses.", 
+            "text": "BioMedQuery Julia Package\n\n\nJulia utilities to interact with BioMedical databases/APIs.\n\n\nSupported databases/APIS include:\n\n\n\n\nNational Library of Medicine (NLM)\n\n\n\n\nEntrez Programming Utilities (E-utilities)\n\n\nUnified Medical Language System (UMLS)\n\n\nClinical Trials\n\n\n\n\n\n\nInstallation\n\n\nPkg.clone(\nhttps://github.com/bcbi/BioMedQuery.jl.git\n)\n\n\n\n\n\n\nDependencies\n\n\nRegistered Packages - automatically installed\n\n\n\n\nArgParse\n\n\nSQLite\n\n\nGumbo\n\n\nRequests\n\n\nDataStreams\n\n\nLightXML\n\n\nRequests\n\n\nHttpCommon\n\n\nBaseTestNext\n\n\n\n\n\n\nUnregistered Packages - need to be installed manually\n\n\nXMLconvert\n\n\nPkg.clone(\nhttps://github.com/bcbi/XMLconvert.jl.git\n)\n\n\n\n\n\n\nSister Packages\n\n\n\n\nPubMedMiner\n - Executables to search PubMed, link Mesh Descriptors to to UMLS concepts and visualize results.\n\n\nXMLConvert\n - Utilities to convert, flatten and explore XML file. Useful to investigate server responses.", 
             "title": "Overview"
         }, 
         {
-            "location": "/#nlm-julia-package", 
-            "text": "Julia langauge utilities to interact with databases/APIs provided by the National Library of Medicine (NLM)  Supported databases/APIS include:   Entrez Programming Utilities (E-utilities)  Unified Medical Language System (UMLS)  Clinical Trials  \u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013-", 
-            "title": "NLM Julia Package"
+            "location": "/#biomedquery-julia-package", 
+            "text": "Julia utilities to interact with BioMedical databases/APIs.  Supported databases/APIS include:", 
+            "title": "BioMedQuery Julia Package"
+        }, 
+        {
+            "location": "/#national-library-of-medicine-nlm", 
+            "text": "Entrez Programming Utilities (E-utilities)  Unified Medical Language System (UMLS)  Clinical Trials", 
+            "title": "National Library of Medicine (NLM)"
         }, 
         {
             "location": "/#installation", 
             "text": "Pkg.clone( https://github.com/bcbi/BioMedQuery.jl.git )", 
             "title": "Installation"
+        }, 
+        {
+            "location": "/#dependencies", 
+            "text": "", 
+            "title": "Dependencies"
+        }, 
+        {
+            "location": "/#registered-packages-automatically-installed", 
+            "text": "ArgParse  SQLite  Gumbo  Requests  DataStreams  LightXML  Requests  HttpCommon  BaseTestNext", 
+            "title": "Registered Packages - automatically installed"
+        }, 
+        {
+            "location": "/#unregistered-packages-need-to-be-installed-manually", 
+            "text": "", 
+            "title": "Unregistered Packages - need to be installed manually"
+        }, 
+        {
+            "location": "/#xmlconvert", 
+            "text": "Pkg.clone( https://github.com/bcbi/XMLconvert.jl.git )", 
+            "title": "XMLconvert"
         }, 
         {
             "location": "/#sister-packages", 
@@ -22,17 +47,47 @@
         }, 
         {
             "location": "/entrez/", 
-            "text": "Julia interface to \nEntrez Utilities API\n. For executables to search PubMed, see the sister package \nPubMedMiner\n \n\n\nThe following functions have been implemented:\n\n\n\n\nESearch\n\n\nEFetch\n \u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013- ##Import \nusing NLM.Entrez\n\n\n\n\n\n\nESearch\n\n\nEntrez.esearch\n - Function\n\n\nArguments\n\n\n\n\nsearch_dic::Dict\n - Dictionary specifying search criteria\n\n\n\n\nResults\n\n\n\n\n::ASCIIString\n - XML response from NCBI\n\n\n\n\nUsage Example\n\n\nsearch_term = \nobstructive sleep apnea[MeSH Major Topic]\n\nsearch_dic = Dict(\ndb\n=\npubmed\n, \nterm\n =\n search_term,\n\nretstart\n =\n 0, \nretmax\n=\n10000, \ntool\n =\nBioJulia\n,\n\nemail\n =\n \nemail\n)\nesearch_response = esearch(search_dic)\n\n\n\n\nNote: - email must be a valid email address (otherwise pubmed will block you) - the search term corresponds to the string to submit to PubMed. It may contain one or more filtering criteria using AND/OR. For instance:\n\n\n`(asthma[MeSH Terms]) AND (\n2001/01/29\n[Date - Publication] : \n2010\n[Date - Publication])`.\nSee [NCBI-search](http://www.ncbi.nlm.nih.gov/pubmed/advanced)\n\n\n\n\n\n\nXML to dictionary\n\n\nIt may be useful to convert the XML string to a dictionary using \nEntrez.eparse\n\n\n\n\nEFetch\n\n\nEntrez.efetch\n - Function\n\n\nRetrieves the list of ID's returned by esearch\n\n\nArguments\n\n\n\n\nfetch_dic::Dict\n - Dictionary specifying fetch criteria\n\n\nid_list::Array\n - List of ids embedded in response from esearch\n\n\n\n\nResults\n\n\n\n\n::ASCIIString\n - XML response from NCBI\n\n\n\n\nUsage Example\n\n\nGet the list of ids\n\n\nif !haskey(esearch_dict, \nIdList\n)\n  error(\nError: IdList not found\n)\nend\n\nids = []\n\nfor id_node in esearch_dict[\nIdList\n][1][\nId\n]\n  push!(ids, id_node)\nend\n\n\n\n\nDefine the fetch dictionary\n\n\nfetch_dic = Dict(\ndb\n=\npubmed\n,\ntool\n =\nBioJulia\n,\n\nemail\n =\n email, \nretmode\n =\n \nxml\n, \nrettype\n=\nnull\n)\n\n\n\n\nFetch \nefetch_response = efetch(fetch_dic, ids)\n\n\nConvert response-xml to dictionary\n\n\nUse \nEntrez.eparse\n\n\nefetch_dict = eparse(efetch_response)\n\n\n\n\nSave the results to a sqlite database\n\n\nUse \nEntrez.save_efetch\n\n\nEParse\n\n\nesearch_dict = eparse(esearch_response)\n\n\n\n\nSaveEFetch\n\n\nEntrez.save_efetch\n - Function\n\n\nArguments\n\n\n\n\nefetch_dict::Dict\n - Dictionary corresponding to an EFetch response\n\n\ndb_path:ASCIIString\n - Path to database file. If it doesn't exist it will create one. The user is responsible for cleanning.\n\n\n\n\nResponse\n\n\n\n\n::SQLite.DB\n - sqlite database, where the results have been stored\n\n\n\n\nThe following schema has been used to store the results. If you are interested in having this module store additional fields, feel free to open an issue\n\n\n\n\n\n\nUsage Example\n\n\ndb = save_efetch(efetch_dict, db_path)", 
+            "text": "Julia interface to \nEntrez Utilities API\n.\n\n\nFor executables that use this package to search PubMed, see the sister package \nPubMedMiner\n\n\nThe following E-utils functions have been implemented:\n\n\n\n\nESearch\n\n\nEFetch\n\n\nELink\n\n\nESummary\n\n\n\n\nIn addition, the following utility functions are available to handle and store NCBI responses\n\n\n\n\nEParse\n : Convert XML response to Julia Dict\n\n\nSaveEFetch\n : Save response dictionary to a Database\n\n\n\n\nImport Module\n\n\nusing BioMedQuery.Entrez\n\n\n\n\n\n\nESearch\n\n\n#\n\n\nBioMedQuery.Entrez.esearch\n \n \nMethod\n.\n\n\nesearch(search_dict)\n\n\n\n\nRequest list of UIDs matiching a query - see \nNCBI Entrez:Esearch\n\n\nArguments\n\n\n\n\nsearch_dic::Dict\n: dictionary specifying search criteria\n\n\n\n\nOutput\n\n\n\n\n::ASCIIString\n: XML response from NCBI\n\n\n\n\nExample\n\n\nsearch_dic = Dict(\ndb\n=\npubmed\n, \nterm\n =\n search_term,\n\nretstart\n =\n 0, \nretmax\n=\n5, \ntool\n =\nBioJulia\n,\n\nemail\n =\n \nemail\n)\nesearch_response = esearch(search_dic)\n\n\n\n\nNote\n\n\n\n\nemail must be a valid email address (otherwise pubmed will block you)\n\n\nsearch_term corresponds to a valid \nPubMed Search\n. It may contain one or more filtering criteria using AND/OR. For instance:\n\n\n\n\nsearch_term = (asthma[MeSH Terms]) AND (\"2001/01/29\"[Date - Publication] : \"2010\"[Date - Publication])\n.\n\n\n\n\nEFetch\n\n\n#\n\n\nBioMedQuery.Entrez.efetch\n \n \nMethod\n.\n\n\nefetch(fetch_dic, id_list)\n\n\n\n\nRetrieve data records from a list of UIDs - see \nNCBI Entrez: EFetch\n\n\nArguments\n\n\n\n\nfetch_dic::Dict\n - Dictionary specifying fetch criteria\n\n\nid_list::Array\n - List of ids e.g those embedded in response from esearch\n\n\n\n\nResults\n\n\n\n\n::ASCIIString\n - XML response from NCBI\n\n\n\n\nExample\n\n\n# get the list of ids\nif !haskey(esearch_dict, \nIdList\n)\n  error(\nError: IdList not found\n)\nend\n\nids = []\n\nfor id_node in esearch_dict[\nIdList\n][1][\nId\n]\n  push!(ids, id_node)\nend\n\n# define the fetch dictionary\nfetch_dic = Dict(\ndb\n=\npubmed\n,\ntool\n =\nBioJulia\n,\n\nemail\n =\n email, \nretmode\n =\n \nxml\n, \nrettype\n=\nnull\n)\n\n# fetch\nefetch_response = efetch(fetch_dic, ids)\n\n\n\n\n\n\nELink\n\n\n#\n\n\nBioMedQuery.Entrez.elink\n \n \nMethod\n.\n\n\nelink(elink_dict)\n\n\n\n\nLists, checks or returns UIDs linked to an input list of UIDs in the same or different Entrez database. For more info see \nNCBI Entrez:ELink\n\n\nArguments\n\n\n\n\nelink_dict::Dict\n: dictionary specifying elink inputs as credentials, ids...\n\n\n\n\nOutput\n\n\n\n\n::ASCIIString\n: XML response from NCBI\n\n\n\n\nExample\n\n\npmid = \n19304878\n\nelink_dict = Dict(\ndbfrom\n =\npubmed\n, \nid\n =\n pmid,\n                  \nlinkname\n =\n \npubmed_pubmed\n, \nemail\n=\nemail)\nelink_response = elink(elink_dict)\n\n\n\n\n\n\nESummary\n\n\n#\n\n\nBioMedQuery.Entrez.esummary\n \n \nMethod\n.\n\n\nesummary(esummary_dict)\n\n\n\n\nReturn document summaries for a list of input UIDs. For more info see \nNCBI Entrez:ESummary\n\n\nArguments\n\n\n\n\nesummary_dict::Dict\n: dictionary specifying esummary inputs as credentials, ids...\n\n\n\n\nOutput\n\n\n\n\n::ASCIIString\n: XML response from NCBI\n\n\n\n\nExample\n\n\npmid = \n30367\n\nesummary_dict = Dict(\ndb\n =\npubmed\n, \nid\n =\n pmid, \nemail\n=\nemail)\nesummary_response = esummary(esummary_dict)\n\n\n\n\nEParse\n\n\n#\n\n\nBioMedQuery.Entrez.eparse\n \n \nMethod\n.\n\n\neparse(response::ASCIIString)\n\n\n\n\nConverts NCBI XML response into a Julia dictionary\n\n\nSaving NCBI Responses to XML\n\n\nYou can save directly the XML String to file using the \nXMLconvert Package\n\n\nExample\n\n\n    XMLconvert.xmlASCII2file(efetch_response, \n./efetch.xml\n)\n\n\n\n\nSaveEFetch\n\n\n#\n\n\nBioMedQuery.Entrez.save_efetch\n \n \nMethod\n.\n\n\nsave_efetch(efetch_dict, db_path)\n\n\n\n\nSave the results (dictionary) of an entrez fetch to a SQLite database.\n\n\nNote:\n\n\nIt is best to assure the databese file does not exist. If the file path corresponds to an exixting database, the system attempts to use that database, which must contain the correct tables.\n\n\nExample\n\n\ndb_path = \ntest_db.slite\n\ndb = save_efetch(efetch_dict, db_path)\n\n\n\n\nThe following schema has been used to store the results. If you are interested in having this module store additional fields, feel free to open an issue", 
             "title": "Entrez"
         }, 
         {
+            "location": "/entrez/#import-module", 
+            "text": "using BioMedQuery.Entrez", 
+            "title": "Import Module"
+        }, 
+        {
             "location": "/entrez/#esearch", 
-            "text": "Entrez.esearch  - Function", 
+            "text": "#  BioMedQuery.Entrez.esearch     Method .  esearch(search_dict)  Request list of UIDs matiching a query - see  NCBI Entrez:Esearch", 
             "title": "ESearch"
         }, 
         {
             "location": "/entrez/#arguments", 
-            "text": "search_dic::Dict  - Dictionary specifying search criteria", 
+            "text": "search_dic::Dict : dictionary specifying search criteria", 
+            "title": "Arguments"
+        }, 
+        {
+            "location": "/entrez/#output", 
+            "text": "::ASCIIString : XML response from NCBI", 
+            "title": "Output"
+        }, 
+        {
+            "location": "/entrez/#example", 
+            "text": "search_dic = Dict( db = pubmed ,  term  =  search_term, retstart  =  0,  retmax = 5,  tool  = BioJulia , email  =   email )\nesearch_response = esearch(search_dic)", 
+            "title": "Example"
+        }, 
+        {
+            "location": "/entrez/#note", 
+            "text": "email must be a valid email address (otherwise pubmed will block you)  search_term corresponds to a valid  PubMed Search . It may contain one or more filtering criteria using AND/OR. For instance:   search_term = (asthma[MeSH Terms]) AND (\"2001/01/29\"[Date - Publication] : \"2010\"[Date - Publication]) .", 
+            "title": "Note"
+        }, 
+        {
+            "location": "/entrez/#efetch", 
+            "text": "#  BioMedQuery.Entrez.efetch     Method .  efetch(fetch_dic, id_list)  Retrieve data records from a list of UIDs - see  NCBI Entrez: EFetch", 
+            "title": "EFetch"
+        }, 
+        {
+            "location": "/entrez/#arguments_1", 
+            "text": "fetch_dic::Dict  - Dictionary specifying fetch criteria  id_list::Array  - List of ids e.g those embedded in response from esearch", 
             "title": "Arguments"
         }, 
         {
@@ -41,98 +96,88 @@
             "title": "Results"
         }, 
         {
-            "location": "/entrez/#usage-example", 
-            "text": "search_term =  obstructive sleep apnea[MeSH Major Topic] \nsearch_dic = Dict( db = pubmed ,  term  =  search_term, retstart  =  0,  retmax = 10000,  tool  = BioJulia , email  =   email )\nesearch_response = esearch(search_dic)", 
-            "title": "Usage Example"
+            "location": "/entrez/#example_1", 
+            "text": "# get the list of ids\nif !haskey(esearch_dict,  IdList )\n  error( Error: IdList not found )\nend\n\nids = []\n\nfor id_node in esearch_dict[ IdList ][1][ Id ]\n  push!(ids, id_node)\nend\n\n# define the fetch dictionary\nfetch_dic = Dict( db = pubmed , tool  = BioJulia , email  =  email,  retmode  =   xml ,  rettype = null )\n\n# fetch\nefetch_response = efetch(fetch_dic, ids)", 
+            "title": "Example"
         }, 
         {
-            "location": "/entrez/#note-email-must-be-a-valid-email-address-otherwise-pubmed-will-block-you-the-search-term-corresponds-to-the-string-to-submit-to-pubmed-it-may-contain-one-or-more-filtering-criteria-using-andor-for-instance", 
-            "text": "`(asthma[MeSH Terms]) AND ( 2001/01/29 [Date - Publication] :  2010 [Date - Publication])`.\nSee [NCBI-search](http://www.ncbi.nlm.nih.gov/pubmed/advanced)", 
-            "title": "Note: - email must be a valid email address (otherwise pubmed will block you) - the search term corresponds to the string to submit to PubMed. It may contain one or more filtering criteria using AND/OR. For instance:"
-        }, 
-        {
-            "location": "/entrez/#xml-to-dictionary", 
-            "text": "It may be useful to convert the XML string to a dictionary using  Entrez.eparse", 
-            "title": "XML to dictionary"
-        }, 
-        {
-            "location": "/entrez/#efetch", 
-            "text": "Entrez.efetch  - Function  Retrieves the list of ID's returned by esearch", 
-            "title": "EFetch"
-        }, 
-        {
-            "location": "/entrez/#arguments_1", 
-            "text": "fetch_dic::Dict  - Dictionary specifying fetch criteria  id_list::Array  - List of ids embedded in response from esearch", 
-            "title": "Arguments"
-        }, 
-        {
-            "location": "/entrez/#results_1", 
-            "text": "::ASCIIString  - XML response from NCBI", 
-            "title": "Results"
-        }, 
-        {
-            "location": "/entrez/#usage-example_1", 
-            "text": "", 
-            "title": "Usage Example"
-        }, 
-        {
-            "location": "/entrez/#get-the-list-of-ids", 
-            "text": "if !haskey(esearch_dict,  IdList )\n  error( Error: IdList not found )\nend\n\nids = []\n\nfor id_node in esearch_dict[ IdList ][1][ Id ]\n  push!(ids, id_node)\nend", 
-            "title": "Get the list of ids"
-        }, 
-        {
-            "location": "/entrez/#define-the-fetch-dictionary", 
-            "text": "fetch_dic = Dict( db = pubmed , tool  = BioJulia , email  =  email,  retmode  =   xml ,  rettype = null )", 
-            "title": "Define the fetch dictionary"
-        }, 
-        {
-            "location": "/entrez/#fetch-efetch_response-efetchfetch_dic-ids", 
-            "text": "", 
-            "title": "Fetch efetch_response = efetch(fetch_dic, ids)"
-        }, 
-        {
-            "location": "/entrez/#convert-response-xml-to-dictionary", 
-            "text": "Use  Entrez.eparse  efetch_dict = eparse(efetch_response)", 
-            "title": "Convert response-xml to dictionary"
-        }, 
-        {
-            "location": "/entrez/#save-the-results-to-a-sqlite-database", 
-            "text": "Use  Entrez.save_efetch", 
-            "title": "Save the results to a sqlite database"
-        }, 
-        {
-            "location": "/entrez/#eparse", 
-            "text": "esearch_dict = eparse(esearch_response)", 
-            "title": "EParse"
-        }, 
-        {
-            "location": "/entrez/#saveefetch", 
-            "text": "Entrez.save_efetch  - Function", 
-            "title": "SaveEFetch"
+            "location": "/entrez/#elink", 
+            "text": "#  BioMedQuery.Entrez.elink     Method .  elink(elink_dict)  Lists, checks or returns UIDs linked to an input list of UIDs in the same or different Entrez database. For more info see  NCBI Entrez:ELink", 
+            "title": "ELink"
         }, 
         {
             "location": "/entrez/#arguments_2", 
-            "text": "efetch_dict::Dict  - Dictionary corresponding to an EFetch response  db_path:ASCIIString  - Path to database file. If it doesn't exist it will create one. The user is responsible for cleanning.", 
+            "text": "elink_dict::Dict : dictionary specifying elink inputs as credentials, ids...", 
             "title": "Arguments"
         }, 
         {
-            "location": "/entrez/#response", 
-            "text": "::SQLite.DB  - sqlite database, where the results have been stored   The following schema has been used to store the results. If you are interested in having this module store additional fields, feel free to open an issue", 
-            "title": "Response"
+            "location": "/entrez/#output_1", 
+            "text": "::ASCIIString : XML response from NCBI", 
+            "title": "Output"
         }, 
         {
-            "location": "/entrez/#usage-example_2", 
-            "text": "db = save_efetch(efetch_dict, db_path)", 
-            "title": "Usage Example"
+            "location": "/entrez/#example_2", 
+            "text": "pmid =  19304878 \nelink_dict = Dict( dbfrom  = pubmed ,  id  =  pmid,\n                   linkname  =   pubmed_pubmed ,  email = email)\nelink_response = elink(elink_dict)", 
+            "title": "Example"
+        }, 
+        {
+            "location": "/entrez/#esummary", 
+            "text": "#  BioMedQuery.Entrez.esummary     Method .  esummary(esummary_dict)  Return document summaries for a list of input UIDs. For more info see  NCBI Entrez:ESummary", 
+            "title": "ESummary"
+        }, 
+        {
+            "location": "/entrez/#arguments_3", 
+            "text": "esummary_dict::Dict : dictionary specifying esummary inputs as credentials, ids...", 
+            "title": "Arguments"
+        }, 
+        {
+            "location": "/entrez/#output_2", 
+            "text": "::ASCIIString : XML response from NCBI", 
+            "title": "Output"
+        }, 
+        {
+            "location": "/entrez/#example_3", 
+            "text": "pmid =  30367 \nesummary_dict = Dict( db  = pubmed ,  id  =  pmid,  email = email)\nesummary_response = esummary(esummary_dict)", 
+            "title": "Example"
+        }, 
+        {
+            "location": "/entrez/#eparse", 
+            "text": "#  BioMedQuery.Entrez.eparse     Method .  eparse(response::ASCIIString)  Converts NCBI XML response into a Julia dictionary", 
+            "title": "EParse"
+        }, 
+        {
+            "location": "/entrez/#saving-ncbi-responses-to-xml", 
+            "text": "You can save directly the XML String to file using the  XMLconvert Package", 
+            "title": "Saving NCBI Responses to XML"
+        }, 
+        {
+            "location": "/entrez/#example_4", 
+            "text": "XMLconvert.xmlASCII2file(efetch_response,  ./efetch.xml )", 
+            "title": "Example"
+        }, 
+        {
+            "location": "/entrez/#saveefetch", 
+            "text": "#  BioMedQuery.Entrez.save_efetch     Method .  save_efetch(efetch_dict, db_path)  Save the results (dictionary) of an entrez fetch to a SQLite database.", 
+            "title": "SaveEFetch"
+        }, 
+        {
+            "location": "/entrez/#note_1", 
+            "text": "It is best to assure the databese file does not exist. If the file path corresponds to an exixting database, the system attempts to use that database, which must contain the correct tables.", 
+            "title": "Note:"
+        }, 
+        {
+            "location": "/entrez/#example_5", 
+            "text": "db_path =  test_db.slite \ndb = save_efetch(efetch_dict, db_path)  The following schema has been used to store the results. If you are interested in having this module store additional fields, feel free to open an issue", 
+            "title": "Example"
         }, 
         {
             "location": "/umls/", 
-            "text": "Search the Unified Medical Language System (UMLS). For more details on the \nREST API\n\n\nImport\n\n\nusing NLM.UMLS\n\n\n\n\n\n\nSearch by term\n\n\nSearch UMLS using the Rest API. The user needs approved credentials and a query dictionary. Sign up for credentials \nhere\n\n\n\n\nTo create credentials\n\n\n import NLM.UMLS:Credentials\n credentials = Credentials(user, psswd)\n ```\n\n### To compose the query\n\n ```\n query = Dict(\nstring\n=\nterm, \nsearchType\n=\nexact\n )\n ```\n\n### To search all concepts associeted with the indicated term\n\n ```\n all_results= search_umls(credentials, query)\n ```\n\n###To retrieve the CUI for the rest match\n\n\n\n\n\ncui = best_match_cui(all_results, term)\n\n\n\n### Get UMLS concepts associated with a CUI\n\n\n\n\n\nall_concepts = get_concepts(c, cui) ``` \u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013-", 
+            "text": "Search the Unified Medical Language System (UMLS). For more details on the \nREST API\n\n\nImport\n\n\nusing BioMedQuery.UMLS\n\n\n\n\n\n\nSearch by term\n\n\nSearch UMLS using the Rest API. The user needs approved credentials and a query dictionary. Sign up for credentials \nhere\n\n\n\n\nTo create credentials\n\n\n import BioMedQuery.UMLS:Credentials\n credentials = Credentials(user, psswd)\n ```\n\n### To compose the query\n\n ```\n query = Dict(\nstring\n=\nterm, \nsearchType\n=\nexact\n )\n ```\n\n### To search all concepts associeted with the indicated term\n\n ```\n all_results= search_umls(credentials, query)\n ```\n\n###To retrieve the CUI for the rest match\n\n\n\n\n\ncui = best_match_cui(all_results, term)\n\n\n\n### Get UMLS concepts associated with a CUI\n\n\n\n\n\nall_concepts = get_concepts(c, cui) ```", 
             "title": "UMLS"
         }, 
         {
             "location": "/umls/#import", 
-            "text": "using NLM.UMLS", 
+            "text": "using BioMedQuery.UMLS", 
             "title": "Import"
         }, 
         {
@@ -142,7 +187,7 @@
         }, 
         {
             "location": "/umls/#to-create-credentials", 
-            "text": "import NLM.UMLS:Credentials\n credentials = Credentials(user, psswd)\n ```\n\n### To compose the query\n\n ```\n query = Dict( string = term,  searchType = exact  )\n ```\n\n### To search all concepts associeted with the indicated term\n\n ```\n all_results= search_umls(credentials, query)\n ```\n\n###To retrieve the CUI for the rest match  cui = best_match_cui(all_results, term)  \n### Get UMLS concepts associated with a CUI  all_concepts = get_concepts(c, cui) ``` \u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013\u2013-", 
+            "text": "import BioMedQuery.UMLS:Credentials\n credentials = Credentials(user, psswd)\n ```\n\n### To compose the query\n\n ```\n query = Dict( string = term,  searchType = exact  )\n ```\n\n### To search all concepts associeted with the indicated term\n\n ```\n all_results= search_umls(credentials, query)\n ```\n\n###To retrieve the CUI for the rest match  cui = best_match_cui(all_results, term)  \n### Get UMLS concepts associated with a CUI  all_concepts = get_concepts(c, cui) ```", 
             "title": "To create credentials"
         }, 
         {
