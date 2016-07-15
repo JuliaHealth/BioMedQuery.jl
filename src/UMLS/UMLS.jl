@@ -11,8 +11,13 @@ const auth_endpoint = "/cas/v1/tickets/"
 const service="http://umlsks.nlm.nih.gov"
 const rest_uri = "https://uts-ws.nlm.nih.gov"
 
+"""
+    Credentials(user, psswd)
+"""
 type Credentials
+    "username"
     username::ASCIIString
+    "password"
     password::ASCIIString
 end
 
@@ -55,7 +60,7 @@ Search UMLS Rest API. For more info see
 
 ###Output
 
-- `result_pages`: Array, where each entry is a dictionary containing that a pages
+- `result_pages`: Array, where each entry is a dictionary containing a page of
 results. e.g
  ```Dict{AbstractString,Any} with 3 entries:
   "pageSize"   => 25
@@ -72,9 +77,6 @@ query = Dict("string"=>term, "searchType"=>"exact" )
 all_results= search_umls(credentials, query)
 ```
 """
-# Search UMLS Rest API
-# Input query is expected to be a dictionary using query parametres
-# specified by UMLS_API https://documentation.uts.nlm.nih.gov/rest/search/
 function search_umls(c::Credentials, query)
 
     # Ticket granting ticket
@@ -113,12 +115,34 @@ function search_umls(c::Credentials, query)
 
 end
 
-#Retrieve the id for the top match
-function best_match_cui(result_pages, term)
+"""
+    best_match_cui(result_pages)
+
+Retrive the best match from array of all result pages
+
+###Example
+
+```julia
+cui = BioMedQuery.UMLS.best_match_cui(all_results)
+```
+"""
+function best_match_cui(result_pages)
     return result_pages[1]["result"]["results"][1]["ui"]
 end
 
-#Get umls (semantic types) associated with a cui
+"""
+    get_semantic_type(c::Credentials, cui)
+
+Return an array of the semantic types associated with a cui
+
+###Example
+
+```julia
+credentials = Credentials(user, psswd)
+cui = "C0028754"
+sm = BioMedQuery.UMLS.get_semantic_type(credentials, cui)
+```
+"""
 function get_semantic_type(c::Credentials, cui)
     # Ticket granting ticket
     tgt = get_tgt(c)
