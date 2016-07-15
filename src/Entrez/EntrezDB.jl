@@ -163,15 +163,17 @@ function all_pmids(db)
     return data_table.columns[1]
 end
 
-#Get all mesh descriptors associated with give article
+#Get the all mesh-descriptors associated with give article
 function get_article_mesh(db, pmid::Nullable{Int64})
 
     if pmid.isnull
         return NullableArray{ASCIIString}()
     else
-        query  = SQLite.query(db, "SELECT mesh FROM mesh2article
-        WHERE pmid = ?", [pmid.value])
-
+        query  = SQLite.query(db, "SELECT md.name
+                                     FROM mesh_heading as mh,
+                                          mesh_descriptor as md
+                                    WHERE mh.did = md.id
+                                      AND mh.pmid = ?", [pmid.value])
         #return data array
         return query.columns[1]
     end
