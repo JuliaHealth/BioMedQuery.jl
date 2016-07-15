@@ -203,8 +203,26 @@
             </li>
           
             <li class="anchor">
-              <a title="Search by term" href="#search-by-term">
-                Search by term
+              <a title="Credentials" href="#credentials">
+                Credentials
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Search the UMLS" href="#search-the-umls">
+                Search the UMLS
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Best match CUI" href="#best-match-cui">
+                Best match CUI
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Semantic types of a CUI" href="#semantic-types-of-a-cui">
+                Semantic types of a CUI
               </a>
             </li>
           
@@ -235,43 +253,68 @@
           
             <h1>UMLS</h1>
           
-          <p>Search the Unified Medical Language System (UMLS). For more details on the <a href="https://documentation.uts.nlm.nih.gov/rest/home.html">REST API</a></p>
+          <p>Search the Unified Medical Language System (UMLS), for more details visit the <a href="https://documentation.uts.nlm.nih.gov/rest/home.html">REST API</a>.</p>
+<p>Searching the UMLS requires approved credentials. You can sign up [here]](https://uts.nlm.nih.gov//license.html)</p>
 <h2 id="import">Import</h2>
 <pre><code>using BioMedQuery.UMLS
 </code></pre>
 
-<p><a id='Search-by-term-1'></a></p>
-<h2 id="search-by-term">Search by term</h2>
-<p>Search UMLS using the Rest API. The user needs approved credentials and a query dictionary. Sign up for credentials <a href="https://uts.nlm.nih.gov//license.html">here</a></p>
-<p><a id='To-create-credentials-1'></a></p>
-<h3 id="to-create-credentials">To create credentials</h3>
-<pre><code> import BioMedQuery.UMLS:Credentials
- credentials = Credentials(user, psswd)
- ```
-
-### To compose the query
-
- ```
- query = Dict(&quot;string&quot;=&gt;term, &quot;searchType&quot;=&gt;&quot;exact&quot; )
- ```
-
-### To search all concepts associeted with the indicated term
-
- ```
- all_results= search_umls(credentials, query)
- ```
-
-###To retrieve the CUI for the rest match
-
+<p><a id='Credentials-1'></a></p>
+<h2 id="credentials">Credentials</h2>
+<p><a id='BioMedQuery.UMLS.Credentials' href='#BioMedQuery.UMLS.Credentials'>#</a>
+<strong><code>BioMedQuery.UMLS.Credentials</code></strong> &mdash; <em>Type</em>.</p>
+<pre><code>Credentials(user, psswd)
 </code></pre>
 
-<p>cui = best_match_cui(all_results, term)</p>
-<pre><code>
-### Get UMLS concepts associated with a CUI
-
+<p><a id='Search-the-UMLS-1'></a></p>
+<h2 id="search-the-umls">Search the UMLS</h2>
+<p><a id='BioMedQuery.UMLS.search_umls-Tuple{BioMedQuery.UMLS.Credentials,Any}' href='#BioMedQuery.UMLS.search_umls-Tuple{BioMedQuery.UMLS.Credentials,Any}'>#</a>
+<strong><code>BioMedQuery.UMLS.search_umls</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>search_umls(c::Credentials, query)
 </code></pre>
 
-<p>all_concepts = get_concepts(c, cui) ```</p>
+<p>Search UMLS Rest API. For more info see <a href="https://documentation.uts.nlm.nih.gov/rest/search/">UMLS_API</a></p>
+<h3 id="arguments">Arguments</h3>
+<ul>
+<li><code>c::Credentials</code>: UMLS username and password</li>
+<li><code>query</code>: UMLS query containing the search term</li>
+</ul>
+<h3 id="output">Output</h3>
+<ul>
+<li><code>result_pages</code>: Array, where each entry is a dictionary containing a page of results. e.g  <code>Dict{AbstractString,Any} with 3 entries:   "pageSize"   =&gt; 25    "pageNumber" =&gt; 1   "result"     =&gt; Dict{AbstractString,Any}("classType"=&gt;"searchResults","result…</code></li>
+</ul>
+<h3 id="examples">Examples</h3>
+<pre><code class="julia">credentials = Credentials(user, psswd)
+term = &quot;obesity&quot;
+query = Dict(&quot;string&quot;=&gt;term, &quot;searchType&quot;=&gt;&quot;exact&quot; )
+all_results= search_umls(credentials, query)
+</code></pre>
+
+<p><a id='Best-match-CUI-1'></a></p>
+<h2 id="best-match-cui">Best match CUI</h2>
+<p><a id='BioMedQuery.UMLS.best_match_cui-Tuple{Any}' href='#BioMedQuery.UMLS.best_match_cui-Tuple{Any}'>#</a>
+<strong><code>BioMedQuery.UMLS.best_match_cui</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>best_match_cui(result_pages)
+</code></pre>
+
+<p>Retrive the best match from array of all result pages</p>
+<h3 id="example">Example</h3>
+<pre><code class="julia">cui = BioMedQuery.UMLS.best_match_cui(all_results)
+</code></pre>
+
+<p><a id='Semantic-types-of-a-CUI-1'></a></p>
+<h2 id="semantic-types-of-a-cui">Semantic types of a CUI</h2>
+<p><a id='BioMedQuery.UMLS.get_semantic_type-Tuple{BioMedQuery.UMLS.Credentials,Any}' href='#BioMedQuery.UMLS.get_semantic_type-Tuple{BioMedQuery.UMLS.Credentials,Any}'>#</a>
+<strong><code>BioMedQuery.UMLS.get_semantic_type</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>get_semantic_type(c::Credentials, cui)
+</code></pre>
+
+<p>Return an array of the semantic types associated with a cui</p>
+<h3 id="example_1">Example</h3>
+<pre><code class="julia">credentials = Credentials(user, psswd)
+cui = &quot;C0028754&quot;
+sm = BioMedQuery.UMLS.get_semantic_type(credentials, cui)
+</code></pre>
           <aside class="copyright" role="note">
             
             Documentation built with

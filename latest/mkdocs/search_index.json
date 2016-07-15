@@ -2,18 +2,13 @@
     "docs": [
         {
             "location": "/", 
-            "text": "BioMedQuery Julia Package\n\n\nJulia utilities to interact with BioMedical databases/APIs.\n\n\nSupported databases/APIS include:\n\n\n\n\nNational Library of Medicine (NLM)\n\n\n\n\nEntrez Programming Utilities (E-utilities)\n\n\nUnified Medical Language System (UMLS)\n\n\nClinical Trials\n\n\n\n\n\n\nInstallation\n\n\nPkg.clone(\nhttps://github.com/bcbi/BioMedQuery.jl.git\n)\n\n\n\n\n\n\nDependencies\n\n\nRegistered Packages - automatically installed\n\n\n\n\nArgParse\n\n\nSQLite\n\n\nGumbo\n\n\nRequests\n\n\nDataStreams\n\n\nLightXML\n\n\nRequests\n\n\nHttpCommon\n\n\nBaseTestNext\n\n\n\n\n\n\nUnregistered Packages - need to be installed manually\n\n\nXMLconvert\n\n\nPkg.clone(\nhttps://github.com/bcbi/XMLconvert.jl.git\n)\n\n\n\n\n\n\nSister Packages\n\n\n\n\nPubMedMiner\n - Executables to search PubMed, link Mesh Descriptors to to UMLS concepts and visualize results.\n\n\nXMLConvert\n - Utilities to convert, flatten and explore XML file. Useful to investigate server responses.", 
+            "text": "BioMedQuery Julia Package\n\n\nJulia utilities to interact with BioMedical databases/APIs. Supported databases/APIS include:\n\n\nNational Library of Medicine (NLM)\n\n\n\n\nEntrez Programming Utilities \n(E-Utilities)\n\n\nUnified Medical Language System \n(UMLS)\n\n\nClinical Trials \n(clinicaltrials.gov)\n\n\n\n\n\n\nInstallation\n\n\nPkg.clone(\nhttps://github.com/bcbi/BioMedQuery.jl.git\n)\n\n\n\n\n\n\nDependencies\n\n\nRegistered Packages - automatically installed\n\n\n\n\nArgParse\n\n\nSQLite\n\n\nGumbo\n\n\nRequests\n\n\nDataStreams\n\n\nLightXML\n\n\nRequests\n\n\nHttpCommon\n\n\nBaseTestNext\n\n\n\n\n\n\nUnregistered Packages - need to be installed manually\n\n\nXMLconvert\n\n\nPkg.clone(\nhttps://github.com/bcbi/XMLconvert.jl.git\n)\n\n\n\n\n\n\nSister Packages\n\n\n\n\nPubMedMiner\n - Executables to search PubMed, link Mesh Descriptors to to UMLS concepts and visualize results.\n\n\nXMLConvert\n - Utilities to convert, flatten and explore XML file. Useful to investigate server responses.", 
             "title": "Overview"
         }, 
         {
             "location": "/#biomedquery-julia-package", 
-            "text": "Julia utilities to interact with BioMedical databases/APIs.  Supported databases/APIS include:", 
+            "text": "Julia utilities to interact with BioMedical databases/APIs. Supported databases/APIS include:  National Library of Medicine (NLM)   Entrez Programming Utilities  (E-Utilities)  Unified Medical Language System  (UMLS)  Clinical Trials  (clinicaltrials.gov)", 
             "title": "BioMedQuery Julia Package"
-        }, 
-        {
-            "location": "/#national-library-of-medicine-nlm", 
-            "text": "Entrez Programming Utilities (E-utilities)  Unified Medical Language System (UMLS)  Clinical Trials", 
-            "title": "National Library of Medicine (NLM)"
         }, 
         {
             "location": "/#installation", 
@@ -172,7 +167,7 @@
         }, 
         {
             "location": "/umls/", 
-            "text": "Search the Unified Medical Language System (UMLS). For more details on the \nREST API\n\n\nImport\n\n\nusing BioMedQuery.UMLS\n\n\n\n\n\n\nSearch by term\n\n\nSearch UMLS using the Rest API. The user needs approved credentials and a query dictionary. Sign up for credentials \nhere\n\n\n\n\nTo create credentials\n\n\n import BioMedQuery.UMLS:Credentials\n credentials = Credentials(user, psswd)\n ```\n\n### To compose the query\n\n ```\n query = Dict(\nstring\n=\nterm, \nsearchType\n=\nexact\n )\n ```\n\n### To search all concepts associeted with the indicated term\n\n ```\n all_results= search_umls(credentials, query)\n ```\n\n###To retrieve the CUI for the rest match\n\n\n\n\n\ncui = best_match_cui(all_results, term)\n\n\n\n### Get UMLS concepts associated with a CUI\n\n\n\n\n\nall_concepts = get_concepts(c, cui) ```", 
+            "text": "Search the Unified Medical Language System (UMLS), for more details visit the \nREST API\n.\n\n\nSearching the UMLS requires approved credentials. You can sign up [here]](https://uts.nlm.nih.gov//license.html)\n\n\nImport\n\n\nusing BioMedQuery.UMLS\n\n\n\n\n\n\nCredentials\n\n\n#\n\n\nBioMedQuery.UMLS.Credentials\n \n \nType\n.\n\n\nCredentials(user, psswd)\n\n\n\n\n\n\nSearch the UMLS\n\n\n#\n\n\nBioMedQuery.UMLS.search_umls\n \n \nMethod\n.\n\n\nsearch_umls(c::Credentials, query)\n\n\n\n\nSearch UMLS Rest API. For more info see \nUMLS_API\n\n\nArguments\n\n\n\n\nc::Credentials\n: UMLS username and password\n\n\nquery\n: UMLS query containing the search term\n\n\n\n\nOutput\n\n\n\n\nresult_pages\n: Array, where each entry is a dictionary containing a page of results. e.g  \nDict{AbstractString,Any} with 3 entries:   \"pageSize\"   =\n 25    \"pageNumber\" =\n 1   \"result\"     =\n Dict{AbstractString,Any}(\"classType\"=\n\"searchResults\",\"result\u2026\n\n\n\n\nExamples\n\n\ncredentials = Credentials(user, psswd)\nterm = \nobesity\n\nquery = Dict(\nstring\n=\nterm, \nsearchType\n=\nexact\n )\nall_results= search_umls(credentials, query)\n\n\n\n\n\n\nBest match CUI\n\n\n#\n\n\nBioMedQuery.UMLS.best_match_cui\n \n \nMethod\n.\n\n\nbest_match_cui(result_pages)\n\n\n\n\nRetrive the best match from array of all result pages\n\n\nExample\n\n\ncui = BioMedQuery.UMLS.best_match_cui(all_results)\n\n\n\n\n\n\nSemantic types of a CUI\n\n\n#\n\n\nBioMedQuery.UMLS.get_semantic_type\n \n \nMethod\n.\n\n\nget_semantic_type(c::Credentials, cui)\n\n\n\n\nReturn an array of the semantic types associated with a cui\n\n\nExample\n\n\ncredentials = Credentials(user, psswd)\ncui = \nC0028754\n\nsm = BioMedQuery.UMLS.get_semantic_type(credentials, cui)", 
             "title": "UMLS"
         }, 
         {
@@ -181,14 +176,49 @@
             "title": "Import"
         }, 
         {
-            "location": "/umls/#search-by-term", 
-            "text": "Search UMLS using the Rest API. The user needs approved credentials and a query dictionary. Sign up for credentials  here", 
-            "title": "Search by term"
+            "location": "/umls/#credentials", 
+            "text": "#  BioMedQuery.UMLS.Credentials     Type .  Credentials(user, psswd)", 
+            "title": "Credentials"
         }, 
         {
-            "location": "/umls/#to-create-credentials", 
-            "text": "import BioMedQuery.UMLS:Credentials\n credentials = Credentials(user, psswd)\n ```\n\n### To compose the query\n\n ```\n query = Dict( string = term,  searchType = exact  )\n ```\n\n### To search all concepts associeted with the indicated term\n\n ```\n all_results= search_umls(credentials, query)\n ```\n\n###To retrieve the CUI for the rest match  cui = best_match_cui(all_results, term)  \n### Get UMLS concepts associated with a CUI  all_concepts = get_concepts(c, cui) ```", 
-            "title": "To create credentials"
+            "location": "/umls/#search-the-umls", 
+            "text": "#  BioMedQuery.UMLS.search_umls     Method .  search_umls(c::Credentials, query)  Search UMLS Rest API. For more info see  UMLS_API", 
+            "title": "Search the UMLS"
+        }, 
+        {
+            "location": "/umls/#arguments", 
+            "text": "c::Credentials : UMLS username and password  query : UMLS query containing the search term", 
+            "title": "Arguments"
+        }, 
+        {
+            "location": "/umls/#output", 
+            "text": "result_pages : Array, where each entry is a dictionary containing a page of results. e.g   Dict{AbstractString,Any} with 3 entries:   \"pageSize\"   =  25    \"pageNumber\" =  1   \"result\"     =  Dict{AbstractString,Any}(\"classType\"= \"searchResults\",\"result\u2026", 
+            "title": "Output"
+        }, 
+        {
+            "location": "/umls/#examples", 
+            "text": "credentials = Credentials(user, psswd)\nterm =  obesity \nquery = Dict( string = term,  searchType = exact  )\nall_results= search_umls(credentials, query)", 
+            "title": "Examples"
+        }, 
+        {
+            "location": "/umls/#best-match-cui", 
+            "text": "#  BioMedQuery.UMLS.best_match_cui     Method .  best_match_cui(result_pages)  Retrive the best match from array of all result pages", 
+            "title": "Best match CUI"
+        }, 
+        {
+            "location": "/umls/#example", 
+            "text": "cui = BioMedQuery.UMLS.best_match_cui(all_results)", 
+            "title": "Example"
+        }, 
+        {
+            "location": "/umls/#semantic-types-of-a-cui", 
+            "text": "#  BioMedQuery.UMLS.get_semantic_type     Method .  get_semantic_type(c::Credentials, cui)  Return an array of the semantic types associated with a cui", 
+            "title": "Semantic types of a CUI"
+        }, 
+        {
+            "location": "/umls/#example_1", 
+            "text": "credentials = Credentials(user, psswd)\ncui =  C0028754 \nsm = BioMedQuery.UMLS.get_semantic_type(credentials, cui)", 
+            "title": "Example"
         }, 
         {
             "location": "/ct/", 
