@@ -29,4 +29,4 @@ Pkg.clone("https://github.com/bcbi/BioMedQuery.jl.git")
 
 ### Documentation
 
-For details, usage and example read the [documentation](http://bcbi.github.io/BioMedQuery.jl)
+For details, usage and examples read the [documentation](http://bcbi.github.io/BioMedQuery.jl)
