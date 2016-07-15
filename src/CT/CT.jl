@@ -27,7 +27,7 @@ export search_ct
  # https://clinicaltrials.gov/ct2/search/advanced
 function search_ct(query, fout; results=false)
     query = convert(Dict{ASCIIString, Any}, query)
-    
+
     ext = splitext(fout)[2]
     if  !isequal(ext,".zip")
         println("Error: Output file must have a .zip extension")
@@ -44,7 +44,7 @@ function search_ct(query, fout; results=false)
             delete!(query, "studyxml")
         end
     else
-        println("Not saving result files")
+        println("Clinical Trials: Not saving result files")
         query["studyxml"] =true
         if haskey(query, "resultsxml")
             delete!(query, "resultsxml")

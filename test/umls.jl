@@ -22,5 +22,5 @@ query = Dict("string"=>term, "searchType"=>"exact" )
     cui = BioMedQuery.UMLS.best_match_cui(all_results)
     @test cui == "C0028754"
     sm = BioMedQuery.UMLS.get_semantic_type(credentials, cui)
-    println(sm)
+    @test sm[1] == "Disease or Syndrome"
 end
