@@ -9,15 +9,10 @@
 
 # BioMedQuery
 ## Julia utilities to interact with BioMedical Databases and APIs.
-[![Build Status](https://travis-ci.org/bcbi/BioMedQuery.jl.svg?branch=master)](https://travis-ci.org/bcbi/BioMedQuery.jl)
 
-[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://bcbi.github.io/BioMedQuery.jl/stable)
-[![](https://img.shields.io/badge/docs-latest-blue.svg)](https://bcbi.github.io/BioMedQuery.jl/latest)
+###Supported databases/APIS include:
 
-
-Supported databases/APIS include:
-
-### National Library of Medicine (NLM)
+#### National Library of Medicine (NLM)
 - Entrez Programming Utilities (E-utilities)
 - Unified Medical Language System (UMLS)
 - Clinical Trials
@@ -27,6 +22,13 @@ Supported databases/APIS include:
 Pkg.clone("https://github.com/bcbi/BioMedQuery.jl.git")
 ```
 
-### Documentation
+#Build Status
+[![Build Status](https://travis-ci.org/bcbi/BioMedQuery.jl.svg?branch=master)](https://travis-ci.org/bcbi/BioMedQuery.jl)
 
-For details, usage and examples read the [documentation](http://bcbi.github.io/BioMedQuery.jl/latest)
+### Coverage
+[![codecov](https://codecov.io/gh/JuliaCI/Coverage.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JuliaCI/Coverage.jl)
+
+
+### Documentation
+[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://bcbi.github.io/BioMedQuery.jl/stable)
+[![](https://img.shields.io/badge/docs-latest-blue.svg)](https://bcbi.github.io/BioMedQuery.jl/latest)
