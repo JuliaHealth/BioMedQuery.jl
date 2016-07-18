@@ -26,7 +26,7 @@ Pkg.clone("https://github.com/bcbi/BioMedQuery.jl.git")
 [![Build Status](https://travis-ci.org/bcbi/BioMedQuery.jl.svg?branch=master)](https://travis-ci.org/bcbi/BioMedQuery.jl)
 
 ### Coverage
-[![codecov](https://codecov.io/gh/JuliaCI/Coverage.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JuliaCI/Coverage.jl)
+[![codecov](https://codecov.io/gh/bcbi/BioMedQuery.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/bcbi/BioMedQuery.jl)
 
 
 ### Documentation
