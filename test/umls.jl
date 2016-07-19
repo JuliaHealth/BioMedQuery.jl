@@ -11,7 +11,6 @@ catch
 end
 
 credentials = BioMedQuery.UMLS.Credentials(user, psswd)
-println(credentials)
 term = "obesity"
 query = Dict("string"=>term, "searchType"=>"exact" )
 
