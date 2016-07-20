@@ -33,7 +33,7 @@ function init_database(path)
     SQLite.query(db, "CREATE TABLE
     author(id INTEGER PRIMARY KEY AUTOINCREMENT,
     forename TEXT,
-    lastname TEXT,
+    lastname TEXT NOT NULL,
     CONSTRAINT unq UNIQUE(forename,  lastname) ON CONFLICT IGNORE)")
 
     SQLite.query(db, "CREATE TABLE
@@ -99,7 +99,11 @@ function insert_row(db, tablename, values)
             return id
         end
         id_query = SQLite.query(db, "SELECT rowid, * FROM author WHERE forename=?1 AND lastname=?2 ", [values[:forename], values[:lastname]])
-        id = get(id_query.columns[1][1], -1)
+        try
+            id = get(id_query.columns[1][1], -1)
+        catch
+            error("Could not get id, table: author, query: ", id_query , "values: ", values )
+        end
         return id
     elseif tablename == "author2article"
         try

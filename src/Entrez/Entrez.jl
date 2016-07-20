@@ -315,7 +315,11 @@ function save_efetch(efetch_dict, db_path)
                     end
                     if haskey(author, "LastName")
                         lastname = author["LastName"][1]
+                    else
+                        println("Skipping Author: ", author)
+                        continue
                     end
+
                     # Save author data
                     author_id = DB.insert_row(db, "author",
                     Dict(:id => DB.NULL,
