@@ -21,8 +21,39 @@ type Credentials
     password::ASCIIString
 end
 
-# Request  ticket granting ticket (tgt) using login credentials
+function time_to_last_save(file)
+    #unix time is GMT
+    time_diff = Int(Dates.unix2datetime(time()) - Dates.unix2datetime(mtime(file)))/ (1000 * 60 * 60)
+    return time_diff
+end
+
+"""
+    get_tgt(c::Credentials)
+
+Retrieve a ticket granting ticket (TGT) using UTS login credentials
+A tgt is valid for 8 hours. Therefore, look for UTS_TGT.txt in the local
+directory to see if it has been recently stored.
+"""
 function get_tgt(c::Credentials)
+    #Check if there is a valid ticket on disk
+    TGT_file = "UTS_TGT.txt"
+    if isfile(TGT_file)
+        #check time
+        time_elapsed = time_to_last_save(TGT_file)
+        if time_elapsed > 7.5
+            println("UTS TGT Expired")
+            rm(TGT_file)
+        else
+            # println("Using TGT from disk - saved ", time_elapsed, " hours ago")
+            fin = open(TGT_file)
+            lines = readlines(fin)
+            ticket = lines[1]
+            return ticket
+        end
+
+    end
+
+    println("Requesting new TGT")
     params = Dict("username" => c.username, "password"=> c.password)
     headers = Dict("Content-type"=> "application/x-www-form-urlencoded",
     "Accept"=> "text/plain", "User-Agent"=>"julia" )
@@ -32,17 +63,27 @@ function get_tgt(c::Credentials)
     doc = parsehtml(ascii_r)
     #for now - harcoded
     #TO DO:: parse and check
-    ticket = getattr(doc.root.children[2].children[2], "action")
+    try
+        ticket = getattr(doc.root.children[2].children[2], "action")
+    catch
+        error("Could not get TGT: UTS response structure is wrong")
+    end
+    fout = open(TGT_file, "w")
+    write(fout, ticket)
     return ticket
 end
 
 
-# Get ticket from tgt
-function get_ticket(ticket)
+"""
+    get_ticket(tgt)
+
+Retrieve a single-use Service Ticket using TGT
+"""
+function get_ticket(TGT)
     params = Dict("service"=> service)
     h = Dict("Content-type"=> "application/x-www-form-urlencoded",
     "Accept"=> "text/plain", "User-Agent"=>"julia" )
-    r = post(ticket;data=params,headers=h)
+    r = post(TGT; data=params, headers=h)
     return ASCIIString(r.data)
 end
 
@@ -57,6 +98,7 @@ Search UMLS Rest API. For more info see
 
 - `c::Credentials`: UMLS username and password
 - `query`: UMLS query containing the search term
+- `version:` Optional - defaults to current
 
 ###Output
 
@@ -77,13 +119,13 @@ query = Dict("string"=>term, "searchType"=>"exact" )
 all_results= search_umls(credentials, query)
 ```
 """
-function search_umls(c::Credentials, query)
+function search_umls(c::Credentials, query, version::ASCIIString="current")
 
     # Ticket granting ticket
     tgt = get_tgt(c)
     page=0
 
-    content_endpoint = "/rest/search/current"
+    content_endpoint = "/rest/search/" * version
 
     #each page of results is appended to the output list
     #where each entry is a dictionary containing that pages's results
