@@ -1,15 +1,6 @@
 #
 # Correctness Tests
 #
-
-try
-    if Pkg.installed("XMLconvert") == nothing
-        Pkg.clone("https://github.com/bcbi/XMLconvert.jl.git")
-    end
-catch
-    Pkg.clone("https://github.com/bcbi/XMLconvert.jl.git")
-end
-
 if VERSION >= v"0.5.0-"
     using Base.Test
 else
