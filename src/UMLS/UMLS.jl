@@ -125,7 +125,7 @@ function search_umls(c::Credentials, query, version::ASCIIString="current")
     tgt = get_tgt(c)
     page=0
 
-    content_endpoint = "/rest/search/" * version
+    content_endpoint = "/rest/search/current"
 
     #each page of results is appended to the output list
     #where each entry is a dictionary containing that pages's results
