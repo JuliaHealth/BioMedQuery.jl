@@ -93,6 +93,14 @@ function insert_row(db, tablename, values)
     elseif tablename == "author"
         try
             SQLite.query(db, "INSERT INTO author VALUES  (@id, @forename, @lastname)", values)
+            #catch 22 - if forname is NULL, UNIQUE constraint of forename-lastname can't be violated
+            #therefore the last insert row id maybe our best chance
+            if values[:forename] == NULL
+                lastid_query = SQLite.query(db, "SELECT last_insert_rowid()")
+                id = get(lastid_query.columns[1][1], -1)
+                println("Null forename, lastname: ", values[:lastname], " id: ", id )
+                return id
+            end
         catch exception
             println("Row not inserted into table: author, value: ", values)
             println("Msg: ", exception.msg)
