@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>UMLS - BioMedQuery.jl</title>
+        <title>Clinical Trials - BioMedQuery.jl</title>
       
       
       
@@ -96,7 +96,7 @@
             
           </span>
         
-        UMLS
+        Clinical Trials
       </div>
     </div>
     
@@ -188,8 +188,17 @@
           
             
   <li>
-    <a class="current" title="UMLS" href="./">
+    <a class="" title="UMLS" href="../umls/">
       UMLS
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="current" title="Clinical Trials" href="./">
+      Clinical Trials
     </a>
     
       
@@ -203,40 +212,13 @@
             </li>
           
             <li class="anchor">
-              <a title="Credentials" href="#credentials">
-                Credentials
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Search the UMLS" href="#search-the-umls">
-                Search the UMLS
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Best match CUI" href="#best-match-cui">
-                Best match CUI
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Semantic types of a CUI" href="#semantic-types-of-a-cui">
-                Semantic types of a CUI
+              <a title="Search and save" href="#search-and-save">
+                Search and save
               </a>
             </li>
           
         </ul>
       
-    
-  </li>
-
-          
-            
-  <li>
-    <a class="" title="Clinical Trials" href="../ct/">
-      Clinical Trials
-    </a>
     
   </li>
 
@@ -251,70 +233,28 @@
       <article class="article">
         <div class="wrapper">
           
-            <h1>UMLS</h1>
+            <h1>Clinical Trials</h1>
           
-          <p>Search the Unified Medical Language System (UMLS), for more details visit the <a href="https://documentation.uts.nlm.nih.gov/rest/home.html">REST API</a>.</p>
-<p>Searching the UMLS requires approved credentials. You can sign up [here]](https://uts.nlm.nih.gov//license.html)</p>
+          <p>Submit and save queries to <a href="https://clinicaltrials.gov/">clinicaltrials.gov</a></p>
 <h2 id="import">Import</h2>
-<pre><code>using BioMedQuery.UMLS
+<pre><code>using NLM.CT
 </code></pre>
 
-<p><a id='Credentials-1'></a></p>
-<h2 id="credentials">Credentials</h2>
-<p><a id='BioMedQuery.UMLS.Credentials' href='#BioMedQuery.UMLS.Credentials'>#</a>
-<strong><code>BioMedQuery.UMLS.Credentials</code></strong> &mdash; <em>Type</em>.</p>
-<pre><code>Credentials(user, psswd)
+<p><a id='Search-and-save-1'></a></p>
+<h2 id="search-and-save">Search and save</h2>
+<p><a id='Create-a-query:-1'></a></p>
+<h3 id="create-a-query">Create a query:</h3>
+<pre><code>query = Dict(&quot;term&quot; =&gt; &quot;acne&quot;, &quot;age&quot;=&gt;Int(CT.child), &quot;locn&quot; =&gt; &quot;New York, NY&quot;)
 </code></pre>
 
-<p><a id='Search-the-UMLS-1'></a></p>
-<h2 id="search-the-umls">Search the UMLS</h2>
-<p><a id='BioMedQuery.UMLS.search_umls-Tuple{BioMedQuery.UMLS.Credentials,Any}' href='#BioMedQuery.UMLS.search_umls-Tuple{BioMedQuery.UMLS.Credentials,Any}'>#</a>
-<strong><code>BioMedQuery.UMLS.search_umls</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>search_umls(c::Credentials, query)
+<p>Note: The term can also indicate joint searches, e.g.</p>
+<pre><code>&quot;term&quot; =&gt; &quot;aspirin OR ibuprofen&quot;
 </code></pre>
 
-<p>Search UMLS Rest API. For more info see <a href="https://documentation.uts.nlm.nih.gov/rest/search/">UMLS_API</a></p>
-<h3 id="arguments">Arguments</h3>
-<ul>
-<li><code>c::Credentials</code>: UMLS username and password</li>
-<li><code>query</code>: UMLS query containing the search term</li>
-<li><code>version:</code> Optional - defaults to current</li>
-</ul>
-<h3 id="output">Output</h3>
-<ul>
-<li><code>result_pages</code>: Array, where each entry is a dictionary containing a page of results. e.g  <code>Dict{AbstractString,Any} with 3 entries:   "pageSize"   =&gt; 25    "pageNumber" =&gt; 1   "result"     =&gt; Dict{AbstractString,Any}("classType"=&gt;"searchResults","result…</code></li>
-</ul>
-<h3 id="examples">Examples</h3>
-<pre><code class="julia">credentials = Credentials(user, psswd)
-term = &quot;obesity&quot;
-query = Dict(&quot;string&quot;=&gt;term, &quot;searchType&quot;=&gt;&quot;exact&quot; )
-all_results= search_umls(credentials, query)
-</code></pre>
-
-<p><a id='Best-match-CUI-1'></a></p>
-<h2 id="best-match-cui">Best match CUI</h2>
-<p><a id='BioMedQuery.UMLS.best_match_cui-Tuple{Any}' href='#BioMedQuery.UMLS.best_match_cui-Tuple{Any}'>#</a>
-<strong><code>BioMedQuery.UMLS.best_match_cui</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>best_match_cui(result_pages)
-</code></pre>
-
-<p>Retrive the best match from array of all result pages</p>
-<h3 id="example">Example</h3>
-<pre><code class="julia">cui = BioMedQuery.UMLS.best_match_cui(all_results)
-</code></pre>
-
-<p><a id='Semantic-types-of-a-CUI-1'></a></p>
-<h2 id="semantic-types-of-a-cui">Semantic types of a CUI</h2>
-<p><a id='BioMedQuery.UMLS.get_semantic_type-Tuple{BioMedQuery.UMLS.Credentials,Any}' href='#BioMedQuery.UMLS.get_semantic_type-Tuple{BioMedQuery.UMLS.Credentials,Any}'>#</a>
-<strong><code>BioMedQuery.UMLS.get_semantic_type</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>get_semantic_type(c::Credentials, cui)
-</code></pre>
-
-<p>Return an array of the semantic types associated with a cui</p>
-<h3 id="example_1">Example</h3>
-<pre><code class="julia">credentials = Credentials(user, psswd)
-cui = &quot;C0028754&quot;
-sm = BioMedQuery.UMLS.get_semantic_type(credentials, cui)
+<p><a id='Submit-and-save:-1'></a></p>
+<h3 id="submit-and-save">Submit and save:</h3>
+<pre><code>fout= &quot;./test_CT_search.zip&quot;
+status = NLM.CT.search_ct(query, fout;)
 </code></pre>
           <aside class="copyright" role="note">
             
@@ -332,7 +272,7 @@ sm = BioMedQuery.UMLS.get_semantic_type(credentials, cui)
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-        <a href="../entrez/" title="Entrez">
+        <a href="../umls/" title="UMLS">
           <span class="direction">
             Previous
           </span>
@@ -342,7 +282,7 @@ sm = BioMedQuery.UMLS.get_semantic_type(credentials, cui)
             </div>
             <div class="stretch">
               <div class="title">
-                Entrez
+                UMLS
               </div>
             </div>
           </div>
@@ -350,22 +290,6 @@ sm = BioMedQuery.UMLS.get_semantic_type(credentials, cui)
       
     </div>
     <div class="next">
-      
-        <a href="../ct/" title="Clinical Trials">
-          <span class="direction">
-            Next
-          </span>
-          <div class="page">
-            <div class="stretch">
-              <div class="title">
-                Clinical Trials
-              </div>
-            </div>
-            <div class="button button-next" role="button" aria-label="Next">
-              <i class="icon icon-forward"></i>
-            </div>
-          </div>
-        </a>
       
     </div>
   </nav>

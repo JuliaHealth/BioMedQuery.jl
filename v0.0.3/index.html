@@ -9,8 +9,10 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>UMLS - BioMedQuery.jl</title>
+        <title>BioMedQuery.jl - Julia connection to BioMedial Search APIs</title>
       
+      
+        <meta name="description" content="Julia connection to BioMedial Search APIs">
       
       
       
@@ -19,33 +21,33 @@
     
     <meta property="og:url" content="None">
     <meta property="og:title" content="BioMedQuery.jl">
-    <meta property="og:image" content="None/../images/bcbi_logo.jpeg">
+    <meta property="og:image" content="None/./images/bcbi_logo.jpeg">
     <meta name="apple-mobile-web-app-title" content="BioMedQuery.jl">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
-      <link rel="apple-touch-icon" href="../images/bcbi_logo.jpeg">
+      <link rel="apple-touch-icon" href="./images/bcbi_logo.jpeg">
     
     
-    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon-e565ddfa3b.ico">
-    <link rel="icon" type="image/x-icon" href="../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="./assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="./assets/images/favicon-e565ddfa3b.ico">
     <style>
       @font-face {
       	font-family: 'Icon';
-      	src: url('../assets/fonts/icon.eot?52m981');
-      	src: url('../assets/fonts/icon.eot?#iefix52m981')
+      	src: url('./assets/fonts/icon.eot?52m981');
+      	src: url('./assets/fonts/icon.eot?#iefix52m981')
                format('embedded-opentype'),
-      		   url('../assets/fonts/icon.woff?52m981')
+      		   url('./assets/fonts/icon.woff?52m981')
                format('woff'),
-      		   url('../assets/fonts/icon.ttf?52m981')
+      		   url('./assets/fonts/icon.ttf?52m981')
                format('truetype'),
-      		   url('../assets/fonts/icon.svg?52m981#icon')
+      		   url('./assets/fonts/icon.svg?52m981#icon')
                format('svg');
       	font-weight: normal;
       	font-style: normal;
       }
     </style>
-    <link rel="stylesheet" href="../assets/stylesheets/application-a422ff04cc.css">
+    <link rel="stylesheet" href="./assets/stylesheets/application-a422ff04cc.css">
     
     
       
@@ -62,9 +64,9 @@
       </style>
     
     
-      <link rel="stylesheet" href="../assets/Documenter.css">
+      <link rel="stylesheet" href="./assets/Documenter.css">
     
-    <script src="../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    <script src="./assets/javascripts/modernizr-4ab42b99fd.js"></script>
     
   </head>
   
@@ -96,7 +98,7 @@
             
           </span>
         
-        UMLS
+        BioMedQuery.jl
       </div>
     </div>
     
@@ -129,7 +131,7 @@
     <div class="banner">
       
         <div class="logo">
-          <img src="../images/bcbi_logo.jpeg">
+          <img src="./images/bcbi_logo.jpeg">
         </div>
       
       <div class="name">
@@ -170,59 +172,31 @@
           
             
   <li>
-    <a class="" title="Overview" href="..">
+    <a class="current" title="Overview" href=".">
       Overview
     </a>
     
-  </li>
-
-          
-            
-  <li>
-    <a class="" title="Entrez" href="../entrez/">
-      Entrez
-    </a>
-    
-  </li>
-
-          
-            
-  <li>
-    <a class="current" title="UMLS" href="./">
-      UMLS
-    </a>
-    
+      
+        
       
       
         <ul>
           
             <li class="anchor">
-              <a title="Import" href="#import">
-                Import
+              <a title="Installation" href="#installation">
+                Installation
               </a>
             </li>
           
             <li class="anchor">
-              <a title="Credentials" href="#credentials">
-                Credentials
+              <a title="Dependencies" href="#dependencies">
+                Dependencies
               </a>
             </li>
           
             <li class="anchor">
-              <a title="Search the UMLS" href="#search-the-umls">
-                Search the UMLS
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Best match CUI" href="#best-match-cui">
-                Best match CUI
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Semantic types of a CUI" href="#semantic-types-of-a-cui">
-                Semantic types of a CUI
+              <a title="Sister Packages" href="#sister-packages">
+                Sister Packages
               </a>
             </li>
           
@@ -234,7 +208,25 @@
           
             
   <li>
-    <a class="" title="Clinical Trials" href="../ct/">
+    <a class="" title="Entrez" href="entrez/">
+      Entrez
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="UMLS" href="umls/">
+      UMLS
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Clinical Trials" href="ct/">
       Clinical Trials
     </a>
     
@@ -251,71 +243,46 @@
       <article class="article">
         <div class="wrapper">
           
-            <h1>UMLS</h1>
-          
-          <p>Search the Unified Medical Language System (UMLS), for more details visit the <a href="https://documentation.uts.nlm.nih.gov/rest/home.html">REST API</a>.</p>
-<p>Searching the UMLS requires approved credentials. You can sign up [here]](https://uts.nlm.nih.gov//license.html)</p>
-<h2 id="import">Import</h2>
-<pre><code>using BioMedQuery.UMLS
-</code></pre>
-
-<p><a id='Credentials-1'></a></p>
-<h2 id="credentials">Credentials</h2>
-<p><a id='BioMedQuery.UMLS.Credentials' href='#BioMedQuery.UMLS.Credentials'>#</a>
-<strong><code>BioMedQuery.UMLS.Credentials</code></strong> &mdash; <em>Type</em>.</p>
-<pre><code>Credentials(user, psswd)
-</code></pre>
-
-<p><a id='Search-the-UMLS-1'></a></p>
-<h2 id="search-the-umls">Search the UMLS</h2>
-<p><a id='BioMedQuery.UMLS.search_umls-Tuple{BioMedQuery.UMLS.Credentials,Any}' href='#BioMedQuery.UMLS.search_umls-Tuple{BioMedQuery.UMLS.Credentials,Any}'>#</a>
-<strong><code>BioMedQuery.UMLS.search_umls</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>search_umls(c::Credentials, query)
-</code></pre>
-
-<p>Search UMLS Rest API. For more info see <a href="https://documentation.uts.nlm.nih.gov/rest/search/">UMLS_API</a></p>
-<h3 id="arguments">Arguments</h3>
+          <p><a id='BioMedQuery-Julia-Package-1'></a></p>
+<h1 id="biomedquery-julia-package">BioMedQuery Julia Package</h1>
+<p>Julia utilities to interact with BioMedical databases/APIs. Supported databases/APIS include:</p>
+<p><strong>National Library of Medicine (NLM)</strong></p>
 <ul>
-<li><code>c::Credentials</code>: UMLS username and password</li>
-<li><code>query</code>: UMLS query containing the search term</li>
-<li><code>version:</code> Optional - defaults to current</li>
+<li>Entrez Programming Utilities <a href="http://www.ncbi.nlm.nih.gov/books/NBK25501/">(E-Utilities)</a></li>
+<li>Unified Medical Language System <a href="https://uts.nlm.nih.gov//license.html">(UMLS)</a></li>
+<li>Clinical Trials <a href="https://clinicaltrials.gov/">(clinicaltrials.gov)</a></li>
 </ul>
-<h3 id="output">Output</h3>
+<p><a id='Installation-1'></a></p>
+<h2 id="installation">Installation</h2>
+<pre><code>Pkg.clone(&quot;https://github.com/bcbi/BioMedQuery.jl.git&quot;)
+</code></pre>
+
+<p><a id='Dependencies-1'></a></p>
+<h2 id="dependencies">Dependencies</h2>
+<h3 id="registered-packages-automatically-installed">Registered Packages - automatically installed</h3>
 <ul>
-<li><code>result_pages</code>: Array, where each entry is a dictionary containing a page of results. e.g  <code>Dict{AbstractString,Any} with 3 entries:   "pageSize"   =&gt; 25    "pageNumber" =&gt; 1   "result"     =&gt; Dict{AbstractString,Any}("classType"=&gt;"searchResults","result…</code></li>
+<li>ArgParse</li>
+<li>SQLite</li>
+<li>Gumbo</li>
+<li>Requests</li>
+<li>DataStreams</li>
+<li>LightXML</li>
+<li>Requests</li>
+<li>HttpCommon</li>
+<li>BaseTestNext</li>
 </ul>
-<h3 id="examples">Examples</h3>
-<pre><code class="julia">credentials = Credentials(user, psswd)
-term = &quot;obesity&quot;
-query = Dict(&quot;string&quot;=&gt;term, &quot;searchType&quot;=&gt;&quot;exact&quot; )
-all_results= search_umls(credentials, query)
+<p><a id='Unregistered-Packages-need-to-be-installed-manually-1'></a></p>
+<h3 id="unregistered-packages-need-to-be-installed-manually">Unregistered Packages - need to be installed manually</h3>
+<h4 id="xmlconvert">XMLconvert</h4>
+<pre><code>Pkg.clone(&quot;https://github.com/bcbi/XMLconvert.jl.git&quot;)
 </code></pre>
 
-<p><a id='Best-match-CUI-1'></a></p>
-<h2 id="best-match-cui">Best match CUI</h2>
-<p><a id='BioMedQuery.UMLS.best_match_cui-Tuple{Any}' href='#BioMedQuery.UMLS.best_match_cui-Tuple{Any}'>#</a>
-<strong><code>BioMedQuery.UMLS.best_match_cui</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>best_match_cui(result_pages)
-</code></pre>
-
-<p>Retrive the best match from array of all result pages</p>
-<h3 id="example">Example</h3>
-<pre><code class="julia">cui = BioMedQuery.UMLS.best_match_cui(all_results)
-</code></pre>
-
-<p><a id='Semantic-types-of-a-CUI-1'></a></p>
-<h2 id="semantic-types-of-a-cui">Semantic types of a CUI</h2>
-<p><a id='BioMedQuery.UMLS.get_semantic_type-Tuple{BioMedQuery.UMLS.Credentials,Any}' href='#BioMedQuery.UMLS.get_semantic_type-Tuple{BioMedQuery.UMLS.Credentials,Any}'>#</a>
-<strong><code>BioMedQuery.UMLS.get_semantic_type</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>get_semantic_type(c::Credentials, cui)
-</code></pre>
-
-<p>Return an array of the semantic types associated with a cui</p>
-<h3 id="example_1">Example</h3>
-<pre><code class="julia">credentials = Credentials(user, psswd)
-cui = &quot;C0028754&quot;
-sm = BioMedQuery.UMLS.get_semantic_type(credentials, cui)
-</code></pre>
+<p><a id='Sister-Packages-1'></a></p>
+<h2 id="sister-packages">Sister Packages</h2>
+<ul>
+<li><a href="https://github.com/bcbi/PubMedMiner.jl">PubMedMiner</a> - Executables to search PubMed, link Mesh Descriptors to to UMLS concepts and visualize results.</li>
+<li><a href="https://github.com/bcbi/XMLconvert.jl">XMLConvert</a> - Utilities to convert, flatten and explore XML file. Useful to investigate server responses.</li>
+</ul>
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -332,33 +299,17 @@ sm = BioMedQuery.UMLS.get_semantic_type(credentials, cui)
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-        <a href="../entrez/" title="Entrez">
-          <span class="direction">
-            Previous
-          </span>
-          <div class="page">
-            <div class="button button-previous" role="button" aria-label="Previous">
-              <i class="icon icon-back"></i>
-            </div>
-            <div class="stretch">
-              <div class="title">
-                Entrez
-              </div>
-            </div>
-          </div>
-        </a>
-      
     </div>
     <div class="next">
       
-        <a href="../ct/" title="Clinical Trials">
+        <a href="entrez/" title="Entrez">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Clinical Trials
+                Entrez
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">
@@ -384,14 +335,14 @@ sm = BioMedQuery.UMLS.get_semantic_type(credentials, cui)
       </div>
     </main>
     <script>
-      var base_url = '..';
+      var base_url = '.';
       var repo_id  = 'bcbi/BioMedQuery.jl';
     </script>
-    <script src="../assets/javascripts/application-997097ee0c.js"></script>
+    <script src="./assets/javascripts/application-997097ee0c.js"></script>
     
       <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-      <script src="../assets/mathjaxhelper.js"></script>
+      <script src="./assets/mathjaxhelper.js"></script>
     
     
   </body>
