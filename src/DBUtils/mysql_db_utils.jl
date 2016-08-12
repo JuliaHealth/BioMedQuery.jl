@@ -3,35 +3,25 @@ module MySQLUtils
 using MySQL
 
 
-function init_connect(host, username, pswd)
-    # call shell to ensure the MySQL server is running
-    if host == "localhost"
-        try
-            run(`mysql.server start`)
-        catch
-            warn("Failed to start MySQL server")
-        end
-    end
-    # Connect to MySQL, but not a specific DB,
-    # we then create DB we want
-    con = mysql_connect(host, username, pswd)
-end
-
-
-
 # This function creates a MySQL database using the code
 # passed in the mysql_code argument to set up tables.
-function init_mysql_database(con::MySQLHandle, dbname, username, pswd, mysql_code)
+
+function init_mysql_database(dbname, username, pswd, mysql_code)
+    # call shell to ensure the MySQL server is running
+    run(`mysql.server start`)
+
+    # Connecting to MySQL, but not to a specific DB,
+    # we then create DB we want
+    con = mysql_connect("localhost", username, pswd)
 
     mysql_execute(con, "CREATE DATABASE $dbname;")
-    con = mysql_connect(host, username, pswd, dbname)
+    con = mysql_connect("localhost", username, pswd, dbname)
 
     mysql_execute(con, mysql_code)
 
     println("Success! $dbname has been created.")
     return con
 end
-
 
 
 # This function takes a single quote and replaces it with
