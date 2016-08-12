@@ -12,10 +12,11 @@ function init_connect(host, username, pswd)
             warn("Failed to start MySQL server")
         end
     end
-    # Connecting to MySQL, but not to a specific DB,
+    # Connect to MySQL, but not a specific DB,
     # we then create DB we want
     con = mysql_connect(host, username, pswd)
 end
+
 
 
 # This function creates a MySQL database using the code
@@ -43,7 +44,7 @@ clean_string(str) = replace(str, "'", "''")
 # function returns a single string properly formatted for an insert.
 
 function assemble_vals(data_values::Dict{ASCIIString, Any}, column_names::Array{ASCIIString, 1})
-    vals_single_quotes = Array{Any, 1}()        # put values in Array to be joined
+    vals_single_quotes = Array{Any, 1}(0)        # put values in Array to be joined
 
     for k in column_names
         if typeof(data_values[k]) <: Number
