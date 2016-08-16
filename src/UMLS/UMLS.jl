@@ -1,10 +1,7 @@
-module UMLS
-
 using Gumbo
 using Requests
 import Requests: post, get
 
-export Credentials, search_umls, best_match_cui, get_semantic_type
 
 const uri="https://utslogin.nlm.nih.gov"
 const auth_endpoint = "/cas/v1/tickets/"
@@ -201,6 +198,4 @@ function get_semantic_type(c::Credentials, cui)
     end
 
     return concepts
-end
-
 end

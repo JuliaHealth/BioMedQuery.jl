@@ -13,7 +13,9 @@ using BioMedQuery
 using SQLite
 using DataStreams
 
-my_tests = ["entrez.jl",
+my_tests = ["entrez_sqlite.jl",
+            "entrez_mysql.jl",
+            "entrez.jl",
             "ct.jl",
             "umls.jl"]
 

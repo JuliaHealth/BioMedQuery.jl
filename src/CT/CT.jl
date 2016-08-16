@@ -4,11 +4,8 @@
 # Author: Isabel Restrepo
 # BCBI - Brown University
 # Version: Julia 0.4.5
-module CT
-
 using Requests
 using HttpCommon
-export search_ct
 
 @enum AgeGroup child=0 adult=1 senior=2
 # Submit a search to clinicaltrials.gov
@@ -64,7 +61,4 @@ function search_ct(query, fout; results=false)
     save(response, fout)
 
     return response.status
-end
-
-
 end

@@ -4,20 +4,19 @@
 # Authors: Isabel Restrepo, Paul Stey
 # BCBI - Brown University
 # Version: Julia 0.4.5
-module Entrez
-
 using Requests
 using LightXML
 using HttpCommon
 
 using  XMLconvert
 
-include("EntrezDB.jl")
+#global that controls the database-backend to use
+const _db_backend = ["MySQL"]
+db_backend(db::ASCIIString) = (_db_backend[1] = db; db)
+db_backend() = _db_backend[1]
+
+include("entrez_db.jl")
 using .DB
-
-export esearch, efetch, eparse, save_efetch
-
-
 
 # Helper function to build the url and open a handle to it
 # Uses HTTP POST instead of GET for long queries
@@ -234,9 +233,9 @@ db = save_efetch(efetch_dict, db_path)
 ```
 
 """
-function save_efetch(efetch_dict, db_path)
+function save_efetch(efetch_dict, db_config)
     #init database with its structure only if file doesn't exist
-    db = DB.init_database(db_path)
+    db = DB.init_database(db_config)
 
     if !haskey(efetch_dict, "PubmedArticle")
         println("Error: Could not save to DB key:PubmedArticleSet not found")
@@ -392,7 +391,5 @@ function save_efetch(efetch_dict, db_path)
     end
 
     return db
-
-end
 
 end

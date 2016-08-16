@@ -1,6 +1,5 @@
 #Database utilities for entrez query_unique_mesh
-module DB
-import SQLite
+using SQLite
 using DataStreams, DataFrames
 
 
@@ -11,13 +10,17 @@ const NULL = SQLite.NullType()
 # Entrez related searches. All tables are empty at this point
 # If a database existis at the given path - an error is ruturned an the user
 # is asked whether he intended to clean the existing file
-function init_database(path)
+function init_sqlite_database(path, overwrite=false)
 
     println("Initializing Database")
 
     if isfile(path)
-        println("Database found. Returning existing database.")
-        return SQLite.DB(path)
+        if overwrite
+            rm(path)
+        else
+            println("Database found. Returning existing database.")
+            return SQLite.DB(path)
+        end
     end
 
     #Create database file
@@ -77,7 +80,7 @@ end
 #Insert row into the sapecified table. User is responsible for providing all values
 #This could possibly be done more general if # of tables becomes large
 # Isa: Not sure about difference of symbols : @ $
-function insert_row(db, tablename, values)
+function insert_row_sqlite!(db, tablename, values)
     id = -1
     if tablename == "article"
         try
@@ -189,7 +192,4 @@ function get_article_mesh(db, pmid::Nullable{Int64})
         #return data array
         return query.columns[1]
     end
-end
-
-
 end
