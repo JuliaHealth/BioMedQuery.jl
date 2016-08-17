@@ -15,7 +15,7 @@ tables = ["article","author","author2article","mesh_descriptor","mesh_heading","
 #check minimum insert
 Entrez.DB.insert_row(db, "article", Dict(:pmid => 1234,
 :title=>"Test Article",
-:pubYear=>1964))
+:pubYear=>nothing))
 
 insert_query = SQLite.query(db, "SELECT pmid FROM article")
 

@@ -3,9 +3,6 @@ using SQLite
 using DataStreams, DataFrames
 
 
-"Wrapper around SQLite.Null"
-const NULL = SQLite.NullType()
-
 # Creates a database with all necessary tables to store
 # Entrez related searches. All tables are empty at this point
 # If a database existis at the given path - an error is ruturned an the user
@@ -98,7 +95,7 @@ function insert_row_sqlite!(db, tablename, values)
             SQLite.query(db, "INSERT INTO author VALUES  (@id, @forename, @lastname)", values)
             #catch 22 - if forname is NULL, UNIQUE constraint of forename-lastname can't be violated
             #therefore the last insert row id maybe our best chance
-            if values[:forename] == NULL
+            if values[:forename] == SQLite.NULL
                 lastid_query = SQLite.query(db, "SELECT last_insert_rowid()")
                 id = get(lastid_query.columns[1][1], -1)
                 println("Null forename, lastname: ", values[:lastname], " id: ", id )
@@ -156,12 +153,22 @@ function insert_row_sqlite!(db, tablename, values)
             println("Msg: ", exception.msg)
             return id
         end
-        if values[:qid] == NULL
-            id_query = SQLite.query(db, "SELECT rowid, * FROM mesh_heading WHERE pmid=?1 AND did=?2 ", [values[:pmid], values[:did]])
-            id = get(id_query.columns[1][1], -1)
+        if values[:qid] == SQLite.NULL
+            try
+                id_query = SQLite.query(db, "SELECT rowid, * FROM mesh_heading WHERE pmid=?1 AND did=?2 ", [values[:pmid], values[:did]])
+                id = get(id_query.columns[1][1], -1)
+            catch
+                println("Cant get id for mesh_heading", [values[:pmid], values[:did]])
+                return -1
+            end
         else
-            id_query = SQLite.query(db, "SELECT rowid, * FROM mesh_heading WHERE pmid=?1 AND did=?2 AND qid=?3 ", [values[:pmid], values[:did], values[:qid]])
-            id = get(id_query.columns[1][1], -1)
+            try
+                id_query = SQLite.query(db, "SELECT rowid, * FROM mesh_heading WHERE pmid=?1 AND did=?2 AND qid=?3 ", [values[:pmid], values[:did], values[:qid]])
+                id = get(id_query.columns[1][1], -1)
+            catch
+                println("Cant get id for mesh_heading", [values[:pmid], values[:did], values[:qid]])
+                return -1
+            end
         end
         return id
     end

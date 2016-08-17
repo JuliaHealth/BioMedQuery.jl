@@ -6,9 +6,12 @@ include("entrez_sqlite.jl")
 using ..Entrez
 using ...DBUtils
 
+"Wrapper around SQLite.Null and MySQL_NULL"
+const NULL = Dict(:MySQL=>nothing, :SQLite=>SQLite.NULL)
+
 function init_database(config)
 
-    if db_backend() == "MySQL"
+    if Entrez._db_backend[1] == :MySQL
 
         println("------Initializing MySQL Database---------")
 
@@ -41,7 +44,7 @@ function init_database(config)
             error("Improper configuration for entrez_mysql:init_database")
         end
 
-    elseif db_backend() == "SQLite"
+    elseif Entrez._db_backend[1] == :SQLite
 
         println("------Initializing SQLite Database---------")
         if haskey(config, :db_path) && haskey(config, :overwrite)
@@ -55,15 +58,15 @@ function init_database(config)
 
 
     else
-        error("init_database - Unsupported Database Backend: ", _db_backend[1])
+        error("init_database - Unsupported Database Backend: ", Entrez._db_backend[1])
     end
 
 end
 
 function insert_row(db, tablename, values)
-    if db_backend() == "MySQL"
+    if Entrez._db_backend[1] == :MySQL
         last_id = insert_row_mysql!(db, tablename, values, true)
-    elseif db_backend() == "SQLite"
+    elseif Entrez._db_backend[1] == :SQLite
         last_id = insert_row_sqlite!(db, tablename, values)
     end
 

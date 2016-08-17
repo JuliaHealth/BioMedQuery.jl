@@ -11,9 +11,11 @@ using HttpCommon
 using  XMLconvert
 
 #global that controls the database-backend to use
-const _db_backend = ["MySQL"]
-db_backend(db::ASCIIString) = (_db_backend[1] = db; db)
-db_backend() = _db_backend[1]
+const _db_backend = [:MySQL]
+
+#accessors use string for intuitive use
+db_backend(db::ASCIIString) = (_db_backend[1] = symbol(db); println("Using: ", _db_backend[1]))
+db_backend() = string(_db_backend[1])
 
 include("entrez_db.jl")
 using .DB
@@ -228,8 +230,10 @@ attempts to use that database, which must contain the correct tables.
 ###Example
 
 ```julia
-db_path = "test_db.slite"
-db = save_efetch(efetch_dict, db_path)
+#SQLite example
+db_backend("SQLite")
+db_config = Dict(:db_path=>"test_db.slqite", :overwrite=>true)
+db = save_efetch(efetch_dict, db_config)
 ```
 
 """
@@ -258,9 +262,9 @@ function save_efetch(efetch_dict, db_config)
             return
         end
 
-        pmid = DB.NULL;
-        title = DB.NULL;
-        pubYear = DB.NULL;
+        pmid = DB.NULL[_db_backend[1]];
+        title = DB.NULL[_db_backend[1]];
+        pubYear = DB.NULL[_db_backend[1]];
 
 
         # PMID is used as primary key - therefore it must be present
@@ -299,8 +303,8 @@ function save_efetch(efetch_dict, db_config)
             :pubYear=>pubYear))
 
             # insert all authors
-            forename = DB.NULL
-            lastname = DB.NULL
+            forename = DB.NULL[_db_backend[1]]
+            lastname = DB.NULL[_db_backend[1]]
             if haskey(article["MedlineCitation"][1]["Article"][1], "AuthorList")
                 authors = article["MedlineCitation"][1]["Article"][1]["AuthorList"][1]["Author"]
                 for author in authors
@@ -311,7 +315,10 @@ function save_efetch(efetch_dict, db_config)
 
                     if haskey(author, "ForeName")
                         forename = author["ForeName"][1]
+                    else
+                        forname = "UNKNOWN"
                     end
+
                     if haskey(author, "LastName")
                         lastname = author["LastName"][1]
                     else
@@ -319,9 +326,12 @@ function save_efetch(efetch_dict, db_config)
                         continue
                     end
 
+                    # Authors must be unique - insert only if it doesn't exist
+                    DB.exists(db, "author", )
+
                     # Save author data
                     author_id = DB.insert_row(db, "author",
-                    Dict(:id => DB.NULL,
+                    Dict(:id => DB.NULL[_db_backend[1]],
                     :forename => forename,
                     :lastname => lastname))
 
@@ -373,14 +383,14 @@ function save_efetch(efetch_dict, db_config)
 
                                 #save the heading related to this paper
                                 DB.insert_row(db, "mesh_heading",
-                                Dict(:id=>DB.NULL, :pmid=> pmid, :did=>did_int,
+                                Dict(:id=>DB.NULL[_db_backend[1]], :pmid=> pmid, :did=>did_int,
                                 :qid=>qid_int, :dmjr=>dmjr, :qmjr=>qmjr) )
                             end
                         else
                             #save the heading related to this paper
                             DB.insert_row(db, "mesh_heading",
-                            Dict(:id=>DB.NULL, :pmid=> pmid, :did=>did_int,
-                            :qid=>DB.NULL, :dmjr=>dmjr, :qmjr=>DB.NULL) )
+                            Dict(:id=>DB.NULL[_db_backend[1]], :pmid=> pmid, :did=>did_int,
+                            :qid=>DB.NULL[_db_backend[1]], :dmjr=>dmjr, :qmjr=>DB.NULL[_db_backend[1]]) )
                         end
                     end
                 end
