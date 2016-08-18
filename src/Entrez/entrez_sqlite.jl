@@ -34,13 +34,13 @@ function init_sqlite_database(path, overwrite=false)
     author(id INTEGER PRIMARY KEY AUTOINCREMENT,
     forename TEXT,
     lastname TEXT NOT NULL,
-    CONSTRAINT unq UNIQUE(forename,  lastname) ON CONFLICT IGNORE)")
+    CONSTRAINT unq UNIQUE(forename,  lastname) )")
 
     SQLite.query(db, "CREATE TABLE
     author2article(aid INTEGER, pmid INTEGER,
     FOREIGN KEY(aid) REFERENCES author(id),
     FOREIGN KEY(pmid) REFERENCES article(pmid),
-    PRIMARY KEY(aid, pmid) ON CONFLICT IGNORE)")
+    PRIMARY KEY(aid, pmid) )")
 
     #--------------------------
     # MeshHeading Tables
@@ -52,13 +52,13 @@ function init_sqlite_database(path, overwrite=false)
     #lookup in the mesh browerser
     # https://www.nlm.nih.gov/mesh/MBrowser.html
     SQLite.query(db, "CREATE TABLE
-    mesh_descriptor(id INTEGER NOT NULL PRIMARY KEY ON CONFLICT IGNORE,
-                    name TEXT UNIQUE ON CONFLICT IGNORE )")
+    mesh_descriptor(id INTEGER NOT NULL PRIMARY KEY ,
+                    name TEXT UNIQUE )")
 
     #Qualifier
     SQLite.query(db, "CREATE TABLE
-    mesh_qualifier(id INTEGER NOT NULL PRIMARY KEY ON CONFLICT IGNORE,
-                   name TEXT UNIQUE ON CONFLICT IGNORE )")
+    mesh_qualifier(id INTEGER NOT NULL PRIMARY KEY ,
+                   name TEXT UNIQUE )")
 
     #Heading
     SQLite.query(db, "CREATE TABLE

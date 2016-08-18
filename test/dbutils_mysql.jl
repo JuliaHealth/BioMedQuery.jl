@@ -9,19 +9,16 @@ config = Dict(:host=>"localhost", :dbname=>"test", :username=>"root",
 con = Entrez.DB.init_database(config)
 
 #check collection of tables
-tables_query = mysql_execute(con, "SHOW TABLES;")
+tables_query = BioMedQuery.DBUtils.select_all_tables_mysql(con)
 tables = ["article","author","author2article","mesh_descriptor","mesh_heading","mesh_qualifier"]
-@test sort(tables) == sort(tables_query[1])
+@test sort(tables) == sort(tables_query)
 
 #check minimum insert
-Entrez.DB.insert_row(con, "article", Dict(:pmid => 1234,
+BioMedQuery.DBUtils.insert_row_mysql!(con, "article", Dict(:pmid => 1234,
 :title=>"Test Article",
 :pubYear=>nothing))
 
-insert_query = mysql_execute(con, "SELECT pmid FROM article")
+sel = BioMedQuery.DBUtils.select_mysql(con, ["pmid"], "article", Dict(:title=>"Test Article"))
 
-@test length(insert_query[1]) == 1
-@test insert_query[1][1] == 1234
-
-
-q = BioMedQuery.DBUtils.select(con, ["pmid"], "article", Dict(:title=>"Test Article"))
+@test length(sel[1]) == 1
+@test sel[1][1] == 1234

@@ -86,81 +86,48 @@ function assemble_vals{T}(data_values::Dict{Symbol, T}, column_names::Array{Symb
 end
 
 
-"""
-    assemble_vals(data_values, column_names)
 
-Given a Dict of values and the column names, return a single string properly
-formatted for a MySQL insert. E.g MySQL requires CHAR or
-other non-numeric values be passed with single quotes around them.
+# """
+#     colname_dict(con)
+# Return a dictionary maping tables and their columns for a given MySQL connection
+# """
+# function colname_dict(con)
+#
+#     tables_query = select_all_tables_mysql(con)
+#     colname_dict = Dict{Symbol, Array{Symbol, 1}}()
+#
+#     for table in tables_query.columns[1]
+#         cols_query = select_columns_mysql(con, table)
+#         cols = [symbol(c) for c in cols_query.columns[1]]
+#         colname_dict[symbol(table)] = cols
+#     end
+#
+#     return colname_dict
+# end
 
-"""
-function assemble_cols_and_vals{T}(data_values::Dict{Symbol, T})
-    vals_single_quotes = Array{Any, 1}(length(data_values))        # put values in Array to be joined
-    table_cols_backticks = Array{ASCIIString}(length(data_values))
-    for (i, (key,val)) in enumerate(data_values)
-        table_cols_backticks[i] = string("`", key, "`")
-        if typeof(val) <: Number
-            vals_single_quotes[i] = val
-        elseif val == nothing
-            vals_single_quotes[i] = "NULL"
-        elseif isa(val, Date)
-            vals_single_quotes[i] = string("'", val, "'")
-        else
-            vals_single_quotes[i] = string("'", clean_string(val), "'")
-        end
-    end
-    cols_string = join(table_cols_backticks, ", ")
-    value_string = string("(", join(vals_single_quotes, ", "), ")")
-    return cols_string, value_string
+function select_columns_mysql(con, table)
+    cols_query = mysql_execute(con, "SHOW COLUMNS FROM $table;")
+    cols_query[1]
 end
 
-"""
-    assemble_vals(data_values, column_names)
-
-Given a Dict of values and the column names, return a single string properly
-formatted for a MySQL insert. E.g MySQL requires CHAR or
-other non-numeric values be passed with single quotes around them.
-
-"""
-function assemble_cols_and_vals_select{T}(data_values::Dict{Symbol, T}, op = "AND")
-    val_single_quotes::Any = nothing        # put values in Array to be joined
-    col_backticks::ASCIIString = ""
-    select_string_array = Array{ASCIIString}(length(data_values))
-    for (i, (key,val)) in enumerate(data_values)
-        println("i: ", i, " key: ", key, " val: ", val)
-        col_backticks = string("`", key, "`")
-        if typeof(val) <: Number
-            val_single_quotes=val
-        elseif val == nothing
-            val_single_quotes = "NULL"
-        elseif isa(val, Date)
-            val_single_quotes=string("'", val, "'")
-        else
-            val_single_quotes=string("'", clean_string(val), "'")
-        end
-        println(val_single_quotes)
-        select_string_array[i] = string(col_backticks, "=" , val_single_quotes)
-    end
-    select_string = join(select_string_array, string(" ", op, " "))
-    return select_string
-end
-
-"""
-    colname_dict(con)
-Return a dictionary maping tables and their columns for a given MySQL connection
-"""
-function colname_dict(con)
-
+function select_all_tables_mysql(con)
     tables_query = mysql_execute(con, "SHOW TABLES;")
-    colname_dict = Dict{Symbol, Array{Symbol, 1}}()
+    tables_query[1]
+end
 
-    for table in tables_query.columns[1]
-        col_query = mysql_execute(con, "SHOW COLUMNS FROM $table;")
-        cols = [symbol(c) for c in col_query.columns[1]]
-        colname_dict[symbol(table)] = cols
+function print_error_mysql(con)
+    Base.showerror(STDOUT, MySQLInternalError(con))
+    println("\n")
+end
+
+function query_mysql(con, query_code)
+    try
+        sel = mysql_execute(con, query_code)
+        return sel
+    catch
+        print_error_mysql(con)
+        error("Failed to perform SELECT")
     end
-
-    return colname_dict
 end
 
 """
@@ -195,22 +162,6 @@ function insert_row_mysql!{T}(con, tablename, data_values::Dict{Symbol, T},
     return lastid
 end
 
-"""
-    SELECT colonames tablename WHERE keys(data_values)=values(data_values)
-"""
-function select{T}(con, colnames, tablename, data_values::Dict{Symbol, T})
-    select_cols_backticks = [string("`", x, "`") for x in colnames]
-    select_cols_string = join(select_cols_backticks, ", ")
-    select_string = assemble_cols_and_vals_select(data_values)
-    try
-        lastid = mysql_execute(con, "SELECT $select_cols_string FROM `$tablename` WHERE $select_string;")
-        return lastid
-    catch
-        Base.showerror(STDOUT, MySQLInternalError(con))
-        println("\n")
-        error("Failed to perform SELECT")
-    end
-end
 
 """
     insert_row_sqlite!(db, tablename, values)
@@ -226,16 +177,15 @@ function insert_row_mysql!{T}(con, tablename, data_values::Dict{Symbol, T},
 
     cols_string, vals_string = assemble_cols_and_vals(data_values)
     lastid = -1
-    try
-        lastid = mysql_execute(con, "INSERT INTO `$tablename` ($cols_string) values $vals_string;
-         SELECT LAST_INSERT_ID();")[2][1,1]
-    catch
-        Base.showerror(STDOUT, MySQLInternalError(con))
-        println("\n")
-        error("Row not inserted into the table: $tablename")
-    end
+    q = query_mysql(con, "INSERT INTO `$tablename` ($cols_string) values $vals_string;
+     SELECT LAST_INSERT_ID();")
+    lastid = q[2][1,1]
     if verbose
         println("Row successfully inserted into table: $tablename")
     end
     return lastid
+end
+
+
+function find_duplicate_id_mysql{T}(con, colnames, tablename, data_values::Dict{Symbol, T})
 end

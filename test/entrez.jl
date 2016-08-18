@@ -1,5 +1,6 @@
 
 using DataFrames
+using MySQL
 
 #------------------ BioMedQuery -------------------
     @testset "Testing Entrez" begin
@@ -59,45 +60,44 @@ using DataFrames
     end
 
     # save the results of an entrez fetch to a sqlite database
-    @testset "Testing SQLite Saving" begin
-        println("   ******Testing SQLite Saving*******")
-        BioMedQuery.Entrez.db_backend("SQLite")
-        db_config = Dict(:db_path=> db_path, :overwrite=>true)
-        db = BioMedQuery.Entrez.save_efetch(efetch_dict, db_config)
-
-        #query the article table and make sure the count is correct
-        so = SQLite.Source(db,"SELECT pmid FROM article;")
-        ds = DataStreams.Data.stream!(so, DataFrame)
-
-        println(ds)
-
-        #get the array of terms - is there a better way?
-        all_pmids =ds.columns[1]
-        @test length(all_pmids) == narticles
-
-        #check that reminder of tables are not empty
-        tables = ["author", "author2article", "mesh_descriptor",
-        "mesh_qualifier", "mesh_heading"]
-
-        for t in tables
-            query_str = "SELECT count(*) FROM "*t*";"
-            so = SQLite.Source(db, query_str)
-            ds = DataStreams.Data.stream!(so, DataFrame)
-            count = get(ds.columns[1][1])
-            @test count > 0
-        end
-    end
+    # @testset "Testing SQLite Saving" begin
+    #     println("   ******Testing SQLite Saving*******")
+    #     BioMedQuery.Entrez.db_backend("SQLite")
+    #     db_config = Dict(:db_path=> db_path, :overwrite=>true)
+    #     db = BioMedQuery.Entrez.save_efetch(efetch_dict, db_config)
+    #
+    #     #query the article table and make sure the count is correct
+    #     so = SQLite.Source(db,"SELECT pmid FROM article;")
+    #     ds = DataStreams.Data.stream!(so, DataFrame)
+    #
+    #     println(ds)
+    #
+    #     #get the array of terms - is there a better way?
+    #     all_pmids =ds.columns[1]
+    #     @test length(all_pmids) == narticles
+    #
+    #     #check that reminder of tables are not empty
+    #     tables = ["author", "author2article", "mesh_descriptor",
+    #     "mesh_qualifier", "mesh_heading"]
+    #
+    #     for t in tables
+    #         query_str = "SELECT count(*) FROM "*t*";"
+    #         so = SQLite.Source(db, query_str)
+    #         ds = DataStreams.Data.stream!(so, DataFrame)
+    #         count = get(ds.columns[1][1])
+    #         @test count > 0
+    #     end
+    # end
 
     # save the results of an entrez fetch to a sqlite database
-    @testset "Testing MySQL Saving" begin
-        println("   ******Testing MySQL Saving*******")
-        BioMedQuery.Entrez.db_backend("MySQL")
-        config = Dict(:host=>"localhost", :dbname=>"test", :username=>"root",
-        :pswd=>"", :overwrite=>true)
-        db = BioMedQuery.Entrez.save_efetch(efetch_dict, config)
+    @testset "Testing SQLite Saving" begin
+        println("   ******Testing SQLite Saving*******")
+        config = Dict(:db_path=> db_path, :overwrite=>true)
+        db = BioMedQuery.Entrez.save_efetch_sqlite(efetch_dict, config)
 
         #query the article table and make sure the count is correct
-        pmid_query = mysql_execute(db.con,"SELECT pmid FROM article;")
+        pmid_query = BioMedQuery.DBUtils.query_sqlite(db,"SELECT pmid FROM article;")
+        # pmid_query = BioMedQuery.DBUtils.select_sqlite(db, ["pmid"], "article", Dict())
 
         println(pmid_query[1])
 
@@ -111,11 +111,40 @@ using DataFrames
 
         for t in tables
             query_str = "SELECT count(*) FROM "*t*";"
-            q = mysql_execute(db.con, query_str)
-            count = q[1][1].value
+            q = BioMedQuery.DBUtils.query_sqlite(db, query_str)
+            count = q[1][1]
             @test count > 0
         end
     end
+
+
+    # @testset "Testing MySQL Saving" begin
+    #     println("   ******Testing MySQL Saving*******")
+    #     config = Dict(:host=>"localhost", :dbname=>"test", :username=>"root",
+    #     :pswd=>"", :overwrite=>true)
+    #     db = BioMedQuery.Entrez.save_efetch_mysql(efetch_dict, config)
+    #
+    #     #query the article table and make sure the count is correct
+    #     pmid_query = BioMedQuery.DBUtils.query_mysql(db,"SELECT pmid FROM article;")
+    #     # pmid_query = BioMedQuery.DBUtils.select_mysql(db, ["pmid"], "article", Dict())
+    #
+    #     println(pmid_query[1])
+    #
+    #     #get the array of terms - is there a better way?
+    #     all_pmids =pmid_query[1]
+    #     @test length(all_pmids) == narticles
+    #
+    #     #check that reminder of tables are not empty
+    #     tables = ["author", "author2article", "mesh_descriptor",
+    #     "mesh_qualifier", "mesh_heading"]
+    #
+    #     for t in tables
+    #         query_str = "SELECT count(*) FROM "*t*";"
+    #         q = BioMedQuery.DBUtils.query_mysql(db, query_str)
+    #         count = q[1][1]
+    #         @test count > 0
+    #     end
+    # end
 
     @testset "Testing ELink" begin
         println("   ******Testing ELink*******")
@@ -142,8 +171,8 @@ using DataFrames
     end
 
     #remove temp files
-    if isfile(db_path)
-        rm(db_path)
-    end
+    # if isfile(db_path)
+    #     rm(db_path)
+    # end
     println("***********End Test Entrez*********")
 end
