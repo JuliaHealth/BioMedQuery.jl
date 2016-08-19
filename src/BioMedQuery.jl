@@ -19,7 +19,8 @@ module Entrez
 export esearch,
        efetch,
        eparse,
-       save_efetch_mysql
+       save_efetch_mysql,
+       save_efetch_sqlite
 include("Entrez/Entrez.jl")
 end
 

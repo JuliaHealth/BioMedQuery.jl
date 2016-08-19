@@ -26,6 +26,7 @@ function init_mysql_database(;host = "localhost", dbname="test",
     con = mysql_connect(host, username, pswd)
 
     if overwrite
+        println("Set to overwrite MySQL database $dbname")
         mysql_execute(con, "DROP DATABASE IF EXISTS $dbname;")
     end
 
@@ -36,7 +37,7 @@ function init_mysql_database(;host = "localhost", dbname="test",
         mysql_execute(con, mysql_code)
         println("Database $dbname created and initialized")
     else
-        println("Empty Database Created")
+        println("Empty or Existing Database Created")
     end
 
     return con
