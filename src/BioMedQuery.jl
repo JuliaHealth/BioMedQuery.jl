@@ -7,7 +7,9 @@ export init_mysql_database,
        insert_row_mysql!,
        insert_row_sqlite!,
        select_mysql,
-       select_sqlite
+       select_sqlite,
+       query_mysql,
+       query_sqlite
 
 include("DBUtils/DBUtils.jl")
 end
@@ -20,22 +22,22 @@ export esearch,
        save_efetch_mysql
 include("Entrez/Entrez.jl")
 end
-#
-#
-# #----------UMLS--------------------
-# module UMLS
-# export Credentials,
-#        search_umls,
-#        best_match_cui,
-#        get_semantic_type
-# include("UMLS/UMLS.jl")
-# end
-#
-# #--------Clinical Trials------------
-# module CT
-# export search_ct
-# include("CT/CT.jl")
-# end
+
+
+#----------UMLS--------------------
+module UMLS
+export Credentials,
+       search_umls,
+       best_match_cui,
+       get_semantic_type
+include("UMLS/UMLS.jl")
+end
+
+#--------Clinical Trials------------
+module CT
+export search_ct
+include("CT/CT.jl")
+end
 
 #-----------------------------------
 end #BioMedQuery

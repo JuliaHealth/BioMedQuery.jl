@@ -1,6 +1,7 @@
 using SQLite
 
 """
+    select_columns_sqlite(db, table)
 Return an array with names of columns in the given table
 """
 function select_columns_sqlite(db, table)
@@ -8,23 +9,27 @@ function select_columns_sqlite(db, table)
     cols_query[2]
 end
 
+"""
+    select_all_tables_mysql(con)
+
+Return an array of all tables in a given MySQL database
+"""
 function select_all_tables_sqlite(db)
     tables_query = SQLite.query(db, "SELECT name FROM sqlite_master WHERE type='table'")
     tables_query[1].values
 end
 
-# function print_error_sqlite(db)
-#     Base.showerror(STDOUT, MySQLInternalError(db))
-#     println("\n")
-# end
+"""
+    query_sqlite(db, query_code)
 
-
+Execute a SQLite command
+"""
 function query_sqlite(db, query_code)
     try
         sel = SQLite.query(db, query_code)
         return sel
     catch
-        error("Failed to perform SQLite SELECT")
+        SQLite.sqliteerror(db)
     end
 end
 
@@ -38,7 +43,7 @@ Insert a row of values into the specified table for a given a database handle
 * `verbose`: Print debugginh info
 """
 function insert_row_sqlite!{T}(db, tablename, data_values::Dict{Symbol, T},
-    verbose = true)
+    verbose = false)
 
     cols_string, vals_string = assemble_cols_and_vals(data_values)
     lastid = -1

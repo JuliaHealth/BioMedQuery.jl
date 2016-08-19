@@ -3,9 +3,9 @@ include("mysql_db_utils.jl")
 include("sqlite_db_utils.jl")
 
 """
-    assemble_vals(data_values, column_names)
+    assemble_vals(data_values)
 
-Given a Dict of values and the column names, return a single string properly
+Given a dictionary containg (:column=>value) return a single string properly
 formatted for a MySQL insert. E.g MySQL requires CHAR or
 other non-numeric values be passed with single quotes around them.
 
@@ -30,12 +30,37 @@ function assemble_cols_and_vals{T}(data_values::Dict{Symbol, T})
     return cols_string, value_string
 end
 
-
 """
     assemble_vals(data_values, column_names)
 
 Given a Dict of values and the column names, return a single string properly
-formatted for a MySQL insert. E.g MySQL requires CHAR or
+formatted for a MySQL INSERT. E.g MySQL requires CHAR or
+other non-numeric values be passed with single quotes around them.
+"""
+function assemble_vals{T}(data_values::Dict{Symbol, T}, column_names::Array{Symbol, 1})
+    vals_single_quotes = Array{Any, 1}(0)        # put values in Array to be joined
+
+    for k in column_names
+        if typeof(data_values[k]) <: Number
+            push!(vals_single_quotes, data_values[k])
+        elseif data_values[k] == nothing
+            push!(vals_single_quotes, "NULL")
+        elseif isa(data_values[k], Date)
+            push!(vals_single_quotes, string("'", data_values[k], "'"))
+        else
+            push!(vals_single_quotes, string("'", clean_string(data_values[k]), "'"))
+        end
+    end
+    value_string = string("(", join(vals_single_quotes, ", "), ")")
+    return value_string
+end
+
+
+"""
+    assemble_vals(data_values)
+
+Given a dictionary containg (:column=>value), return a single string properly
+formatted for a MySQL SELECT. E.g MySQL requires CHAR or
 other non-numeric values be passed with single quotes around them.
 
 """
@@ -44,7 +69,6 @@ function assemble_cols_and_vals_select{T}(data_values::Dict{Symbol, T}, op = "AN
     col_backticks::ASCIIString = ""
     select_string_array = Array{ASCIIString}(length(data_values))
     for (i, (key,val)) in enumerate(data_values)
-        println("i: ", i, " key: ", key, " val: ", val)
         col_backticks = string("`", key, "`")
         if typeof(val) <: Number
             val_single_quotes=val
@@ -55,7 +79,6 @@ function assemble_cols_and_vals_select{T}(data_values::Dict{Symbol, T}, op = "AN
         else
             val_single_quotes=string("'", clean_string(val), "'")
         end
-        println(val_single_quotes)
         select_string_array[i] = string(col_backticks, "=" , val_single_quotes)
     end
     select_string = join(select_string_array, string(" ", op, " "))
@@ -63,7 +86,7 @@ function assemble_cols_and_vals_select{T}(data_values::Dict{Symbol, T}, op = "AN
 end
 
 #*****************
-# colname_dict
+# colname_dict_
 #*****************
 for f in [:mysql, :sqlite]
     f_str = Symbol(string("colname_dict_", f))
@@ -72,7 +95,7 @@ for f in [:mysql, :sqlite]
     @eval begin
         """
             colname_dict_(con)
-        Define two function to return a dictionary maping tables and their columns for a given
+        Return a dictionary maping tables and their columns for a given
         MySQL-connection/SQLite-database
         """
         function ($f_str)(con)
@@ -99,7 +122,9 @@ for f in [:mysql, :sqlite]
     f_query = Symbol(string("query_", f))
     @eval begin
         """
-            SELECT colnames tablename WHERE keys(data_values)=values(data_values)
+            select_(con, colnames, tablename, data_values)
+
+        Perform: SELECT colnames tablename WHERE keys(data_values)=values(data_values)
         """
         function ($f_str){T}(con, colnames, tablename, data_values::Dict{Symbol, T})
             select_cols_backticks = [string("`", x, "`") for x in colnames]

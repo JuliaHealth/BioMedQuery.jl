@@ -1,17 +1,5 @@
 using MySQL
 
-"""     MySQLDB
-
-Type to hold a MySQL database connection and a dictionary mapping tables with
-their corresponding colums. It is a responsability of the user to keep them
-synchronized.That is if new tables or columns are added the dictionary needs
-to be updated. One can do so using the function  colname_dict(con)
-"""
-type MySQLDB
-    con #connection
-    colname_dict::Dict{Symbol, Array{Symbol, 1}}
-end
-
 """
     init_mysql_database(;host = "localhost", dbname="test",
     username="root", pswd="", mysql_code=nothing, overwrite=false)
@@ -60,56 +48,20 @@ end
 clean_string(str) = replace(str, "'", "''")
 
 """
-    assemble_vals(data_values, column_names)
+    select_columns_mysql(con, table)
 
-Given a Dict of values and the column names, return a single string properly
-formatted for a MySQL insert. E.g MySQL requires CHAR or
-other non-numeric values be passed with single quotes around them.
-
+For a MySQL database, return an array of all columns in the given table
 """
-function assemble_vals{T}(data_values::Dict{Symbol, T}, column_names::Array{Symbol, 1})
-    vals_single_quotes = Array{Any, 1}(0)        # put values in Array to be joined
-
-    for k in column_names
-        if typeof(data_values[k]) <: Number
-            push!(vals_single_quotes, data_values[k])
-        elseif data_values[k] == nothing
-            push!(vals_single_quotes, "NULL")
-        elseif isa(data_values[k], Date)
-            push!(vals_single_quotes, string("'", data_values[k], "'"))
-        else
-            push!(vals_single_quotes, string("'", clean_string(data_values[k]), "'"))
-        end
-    end
-    value_string = string("(", join(vals_single_quotes, ", "), ")")
-    return value_string
-end
-
-
-
-# """
-#     colname_dict(con)
-# Return a dictionary maping tables and their columns for a given MySQL connection
-# """
-# function colname_dict(con)
-#
-#     tables_query = select_all_tables_mysql(con)
-#     colname_dict = Dict{Symbol, Array{Symbol, 1}}()
-#
-#     for table in tables_query.columns[1]
-#         cols_query = select_columns_mysql(con, table)
-#         cols = [symbol(c) for c in cols_query.columns[1]]
-#         colname_dict[symbol(table)] = cols
-#     end
-#
-#     return colname_dict
-# end
-
 function select_columns_mysql(con, table)
     cols_query = mysql_execute(con, "SHOW COLUMNS FROM $table;")
     cols_query[1]
 end
 
+"""
+    select_all_tables_mysql(con)
+
+Return an array of all tables in a given MySQL database
+"""
 function select_all_tables_mysql(con)
     tables_query = mysql_execute(con, "SHOW TABLES;")
     tables_query[1]
@@ -120,13 +72,18 @@ function print_error_mysql(con)
     println("\n")
 end
 
+"""
+    query_mysql(con, query_code)
+
+Execute a mysql command
+"""
 function query_mysql(con, query_code)
     try
         sel = mysql_execute(con, query_code)
         return sel
     catch
-        print_error_mysql(con)
-        error("Failed to perform SELECT")
+        # print_error_mysql(con)
+        throw(MySQLInternalError(con))
     end
 end
 
@@ -140,7 +97,7 @@ Insert a row of values into the specified table for a given a database handle
 * `verbose`: Print debugginh info
 """
 function insert_row_mysql!{T}(con, tablename, data_values::Dict{Symbol, T},
-    colname_dict::Dict{ASCIIString, Array{ASCIIString, 1}}, verbose = true)
+    colname_dict::Dict{ASCIIString, Array{ASCIIString, 1}}, verbose = false)
 
     table_cols = colname_dict[symbol(tablename)]
     table_cols_backticks = [string("`", x, "`") for x in table_cols]
@@ -152,9 +109,10 @@ function insert_row_mysql!{T}(con, tablename, data_values::Dict{Symbol, T},
         lastid = mysql_execute(con, "INSERT INTO `$tablename` ($cols_string) values $vals_string;
          SELECT LAST_INSERT_ID();")[2][1,1]
     catch
-        Base.showerror(STDOUT, MySQLInternalError(con))
-        println("\n")
-        error("Row not inserted into the table: $tablename")
+        # Base.showerror(STDOUT, MySQLInternalError(con))
+        # println("\n")
+        println("Row not inserted into the table: $tablename")
+        throw(MySQLInternalError(con))
     end
     if verbose
         println("Row successfully inserted into table: $tablename")
@@ -173,19 +131,22 @@ Insert a row of values into the specified table for a given a database handle
 * `verbose`: Print debugginh info
 """
 function insert_row_mysql!{T}(con, tablename, data_values::Dict{Symbol, T},
-    verbose = true)
+    verbose = false)
 
     cols_string, vals_string = assemble_cols_and_vals(data_values)
     lastid = -1
-    q = query_mysql(con, "INSERT INTO `$tablename` ($cols_string) values $vals_string;
-     SELECT LAST_INSERT_ID();")
-    lastid = q[2][1,1]
+    try
+        q = query_mysql(con, "INSERT INTO `$tablename` ($cols_string) values $vals_string;
+        SELECT LAST_INSERT_ID();")
+        lastid = q[2][1,1]
+    catch
+        if verbose
+            println("Row not inserted into the table: $tablename")
+        end
+        throw(MySQLInternalError(con))
+    end
     if verbose
         println("Row successfully inserted into table: $tablename")
     end
     return lastid
-end
-
-
-function find_duplicate_id_mysql{T}(con, colnames, tablename, data_values::Dict{Symbol, T})
 end

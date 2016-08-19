@@ -3,12 +3,21 @@ module DB
 using ...DBUtils
 using SQLite
 using DataStreams, DataFrames
+using NullableArrays
 
-export init_database_mysql, init_database_sqlite
+export init_database_mysql,
+       init_database_sqlite,
+       get_value_mysql,
+       get_value_sqlite
+
+get_value_mysql(val) = val
+get_value_sqlite(val) = get(val)
+get_value_mysql{T}(val_array::Array{T}) = val_array
+get_value_sqlite{T}(val_array::NullableArray{T, 1}) = val_array.values
 
 function init_database_mysql(config)
 
-    println("------Initializing MySQL Database---------")
+    println("Initializing MySQL Database")
 
     #intput dictionary must have the following keys
     if haskey(config, :host) && haskey(config, :dbname) &&
@@ -35,7 +44,7 @@ function init_database_mysql(config)
 end
 
 function init_database_sqlite(config)
-    println("------Initializing SQLite Database---------")
+    println("Initializing SQLite Database")
     if haskey(config, :db_path) && haskey(config, :overwrite)
         db = init_database_sqlite(config[:db_path], config[:overwrite])
     else
@@ -52,7 +61,6 @@ end
 # is asked whether he intended to clean the existing file
 function init_database_sqlite(path::ASCIIString, overwrite=false)
 
-    println("Initializing Database")
 
     if isfile(path)
         if overwrite
@@ -117,106 +125,32 @@ function init_database_sqlite(path::ASCIIString, overwrite=false)
 
 end
 
+for f in [:mysql, :sqlite]
+    all_pmis_func = Symbol(string("all_pmids_", f))
+    get_article_mesh_func = Symbol(string("get_article_mesh_", f))
+    get_value_func = Symbol(string("get_value_", f))
+    query_func = Symbol(string("query_", f))
+    #Get all PMIDS in article table of input database
+    @eval begin
+        function ($all_pmis_func)(db)
+            query = ($query_func)(db, "SELECT pmid FROM article;")
+            return ($get_value_func)(query[1])
+        end
+
+        #Get the all mesh-descriptors associated with give article
+        function ($get_article_mesh_func)(db, pmid::Integer)
+
+            query_string = "SELECT md.name
+                              FROM mesh_heading as mh,
+                                   mesh_descriptor as md
+                             WHERE mh.did = md.id
+                              AND mh.pmid = $pmid"
+            query  = ($query_func)(db, query_string)
+            #return data array
+            return ($get_value_func)(query.columns[1])
+
+        end
+    end
+end
+
 end #module
-
-# function init_database(config)
-#
-#     if Entrez._db_backend[1] == :MySQL
-#
-#         println("------Initializing MySQL Database---------")
-#
-#         #intput dictionary must have the following keys
-#         if haskey(config, :host) && haskey(config, :dbname) &&
-#            haskey(config, :username) && haskey(config, :pswd) &&
-#            haskey(config, :overwrite)
-#
-#            mysql_code=nothing
-#            try
-#                filename = Pkg.dir() * "/BioMedQuery/src/Entrez/create_entrez_db.sql"
-#                println(filename)
-#                f = open(filename, "r")
-#                mysql_code = readall(f)
-#                close(f)
-#            catch
-#                error("Could not read create_entrez_db.sql")
-#            end
-#
-#            db = init_mysql_database(host = config[:host], dbname =config[:dbname],
-#            username = config[:username], pswd= config[:pswd],
-#            overwrite = config[:overwrite], mysql_code = mysql_code)
-#
-#            return db
-#
-#        else
-#             println("Error with following configuration:")
-#             println(config)
-#             println("Must contain: host, dbname, username, pswd")
-#             error("Improper configuration for entrez_mysql:init_database")
-#         end
-#
-#     elseif Entrez._db_backend[1] == :SQLite
-#
-#         println("------Initializing SQLite Database---------")
-#         if haskey(config, :db_path) && haskey(config, :overwrite)
-#             db = init_sqlite_database(config[:db_path], config[:overwrite])
-#         else
-#             println("Error with following configuration:")
-#             println(config)
-#             println("Must contain: db_path")
-#             error("Improper configuration for entrez_sqlite:init_database")
-#         end
-#
-#
-#     else
-#         error("init_database - Unsupported Database Backend: ", Entrez._db_backend[1])
-#     end
-#
-# end
-#
-# function insert_row(db, tablename, values)
-#     if Entrez._db_backend[1] == :MySQL
-#         last_id = insert_row_mysql!(db, tablename, values, true)
-#     elseif Entrez._db_backend[1] == :SQLite
-#         last_id = insert_row_sqlite!(db, tablename, values)
-#     end
-#
-# end
-
-
-# """
-#     select(db, ["colname"], "tblname", Dict{:title=>"Article title"})
-#
-# SELECT columns indicated in colnames, from "table", matching the criteria given
-# in the input dictionary
-#
-# ### Output
-# * `selection::DataFrames.DataFrame` : DataFrame containing the results
-#
-# ### Example
-# ```jldoctest
-#
-# using BioMedQuery.Entrez
-# Entrez.DB.db_backend("MySQL")
-# config = Dict(:host=>"localhost", :dbname=>"test", :username=>"root",
-# :pswd=>"", :overwrite=>true)
-# con = Entrez.DB.init_database(config)
-# Entrez.DB.insert_row(con, "article", Dict(:pmid => 1234,
-# :title=>"Test Article",
-# :pubYear=>nothing))
-# sel = BEntrez.DB.select(con, ["pmid"], "article", Dict(:title=>"Test Article"))
-# pmid = sel[1][1]
-# pmid
-#
-# #output
-#
-# 1234
-# ```
-#
-# """
-# function select{T}(db, colnames, table, data_values::Dict{Symbol, T})
-#     if Entrez._db_backend[1] == :MySQL
-#         selection = select(db, tablename, values, true)
-#     elseif Entrez._db_backend[1] == :SQLite
-#         selection = select(db, tablename, values, true)
-#     end
-# end

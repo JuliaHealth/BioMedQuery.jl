@@ -13,16 +13,21 @@ using BioMedQuery
 using SQLite
 using DataStreams
 
-# my_tests = ["entrez_sqlite.jl",
-#             "dbutils_mysql.jl",
-#             "entrez.jl",
-#             "ct.jl",
-#             "umls.jl"]
-my_tests = ["entrez.jl"]
+my_tests = [("dbutils_sqlite.jl", "       Testing: DBUtils SQLite"),
+            ("dbutils_mysql.jl",  "       Testing: DBUtils MySQL"),
+            ("entrez.jl",         "       Testing: ENTREZ"),
+            ("ct.jl",             "       Testing: CLINICAL TRIALS"),
+            ("umls.jl",           "       Testing: UMLS")]
+# my_tests = [("entrez.jl",         "       Testing: ENTREZ")]
 
 println("Running tests:")
 
-for my_test in my_tests
-    @printf " * %s\n" my_test
+for (my_test, test_string) in my_tests
+    println("-----------------------------------------")
+    println("-----------------------------------------")
+    println(test_string)
+    println("-----------------------------------------")
+    println("-----------------------------------------")
+
     include(my_test)
 end

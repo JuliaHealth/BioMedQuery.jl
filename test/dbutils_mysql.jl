@@ -2,11 +2,10 @@ using BioMedQuery.Entrez
 using MySQL
 using BioMedQuery.DBUtils
 
-Entrez.DB.db_backend("MySQL")
 config = Dict(:host=>"localhost", :dbname=>"test", :username=>"root",
 :pswd=>"", :overwrite=>true)
 
-con = Entrez.DB.init_database(config)
+con = Entrez.DB.init_database_mysql(config)
 
 #check collection of tables
 tables_query = BioMedQuery.DBUtils.select_all_tables_mysql(con)
@@ -18,6 +17,16 @@ BioMedQuery.DBUtils.insert_row_mysql!(con, "article", Dict(:pmid => 1234,
 :title=>"Test Article",
 :pubYear=>nothing))
 
+#check duplicate error insert
+duplicate_caught = false
+try
+    BioMedQuery.DBUtils.insert_row_mysql!(con, "article", Dict(:pmid => 1234,
+    :title=>"Test Article", :pubYear=>nothing))
+catch
+    duplicate_caught = true
+end
+
+@test duplicate_caught == true
 sel = BioMedQuery.DBUtils.select_mysql(con, ["pmid"], "article", Dict(:title=>"Test Article"))
 
 @test length(sel[1]) == 1

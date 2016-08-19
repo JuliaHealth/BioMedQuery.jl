@@ -4,7 +4,6 @@ using MySQL
 
 #------------------ BioMedQuery -------------------
     @testset "Testing Entrez" begin
-    println("***********Testing Entrez***********")
     #testset "globals"
     narticles = 10
     email=""
@@ -20,7 +19,9 @@ using MySQL
     end
 
     @testset "Testing ESearch" begin
-    println("   *********Testing ESearch*********")
+        println("-----------------------------------------")
+        println("       Testing ESearch     ")
+
         search_term="obstructive sleep apnea[MeSH Major Topic]"
         search_dic = Dict("db"=>"pubmed","term" => search_term,
         "retstart" => 0, "retmax"=>narticles, "tool" =>"BioJulia",
@@ -43,7 +44,9 @@ using MySQL
     end
 
     @testset "Testing EFetch"    begin
-        println("   ********Testing EFetch********")
+        println("-----------------------------------------")
+        println("       Testing EFetch      ")
+
         fetch_dic = Dict("db"=>"pubmed","tool" =>"BioJulia", "email" => email,
                          "retmode" => "xml", "rettype"=>"null")
         efetch_response = BioMedQuery.Entrez.efetch(fetch_dic, ids)
@@ -60,51 +63,21 @@ using MySQL
     end
 
     # save the results of an entrez fetch to a sqlite database
-    # @testset "Testing SQLite Saving" begin
-    #     println("   ******Testing SQLite Saving*******")
-    #     BioMedQuery.Entrez.db_backend("SQLite")
-    #     db_config = Dict(:db_path=> db_path, :overwrite=>true)
-    #     db = BioMedQuery.Entrez.save_efetch(efetch_dict, db_config)
-    #
-    #     #query the article table and make sure the count is correct
-    #     so = SQLite.Source(db,"SELECT pmid FROM article;")
-    #     ds = DataStreams.Data.stream!(so, DataFrame)
-    #
-    #     println(ds)
-    #
-    #     #get the array of terms - is there a better way?
-    #     all_pmids =ds.columns[1]
-    #     @test length(all_pmids) == narticles
-    #
-    #     #check that reminder of tables are not empty
-    #     tables = ["author", "author2article", "mesh_descriptor",
-    #     "mesh_qualifier", "mesh_heading"]
-    #
-    #     for t in tables
-    #         query_str = "SELECT count(*) FROM "*t*";"
-    #         so = SQLite.Source(db, query_str)
-    #         ds = DataStreams.Data.stream!(so, DataFrame)
-    #         count = get(ds.columns[1][1])
-    #         @test count > 0
-    #     end
-    # end
-
-    # save the results of an entrez fetch to a sqlite database
     @testset "Testing SQLite Saving" begin
-        println("   ******Testing SQLite Saving*******")
+        println("-----------------------------------------")
+        println("       Testing SQLite Saving")
+
         config = Dict(:db_path=> db_path, :overwrite=>true)
         db = BioMedQuery.Entrez.save_efetch_sqlite(efetch_dict, config)
 
         #query the article table and make sure the count is correct
-        pmid_query = BioMedQuery.DBUtils.query_sqlite(db,"SELECT pmid FROM article;")
-        # pmid_query = BioMedQuery.DBUtils.select_sqlite(db, ["pmid"], "article", Dict())
-
-        println(pmid_query[1])
-
-        #get the array of terms - is there a better way?
-        all_pmids =pmid_query[1]
+        all_pmids = BioMedQuery.Entrez.DB.all_pmids_sqlite(db)
         @test length(all_pmids) == narticles
 
+        #check we can get the MESH descriptor for an article
+        mesh = BioMedQuery.Entrez.DB.get_article_mesh_sqlite(db, all_pmids[1])
+        @test length(mesh) > 0
+        
         #check that reminder of tables are not empty
         tables = ["author", "author2article", "mesh_descriptor",
         "mesh_qualifier", "mesh_heading"]
@@ -112,42 +85,44 @@ using MySQL
         for t in tables
             query_str = "SELECT count(*) FROM "*t*";"
             q = BioMedQuery.DBUtils.query_sqlite(db, query_str)
-            count = q[1][1]
+            count = get(q[1][1])
             @test count > 0
         end
     end
 
 
-    # @testset "Testing MySQL Saving" begin
-    #     println("   ******Testing MySQL Saving*******")
-    #     config = Dict(:host=>"localhost", :dbname=>"test", :username=>"root",
-    #     :pswd=>"", :overwrite=>true)
-    #     db = BioMedQuery.Entrez.save_efetch_mysql(efetch_dict, config)
-    #
-    #     #query the article table and make sure the count is correct
-    #     pmid_query = BioMedQuery.DBUtils.query_mysql(db,"SELECT pmid FROM article;")
-    #     # pmid_query = BioMedQuery.DBUtils.select_mysql(db, ["pmid"], "article", Dict())
-    #
-    #     println(pmid_query[1])
-    #
-    #     #get the array of terms - is there a better way?
-    #     all_pmids =pmid_query[1]
-    #     @test length(all_pmids) == narticles
-    #
-    #     #check that reminder of tables are not empty
-    #     tables = ["author", "author2article", "mesh_descriptor",
-    #     "mesh_qualifier", "mesh_heading"]
-    #
-    #     for t in tables
-    #         query_str = "SELECT count(*) FROM "*t*";"
-    #         q = BioMedQuery.DBUtils.query_mysql(db, query_str)
-    #         count = q[1][1]
-    #         @test count > 0
-    #     end
-    # end
+    @testset "Testing MySQL Saving" begin
+        println("-----------------------------------------")
+        println("       Testing MySQL Saving")
+
+        config = Dict(:host=>"localhost", :dbname=>"test", :username=>"root",
+        :pswd=>"", :overwrite=>true)
+        db = BioMedQuery.Entrez.save_efetch_mysql(efetch_dict, config)
+
+        #query the article table and make sure the count is correct
+        all_pmids = BioMedQuery.Entrez.DB.all_pmids_mysql(db)
+        @test length(all_pmids) == narticles
+
+        #check we can get the MESH descriptor for an article
+        mesh = BioMedQuery.Entrez.DB.get_article_mesh_mysql(db, all_pmids[1])
+        @test length(mesh) > 0
+
+        #check that reminder of tables are not empty
+        tables = ["author", "author2article", "mesh_descriptor",
+        "mesh_qualifier", "mesh_heading"]
+
+        for t in tables
+            query_str = "SELECT count(*) FROM "*t*";"
+            q = BioMedQuery.DBUtils.query_mysql(db, query_str)
+            count = q[1][1]
+            @test count > 0
+        end
+    end
 
     @testset "Testing ELink" begin
-        println("   ******Testing ELink*******")
+        println("-----------------------------------------")
+        println("       Testing ELink")
+
         pmid = "19304878"
         elink_dict = Dict("dbfrom" =>"pubmed", "id" => pmid,
                           "linkname" => "pubmed_pubmed", "email"=>email)
@@ -159,7 +134,9 @@ using MySQL
     end
 
     @testset "Testing ESummary" begin
-        println("   ********Testing ESummary*********")
+        println("-----------------------------------------")
+        println("       Testing ESummary")
+
 
         pmid = "30367"
         esummary_dict = Dict("db" =>"pubmed", "id" => pmid, "email"=>email)
@@ -170,9 +147,11 @@ using MySQL
         @test haskey( esummary_response_dict, "DocSum")
     end
 
-    #remove temp files
-    # if isfile(db_path)
-    #     rm(db_path)
-    # end
-    println("***********End Test Entrez*********")
+    # remove temp files
+    if isfile(db_path)
+        rm(db_path)
+    end
+    println("------------End Test Entrez--------------")
+    println("-----------------------------------------")
+
 end
