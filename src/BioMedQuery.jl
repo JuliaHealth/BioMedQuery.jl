@@ -4,12 +4,9 @@ module BioMedQuery
 module DBUtils
 export init_mysql_database,
        assemble_vals,
-       insert_row_mysql!,
-       insert_row_sqlite!,
-       select_mysql,
-       select_sqlite,
-       query_mysql,
-       query_sqlite
+       insert_row!,
+       db_select,
+       db_query
 
 include("DBUtils/DBUtils.jl")
 end

@@ -1,5 +1,3 @@
-__precompile__()
-
 include("entrez_db.jl")
 using .DB
 using ..DBUtils
@@ -31,10 +29,10 @@ using SQLite
 # """
 for f in [:mysql, :sqlite]
     save_efetch_func = Symbol(string("save_efetch_", f))
-    insert_row_func = Symbol(string("insert_row_", f, "!"))
+    # insert_row_func = Symbol(string("insert_row_", f, "!"))
     init_db_func = Symbol(string("init_database_", f))
-    select_func = Symbol(string("select_", f))
-    get_value_func = Symbol(string("get_value_", f))
+    # select_fun= Symbol(string("select_", f))
+    # get_value_func= Symbol(string("get_value_", f))
     @eval begin
         function ($save_efetch_func)(efetch_dict, db_config, verbose=false)
             #init database with its structure only if file doesn't exist
@@ -97,9 +95,9 @@ for f in [:mysql, :sqlite]
                     end
 
                     # Save article data
-                    ($insert_row_func)(db, "article", Dict(:pmid => pmid,
+                    insert_row!(db, "article", Dict(:pmid => pmid,
                     :title=>title,
-                    :pubYear=>pubYear))
+                    :pubYear=>pubYear), verbose)
 
                     # insert all authors
                     forename = nothing
@@ -130,15 +128,15 @@ for f in [:mysql, :sqlite]
                             # Save author data
                             author_id = -1
                             try
-                                author_id = ($insert_row_func)(db, "author",
+                                author_id = insert_row!(db, "author",
                                 Dict(:id => nothing,
                                 :forename => forename,
-                                :lastname => lastname))
+                                :lastname => lastname), verbose)
                             catch
-                                sel = ($select_func)(db, ["id"], "author",
+                                sel = db_select(db, ["id"], "author",
                                 Dict(:forename => forename, :lastname => lastname))
                                 if length(sel[1]) > 0
-                                    author_id = ($get_value_func)(sel[1][1])
+                                    author_id = get_value(sel[1][1])
                                     if verbose
                                         println("Author already in db: ", lastname, ", ", forename, " - id: ", author_id)
                                     end
@@ -149,8 +147,8 @@ for f in [:mysql, :sqlite]
                             end
 
                             if (author_id >= 0 )
-                                ($insert_row_func)(db, "author2article",
-                                Dict(:aid =>author_id, :pmid => pmid))
+                                insert_row!(db, "author2article",
+                                Dict(:aid =>author_id, :pmid => pmid), verbose)
                             else
                                 error("Invalid ID for Author: ", lastname, ", ", forename)
                             end
@@ -178,13 +176,13 @@ for f in [:mysql, :sqlite]
 
                                 #name of mesh descriptor must be unique
                                 try
-                                    ($insert_row_func)(db, "mesh_descriptor",
-                                    Dict(:id=>did_int, :name=>descriptor_name))
+                                    insert_row!(db, "mesh_descriptor",
+                                    Dict(:id=>did_int, :name=>descriptor_name), verbose)
                                 catch
                                     try
-                                        sel = ($select_func)(db, ["id"], "mesh_descriptor",
+                                        sel = db_select(db, ["id"], "mesh_descriptor",
                                         Dict(:name => descriptor_name))
-                                        if ($get_value_func)(sel[1][1]) != did_int
+                                        if get_value(sel[1][1]) != did_int
                                             error("Found matching descriptor but did is inconsistent")
                                         end
                                         if verbose
@@ -208,36 +206,32 @@ for f in [:mysql, :sqlite]
                                         qid_int = parse(Int64, qid[2:end])  #remove preceding Q
 
                                         try
-                                            ($insert_row_func)(db, "mesh_qualifier",
-                                            Dict(:id=>qid_int, :name=>qualifier_name) )
+                                            insert_row!(db, "mesh_qualifier",
+                                            Dict(:id=>qid_int, :name=>qualifier_name), verbose )
                                         catch
-                                            try
-                                                sel = ($select_func)(db, ["id"], "mesh_qualifier",
-                                                Dict(:name => qualifier_name))
-                                                if ($get_value_func)(sel[1][1]) != qid_int
-                                                    error("Found matching qualifier but qid is inconsistent")
-                                                end
-                                                if verbose
-                                                    println("Qualifier already in DB: ", qualifier_name, " - qid: ", qid)
-                                                end
-                                            catch
-                                                error("Can't insert nor find duplicate")
+                                            sel = db_select(db, ["id"], "mesh_qualifier",
+                                            Dict(:name => qualifier_name))
+                                            if get_value(sel[1][1]) != qid_int
+                                                error("Found matching qualifier but qid is inconsistent")
+                                            end
+                                            if verbose
+                                                println("Qualifier already in DB: ", qualifier_name, " - qid: ", qid)
                                             end
                                         end
 
                                         qual["MajorTopicYN"][1] == "Y" ? qmjr = 1 : qmjr = 0
 
                                         #save the heading related to this paper
-                                        ($insert_row_func)(db, "mesh_heading",
+                                        insert_row!(db, "mesh_heading",
                                         Dict(:id=>nothing, :pmid=> pmid, :did=>did_int,
-                                        :qid=>qid_int, :dmjr=>dmjr, :qmjr=>qmjr) )
+                                        :qid=>qid_int, :dmjr=>dmjr, :qmjr=>qmjr), verbose )
 
                                     end
                                 else
                                     #save the heading related to this paper
-                                    ($insert_row_func)(db, "mesh_heading",
+                                    insert_row!(db, "mesh_heading",
                                     Dict(:id=>nothing, :pmid=> pmid, :did=>did_int,
-                                    :qid=>nothing, :dmjr=>dmjr, :qmjr=>nothing) )
+                                    :qid=>nothing, :dmjr=>dmjr, :qmjr=>nothing), verbose )
                                 end
                             end
                         end

@@ -1,4 +1,3 @@
-__precompile__()
 include("mysql_db_utils.jl")
 include("sqlite_db_utils.jl")
 
@@ -88,50 +87,37 @@ end
 #*****************
 # colname_dict_
 #*****************
-for f in [:mysql, :sqlite]
-    f_str = Symbol(string("colname_dict_", f))
-    f_select_tables = Symbol(string("select_all_tables_", f))
-    f_select_cols = Symbol(string("select_columns_", f))
-    @eval begin
-        """
-            colname_dict_(con)
-        Return a dictionary maping tables and their columns for a given
-        MySQL-connection/SQLite-database
-        """
-        function ($f_str)(con)
+"""
+    colname_dict_(con)
+Return a dictionary maping tables and their columns for a given
+MySQL-connection/SQLite-database
+"""
+function colname_dict(con)
 
-            tables_query = ($f_select_tables)(con)
-            colname_dict = Dict{Symbol, Array{Symbol, 1}}()
+    tables_query = select_all_tables(con)
+    colname_dict = Dict{Symbol, Array{Symbol, 1}}()
 
-            for table in tables_query
-                cols_query = ($f_select_cols)(con, table)
-                cols = [symbol(c) for c in cols_query]
-                colname_dict[symbol(table)] = cols
-            end
-
-            return colname_dict
-        end
+    for table in tables_query
+        cols_query = select_columns(con, table)
+        cols = [symbol(c) for c in cols_query]
+        colname_dict[symbol(table)] = cols
     end
+
+    return colname_dict
 end
 
 #*****************
 # select
 #*****************
-for f in [:mysql, :sqlite]
-    f_str = Symbol(string("select_", f))
-    f_query = Symbol(string("query_", f))
-    @eval begin
-        """
-            select_(con, colnames, tablename, data_values)
+"""
+    select_(con, colnames, tablename, data_values)
 
-        Perform: SELECT colnames tablename WHERE keys(data_values)=values(data_values)
-        """
-        function ($f_str){T}(con, colnames, tablename, data_values::Dict{Symbol, T})
-            select_cols_backticks = [string("`", x, "`") for x in colnames]
-            select_cols_string = join(select_cols_backticks, ", ")
-            select_string = assemble_cols_and_vals_select(data_values)
-            sel = ($f_query)(con, "SELECT $select_cols_string FROM `$tablename` WHERE $select_string;")
-            sel
-        end
-    end
+Perform: SELECT colnames tablename WHERE keys(data_values)=values(data_values)
+"""
+function db_select{T}(con, colnames, tablename, data_values::Dict{Symbol, T})
+    select_cols_backticks = [string("`", x, "`") for x in colnames]
+    select_cols_string = join(select_cols_backticks, ", ")
+    select_string = assemble_cols_and_vals_select(data_values)
+    sel = db_query(con, "SELECT $select_cols_string FROM `$tablename` WHERE $select_string;")
+    sel
 end

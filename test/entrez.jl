@@ -10,6 +10,7 @@ using MySQL
     ids = []
     efetch_dict = Dict()
     db_path = "./test_db.db"
+    verbose = false
 
     try
         email = ENV["NCBI_EMAIL"]
@@ -68,23 +69,23 @@ using MySQL
         println("       Testing SQLite Saving")
 
         config = Dict(:db_path=> db_path, :overwrite=>true)
-        db = BioMedQuery.Entrez.save_efetch_sqlite(efetch_dict, config)
+        db = BioMedQuery.Entrez.save_efetch_sqlite(efetch_dict, config, verbose)
 
         #query the article table and make sure the count is correct
-        all_pmids = BioMedQuery.Entrez.DB.all_pmids_sqlite(db)
+        all_pmids = BioMedQuery.Entrez.DB.all_pmids(db)
         @test length(all_pmids) == narticles
 
         #check we can get the MESH descriptor for an article
-        mesh = BioMedQuery.Entrez.DB.get_article_mesh_sqlite(db, all_pmids[1])
+        mesh = BioMedQuery.Entrez.DB.get_article_mesh(db, all_pmids[1])
         @test length(mesh) > 0
-        
+
         #check that reminder of tables are not empty
         tables = ["author", "author2article", "mesh_descriptor",
         "mesh_qualifier", "mesh_heading"]
 
         for t in tables
             query_str = "SELECT count(*) FROM "*t*";"
-            q = BioMedQuery.DBUtils.query_sqlite(db, query_str)
+            q = BioMedQuery.DBUtils.db_query(db, query_str)
             count = get(q[1][1])
             @test count > 0
         end
@@ -97,14 +98,14 @@ using MySQL
 
         config = Dict(:host=>"localhost", :dbname=>"test", :username=>"root",
         :pswd=>"", :overwrite=>true)
-        db = BioMedQuery.Entrez.save_efetch_mysql(efetch_dict, config)
+        db = BioMedQuery.Entrez.save_efetch_mysql(efetch_dict, config, verbose)
 
         #query the article table and make sure the count is correct
-        all_pmids = BioMedQuery.Entrez.DB.all_pmids_mysql(db)
+        all_pmids = BioMedQuery.Entrez.DB.all_pmids(db)
         @test length(all_pmids) == narticles
 
         #check we can get the MESH descriptor for an article
-        mesh = BioMedQuery.Entrez.DB.get_article_mesh_mysql(db, all_pmids[1])
+        mesh = BioMedQuery.Entrez.DB.get_article_mesh(db, all_pmids[1])
         @test length(mesh) > 0
 
         #check that reminder of tables are not empty
@@ -113,7 +114,7 @@ using MySQL
 
         for t in tables
             query_str = "SELECT count(*) FROM "*t*";"
-            q = BioMedQuery.DBUtils.query_mysql(db, query_str)
+            q = BioMedQuery.DBUtils.db_query(db, query_str)
             count = q[1][1]
             @test count > 0
         end

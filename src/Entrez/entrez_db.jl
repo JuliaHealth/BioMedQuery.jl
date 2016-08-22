@@ -2,18 +2,18 @@ module DB
 
 using ...DBUtils
 using SQLite
+using MySQL
 using DataStreams, DataFrames
 using NullableArrays
 
 export init_database_mysql,
        init_database_sqlite,
-       get_value_mysql,
-       get_value_sqlite
+       get_value
 
-get_value_mysql(val) = val
-get_value_sqlite(val) = get(val)
-get_value_mysql{T}(val_array::Array{T}) = val_array
-get_value_sqlite{T}(val_array::NullableArray{T, 1}) = val_array.values
+get_value{T}(val::Nullable{T}) = get(val)
+get_value(val)= val
+get_value{T}(val_array::Array{T}) = val_array
+get_value{T}(val_array::NullableArray{T, 1}) = val_array.values
 
 function init_database_mysql(config)
 
@@ -125,32 +125,25 @@ function init_database_sqlite(path::ASCIIString, overwrite=false)
 
 end
 
-for f in [:mysql, :sqlite]
-    all_pmis_func = Symbol(string("all_pmids_", f))
-    get_article_mesh_func = Symbol(string("get_article_mesh_", f))
-    get_value_func = Symbol(string("get_value_", f))
-    query_func = Symbol(string("query_", f))
-    #Get all PMIDS in article table of input database
-    @eval begin
-        function ($all_pmis_func)(db)
-            query = ($query_func)(db, "SELECT pmid FROM article;")
-            return ($get_value_func)(query[1])
-        end
 
-        #Get the all mesh-descriptors associated with give article
-        function ($get_article_mesh_func)(db, pmid::Integer)
-
-            query_string = "SELECT md.name
-                              FROM mesh_heading as mh,
-                                   mesh_descriptor as md
-                             WHERE mh.did = md.id
-                              AND mh.pmid = $pmid"
-            query  = ($query_func)(db, query_string)
-            #return data array
-            return ($get_value_func)(query.columns[1])
-
-        end
-    end
+function all_pmids(db)
+    query = db_query(db, "SELECT pmid FROM article;")
+    return get_value(query[1])
 end
+
+#Get the all mesh-descriptors associated with give article
+function get_article_mesh(db, pmid::Integer)
+
+    query_string = "SELECT md.name
+                      FROM mesh_heading as mh,
+                           mesh_descriptor as md
+                     WHERE mh.did = md.id
+                      AND mh.pmid = $pmid"
+    query  = db_query(db, query_string)
+    #return data array
+    return get_value(query.columns[1])
+
+end
+
 
 end #module

@@ -53,7 +53,7 @@ clean_string(str) = replace(str, "'", "''")
 
 For a MySQL database, return an array of all columns in the given table
 """
-function select_columns_mysql(con, table)
+function select_columns(con::MySQL.MySQLHandle, table)
     cols_query = mysql_execute(con, "SHOW COLUMNS FROM $table;")
     cols_query[1]
 end
@@ -63,12 +63,12 @@ end
 
 Return an array of all tables in a given MySQL database
 """
-function select_all_tables_mysql(con)
+function select_all_tables(con::MySQL.MySQLHandle)
     tables_query = mysql_execute(con, "SHOW TABLES;")
     tables_query[1]
 end
 
-function print_error_mysql(con)
+function print_error(con::MySQL.MySQLHandle)
     Base.showerror(STDOUT, MySQLInternalError(con))
     println("\n")
 end
@@ -78,12 +78,11 @@ end
 
 Execute a mysql command
 """
-function query_mysql(con, query_code)
+function db_query(con::MySQL.MySQLHandle, query_code)
     try
         sel = mysql_execute(con, query_code)
         return sel
     catch
-        # print_error_mysql(con)
         throw(MySQLInternalError(con))
     end
 end
@@ -97,7 +96,7 @@ Insert a row of values into the specified table for a given a database handle
 * `data_values::Dict{ASCIIString, Any}`: Array of (string) values
 * `verbose`: Print debugginh info
 """
-function insert_row_mysql!{T}(con, tablename, data_values::Dict{Symbol, T},
+function insert_row!{T}(con::MySQL.MySQLHandle, tablename, data_values::Dict{Symbol, T},
     colname_dict::Dict{ASCIIString, Array{ASCIIString, 1}}, verbose = false)
 
     table_cols = colname_dict[symbol(tablename)]
@@ -131,13 +130,13 @@ Insert a row of values into the specified table for a given a database handle
 * `data_values::Dict{ASCIIString, Any}`: Array of (string) values
 * `verbose`: Print debugginh info
 """
-function insert_row_mysql!{T}(con, tablename, data_values::Dict{Symbol, T},
+function insert_row!{T}(con::MySQL.MySQLHandle, tablename, data_values::Dict{Symbol, T},
     verbose = false)
 
     cols_string, vals_string = assemble_cols_and_vals(data_values)
     lastid = -1
     try
-        q = query_mysql(con, "INSERT INTO `$tablename` ($cols_string) values $vals_string;
+        q = db_query(con, "INSERT INTO `$tablename` ($cols_string) values $vals_string;
         SELECT LAST_INSERT_ID();")
         lastid = q[2][1,1]
     catch
