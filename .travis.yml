@@ -9,8 +9,6 @@ julia:
   - release
 notifications:
   email: false
-before_script:
-  - mysql -e 'create database myapp_test;'
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
   - julia -e 'Pkg.clone(pwd()); Pkg.build("BioMedQuery"); Pkg.test("BioMedQuery"; coverage=true)'
