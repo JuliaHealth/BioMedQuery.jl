@@ -73,7 +73,7 @@ For instance:
 """
 function esearch(search_dic)
     # Seach Entrez database
-    cgi = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
+    cgi = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
     variables = Dict("db"=>"db")
     variables = merge(variables, search_dic)
     # return variables
@@ -120,7 +120,7 @@ efetch_response = efetch(fetch_dic, ids)
 """
 function efetch(fetch_dic, id_list)
     post = false
-    cgi = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
+    cgi = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
     # NCBI prefers an HTTP POST instead of an HTTP GET if there are
     # more than about 200 IDs
     if length(id_list) > 200
@@ -158,7 +158,7 @@ elink_response = elink(elink_dict)
 """
 
 function elink(elink_dict)
-    cgi = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi"
+    cgi = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi"
     return open_entrez(cgi, elink_dict)
 end
 
@@ -185,7 +185,7 @@ esummary_response = esummary(esummary_dict)
 ```
 """
 function esummary(esummary_dict)
-    cgi = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
+    cgi = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
     return open_entrez(cgi, esummary_dict)
 end
 
