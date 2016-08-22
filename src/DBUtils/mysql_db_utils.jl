@@ -19,7 +19,7 @@ function init_mysql_database(;host = "localhost", dbname="test",
     username="root", pswd="", mysql_code=nothing, overwrite=false)
 
     # call shell to ensure the MySQL server is running
-    run(`mysql.server start`)
+    # run(`mysql.server start`)
 
     # Connecting to MySQL, but not to a specific DB,
     # we then create DB we want
