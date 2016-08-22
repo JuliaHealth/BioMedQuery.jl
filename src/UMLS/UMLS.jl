@@ -37,7 +37,8 @@ function get_tgt(c::Credentials)
     if isfile(TGT_file)
         #check time
         time_elapsed = time_to_last_save(TGT_file)
-        if time_elapsed > 7.5
+        # Expiration time should be 8 hours - but I tend to expirience bad TGT after few hours
+        if time_elapsed > 2.5
             println("UTS TGT Expired")
             rm(TGT_file)
         else
