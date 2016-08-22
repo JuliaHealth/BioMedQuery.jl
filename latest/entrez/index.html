@@ -414,17 +414,7 @@ esummary_response = esummary(esummary_dict)
 </code></pre>
 
 <h2 id="saveefetch">SaveEFetch</h2>
-<p><a id='BioMedQuery.Entrez.save_efetch-Tuple{Any,Any}' href='#BioMedQuery.Entrez.save_efetch-Tuple{Any,Any}'>#</a>
-<strong><code>BioMedQuery.Entrez.save_efetch</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>save_efetch(efetch_dict, db_path)
-</code></pre>
-
-<p>Save the results (dictionary) of an entrez fetch to a SQLite database.</p>
-<h4 id="note_1">Note:</h4>
-<p>It is best to assure the databese file does not exist. If the file path corresponds to an exixting database, the system attempts to use that database, which must contain the correct tables.</p>
-<h3 id="example_5">Example</h3>
-<pre><code class="julia">db_path = &quot;test_db.slite&quot;
-db = save_efetch(efetch_dict, db_path)
 </code></pre>
 
 <p>The following schema has been used to store the results. If you are interested in having this module store additional fields, feel free to open an issue</p>
