@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Database Utilities - BioMedQuery.jl</title>
+      
+      
+      
+      
+        <meta name="author" content="bcbi">
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="BioMedQuery.jl">
+    <meta property="og:image" content="None/../images/bcbi_logo.jpeg">
+    <meta name="apple-mobile-web-app-title" content="BioMedQuery.jl">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+      <link rel="apple-touch-icon" href="../images/bcbi_logo.jpeg">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../assets/fonts/icon.eot?52m981');
+      	src: url('../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="../assets/Documenter.css">
+    
+    <script src="../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+      
+      
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+          </span>
+        
+        Database Utilities
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="https://github.com/bcbi/BioMedQuery.jl" class="project">
+    <div class="banner">
+      
+        <div class="logo">
+          <img src="../images/bcbi_logo.jpeg">
+        </div>
+      
+      <div class="name">
+        <strong>
+          BioMedQuery.jl
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+          <br>
+          bcbi/BioMedQuery.jl
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            
+            <a href="https://github.com/bcbi/BioMedQuery.jl/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/bcbi/BioMedQuery.jl/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Overview" href="..">
+      Overview
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Entrez" href="../entrez/">
+      Entrez
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="UMLS" href="../umls/">
+      UMLS
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Clinical Trials" href="../ct/">
+      Clinical Trials
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="current" title="Database Utilities" href="./">
+      Database Utilities
+    </a>
+    
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Import Module" href="#import-module">
+                Import Module
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Index" href="#index">
+                Index
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Functions" href="#functions">
+                Functions
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Library" href="../library/">
+      Library
+    </a>
+    
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+            <h1>Database Utilities</h1>
+          
+          <p>Collection of functions that extend of simplify interactions with MySQL and SQLite databases</p>
+<p><a id='Import-Module-1'></a></p>
+<h2 id="import-module">Import Module</h2>
+<pre><code>using BioMedQuery.DBUtils
+</code></pre>
+
+<p><a id='Index-1'></a></p>
+<h2 id="index">Index</h2>
+<ul>
+<li><a href="./#BioMedQuery.DBUtils.assemble_cols_and_vals-Tuple{Dict{Symbol,T}}"><code>BioMedQuery.DBUtils.assemble_cols_and_vals</code></a></li>
+<li><a href="./#BioMedQuery.DBUtils.assemble_cols_and_vals_select"><code>BioMedQuery.DBUtils.assemble_cols_and_vals_select</code></a></li>
+<li><a href="./#BioMedQuery.DBUtils.assemble_vals-Tuple{Dict{Symbol,T},Array{Symbol,1}}"><code>BioMedQuery.DBUtils.assemble_vals</code></a></li>
+<li><a href="./#BioMedQuery.DBUtils.colname_dict-Tuple{Any}"><code>BioMedQuery.DBUtils.colname_dict</code></a></li>
+<li><a href="./#BioMedQuery.DBUtils.db_query-Tuple{MySQL.MySQLHandle,Any}"><code>BioMedQuery.DBUtils.db_query</code></a></li>
+<li><a href="./#BioMedQuery.DBUtils.db_query-Tuple{SQLite.DB,Any}"><code>BioMedQuery.DBUtils.db_query</code></a></li>
+<li><a href="./#BioMedQuery.DBUtils.db_select-Tuple{Any,Any,Any,Dict{Symbol,T}}"><code>BioMedQuery.DBUtils.db_select</code></a></li>
+<li><a href="./#BioMedQuery.DBUtils.init_mysql_database-Tuple{}"><code>BioMedQuery.DBUtils.init_mysql_database</code></a></li>
+<li><a href="./#BioMedQuery.DBUtils.insert_row!"><code>BioMedQuery.DBUtils.insert_row!</code></a></li>
+<li><a href="./#BioMedQuery.DBUtils.insert_row!"><code>BioMedQuery.DBUtils.insert_row!</code></a></li>
+<li><a href="./#BioMedQuery.DBUtils.select_all_tables-Tuple{MySQL.MySQLHandle}"><code>BioMedQuery.DBUtils.select_all_tables</code></a></li>
+<li><a href="./#BioMedQuery.DBUtils.select_all_tables-Tuple{SQLite.DB}"><code>BioMedQuery.DBUtils.select_all_tables</code></a></li>
+<li><a href="./#BioMedQuery.DBUtils.select_columns-Tuple{MySQL.MySQLHandle,Any}"><code>BioMedQuery.DBUtils.select_columns</code></a></li>
+<li><a href="./#BioMedQuery.DBUtils.select_columns-Tuple{SQLite.DB,Any}"><code>BioMedQuery.DBUtils.select_columns</code></a></li>
+</ul>
+<p><a id='Functions-1'></a></p>
+<h2 id="functions">Functions</h2>
+<p><a id='BioMedQuery.DBUtils.assemble_vals-Tuple{Dict{Symbol,T},Array{Symbol,1}}' href='#BioMedQuery.DBUtils.assemble_vals-Tuple{Dict{Symbol,T},Array{Symbol,1}}'>#</a>
+<strong><code>BioMedQuery.DBUtils.assemble_vals</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>assemble_vals(data_values, column_names)
+</code></pre>
+
+<p>Given a Dict of values and the column names, return a single string properly formatted for a MySQL INSERT. E.g MySQL requires CHAR or other non-numeric values be passed with single quotes around them.</p>
+<p><a id='BioMedQuery.DBUtils.db_query-Tuple{MySQL.MySQLHandle,Any}' href='#BioMedQuery.DBUtils.db_query-Tuple{MySQL.MySQLHandle,Any}'>#</a>
+<strong><code>BioMedQuery.DBUtils.db_query</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>query_mysql(con, query_code)
+</code></pre>
+
+<p>Execute a mysql command</p>
+<p><a id='BioMedQuery.DBUtils.db_query-Tuple{SQLite.DB,Any}' href='#BioMedQuery.DBUtils.db_query-Tuple{SQLite.DB,Any}'>#</a>
+<strong><code>BioMedQuery.DBUtils.db_query</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>query(db, query_code)
+</code></pre>
+
+<p>Execute a SQLite command</p>
+<p><a id='BioMedQuery.DBUtils.db_select-Tuple{Any,Any,Any,Dict{Symbol,T}}' href='#BioMedQuery.DBUtils.db_select-Tuple{Any,Any,Any,Dict{Symbol,T}}'>#</a>
+<strong><code>BioMedQuery.DBUtils.db_select</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>select_(con, colnames, tablename, data_values)
+</code></pre>
+
+<p>Perform: SELECT colnames tablename WHERE keys(data_values)=values(data_values)</p>
+<p><a id='BioMedQuery.DBUtils.init_mysql_database-Tuple{}' href='#BioMedQuery.DBUtils.init_mysql_database-Tuple{}'>#</a>
+<strong><code>BioMedQuery.DBUtils.init_mysql_database</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>init_mysql_database(;host = &quot;localhost&quot;, dbname=&quot;test&quot;,
+username=&quot;root&quot;, pswd=&quot;&quot;, mysql_code=nothing, overwrite=false)
+</code></pre>
+
+<p>Create a MySQL database using the code inside mysql_code</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>host</code>, <code>dbname</code>, <code>user</code>, <code>pswd</code></li>
+<li><code>mysql_code::ASCIIString</code>: String with MySQL code that crates all default tables</li>
+<li><code>overwrite::Bool</code> : Flag, if true and dbname exists, it deletes it</li>
+</ul>
+<p><strong>Output</strong></p>
+<ul>
+<li><code>con</code>: Database connection and table-column names map</li>
+</ul>
+<p><a id='BioMedQuery.DBUtils.insert_row!' href='#BioMedQuery.DBUtils.insert_row!'>#</a>
+<strong><code>BioMedQuery.DBUtils.insert_row!</code></strong> &mdash; <em>Function</em>.</p>
+<pre><code>insert_row!(db, tablename, values)
+</code></pre>
+
+<p>Insert a row of values into the specified table for a given a MySQL database handle</p>
+<p><strong>Arguments:</strong></p>
+<ul>
+<li><code>db::MySQLDB</code>: Database object (connection and map)</li>
+<li><code>data_values::Dict{ASCIIString, Any}</code>: Array of (string) values</li>
+<li><code>verbose</code>: Print debugginh info</li>
+</ul>
+<p><a id='BioMedQuery.DBUtils.insert_row!' href='#BioMedQuery.DBUtils.insert_row!'>#</a>
+<strong><code>BioMedQuery.DBUtils.insert_row!</code></strong> &mdash; <em>Function</em>.</p>
+<pre><code>insert_row!(db, tablename, values)
+</code></pre>
+
+<p>Insert a row of values into the specified table for a given a SQLite database handle</p>
+<p><strong>Arguments:</strong></p>
+<ul>
+<li><code>db::MySQLDB</code>: Database object (connection and map)</li>
+<li><code>data_values::Dict{ASCIIString, Any}</code>: Array of (string) values</li>
+<li><code>verbose</code>: Print debugginh info</li>
+</ul>
+<p><a id='BioMedQuery.DBUtils.assemble_cols_and_vals-Tuple{Dict{Symbol,T}}' href='#BioMedQuery.DBUtils.assemble_cols_and_vals-Tuple{Dict{Symbol,T}}'>#</a>
+<strong><code>BioMedQuery.DBUtils.assemble_cols_and_vals</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>assemble_vals(data_values)
+</code></pre>
+
+<p>Given a dictionary containg (:column=&gt;value) return a single string properly formatted for a MySQL insert. E.g MySQL requires CHAR or other non-numeric values be passed with single quotes around them.</p>
+<p><a id='BioMedQuery.DBUtils.assemble_cols_and_vals_select' href='#BioMedQuery.DBUtils.assemble_cols_and_vals_select'>#</a>
+<strong><code>BioMedQuery.DBUtils.assemble_cols_and_vals_select</code></strong> &mdash; <em>Function</em>.</p>
+<pre><code>assemble_vals(data_values)
+</code></pre>
+
+<p>Given a dictionary containg (:column=&gt;value), return a single string properly formatted for a MySQL SELECT. E.g MySQL requires CHAR or other non-numeric values be passed with single quotes around them.</p>
+<p><a id='BioMedQuery.DBUtils.colname_dict-Tuple{Any}' href='#BioMedQuery.DBUtils.colname_dict-Tuple{Any}'>#</a>
+<strong><code>BioMedQuery.DBUtils.colname_dict</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>colname_dict_(con)
+</code></pre>
+
+<p>Return a dictionary maping tables and their columns for a given MySQL-connection/SQLite-database</p>
+<p><a id='BioMedQuery.DBUtils.select_all_tables-Tuple{MySQL.MySQLHandle}' href='#BioMedQuery.DBUtils.select_all_tables-Tuple{MySQL.MySQLHandle}'>#</a>
+<strong><code>BioMedQuery.DBUtils.select_all_tables</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>select_all_tables_mysql(con)
+</code></pre>
+
+<p>Return an array of all tables in a given MySQL database</p>
+<p><a id='BioMedQuery.DBUtils.select_all_tables-Tuple{SQLite.DB}' href='#BioMedQuery.DBUtils.select_all_tables-Tuple{SQLite.DB}'>#</a>
+<strong><code>BioMedQuery.DBUtils.select_all_tables</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>select_all_tables_mysql(con)
+</code></pre>
+
+<p>Return an array of all tables in a given MySQL database</p>
+<p><a id='BioMedQuery.DBUtils.select_columns-Tuple{MySQL.MySQLHandle,Any}' href='#BioMedQuery.DBUtils.select_columns-Tuple{MySQL.MySQLHandle,Any}'>#</a>
+<strong><code>BioMedQuery.DBUtils.select_columns</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>select_columns_mysql(con, table)
+</code></pre>
+
+<p>For a MySQL database, return an array of all columns in the given table</p>
+<p><a id='BioMedQuery.DBUtils.select_columns-Tuple{SQLite.DB,Any}' href='#BioMedQuery.DBUtils.select_columns-Tuple{SQLite.DB,Any}'>#</a>
+<strong><code>BioMedQuery.DBUtils.select_columns</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>select_columns(db, table)
+</code></pre>
+
+<p>Return an array with names of columns in the given table</p>
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../ct/" title="Clinical Trials">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Clinical Trials
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../library/" title="Library">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Library
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '..';
+      var repo_id  = 'bcbi/BioMedQuery.jl';
+    </script>
+    <script src="../assets/javascripts/application-997097ee0c.js"></script>
+    
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+      <script src="../assets/mathjaxhelper.js"></script>
+    
+    
+  </body>
+</html>
