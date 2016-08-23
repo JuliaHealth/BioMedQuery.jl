@@ -11,10 +11,12 @@ databases/APIS include:
 
 
 ## Installation
-```
-Pkg.clone("https://github.com/bcbi/BioMedQuery.jl.git")
-```
 
+BioMedQuery is a registered package. To install the latest stable version, use the package manager.
+
+```
+Pkg.add("BioMedQuery")
+```
 
 ## Dependencies
 
@@ -22,6 +24,7 @@ Pkg.clone("https://github.com/bcbi/BioMedQuery.jl.git")
 
 - ArgParse
 - SQLite
+- MySQL
 - Gumbo
 - Requests
 - DataStreams
@@ -29,13 +32,8 @@ Pkg.clone("https://github.com/bcbi/BioMedQuery.jl.git")
 - Requests
 - HttpCommon
 - BaseTestNext
+- XMLconvert
 
-### Unregistered Packages - need to be installed manually
-
-####XMLconvert
-```
-Pkg.clone("https://github.com/bcbi/XMLconvert.jl.git")
-```
 
 ## Sister Packages
 

@@ -35,9 +35,10 @@ end
 
 """
     insert_row!(db, tablename, values)
-Insert a row of values into the specified table for a given a database handle
+Insert a row of values into the specified table for a given a SQLite database handle
 
-###Arguments:
+### Arguments:
+
 * `db::MySQLDB`: Database object (connection and map)
 * `data_values::Dict{ASCIIString, Any}`: Array of (string) values
 * `verbose`: Print debugginh info

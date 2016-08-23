@@ -25,6 +25,8 @@ pages:
 - Entrez: entrez.md
 - UMLS: umls.md
 - Clinical Trials: ct.md
+- Database Utilities: dbutils.md
+- Library: library.md
 
 extra:
   logo: 'images/bcbi_logo.jpeg'

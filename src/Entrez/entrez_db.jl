@@ -8,7 +8,10 @@ using NullableArrays
 
 export init_database_mysql,
        init_database_sqlite,
-       get_value
+       get_value,
+       all_pmids,
+       get_article_mesh
+
 
 get_value{T}(val::Nullable{T}) = get(val)
 get_value(val)= val
@@ -125,13 +128,19 @@ function init_database_sqlite(path::ASCIIString, overwrite=false)
 
 end
 
-
+"""
+    all_pmids(db)
+Return all PMIDs stored in the *article* table of the input database
+"""
 function all_pmids(db)
     query = db_query(db, "SELECT pmid FROM article;")
     return get_value(query[1])
 end
 
-#Get the all mesh-descriptors associated with give article
+"""
+    get_article_mesh(db, pmid)
+Get the all mesh-descriptors associated with a give article
+"""
 function get_article_mesh(db, pmid::Integer)
 
     query_string = "SELECT md.name

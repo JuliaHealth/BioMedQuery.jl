@@ -2,6 +2,11 @@ Julia interface to [Entrez Utilities API](http://www.ncbi.nlm.nih.gov/books/NBK2
 
 For executables that use this package to search PubMed, see the sister package [PubMedMiner](https://github.com/bcbi/PubMedMiner.jl)
 
+## Import Module
+```
+using BioMedQuery.Entrez
+```
+
 The following E-utils functions have been implemented:
 
 - [ESearch](#esearch)
@@ -9,17 +14,18 @@ The following E-utils functions have been implemented:
 - [ELink](#elink)
 - [ESummary](#esummary)
 
-In addition, the following utility functions are available to handle and store
-NCBI responses
+The following utility functions are available to handle and store NCBI responses
 
-- [EParse](#eparse) : Convert XML response to Julia Dict
-- [SaveEFetch](#databasesave) : Save response dictionary to a Database
+- [EParse](#eparse) - Convert XML response to Julia Dict
+- [Saving NCBI Responses to XML](@ref)
+- [Saving EFetch to a SQLite database](@ref)
+- [Saving EFetch to a MySQL database](@ref)
 
+The following utility functions are available to query the database
 
-##Import Module
-```
-using BioMedQuery.Entrez
-```
+- [All PMIDs](@ref)
+- [All MESH descriptors for an article](@ref)
+
 
 ## ESearch
 
@@ -47,12 +53,12 @@ elink(elink_dict)
 esummary(esummary_dict)
 ```
 
-##EParse
+## EParse
 ```@docs
 eparse(ncbi_response::ASCIIString)
 ```
 
-##Saving NCBI Responses to XML
+## Saving NCBI Responses to XML
 
 You can save directly the XML String to file using the
 [XMLconvert Package](https://github.com/bcbi/XMLconvert.jl)
@@ -63,10 +69,15 @@ You can save directly the XML String to file using the
     XMLconvert.xmlASCII2file(efetch_response, "./efetch.xml")
 ```
 
-##SaveEFetch
+## Saving EFetch to a SQLite database
 
 ```@docs
-save_efetch(efetch_dict, db_path)
+save_efetch_sqlite(efetch_dict, db_config, verbose)
+```
+## Saving EFetch to a MySQL database
+
+```@docs
+save_efetch_mysql(efetch_dict, db_config, verbose)
 ```
 
 The following schema has been used to store the results.
@@ -74,3 +85,14 @@ If you are interested in having this module store additional fields, feel free
 to open an issue
 
 ![Alt](/images/save_efetch_schema.001.jpeg)
+
+## All PMIDs
+
+```@docs
+all_pmids(db)
+```
+
+## All MESH descriptors for an article
+```@docs
+get_article_mesh(db, pmid::Integer)
+```

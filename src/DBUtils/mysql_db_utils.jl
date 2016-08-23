@@ -6,12 +6,14 @@ using MySQL
 
 Create a MySQL database using the code inside mysql_code
 
-###Arguments
+### Arguments
+
 * `host`, `dbname`, `user`, `pswd`
 * `mysql_code::ASCIIString`: String with MySQL code that crates all default tables
 * `overwrite::Bool` : Flag, if true and dbname exists, it deletes it
 
-###Output
+### Output
+
 * `con`: Database connection and table-column names map
 
 """
@@ -87,15 +89,6 @@ function db_query(con::MySQL.MySQLHandle, query_code)
     end
 end
 
-"""
-    insert_row_sqlite!(db, tablename, values)
-Insert a row of values into the specified table for a given a database handle
-
-###Arguments:
-* `db::MySQLDB`: Database object (connection and map)
-* `data_values::Dict{ASCIIString, Any}`: Array of (string) values
-* `verbose`: Print debugginh info
-"""
 function insert_row!{T}(con::MySQL.MySQLHandle, tablename, data_values::Dict{Symbol, T},
     colname_dict::Dict{ASCIIString, Array{ASCIIString, 1}}, verbose = false)
 
@@ -122,10 +115,11 @@ end
 
 
 """
-    insert_row_sqlite!(db, tablename, values)
-Insert a row of values into the specified table for a given a database handle
+    insert_row!(db, tablename, values)
+Insert a row of values into the specified table for a given a MySQL database handle
 
-###Arguments:
+### Arguments:
+
 * `db::MySQLDB`: Database object (connection and map)
 * `data_values::Dict{ASCIIString, Any}`: Array of (string) values
 * `verbose`: Print debugginh info
