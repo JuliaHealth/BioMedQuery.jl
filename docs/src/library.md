@@ -1,5 +1,3 @@
 ## Index
 ```@index
 ```
-
-## Functions
