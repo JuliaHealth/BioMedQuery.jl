@@ -27,8 +27,10 @@ module UMLS
 export Credentials,
        search_umls,
        best_match_cui,
-       get_semantic_type
+       get_semantic_type,
+       populate_net_mysql
 include("UMLS/UMLS.jl")
+include("UMLS/semantic_network.jl")
 end
 
 #--------Clinical Trials------------

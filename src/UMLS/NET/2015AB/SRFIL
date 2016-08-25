@@ -1,0 +1,6 @@
+SRDEF|Basic information about the Semantic Types and Relations|RT,UI,STY/RL,STN/RTN,DEF,EX,UN,NH,ABR,RIN|10|187|44474|
+SRFIL|File Description|FIL,DES,FMT,CLS,RWS,BTS|6|6|435|
+SRFLD|Field Description|COL,DES,REF,FIL|4|21|683|
+SRSTRE1|Fully inherited set of Relations (UIs)|UI,UI,UI|3|6704|107264|
+SRSTRE2|Fully inherited set of Relations (Names)|STY,RL,STY|3|6704|341866|
+SRSTR|Structure of the Network|STY/RL,RL,STY/RL,LS|4|603|30436|

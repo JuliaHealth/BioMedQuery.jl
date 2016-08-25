@@ -31,8 +31,8 @@ function init_mysql_database(;host = "localhost", dbname="test",
         println("Set to overwrite MySQL database $dbname")
         mysql_execute(con, "DROP DATABASE IF EXISTS $dbname;")
     end
-
-    mysql_execute(con, "CREATE DATABASE $dbname;")
+    mysql_execute(con, "CREATE DATABASE IF NOT EXISTS $dbname
+        CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
     con = mysql_connect(host, username, pswd, dbname)
 
     if mysql_code != nothing

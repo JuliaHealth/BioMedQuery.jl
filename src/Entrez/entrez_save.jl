@@ -132,8 +132,11 @@ function save_efetch(efetch_dict, db, verbose=false)
                 authors = article["MedlineCitation"][1]["Article"][1]["AuthorList"][1]["Author"]
                 for author in authors
 
-                    if author["ValidYN"][1] == "N"
-                        continue
+                    if haskey(author, "ValidYN")
+                        if author["ValidYN"][1] == "N"
+                            println("Skipping Author Valid:N: ", author)
+                            continue
+                        end
                     end
 
                     if haskey(author, "ForeName")

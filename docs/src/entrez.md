@@ -34,7 +34,7 @@ CurrentModule = BioMedQuery.Entrez
 ```
 
 ```@docs
-esearch(search_dict)
+esearch(search_dic)
 ```
 
 ## EFetch

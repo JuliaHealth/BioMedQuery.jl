@@ -78,9 +78,9 @@ function assemble_cols_and_vals_select{T}(data_values::Dict{Symbol, T}, op = "AN
         else
             val_single_quotes=string("'", clean_string(val), "'")
         end
-        println("assemble_cols_and_vals_select")
-        println(col_backticks)
-        println(val_single_quotes)
+        # println("assemble_cols_and_vals_select")
+        # println(col_backticks)
+        # println(val_single_quotes)
         select_string_array[i] = string(col_backticks, "=" , val_single_quotes)
     end
     select_string = join(select_string_array, string(" ", op, " "))
