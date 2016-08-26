@@ -46,10 +46,6 @@ function init_mysql_database(;host = "localhost", dbname="test",
 end
 
 
-# This function takes a single quote and replaces it with
-# two single quotes. This is what MySQL requires
-clean_string(str) = replace(str, "'", "''")
-
 """
     select_columns_mysql(con, table)
 

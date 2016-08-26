@@ -138,6 +138,16 @@ function all_pmids(db)
 end
 
 """
+    all_mesh(db)
+Return all PMIDs stored in the *article* table of the input database
+"""
+function all_mesh(db)
+    query = db_query(db, "SELECT name FROM mesh_descriptor;")
+    return get_value(query[1])
+end
+
+
+"""
     get_article_mesh(db, pmid)
 Get the all mesh-descriptors associated with a give article
 """

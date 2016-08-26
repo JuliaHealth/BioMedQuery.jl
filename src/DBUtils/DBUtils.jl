@@ -1,6 +1,10 @@
 include("mysql_db_utils.jl")
 include("sqlite_db_utils.jl")
 
+# This function takes a single quote and replaces it with
+# two single quotes. This is what MySQL requires
+db_clean_string(str) = replace(str, "'", "''")
+
 """
     assemble_vals(data_values)
 
@@ -21,7 +25,7 @@ function assemble_cols_and_vals{T}(data_values::Dict{Symbol, T})
         elseif isa(val, Date)
             vals_single_quotes[i] = string("'", val, "'")
         else
-            vals_single_quotes[i] = string("'", clean_string(val), "'")
+            vals_single_quotes[i] = string("'", db_clean_string(val), "'")
         end
     end
     cols_string = join(table_cols_backticks, ", ")
@@ -47,7 +51,7 @@ function assemble_vals{T}(data_values::Dict{Symbol, T}, column_names::Array{Symb
         elseif isa(data_values[k], Date)
             push!(vals_single_quotes, string("'", data_values[k], "'"))
         else
-            push!(vals_single_quotes, string("'", clean_string(data_values[k]), "'"))
+            push!(vals_single_quotes, string("'", db_clean_string(data_values[k]), "'"))
         end
     end
     value_string = string("(", join(vals_single_quotes, ", "), ")")
@@ -76,7 +80,7 @@ function assemble_cols_and_vals_select{T}(data_values::Dict{Symbol, T}, op = "AN
         elseif isa(val, Date)
             val_single_quotes=string("'", val, "'")
         else
-            val_single_quotes=string("'", clean_string(val), "'")
+            val_single_quotes=string("'", db_clean_string(val), "'")
         end
         # println("assemble_cols_and_vals_select")
         # println(col_backticks)

@@ -6,7 +6,8 @@ export init_mysql_database,
        assemble_vals,
        insert_row!,
        db_select,
-       db_query
+       db_query,
+       db_clean_string
 
 include("DBUtils/DBUtils.jl")
 end
@@ -28,7 +29,8 @@ export Credentials,
        search_umls,
        best_match_cui,
        get_semantic_type,
-       populate_net_mysql
+       populate_net_mysql,
+       build_tree_dict
 include("UMLS/UMLS.jl")
 include("UMLS/semantic_network.jl")
 end
