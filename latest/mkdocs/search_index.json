@@ -282,18 +282,13 @@
         }, 
         {
             "location": "/library/", 
-            "text": "Index\n\n\n\n\nBioMedQuery.UMLS.Credentials\n\n\nBioMedQuery.DBUtils.assemble_cols_and_vals\n\n\nBioMedQuery.DBUtils.assemble_cols_and_vals_select\n\n\nBioMedQuery.DBUtils.assemble_vals\n\n\nBioMedQuery.DBUtils.colname_dict\n\n\nBioMedQuery.DBUtils.db_query\n\n\nBioMedQuery.DBUtils.db_query\n\n\nBioMedQuery.DBUtils.db_select\n\n\nBioMedQuery.DBUtils.init_mysql_database\n\n\nBioMedQuery.DBUtils.insert_row!\n\n\nBioMedQuery.DBUtils.insert_row!\n\n\nBioMedQuery.DBUtils.select_all_tables\n\n\nBioMedQuery.DBUtils.select_all_tables\n\n\nBioMedQuery.DBUtils.select_columns\n\n\nBioMedQuery.DBUtils.select_columns\n\n\nBioMedQuery.Entrez.DB.all_pmids\n\n\nBioMedQuery.Entrez.DB.get_article_mesh\n\n\nBioMedQuery.Entrez.efetch\n\n\nBioMedQuery.Entrez.elink\n\n\nBioMedQuery.Entrez.eparse\n\n\nBioMedQuery.Entrez.esearch\n\n\nBioMedQuery.Entrez.esummary\n\n\nBioMedQuery.Entrez.save_efetch_mysql\n\n\nBioMedQuery.Entrez.save_efetch_sqlite\n\n\nBioMedQuery.UMLS.best_match_cui\n\n\nBioMedQuery.UMLS.get_semantic_type\n\n\nBioMedQuery.UMLS.search_umls\n\n\n\n\n\n\nFunctions", 
+            "text": "Index\n\n\n\n\nBioMedQuery.UMLS.Credentials\n\n\nBioMedQuery.DBUtils.assemble_cols_and_vals\n\n\nBioMedQuery.DBUtils.assemble_cols_and_vals_select\n\n\nBioMedQuery.DBUtils.assemble_vals\n\n\nBioMedQuery.DBUtils.colname_dict\n\n\nBioMedQuery.DBUtils.db_query\n\n\nBioMedQuery.DBUtils.db_query\n\n\nBioMedQuery.DBUtils.db_select\n\n\nBioMedQuery.DBUtils.init_mysql_database\n\n\nBioMedQuery.DBUtils.insert_row!\n\n\nBioMedQuery.DBUtils.insert_row!\n\n\nBioMedQuery.DBUtils.select_all_tables\n\n\nBioMedQuery.DBUtils.select_all_tables\n\n\nBioMedQuery.DBUtils.select_columns\n\n\nBioMedQuery.DBUtils.select_columns\n\n\nBioMedQuery.Entrez.DB.all_pmids\n\n\nBioMedQuery.Entrez.DB.get_article_mesh\n\n\nBioMedQuery.Entrez.efetch\n\n\nBioMedQuery.Entrez.elink\n\n\nBioMedQuery.Entrez.eparse\n\n\nBioMedQuery.Entrez.esearch\n\n\nBioMedQuery.Entrez.esummary\n\n\nBioMedQuery.Entrez.save_efetch_mysql\n\n\nBioMedQuery.Entrez.save_efetch_sqlite\n\n\nBioMedQuery.UMLS.best_match_cui\n\n\nBioMedQuery.UMLS.get_semantic_type\n\n\nBioMedQuery.UMLS.search_umls", 
             "title": "Library"
         }, 
         {
             "location": "/library/#index", 
             "text": "BioMedQuery.UMLS.Credentials  BioMedQuery.DBUtils.assemble_cols_and_vals  BioMedQuery.DBUtils.assemble_cols_and_vals_select  BioMedQuery.DBUtils.assemble_vals  BioMedQuery.DBUtils.colname_dict  BioMedQuery.DBUtils.db_query  BioMedQuery.DBUtils.db_query  BioMedQuery.DBUtils.db_select  BioMedQuery.DBUtils.init_mysql_database  BioMedQuery.DBUtils.insert_row!  BioMedQuery.DBUtils.insert_row!  BioMedQuery.DBUtils.select_all_tables  BioMedQuery.DBUtils.select_all_tables  BioMedQuery.DBUtils.select_columns  BioMedQuery.DBUtils.select_columns  BioMedQuery.Entrez.DB.all_pmids  BioMedQuery.Entrez.DB.get_article_mesh  BioMedQuery.Entrez.efetch  BioMedQuery.Entrez.elink  BioMedQuery.Entrez.eparse  BioMedQuery.Entrez.esearch  BioMedQuery.Entrez.esummary  BioMedQuery.Entrez.save_efetch_mysql  BioMedQuery.Entrez.save_efetch_sqlite  BioMedQuery.UMLS.best_match_cui  BioMedQuery.UMLS.get_semantic_type  BioMedQuery.UMLS.search_umls", 
             "title": "Index"
-        }, 
-        {
-            "location": "/library/#functions", 
-            "text": "", 
-            "title": "Functions"
         }
     ]
 }
