@@ -32,7 +32,7 @@
         }, 
         {
             "location": "/entrez/", 
-            "text": "Julia interface to \nEntrez Utilities API\n.\n\n\nFor executables that use this package to search PubMed, see the sister package \nPubMedMiner\n\n\n\n\nImport Module\n\n\nusing BioMedQuery.Entrez\n\n\n\n\nThe following E-utils functions have been implemented:\n\n\n\n\nESearch\n\n\nEFetch\n\n\nELink\n\n\nESummary\n\n\n\n\nThe following utility functions are available to handle and store NCBI responses\n\n\n\n\nEParse\n - Convert XML response to Julia Dict\n\n\nSaving NCBI Responses to XML\n\n\nSaving EFetch to a SQLite database\n\n\nSaving EFetch to a MySQL database\n\n\n\n\nThe following utility functions are available to query the database\n\n\n\n\nAll PMIDs\n\n\nAll MESH descriptors for an article\n\n\n\n\n\n\nESearch\n\n\nesearch(search_dict)\n\n\n\n\n\n\nEFetch\n\n\nefetch(fetch_dic, id_list)\n\n\n\n\n\n\nELink\n\n\nelink(elink_dict)\n\n\n\n\n\n\nESummary\n\n\nesummary(esummary_dict)\n\n\n\n\n\n\nEParse\n\n\neparse(ncbi_response::ASCIIString)\n\n\n\n\n\n\nSaving NCBI Responses to XML\n\n\nYou can save directly the XML String to file using the \nXMLconvert Package\n\n\nExample\n\n\n    XMLconvert.xmlASCII2file(efetch_response, \n./efetch.xml\n)\n\n\n\n\n\n\nSaving EFetch to a SQLite database\n\n\n#\n\n\nBioMedQuery.Entrez.save_efetch_sqlite\n \n \nMethod\n.\n\n\nsave_efetch_sqlite(efetch_dict, db_config, verbose)\n\n\n\n\nSave the results (dictionary) of an entrez fetch to a SQLite database.\n\n\nArguments:\n\n\n\n\nefetch_dict\n: Response dictionary from efetch\n\n\ndb_config::Dict{Symbol, T}\n: Configuration dictionary for initialitizing SQLite         database. Must contain symbols \n:db_path\n and \n:overwrite\n\n\nverbose\n: Boolean to turn on extra print statements\n\n\n\n\nExample\n\n\ndb_config =  Dict(:db_path=\ntest_db.slqite\n, :overwrite=\ntrue)\ndb = save_efetch_sqlite(efetch_dict, db_config)\n\n\n\n\n\n\nSaving EFetch to a MySQL database\n\n\n#\n\n\nBioMedQuery.Entrez.save_efetch_mysql\n \n \nMethod\n.\n\n\nsave_efetch_mysql(efetch_dict, db_config, verbose)\n\n\n\n\nSave the results (dictionary) of an entrez fetch to a MySQL database.\n\n\nArguments:\n\n\n\n\nefetch_dict\n: Response dictionary from efetch\n\n\ndb_config::Dict{Symbol, T}\n: Configuration dictionary for initialitizing SQLite         database. Must contain symbols \n:host\n, \n:dbname\n, \n:username\n. \npswd\n,         and \n:overwrite\n\n\nverbose\n: Boolean to turn on extra print statements\n\n\n\n\nExample\n\n\ndb_config =  Dict(:host=\nlocalhost\n, :dbname=\ntest\n, :username=\nroot\n,\n                  :pswd=\n, :overwrite=\ntrue)\ndb = save_efetch_mysql(efetch_dict, db_config)\n\n\n\n\nThe following schema has been used to store the results. If you are interested in having this module store additional fields, feel free to open an issue\n\n\n\n\n\n\nAll PMIDs\n\n\nall_pmids(db)\n\n\n\n\n\n\nAll MESH descriptors for an article\n\n\nget_article_mesh(db, pmid::Integer)", 
+            "text": "Julia interface to \nEntrez Utilities API\n.\n\n\nFor executables that use this package to search PubMed, see the sister package \nPubMedMiner\n\n\n\n\nImport Module\n\n\nusing BioMedQuery.Entrez\n\n\n\n\nThe following E-utils functions have been implemented:\n\n\n\n\nESearch\n\n\nEFetch\n\n\nELink\n\n\nESummary\n\n\n\n\nThe following utility functions are available to handle and store NCBI responses\n\n\n\n\nEParse\n - Convert XML response to Julia Dict\n\n\nSaving NCBI Responses to XML\n\n\nSaving EFetch to a SQLite database\n\n\nSaving EFetch to a MySQL database\n\n\n\n\nThe following utility functions are available to query the database\n\n\n\n\nAll PMIDs\n\n\nAll MESH descriptors for an article\n\n\n\n\n\n\nESearch\n\n\n#\n\n\nBioMedQuery.Entrez.esearch\n \n \nMethod\n.\n\n\nesearch(search_dict)\n\n\n\n\nRequest list of UIDs matiching a query - see \nNCBI Entrez:Esearch\n\n\nArguments\n\n\n\n\nsearch_dic::Dict\n: dictionary specifying search criteria\n\n\n\n\nOutput\n\n\n\n\n::ASCIIString\n: XML response from NCBI\n\n\n\n\nExample\n\n\nsearch_dic = Dict(\ndb\n=\npubmed\n, \nterm\n =\n search_term,\n\nretstart\n =\n 0, \nretmax\n=\n5, \ntool\n =\nBioJulia\n,\n\nemail\n =\n \nemail\n)\nesearch_response = esearch(search_dic)\n\n\n\n\nNote\n\n\n\n\nemail must be a valid email address (otherwise pubmed will block you)\n\n\nsearch_term corresponds to a valid \nPubMed Search\n. It may contain one or more filtering criteria using AND/OR. For instance:\n\n\n\n\nsearch_term = (asthma[MeSH Terms]) AND (\"2001/01/29\"[Date - Publication] : \"2010\"[Date - Publication])\n.\n\n\n\n\nEFetch\n\n\n#\n\n\nBioMedQuery.Entrez.efetch\n \n \nMethod\n.\n\n\nefetch(fetch_dic, id_list)\n\n\n\n\nRetrieve data records from a list of UIDs - see \nNCBI Entrez: EFetch\n\n\nArguments\n\n\n\n\nfetch_dic::Dict\n - Dictionary specifying fetch criteria\n\n\nid_list::Array\n - List of ids e.g those embedded in response from esearch\n\n\n\n\nResults\n\n\n\n\n::ASCIIString\n - XML response from NCBI\n\n\n\n\nExample\n\n\n# get the list of ids\nif !haskey(esearch_dict, \nIdList\n)\n  error(\nError: IdList not found\n)\nend\n\nids = []\n\nfor id_node in esearch_dict[\nIdList\n][1][\nId\n]\n  push!(ids, id_node)\nend\n\n# define the fetch dictionary\nfetch_dic = Dict(\ndb\n=\npubmed\n,\ntool\n =\nBioJulia\n,\n\nemail\n =\n email, \nretmode\n =\n \nxml\n, \nrettype\n=\nnull\n)\n\n# fetch\nefetch_response = efetch(fetch_dic, ids)\n\n\n\n\n\n\nELink\n\n\n#\n\n\nBioMedQuery.Entrez.elink\n \n \nMethod\n.\n\n\nelink(elink_dict)\n\n\n\n\nLists, checks or returns UIDs linked to an input list of UIDs in the same or different Entrez database. For more info see \nNCBI Entrez:ELink\n\n\nArguments\n\n\n\n\nelink_dict::Dict\n: dictionary specifying elink inputs as credentials, ids...\n\n\n\n\nOutput\n\n\n\n\n::ASCIIString\n: XML response from NCBI\n\n\n\n\nExample\n\n\npmid = \n19304878\n\nelink_dict = Dict(\ndbfrom\n =\npubmed\n, \nid\n =\n pmid,\n                  \nlinkname\n =\n \npubmed_pubmed\n, \nemail\n=\nemail)\nelink_response = elink(elink_dict)\n\n\n\n\n\n\nESummary\n\n\n#\n\n\nBioMedQuery.Entrez.esummary\n \n \nMethod\n.\n\n\nesummary(esummary_dict)\n\n\n\n\nReturn document summaries for a list of input UIDs. For more info see \nNCBI Entrez:ESummary\n\n\nArguments\n\n\n\n\nesummary_dict::Dict\n: dictionary specifying esummary inputs as credentials, ids...\n\n\n\n\nOutput\n\n\n\n\n::ASCIIString\n: XML response from NCBI\n\n\n\n\nExample\n\n\npmid = \n30367\n\nesummary_dict = Dict(\ndb\n =\npubmed\n, \nid\n =\n pmid, \nemail\n=\nemail)\nesummary_response = esummary(esummary_dict)\n\n\n\n\n\n\nEParse\n\n\n#\n\n\nBioMedQuery.Entrez.eparse\n \n \nMethod\n.\n\n\neparse(response::ASCIIString)\n\n\n\n\nConverts NCBI XML response into a Julia dictionary\n\n\n\n\nSaving NCBI Responses to XML\n\n\nYou can save directly the XML String to file using the \nXMLconvert Package\n\n\nExample\n\n\n    XMLconvert.xmlASCII2file(efetch_response, \n./efetch.xml\n)\n\n\n\n\n\n\nSaving EFetch to a SQLite database\n\n\n#\n\n\nBioMedQuery.Entrez.save_efetch_sqlite\n \n \nMethod\n.\n\n\nsave_efetch_sqlite(efetch_dict, db_config, verbose)\n\n\n\n\nSave the results (dictionary) of an entrez fetch to a SQLite database.\n\n\nArguments:\n\n\n\n\nefetch_dict\n: Response dictionary from efetch\n\n\ndb_config::Dict{Symbol, T}\n: Configuration dictionary for initialitizing SQLite         database. Must contain symbols \n:db_path\n and \n:overwrite\n\n\nverbose\n: Boolean to turn on extra print statements\n\n\n\n\nExample\n\n\ndb_config =  Dict(:db_path=\ntest_db.slqite\n, :overwrite=\ntrue)\ndb = save_efetch_sqlite(efetch_dict, db_config)\n\n\n\n\n\n\nSaving EFetch to a MySQL database\n\n\n#\n\n\nBioMedQuery.Entrez.save_efetch_mysql\n \n \nMethod\n.\n\n\nsave_efetch_mysql(efetch_dict, db_config, verbose)\n\n\n\n\nSave the results (dictionary) of an entrez fetch to a MySQL database.\n\n\nArguments:\n\n\n\n\nefetch_dict\n: Response dictionary from efetch\n\n\ndb_config::Dict{Symbol, T}\n: Configuration dictionary for initialitizing SQLite         database. Must contain symbols \n:host\n, \n:dbname\n, \n:username\n. \npswd\n,         and \n:overwrite\n\n\nverbose\n: Boolean to turn on extra print statements\n\n\n\n\nExample\n\n\ndb_config =  Dict(:host=\nlocalhost\n, :dbname=\ntest\n, :username=\nroot\n,\n                  :pswd=\n, :overwrite=\ntrue)\ndb = save_efetch_mysql(efetch_dict, db_config)\n\n\n\n\nThe following schema has been used to store the results. If you are interested in having this module store additional fields, feel free to open an issue\n\n\n\n\n\n\nAll PMIDs\n\n\n#\n\n\nBioMedQuery.Entrez.DB.all_pmids\n \n \nMethod\n.\n\n\nall_pmids(db)\n\n\n\n\nReturn all PMIDs stored in the \narticle\n table of the input database\n\n\n\n\nAll MESH descriptors for an article\n\n\n#\n\n\nBioMedQuery.Entrez.DB.get_article_mesh\n \n \nMethod\n.\n\n\nget_article_mesh(db, pmid)\n\n\n\n\nGet the all mesh-descriptors associated with a give article", 
             "title": "Entrez"
         }, 
         {
@@ -42,27 +42,92 @@
         }, 
         {
             "location": "/entrez/#esearch", 
-            "text": "esearch(search_dict)", 
+            "text": "#  BioMedQuery.Entrez.esearch     Method .  esearch(search_dict)  Request list of UIDs matiching a query - see  NCBI Entrez:Esearch", 
             "title": "ESearch"
         }, 
         {
+            "location": "/entrez/#arguments", 
+            "text": "search_dic::Dict : dictionary specifying search criteria", 
+            "title": "Arguments"
+        }, 
+        {
+            "location": "/entrez/#output", 
+            "text": "::ASCIIString : XML response from NCBI", 
+            "title": "Output"
+        }, 
+        {
+            "location": "/entrez/#example", 
+            "text": "search_dic = Dict( db = pubmed ,  term  =  search_term, retstart  =  0,  retmax = 5,  tool  = BioJulia , email  =   email )\nesearch_response = esearch(search_dic)", 
+            "title": "Example"
+        }, 
+        {
+            "location": "/entrez/#note", 
+            "text": "email must be a valid email address (otherwise pubmed will block you)  search_term corresponds to a valid  PubMed Search . It may contain one or more filtering criteria using AND/OR. For instance:   search_term = (asthma[MeSH Terms]) AND (\"2001/01/29\"[Date - Publication] : \"2010\"[Date - Publication]) .", 
+            "title": "Note"
+        }, 
+        {
             "location": "/entrez/#efetch", 
-            "text": "efetch(fetch_dic, id_list)", 
+            "text": "#  BioMedQuery.Entrez.efetch     Method .  efetch(fetch_dic, id_list)  Retrieve data records from a list of UIDs - see  NCBI Entrez: EFetch", 
             "title": "EFetch"
         }, 
         {
+            "location": "/entrez/#arguments_1", 
+            "text": "fetch_dic::Dict  - Dictionary specifying fetch criteria  id_list::Array  - List of ids e.g those embedded in response from esearch", 
+            "title": "Arguments"
+        }, 
+        {
+            "location": "/entrez/#results", 
+            "text": "::ASCIIString  - XML response from NCBI", 
+            "title": "Results"
+        }, 
+        {
+            "location": "/entrez/#example_1", 
+            "text": "# get the list of ids\nif !haskey(esearch_dict,  IdList )\n  error( Error: IdList not found )\nend\n\nids = []\n\nfor id_node in esearch_dict[ IdList ][1][ Id ]\n  push!(ids, id_node)\nend\n\n# define the fetch dictionary\nfetch_dic = Dict( db = pubmed , tool  = BioJulia , email  =  email,  retmode  =   xml ,  rettype = null )\n\n# fetch\nefetch_response = efetch(fetch_dic, ids)", 
+            "title": "Example"
+        }, 
+        {
             "location": "/entrez/#elink", 
-            "text": "elink(elink_dict)", 
+            "text": "#  BioMedQuery.Entrez.elink     Method .  elink(elink_dict)  Lists, checks or returns UIDs linked to an input list of UIDs in the same or different Entrez database. For more info see  NCBI Entrez:ELink", 
             "title": "ELink"
         }, 
         {
+            "location": "/entrez/#arguments_2", 
+            "text": "elink_dict::Dict : dictionary specifying elink inputs as credentials, ids...", 
+            "title": "Arguments"
+        }, 
+        {
+            "location": "/entrez/#output_1", 
+            "text": "::ASCIIString : XML response from NCBI", 
+            "title": "Output"
+        }, 
+        {
+            "location": "/entrez/#example_2", 
+            "text": "pmid =  19304878 \nelink_dict = Dict( dbfrom  = pubmed ,  id  =  pmid,\n                   linkname  =   pubmed_pubmed ,  email = email)\nelink_response = elink(elink_dict)", 
+            "title": "Example"
+        }, 
+        {
             "location": "/entrez/#esummary", 
-            "text": "esummary(esummary_dict)", 
+            "text": "#  BioMedQuery.Entrez.esummary     Method .  esummary(esummary_dict)  Return document summaries for a list of input UIDs. For more info see  NCBI Entrez:ESummary", 
             "title": "ESummary"
         }, 
         {
+            "location": "/entrez/#arguments_3", 
+            "text": "esummary_dict::Dict : dictionary specifying esummary inputs as credentials, ids...", 
+            "title": "Arguments"
+        }, 
+        {
+            "location": "/entrez/#output_2", 
+            "text": "::ASCIIString : XML response from NCBI", 
+            "title": "Output"
+        }, 
+        {
+            "location": "/entrez/#example_3", 
+            "text": "pmid =  30367 \nesummary_dict = Dict( db  = pubmed ,  id  =  pmid,  email = email)\nesummary_response = esummary(esummary_dict)", 
+            "title": "Example"
+        }, 
+        {
             "location": "/entrez/#eparse", 
-            "text": "eparse(ncbi_response::ASCIIString)", 
+            "text": "#  BioMedQuery.Entrez.eparse     Method .  eparse(response::ASCIIString)  Converts NCBI XML response into a Julia dictionary", 
             "title": "EParse"
         }, 
         {
@@ -71,7 +136,7 @@
             "title": "Saving NCBI Responses to XML"
         }, 
         {
-            "location": "/entrez/#example", 
+            "location": "/entrez/#example_4", 
             "text": "XMLconvert.xmlASCII2file(efetch_response,  ./efetch.xml )", 
             "title": "Example"
         }, 
@@ -81,12 +146,12 @@
             "title": "Saving EFetch to a SQLite database"
         }, 
         {
-            "location": "/entrez/#arguments", 
+            "location": "/entrez/#arguments_4", 
             "text": "efetch_dict : Response dictionary from efetch  db_config::Dict{Symbol, T} : Configuration dictionary for initialitizing SQLite         database. Must contain symbols  :db_path  and  :overwrite  verbose : Boolean to turn on extra print statements", 
             "title": "Arguments:"
         }, 
         {
-            "location": "/entrez/#example_1", 
+            "location": "/entrez/#example_5", 
             "text": "db_config =  Dict(:db_path= test_db.slqite , :overwrite= true)\ndb = save_efetch_sqlite(efetch_dict, db_config)", 
             "title": "Example"
         }, 
@@ -96,23 +161,23 @@
             "title": "Saving EFetch to a MySQL database"
         }, 
         {
-            "location": "/entrez/#arguments_1", 
+            "location": "/entrez/#arguments_5", 
             "text": "efetch_dict : Response dictionary from efetch  db_config::Dict{Symbol, T} : Configuration dictionary for initialitizing SQLite         database. Must contain symbols  :host ,  :dbname ,  :username .  pswd ,         and  :overwrite  verbose : Boolean to turn on extra print statements", 
             "title": "Arguments:"
         }, 
         {
-            "location": "/entrez/#example_2", 
+            "location": "/entrez/#example_6", 
             "text": "db_config =  Dict(:host= localhost , :dbname= test , :username= root ,\n                  :pswd= , :overwrite= true)\ndb = save_efetch_mysql(efetch_dict, db_config)  The following schema has been used to store the results. If you are interested in having this module store additional fields, feel free to open an issue", 
             "title": "Example"
         }, 
         {
             "location": "/entrez/#all-pmids", 
-            "text": "all_pmids(db)", 
+            "text": "#  BioMedQuery.Entrez.DB.all_pmids     Method .  all_pmids(db)  Return all PMIDs stored in the  article  table of the input database", 
             "title": "All PMIDs"
         }, 
         {
             "location": "/entrez/#all-mesh-descriptors-for-an-article", 
-            "text": "get_article_mesh(db, pmid::Integer)", 
+            "text": "#  BioMedQuery.Entrez.DB.get_article_mesh     Method .  get_article_mesh(db, pmid)  Get the all mesh-descriptors associated with a give article", 
             "title": "All MESH descriptors for an article"
         }, 
         {
@@ -217,118 +282,18 @@
         }, 
         {
             "location": "/library/", 
-            "text": "Index\n\n\n\n\nBioMedQuery.Entrez.DB.all_pmids\n\n\nBioMedQuery.Entrez.DB.get_article_mesh\n\n\nBioMedQuery.Entrez.efetch\n\n\nBioMedQuery.Entrez.elink\n\n\nBioMedQuery.Entrez.eparse\n\n\nBioMedQuery.Entrez.esearch\n\n\nBioMedQuery.Entrez.esummary\n\n\nBioMedQuery.Entrez.save_efetch\n\n\nBioMedQuery.Entrez.save_efetch_mysql\n\n\nBioMedQuery.Entrez.save_efetch_sqlite\n\n\nBioMedQuery.UMLS.get_tgt\n\n\nBioMedQuery.UMLS.get_ticket\n\n\nBioMedQuery.UMLS.search_umls\n\n\n\n\n\n\nFunctions\n\n\n#\n\n\nBioMedQuery.Entrez.efetch\n \n \nMethod\n.\n\n\nefetch(fetch_dic, id_list)\n\n\n\n\nRetrieve data records from a list of UIDs - see \nNCBI Entrez: EFetch\n\n\nArguments\n\n\n\n\nfetch_dic::Dict\n - Dictionary specifying fetch criteria\n\n\nid_list::Array\n - List of ids e.g those embedded in response from esearch\n\n\n\n\nResults\n\n\n\n\n::ASCIIString\n - XML response from NCBI\n\n\n\n\nExample\n\n\n# get the list of ids\nif !haskey(esearch_dict, \nIdList\n)\n  error(\nError: IdList not found\n)\nend\n\nids = []\n\nfor id_node in esearch_dict[\nIdList\n][1][\nId\n]\n  push!(ids, id_node)\nend\n\n# define the fetch dictionary\nfetch_dic = Dict(\ndb\n=\npubmed\n,\ntool\n =\nBioJulia\n,\n\nemail\n =\n email, \nretmode\n =\n \nxml\n, \nrettype\n=\nnull\n)\n\n# fetch\nefetch_response = efetch(fetch_dic, ids)\n\n\n\n\n#\n\n\nBioMedQuery.Entrez.eparse\n \n \nMethod\n.\n\n\neparse(response::ASCIIString)\n\n\n\n\nConverts NCBI XML response into a Julia dictionary\n\n\n#\n\n\nBioMedQuery.Entrez.esearch\n \n \nMethod\n.\n\n\nesearch(search_dict)\n\n\n\n\nRequest list of UIDs matiching a query - see \nNCBI Entrez:Esearch\n\n\nArguments\n\n\n\n\nsearch_dic::Dict\n: dictionary specifying search criteria\n\n\n\n\nOutput\n\n\n\n\n::ASCIIString\n: XML response from NCBI\n\n\n\n\nExample\n\n\nsearch_dic = Dict(\ndb\n=\npubmed\n, \nterm\n =\n search_term,\n\nretstart\n =\n 0, \nretmax\n=\n5, \ntool\n =\nBioJulia\n,\n\nemail\n =\n \nemail\n)\nesearch_response = esearch(search_dic)\n\n\n\n\nNote\n\n\n\n\nemail must be a valid email address (otherwise pubmed will block you)\n\n\nsearch_term corresponds to a valid \nPubMed Search\n. It may contain one or more filtering criteria using AND/OR. For instance:\n\n\n\n\nsearch_term = (asthma[MeSH Terms]) AND (\"2001/01/29\"[Date - Publication] : \"2010\"[Date - Publication])\n.\n\n\n#\n\n\nBioMedQuery.Entrez.save_efetch_mysql\n \n \nFunction\n.\n\n\nsave_efetch_mysql(efetch_dict, db_config, verbose)\n\n\n\n\nSave the results (dictionary) of an entrez fetch to a MySQL database.\n\n\nArguments:\n\n\n\n\nefetch_dict\n: Response dictionary from efetch\n\n\ndb_config::Dict{Symbol, T}\n: Configuration dictionary for initialitizing SQLite         database. Must contain symbols \n:host\n, \n:dbname\n, \n:username\n. \npswd\n,         and \n:overwrite\n\n\nverbose\n: Boolean to turn on extra print statements\n\n\n\n\nExample\n\n\ndb_config =  Dict(:host=\nlocalhost\n, :dbname=\ntest\n, :username=\nroot\n,\n                  :pswd=\n, :overwrite=\ntrue)\ndb = save_efetch_mysql(efetch_dict, db_config)\n\n\n\n\n#\n\n\nBioMedQuery.Entrez.save_efetch_sqlite\n \n \nFunction\n.\n\n\nsave_efetch_sqlite(efetch_dict, db_config, verbose)\n\n\n\n\nSave the results (dictionary) of an entrez fetch to a SQLite database.\n\n\nArguments:\n\n\n\n\nefetch_dict\n: Response dictionary from efetch\n\n\ndb_config::Dict{Symbol, T}\n: Configuration dictionary for initialitizing SQLite         database. Must contain symbols \n:db_path\n and \n:overwrite\n\n\nverbose\n: Boolean to turn on extra print statements\n\n\n\n\nExample\n\n\ndb_config =  Dict(:db_path=\ntest_db.slqite\n, :overwrite=\ntrue)\ndb = save_efetch_sqlite(efetch_dict, db_config)\n\n\n\n\n#\n\n\nBioMedQuery.Entrez.elink\n \n \nMethod\n.\n\n\nelink(elink_dict)\n\n\n\n\nLists, checks or returns UIDs linked to an input list of UIDs in the same or different Entrez database. For more info see \nNCBI Entrez:ELink\n\n\nArguments\n\n\n\n\nelink_dict::Dict\n: dictionary specifying elink inputs as credentials, ids...\n\n\n\n\nOutput\n\n\n\n\n::ASCIIString\n: XML response from NCBI\n\n\n\n\nExample\n\n\npmid = \n19304878\n\nelink_dict = Dict(\ndbfrom\n =\npubmed\n, \nid\n =\n pmid,\n                  \nlinkname\n =\n \npubmed_pubmed\n, \nemail\n=\nemail)\nelink_response = elink(elink_dict)\n\n\n\n\n#\n\n\nBioMedQuery.Entrez.esummary\n \n \nMethod\n.\n\n\nesummary(esummary_dict)\n\n\n\n\nReturn document summaries for a list of input UIDs. For more info see \nNCBI Entrez:ESummary\n\n\nArguments\n\n\n\n\nesummary_dict::Dict\n: dictionary specifying esummary inputs as credentials, ids...\n\n\n\n\nOutput\n\n\n\n\n::ASCIIString\n: XML response from NCBI\n\n\n\n\nExample\n\n\npmid = \n30367\n\nesummary_dict = Dict(\ndb\n =\npubmed\n, \nid\n =\n pmid, \nemail\n=\nemail)\nesummary_response = esummary(esummary_dict)\n\n\n\n\n#\n\n\nBioMedQuery.Entrez.save_efetch\n \n \nFunction\n.\n\n\nsave_efetch(efetch_dict, db_path)\n\n\n\n\nSave the results (dictionary) of an entrez fetch to the input database.\n\n\n#\n\n\nBioMedQuery.Entrez.DB.all_pmids\n \n \nMethod\n.\n\n\nall_pmids(db)\n\n\n\n\nReturn all PMIDs stored in the \narticle\n table of the input database\n\n\n#\n\n\nBioMedQuery.Entrez.DB.get_article_mesh\n \n \nMethod\n.\n\n\nget_article_mesh(db, pmid)\n\n\n\n\nGet the all mesh-descriptors associated with a give article\n\n\n#\n\n\nBioMedQuery.UMLS.search_umls\n \n \nFunction\n.\n\n\nsearch_umls(c::Credentials, query)\n\n\n\n\nSearch UMLS Rest API. For more info see \nUMLS_API\n\n\nArguments\n\n\n\n\nc::Credentials\n: UMLS username and password\n\n\nquery\n: UMLS query containing the search term\n\n\nversion:\n Optional - defaults to current\n\n\n\n\nOutput\n\n\n\n\nresult_pages\n: Array, where each entry is a dictionary containing a page of results. e.g  \nDict{AbstractString,Any} with 3 entries:   \"pageSize\"   =\n 25    \"pageNumber\" =\n 1   \"result\"     =\n Dict{AbstractString,Any}(\"classType\"=\n\"searchResults\",\"result\u2026\n\n\n\n\nExamples\n\n\ncredentials = Credentials(user, psswd)\nterm = \nobesity\n\nquery = Dict(\nstring\n=\nterm, \nsearchType\n=\nexact\n )\nall_results= search_umls(credentials, query)\n\n\n\n\n#\n\n\nBioMedQuery.UMLS.get_tgt\n \n \nMethod\n.\n\n\nget_tgt(c::Credentials)\n\n\n\n\nRetrieve a ticket granting ticket (TGT) using UTS login credentials A tgt is valid for 8 hours. Therefore, look for UTS_TGT.txt in the local directory to see if it has been recently stored.\n\n\n#\n\n\nBioMedQuery.UMLS.get_ticket\n \n \nMethod\n.\n\n\nget_ticket(tgt)\n\n\n\n\nRetrieve a single-use Service Ticket using TGT", 
+            "text": "Index\n\n\n\n\nBioMedQuery.UMLS.Credentials\n\n\nBioMedQuery.DBUtils.assemble_cols_and_vals\n\n\nBioMedQuery.DBUtils.assemble_cols_and_vals_select\n\n\nBioMedQuery.DBUtils.assemble_vals\n\n\nBioMedQuery.DBUtils.colname_dict\n\n\nBioMedQuery.DBUtils.db_query\n\n\nBioMedQuery.DBUtils.db_query\n\n\nBioMedQuery.DBUtils.db_select\n\n\nBioMedQuery.DBUtils.init_mysql_database\n\n\nBioMedQuery.DBUtils.insert_row!\n\n\nBioMedQuery.DBUtils.insert_row!\n\n\nBioMedQuery.DBUtils.select_all_tables\n\n\nBioMedQuery.DBUtils.select_all_tables\n\n\nBioMedQuery.DBUtils.select_columns\n\n\nBioMedQuery.DBUtils.select_columns\n\n\nBioMedQuery.Entrez.DB.all_pmids\n\n\nBioMedQuery.Entrez.DB.get_article_mesh\n\n\nBioMedQuery.Entrez.efetch\n\n\nBioMedQuery.Entrez.elink\n\n\nBioMedQuery.Entrez.eparse\n\n\nBioMedQuery.Entrez.esearch\n\n\nBioMedQuery.Entrez.esummary\n\n\nBioMedQuery.Entrez.save_efetch_mysql\n\n\nBioMedQuery.Entrez.save_efetch_sqlite\n\n\nBioMedQuery.UMLS.best_match_cui\n\n\nBioMedQuery.UMLS.get_semantic_type\n\n\nBioMedQuery.UMLS.search_umls\n\n\n\n\n\n\nFunctions", 
             "title": "Library"
         }, 
         {
             "location": "/library/#index", 
-            "text": "BioMedQuery.Entrez.DB.all_pmids  BioMedQuery.Entrez.DB.get_article_mesh  BioMedQuery.Entrez.efetch  BioMedQuery.Entrez.elink  BioMedQuery.Entrez.eparse  BioMedQuery.Entrez.esearch  BioMedQuery.Entrez.esummary  BioMedQuery.Entrez.save_efetch  BioMedQuery.Entrez.save_efetch_mysql  BioMedQuery.Entrez.save_efetch_sqlite  BioMedQuery.UMLS.get_tgt  BioMedQuery.UMLS.get_ticket  BioMedQuery.UMLS.search_umls", 
+            "text": "BioMedQuery.UMLS.Credentials  BioMedQuery.DBUtils.assemble_cols_and_vals  BioMedQuery.DBUtils.assemble_cols_and_vals_select  BioMedQuery.DBUtils.assemble_vals  BioMedQuery.DBUtils.colname_dict  BioMedQuery.DBUtils.db_query  BioMedQuery.DBUtils.db_query  BioMedQuery.DBUtils.db_select  BioMedQuery.DBUtils.init_mysql_database  BioMedQuery.DBUtils.insert_row!  BioMedQuery.DBUtils.insert_row!  BioMedQuery.DBUtils.select_all_tables  BioMedQuery.DBUtils.select_all_tables  BioMedQuery.DBUtils.select_columns  BioMedQuery.DBUtils.select_columns  BioMedQuery.Entrez.DB.all_pmids  BioMedQuery.Entrez.DB.get_article_mesh  BioMedQuery.Entrez.efetch  BioMedQuery.Entrez.elink  BioMedQuery.Entrez.eparse  BioMedQuery.Entrez.esearch  BioMedQuery.Entrez.esummary  BioMedQuery.Entrez.save_efetch_mysql  BioMedQuery.Entrez.save_efetch_sqlite  BioMedQuery.UMLS.best_match_cui  BioMedQuery.UMLS.get_semantic_type  BioMedQuery.UMLS.search_umls", 
             "title": "Index"
         }, 
         {
             "location": "/library/#functions", 
-            "text": "#  BioMedQuery.Entrez.efetch     Method .  efetch(fetch_dic, id_list)  Retrieve data records from a list of UIDs - see  NCBI Entrez: EFetch", 
+            "text": "", 
             "title": "Functions"
-        }, 
-        {
-            "location": "/library/#arguments", 
-            "text": "fetch_dic::Dict  - Dictionary specifying fetch criteria  id_list::Array  - List of ids e.g those embedded in response from esearch", 
-            "title": "Arguments"
-        }, 
-        {
-            "location": "/library/#results", 
-            "text": "::ASCIIString  - XML response from NCBI", 
-            "title": "Results"
-        }, 
-        {
-            "location": "/library/#example", 
-            "text": "# get the list of ids\nif !haskey(esearch_dict,  IdList )\n  error( Error: IdList not found )\nend\n\nids = []\n\nfor id_node in esearch_dict[ IdList ][1][ Id ]\n  push!(ids, id_node)\nend\n\n# define the fetch dictionary\nfetch_dic = Dict( db = pubmed , tool  = BioJulia , email  =  email,  retmode  =   xml ,  rettype = null )\n\n# fetch\nefetch_response = efetch(fetch_dic, ids)  #  BioMedQuery.Entrez.eparse     Method .  eparse(response::ASCIIString)  Converts NCBI XML response into a Julia dictionary  #  BioMedQuery.Entrez.esearch     Method .  esearch(search_dict)  Request list of UIDs matiching a query - see  NCBI Entrez:Esearch", 
-            "title": "Example"
-        }, 
-        {
-            "location": "/library/#arguments_1", 
-            "text": "search_dic::Dict : dictionary specifying search criteria", 
-            "title": "Arguments"
-        }, 
-        {
-            "location": "/library/#output", 
-            "text": "::ASCIIString : XML response from NCBI", 
-            "title": "Output"
-        }, 
-        {
-            "location": "/library/#example_1", 
-            "text": "search_dic = Dict( db = pubmed ,  term  =  search_term, retstart  =  0,  retmax = 5,  tool  = BioJulia , email  =   email )\nesearch_response = esearch(search_dic)", 
-            "title": "Example"
-        }, 
-        {
-            "location": "/library/#note", 
-            "text": "email must be a valid email address (otherwise pubmed will block you)  search_term corresponds to a valid  PubMed Search . It may contain one or more filtering criteria using AND/OR. For instance:   search_term = (asthma[MeSH Terms]) AND (\"2001/01/29\"[Date - Publication] : \"2010\"[Date - Publication]) .  #  BioMedQuery.Entrez.save_efetch_mysql     Function .  save_efetch_mysql(efetch_dict, db_config, verbose)  Save the results (dictionary) of an entrez fetch to a MySQL database.", 
-            "title": "Note"
-        }, 
-        {
-            "location": "/library/#arguments_2", 
-            "text": "efetch_dict : Response dictionary from efetch  db_config::Dict{Symbol, T} : Configuration dictionary for initialitizing SQLite         database. Must contain symbols  :host ,  :dbname ,  :username .  pswd ,         and  :overwrite  verbose : Boolean to turn on extra print statements", 
-            "title": "Arguments:"
-        }, 
-        {
-            "location": "/library/#example_2", 
-            "text": "db_config =  Dict(:host= localhost , :dbname= test , :username= root ,\n                  :pswd= , :overwrite= true)\ndb = save_efetch_mysql(efetch_dict, db_config)  #  BioMedQuery.Entrez.save_efetch_sqlite     Function .  save_efetch_sqlite(efetch_dict, db_config, verbose)  Save the results (dictionary) of an entrez fetch to a SQLite database.", 
-            "title": "Example"
-        }, 
-        {
-            "location": "/library/#arguments_3", 
-            "text": "efetch_dict : Response dictionary from efetch  db_config::Dict{Symbol, T} : Configuration dictionary for initialitizing SQLite         database. Must contain symbols  :db_path  and  :overwrite  verbose : Boolean to turn on extra print statements", 
-            "title": "Arguments:"
-        }, 
-        {
-            "location": "/library/#example_3", 
-            "text": "db_config =  Dict(:db_path= test_db.slqite , :overwrite= true)\ndb = save_efetch_sqlite(efetch_dict, db_config)  #  BioMedQuery.Entrez.elink     Method .  elink(elink_dict)  Lists, checks or returns UIDs linked to an input list of UIDs in the same or different Entrez database. For more info see  NCBI Entrez:ELink", 
-            "title": "Example"
-        }, 
-        {
-            "location": "/library/#arguments_4", 
-            "text": "elink_dict::Dict : dictionary specifying elink inputs as credentials, ids...", 
-            "title": "Arguments"
-        }, 
-        {
-            "location": "/library/#output_1", 
-            "text": "::ASCIIString : XML response from NCBI", 
-            "title": "Output"
-        }, 
-        {
-            "location": "/library/#example_4", 
-            "text": "pmid =  19304878 \nelink_dict = Dict( dbfrom  = pubmed ,  id  =  pmid,\n                   linkname  =   pubmed_pubmed ,  email = email)\nelink_response = elink(elink_dict)  #  BioMedQuery.Entrez.esummary     Method .  esummary(esummary_dict)  Return document summaries for a list of input UIDs. For more info see  NCBI Entrez:ESummary", 
-            "title": "Example"
-        }, 
-        {
-            "location": "/library/#arguments_5", 
-            "text": "esummary_dict::Dict : dictionary specifying esummary inputs as credentials, ids...", 
-            "title": "Arguments"
-        }, 
-        {
-            "location": "/library/#output_2", 
-            "text": "::ASCIIString : XML response from NCBI", 
-            "title": "Output"
-        }, 
-        {
-            "location": "/library/#example_5", 
-            "text": "pmid =  30367 \nesummary_dict = Dict( db  = pubmed ,  id  =  pmid,  email = email)\nesummary_response = esummary(esummary_dict)  #  BioMedQuery.Entrez.save_efetch     Function .  save_efetch(efetch_dict, db_path)  Save the results (dictionary) of an entrez fetch to the input database.  #  BioMedQuery.Entrez.DB.all_pmids     Method .  all_pmids(db)  Return all PMIDs stored in the  article  table of the input database  #  BioMedQuery.Entrez.DB.get_article_mesh     Method .  get_article_mesh(db, pmid)  Get the all mesh-descriptors associated with a give article  #  BioMedQuery.UMLS.search_umls     Function .  search_umls(c::Credentials, query)  Search UMLS Rest API. For more info see  UMLS_API", 
-            "title": "Example"
-        }, 
-        {
-            "location": "/library/#arguments_6", 
-            "text": "c::Credentials : UMLS username and password  query : UMLS query containing the search term  version:  Optional - defaults to current", 
-            "title": "Arguments"
-        }, 
-        {
-            "location": "/library/#output_3", 
-            "text": "result_pages : Array, where each entry is a dictionary containing a page of results. e.g   Dict{AbstractString,Any} with 3 entries:   \"pageSize\"   =  25    \"pageNumber\" =  1   \"result\"     =  Dict{AbstractString,Any}(\"classType\"= \"searchResults\",\"result\u2026", 
-            "title": "Output"
-        }, 
-        {
-            "location": "/library/#examples", 
-            "text": "credentials = Credentials(user, psswd)\nterm =  obesity \nquery = Dict( string = term,  searchType = exact  )\nall_results= search_umls(credentials, query)  #  BioMedQuery.UMLS.get_tgt     Method .  get_tgt(c::Credentials)  Retrieve a ticket granting ticket (TGT) using UTS login credentials A tgt is valid for 8 hours. Therefore, look for UTS_TGT.txt in the local directory to see if it has been recently stored.  #  BioMedQuery.UMLS.get_ticket     Method .  get_ticket(tgt)  Retrieve a single-use Service Ticket using TGT", 
-            "title": "Examples"
         }
     ]
 }

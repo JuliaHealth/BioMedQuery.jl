@@ -335,33 +335,127 @@
 </ul>
 <p><a id='ESearch-1'></a></p>
 <h2 id="esearch">ESearch</h2>
+<p><a id='BioMedQuery.Entrez.esearch-Tuple{Any}' href='#BioMedQuery.Entrez.esearch-Tuple{Any}'>#</a>
+<strong><code>BioMedQuery.Entrez.esearch</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>esearch(search_dict)
 </code></pre>
 
+<p>Request list of UIDs matiching a query - see <a href="http://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.ESearch">NCBI Entrez:Esearch</a></p>
+<h3 id="arguments">Arguments</h3>
+<ul>
+<li><code>search_dic::Dict</code>: dictionary specifying search criteria</li>
+</ul>
+<h3 id="output">Output</h3>
+<ul>
+<li><code>::ASCIIString</code>: XML response from NCBI</li>
+</ul>
+<h3 id="example">Example</h3>
+<pre><code class="julia">search_dic = Dict(&quot;db&quot;=&gt;&quot;pubmed&quot;, &quot;term&quot; =&gt; search_term,
+&quot;retstart&quot; =&gt; 0, &quot;retmax&quot;=&gt;5, &quot;tool&quot; =&gt;&quot;BioJulia&quot;,
+&quot;email&quot; =&gt; &quot;email&quot;)
+esearch_response = esearch(search_dic)
+</code></pre>
+
+<h3 id="note">Note</h3>
+<ul>
+<li>email must be a valid email address (otherwise pubmed will block you)</li>
+<li>search_term corresponds to a valid <a href="http://www.ncbi.nlm.nih.gov/pubmed/advanced">PubMed Search</a>. It may contain one or more filtering criteria using AND/OR. For instance:</li>
+</ul>
+<p><code>search_term = (asthma[MeSH Terms]) AND ("2001/01/29"[Date - Publication] : "2010"[Date - Publication])</code>.</p>
 <p><a id='EFetch-1'></a></p>
 <h2 id="efetch">EFetch</h2>
+<p><a id='BioMedQuery.Entrez.efetch-Tuple{Any,Any}' href='#BioMedQuery.Entrez.efetch-Tuple{Any,Any}'>#</a>
+<strong><code>BioMedQuery.Entrez.efetch</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>efetch(fetch_dic, id_list)
+</code></pre>
+
+<p>Retrieve data records from a list of UIDs - see <a href="http://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.EFetch">NCBI Entrez: EFetch</a></p>
+<h3 id="arguments_1">Arguments</h3>
+<ul>
+<li><code>fetch_dic::Dict</code> - Dictionary specifying fetch criteria</li>
+<li><code>id_list::Array</code> - List of ids e.g those embedded in response from esearch</li>
+</ul>
+<h3 id="results">Results</h3>
+<ul>
+<li><code>::ASCIIString</code> - XML response from NCBI</li>
+</ul>
+<h3 id="example_1">Example</h3>
+<pre><code class="julia"># get the list of ids
+if !haskey(esearch_dict, &quot;IdList&quot;)
+  error(&quot;Error: IdList not found&quot;)
+end
+
+ids = []
+
+for id_node in esearch_dict[&quot;IdList&quot;][1][&quot;Id&quot;]
+  push!(ids, id_node)
+end
+
+# define the fetch dictionary
+fetch_dic = Dict(&quot;db&quot;=&gt;&quot;pubmed&quot;,&quot;tool&quot; =&gt;&quot;BioJulia&quot;,
+&quot;email&quot; =&gt; email, &quot;retmode&quot; =&gt; &quot;xml&quot;, &quot;rettype&quot;=&gt;&quot;null&quot;)
+
+# fetch
+efetch_response = efetch(fetch_dic, ids)
 </code></pre>
 
 <p><a id='ELink-1'></a></p>
 <h2 id="elink">ELink</h2>
+<p><a id='BioMedQuery.Entrez.elink-Tuple{Any}' href='#BioMedQuery.Entrez.elink-Tuple{Any}'>#</a>
+<strong><code>BioMedQuery.Entrez.elink</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>elink(elink_dict)
+</code></pre>
+
+<p>Lists, checks or returns UIDs linked to an input list of UIDs in the same or different Entrez database. For more info see <a href="http://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.ELink">NCBI Entrez:ELink</a></p>
+<h3 id="arguments_2">Arguments</h3>
+<ul>
+<li><code>elink_dict::Dict</code>: dictionary specifying elink inputs as credentials, ids...</li>
+</ul>
+<h3 id="output_1">Output</h3>
+<ul>
+<li><code>::ASCIIString</code>: XML response from NCBI</li>
+</ul>
+<h3 id="example_2">Example</h3>
+<pre><code class="julia">pmid = &quot;19304878&quot;
+elink_dict = Dict(&quot;dbfrom&quot; =&gt;&quot;pubmed&quot;, &quot;id&quot; =&gt; pmid,
+                  &quot;linkname&quot; =&gt; &quot;pubmed_pubmed&quot;, &quot;email&quot;=&gt;email)
+elink_response = elink(elink_dict)
 </code></pre>
 
 <p><a id='ESummary-1'></a></p>
 <h2 id="esummary">ESummary</h2>
+<p><a id='BioMedQuery.Entrez.esummary-Tuple{Any}' href='#BioMedQuery.Entrez.esummary-Tuple{Any}'>#</a>
+<strong><code>BioMedQuery.Entrez.esummary</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>esummary(esummary_dict)
+</code></pre>
+
+<p>Return document summaries for a list of input UIDs. For more info see <a href="http://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.ESummary">NCBI Entrez:ESummary</a></p>
+<h3 id="arguments_3">Arguments</h3>
+<ul>
+<li><code>esummary_dict::Dict</code>: dictionary specifying esummary inputs as credentials, ids...</li>
+</ul>
+<h3 id="output_2">Output</h3>
+<ul>
+<li><code>::ASCIIString</code>: XML response from NCBI</li>
+</ul>
+<h3 id="example_3">Example</h3>
+<pre><code class="julia">pmid = &quot;30367&quot;
+esummary_dict = Dict(&quot;db&quot; =&gt;&quot;pubmed&quot;, &quot;id&quot; =&gt; pmid, &quot;email&quot;=&gt;email)
+esummary_response = esummary(esummary_dict)
 </code></pre>
 
 <p><a id='EParse-1'></a></p>
 <h2 id="eparse">EParse</h2>
-<pre><code>eparse(ncbi_response::ASCIIString)
+<p><a id='BioMedQuery.Entrez.eparse-Tuple{ASCIIString}' href='#BioMedQuery.Entrez.eparse-Tuple{ASCIIString}'>#</a>
+<strong><code>BioMedQuery.Entrez.eparse</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>eparse(response::ASCIIString)
 </code></pre>
 
+<p>Converts NCBI XML response into a Julia dictionary</p>
 <p><a id='Saving-NCBI-Responses-to-XML-1'></a></p>
 <h2 id="saving-ncbi-responses-to-xml">Saving NCBI Responses to XML</h2>
 <p>You can save directly the XML String to file using the <a href="https://github.com/bcbi/XMLconvert.jl">XMLconvert Package</a></p>
-<h3 id="example">Example</h3>
+<h3 id="example_4">Example</h3>
 <pre><code>    XMLconvert.xmlASCII2file(efetch_response, &quot;./efetch.xml&quot;)
 </code></pre>
 
@@ -373,13 +467,13 @@
 </code></pre>
 
 <p>Save the results (dictionary) of an entrez fetch to a SQLite database.</p>
-<h3 id="arguments">Arguments:</h3>
+<h3 id="arguments_4">Arguments:</h3>
 <ul>
 <li><code>efetch_dict</code>: Response dictionary from efetch</li>
 <li><code>db_config::Dict{Symbol, T}</code>: Configuration dictionary for initialitizing SQLite         database. Must contain symbols <code>:db_path</code> and <code>:overwrite</code></li>
 <li><code>verbose</code>: Boolean to turn on extra print statements</li>
 </ul>
-<h3 id="example_1">Example</h3>
+<h3 id="example_5">Example</h3>
 <pre><code class="julia">db_config =  Dict(:db_path=&gt;&quot;test_db.slqite&quot;, :overwrite=&gt;true)
 db = save_efetch_sqlite(efetch_dict, db_config)
 </code></pre>
@@ -392,13 +486,13 @@ db = save_efetch_sqlite(efetch_dict, db_config)
 </code></pre>
 
 <p>Save the results (dictionary) of an entrez fetch to a MySQL database.</p>
-<h3 id="arguments_1">Arguments:</h3>
+<h3 id="arguments_5">Arguments:</h3>
 <ul>
 <li><code>efetch_dict</code>: Response dictionary from efetch</li>
 <li><code>db_config::Dict{Symbol, T}</code>: Configuration dictionary for initialitizing SQLite         database. Must contain symbols <code>:host</code>, <code>:dbname</code>, <code>:username</code>. <code>pswd</code>,         and <code>:overwrite</code></li>
 <li><code>verbose</code>: Boolean to turn on extra print statements</li>
 </ul>
-<h3 id="example_2">Example</h3>
+<h3 id="example_6">Example</h3>
 <pre><code class="julia">db_config =  Dict(:host=&gt;&quot;localhost&quot;, :dbname=&gt;&quot;test&quot;, :username=&gt;&quot;root&quot;,
                   :pswd=&gt;&quot;&quot;, :overwrite=&gt;true)
 db = save_efetch_mysql(efetch_dict, db_config)
@@ -408,13 +502,20 @@ db = save_efetch_mysql(efetch_dict, db_config)
 <p><img alt="Alt" src="../images/save_efetch_schema.001.jpeg" /></p>
 <p><a id='All-PMIDs-1'></a></p>
 <h2 id="all-pmids">All PMIDs</h2>
+<p><a id='BioMedQuery.Entrez.DB.all_pmids-Tuple{Any}' href='#BioMedQuery.Entrez.DB.all_pmids-Tuple{Any}'>#</a>
+<strong><code>BioMedQuery.Entrez.DB.all_pmids</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>all_pmids(db)
 </code></pre>
 
+<p>Return all PMIDs stored in the <em>article</em> table of the input database</p>
 <p><a id='All-MESH-descriptors-for-an-article-1'></a></p>
 <h2 id="all-mesh-descriptors-for-an-article">All MESH descriptors for an article</h2>
-<pre><code>get_article_mesh(db, pmid::Integer)
+<p><a id='BioMedQuery.Entrez.DB.get_article_mesh-Tuple{Any,Integer}' href='#BioMedQuery.Entrez.DB.get_article_mesh-Tuple{Any,Integer}'>#</a>
+<strong><code>BioMedQuery.Entrez.DB.get_article_mesh</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>get_article_mesh(db, pmid)
 </code></pre>
+
+<p>Get the all mesh-descriptors associated with a give article</p>
           <aside class="copyright" role="note">
             
             Documentation built with
