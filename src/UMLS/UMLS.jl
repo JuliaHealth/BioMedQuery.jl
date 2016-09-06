@@ -8,6 +8,14 @@ const auth_endpoint = "/cas/v1/tickets/"
 const service="http://umlsks.nlm.nih.gov"
 const rest_uri = "https://uts-ws.nlm.nih.gov"
 
+immutable BadResponseException <: Exception
+    code::Int64
+end
+
+function Base.showerror(io::IO, e::BadResponseException)
+    print(io, "BadResponseException with code: ",STATUS_CODES[e.code])
+end
+
 """
     Credentials(user, psswd)
 """
@@ -112,15 +120,18 @@ results. e.g
 
 ```julia
 credentials = Credentials(user, psswd)
+tgt = get_tgt(credentials)
 term = "obesity"
 query = Dict("string"=>term, "searchType"=>"exact" )
-all_results= search_umls(credentials, query)
+all_results= search_umls(tgt, query)
 ```
 """
-function search_umls(c::Credentials, query, version::ASCIIString="current")
+function search_umls(tgt, query; version::ASCIIString="current", timeout=1)
 
     # Ticket granting ticket
-    tgt = get_tgt(c)
+    if tgt== nothing
+        tgt = get_tgt(c)
+    end
     page=0
 
     content_endpoint = "/rest/search/current"
@@ -142,7 +153,12 @@ function search_umls(c::Credentials, query, version::ASCIIString="current")
         #append ticket to query
         query["ticket"]= ticket
         query["pageNumber"]= @sprintf("%d", page)
-        r = get(rest_uri*content_endpoint, query=query)
+        r = get(rest_uri*content_endpoint, query=query, timeout=timeout)
+
+        if r.status != 200
+            throw(BadResponseException(r.status))
+        end
+
         json_response = Requests.json(r)
         # println("No Results ", length(json_response["result"]["results"]))
         if json_response["result"]["results"][1]["ui"]=="NONE"
@@ -179,13 +195,13 @@ Return an array of the semantic types associated with a cui
 
 ```julia
 credentials = Credentials(user, psswd)
+tgt = get_tgt(credentials)
 cui = "C0028754"
-sm = BioMedQuery.UMLS.get_semantic_type(credentials, cui)
+sm = BioMedQuery.UMLS.get_semantic_type(tgt, cui)
 ```
 """
-function get_semantic_type(c::Credentials, cui)
-    # Ticket granting ticket
-    tgt = get_tgt(c)
+function get_semantic_type(tgt, cui)
+
     content_endpoint = "/rest/content/current/CUI/"*cui
     #get a new ticket
     ticket = get_ticket(tgt)

@@ -98,13 +98,10 @@ function insert_row!{T}(con::MySQL.MySQLHandle, tablename, data_values::Dict{Sym
         lastid = mysql_execute(con, "INSERT INTO `$tablename` ($cols_string) values $vals_string;
          SELECT LAST_INSERT_ID();")[2][1,1]
     catch
-        # Base.showerror(STDOUT, MySQLInternalError(con))
-        # println("\n")
+        Base.showerror(STDOUT, MySQLInternalError(con))
+        println("\n")
         println("Row not inserted into the table: $tablename")
         throw(MySQLInternalError(con))
-    end
-    if verbose
-        println("Row successfully inserted into table: $tablename")
     end
     return lastid
 end
@@ -132,11 +129,10 @@ function insert_row!{T}(con::MySQL.MySQLHandle, tablename, data_values::Dict{Sym
     catch
         if verbose
             println("Row not inserted into the table: $tablename")
+            Base.showerror(STDOUT, MySQLInternalError(con))
+            println("\n")
         end
         throw(MySQLInternalError(con))
-    end
-    if verbose
-        println("Row successfully inserted into table: $tablename")
     end
     return lastid
 end

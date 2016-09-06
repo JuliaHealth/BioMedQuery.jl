@@ -64,7 +64,6 @@ function append_children!(db, parent_dict::Dict{Symbol,Any}, node, all_keys)
     children = query[1]
     #if yes recurr
     if !isempty(children)
-        println((children))
         parent_dict[:children] = []
         for (idx, child) in enumerate(children)
             node_dict = Dict{Symbol,Any}(:name=>child)

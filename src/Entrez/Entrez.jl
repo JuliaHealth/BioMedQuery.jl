@@ -10,8 +10,6 @@ using HttpCommon
 
 using  XMLconvert
 
-include("entrez_save.jl")
-
 # Helper function to build the url and open a handle to it
 # Uses HTTP POST instead of GET for long queries
 function open_entrez(cgi, params, post=false)
@@ -132,6 +130,7 @@ function efetch(fetch_dic, id_list)
     return open_entrez(cgi, variables,  post)
 end
 
+
 """
     elink(elink_dict)
 
@@ -207,6 +206,7 @@ function eparse(ncbi_response::ASCIIString)
     dict = xml2dict(xroot)
     return dict
 end
+
 
 # """
 #     save_efetch(efetch_dict, db_path)

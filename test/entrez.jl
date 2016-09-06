@@ -1,4 +1,3 @@
-
 using DataFrames
 using MySQL
 
@@ -11,6 +10,7 @@ using MySQL
     efetch_dict = Dict()
     db_path = "./test_db.db"
     verbose = false
+    articles = []
 
     try
         email = ENV["NCBI_EMAIL"]
@@ -61,6 +61,44 @@ using MySQL
         #articles should be an array of lenght narticles
         @test isa(articles, Array{Any, 1})
         @test length(articles) == narticles
+
+        if true
+            XMLconvert.xmlASCII2file(efetch_response, "./efetch.xml")
+        end
+    end
+
+    @testset "Testing Citations" begin
+        #parse 1st article
+        # art = BioMedQuery.Entrez.MedlineArticle(articles[1])
+        # println(art)
+        config = Dict(:type => "endnote", :output_file => "./citations_temp.endnote")
+        BioMedQuery.Entrez.save_article_citations(efetch_dict, config, verbose)
+
+
+        #test that citations are the same as the ones already stored
+        ref_lines=[]
+        open("./pubmed_test.endnote") do f
+           ref_lines = readlines(f)
+        end
+
+
+        temp_lines = []
+        open("./citations_temp.endnote") do f
+           temp_lines = readlines(f)
+        end
+
+        @test length(ref_lines)==length(temp_lines)
+
+        for li=1:length(ref_lines)
+            if ref_lines[li] != temp_lines[li]
+                println("Line number: $li not equal")
+                println(ref_lines[li])
+                println("-----------------")
+                println(temp_lines[li])
+                @test 1==2
+            end
+        end
+        rm("./citations_temp.endnote")
     end
 
     # save the results of an entrez fetch to a sqlite database
