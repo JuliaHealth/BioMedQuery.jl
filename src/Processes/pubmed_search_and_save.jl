@@ -82,7 +82,7 @@ function pubmed_search_and_save(email, search_term, article_max,
         println("------Saving to database--------")
         db = save_efetch_func(efetch_dict, db_config, verbose)
 
-        #after the first pass - make sure the database is not deleted 
+        #after the first pass - make sure the database is not deleted
         db_config[:overwrite] = false
 
         article_total+=length(ids)

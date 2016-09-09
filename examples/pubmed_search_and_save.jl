@@ -12,15 +12,21 @@ using BioMedQuery.Entrez
 email= ENV["NCBI_EMAIL"] #This is an enviroment variable that you need to setup
 search_term="(obesity[MeSH Major Topic]) AND (\"2010\"[Date - Publication] : \"2012\"[Date - Publication])"
 max_articles = 20
-overwrite_db=true
+overwrite=true
 verbose = false
+
+results_dir = "./results"
+
 
 #Database backend
 using_sqlite=false
 using_mysql=false
-using_citations=true
+using_endnote=true
 
 #***************************************************************************
+if !isdir(results_dir)
+    mkdir(results_dir)
+end
 
 
 if using_mysql
@@ -34,26 +40,25 @@ if using_mysql
                      :dbname=>dbname,
                      :username=>mysql_usr,
                      :pswd=>mysql_pswd,
-                     :overwrite=>overwrite_db)
+                     :overwrite=>overwrite)
     save_func = save_efetch_mysql
 elseif using_sqlite
     #************************ LOCALS TO CONFIGURE!!!! **************************
-    db_path="./pubmed_obesity_2010_2012.db"
+    db_path="results_dir/pubmed_obesity_2010_2012.db"
     #***************************************************************************
 
     config = Dict(:db_path=>db_path,
-                        :overwrite=>overwrite_db)
+                        :overwrite=>overwrite)
     save_func = save_efetch_sqlite
-elseif using_citations
+elseif using_endnote
     #************************ LOCALS TO CONFIGURE!!!! **************************
     citation_type="endnote"
-    output_file="./pubmed_obesity_2010_2012.enw"
+    output_file="results_dir/pubmed_obesity_2010_2012.enw"
     #***************************************************************************
-    config = Dict(:type => citation_type, :output_file => output_file)
+    config = Dict(:type => citation_type, :output_file => output_file, :overwrite=> overwrite)
     save_func = save_article_citations
 else
-   error("Unsupported database backend, options are: sqlite, mysql, citations")
-
+   error("Unsupported database backend, options are: sqlite, mysql, endnote")
 end
 
 

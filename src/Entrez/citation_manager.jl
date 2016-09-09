@@ -51,13 +51,17 @@ function citations_endnote(article::PubMedArticle, verbose=false)
 end
 
 function save_article_citations(efetch_dict, config, verbose=false)
-    if !(haskey(config, :type) && haskey(config, :output_file))
+    if !(haskey(config, :type) && haskey(config, :output_file) && haskey(config, :overwrite))
         error("Saving citations requires correct dictionary configuration")
     end
     output_file = config[:output_file]
-    if isfile(output_file)
-        rm(output_file)
+
+    if config[:overwrite]
+        if isfile(output_file)
+            rm(output_file)
+        end
     end
+    
     if config[:type] == "bibtex"
         println("BibTex . Not implemented yet")
         # save_refernces_bibtex(efetch_dict, output_file)
