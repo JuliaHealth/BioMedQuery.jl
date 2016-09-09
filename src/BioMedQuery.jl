@@ -17,15 +17,21 @@ module Entrez
 export esearch,
        efetch,
        eparse,
+       eparse_from_file,
        save_efetch_mysql,
        save_efetch_sqlite,
-       PubMedArticle,
        citations_endnote,
        save_article_citations
 
+#types
+export PubMedArticle,
+       MeshHeading,
+       MeshHeadingList
+
+
 include("Entrez/Entrez.jl")
-include("Entrez/entrez_save.jl")
 include("Entrez/pubmed_article.jl")
+include("Entrez/entrez_save.jl")
 include("Entrez/citation_manager.jl")
 end
 
@@ -48,6 +54,20 @@ module CT
 export search_ct
 include("CT/CT.jl")
 end
+#-----------------------------------
+
+
+#--------Processes------------
+module Processes
+export pubmed_search_and_save,
+       map_mesh_to_umls_async!,
+       umls_semantic_occurrences,
+       filter_mesh_by_concept
+include("Processes/pubmed_search_and_save.jl")
+include("Processes/pubmed_mesh_to_umls_map.jl")
+include("Processes/pubmed_occurrance_filtering.jl")
+end
 
 #-----------------------------------
+
 end #BioMedQuery

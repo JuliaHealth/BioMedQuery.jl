@@ -45,7 +45,7 @@ CREATE TABLE mesh_qualifier(
 CREATE TABLE mesh_heading(
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     pmid INTEGER, did INTEGER, qid INTEGER,
-    dmjr INTEGER, qmjr INTEGER,
+    dmjr VARCHAR(1), qmjr VARCHAR(1),
     FOREIGN KEY(pmid) REFERENCES article(pmid),
     FOREIGN KEY(did) REFERENCES mesh_descriptor(id),
     FOREIGN KEY(qid) REFERENCES mesh_qualifier(id),

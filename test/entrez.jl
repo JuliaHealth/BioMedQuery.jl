@@ -4,12 +4,12 @@ using MySQL
 #------------------ BioMedQuery -------------------
     @testset "Testing Entrez" begin
     #testset "globals"
-    narticles = 10
+    narticles =10
     email=""
     ids = []
     efetch_dict = Dict()
     db_path = "./test_db.db"
-    verbose = false
+    verbose = true
     articles = []
 
     try
@@ -134,9 +134,9 @@ using MySQL
         println("-----------------------------------------")
         println("       Testing MySQL Saving")
 
-        config = Dict(:host=>"localhost", :dbname=>"test", :username=>"root",
+        config = Dict(:host=>"localhost", :dbname=>"entrez_test", :username=>"root",
         :pswd=>"", :overwrite=>true)
-        db = BioMedQuery.Entrez.save_efetch_mysql(efetch_dict, config, verbose)
+        @time db = BioMedQuery.Entrez.save_efetch_mysql(efetch_dict, config, verbose)
 
         #query the article table and make sure the count is correct
         all_pmids = BioMedQuery.Entrez.DB.all_pmids(db)
@@ -144,6 +144,7 @@ using MySQL
 
         #check we can get the MESH descriptor for an article
         mesh = BioMedQuery.Entrez.DB.get_article_mesh(db, all_pmids[1])
+        println(mesh)
         @test length(mesh) > 0
 
         #check that reminder of tables are not empty

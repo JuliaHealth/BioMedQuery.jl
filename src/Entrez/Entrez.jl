@@ -208,6 +208,25 @@ function eparse(ncbi_response::ASCIIString)
 end
 
 
+"""
+    eparse_from_file(xml_file::ASCIIString)
+
+Converts NCBI XML (previously saved) file into a Julia dictionary
+
+"""
+function eparse_from_file(xml_file::ASCIIString)
+    xdoc = parse_file(xml_file)
+    # get the root element
+    xroot = root(xdoc)  # an instance of XMLElement
+    # get all child nodes and append to dictionary
+    node_element = xroot
+    #convert attributes to elements
+    attributes_to_elements!(xroot)
+    #convert to a dictionary
+    dict = xml2dict(xroot)
+    return dict
+end
+
 # """
 #     save_efetch(efetch_dict, db_path)
 #

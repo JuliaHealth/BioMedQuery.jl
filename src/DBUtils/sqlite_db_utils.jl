@@ -25,12 +25,8 @@ end
 Execute a SQLite command
 """
 function db_query(db::SQLite.DB, query_code)
-    try
-        sel = SQLite.query(db, query_code)
-        return sel
-    catch
-        SQLite.sqliteerror(db)
-    end
+    sel = SQLite.query(db, query_code)
+    return sel
 end
 
 """
@@ -48,11 +44,22 @@ function insert_row!{T}(db::SQLite.DB, tablename, data_values::Dict{Symbol, T},
 
     cols_string, vals_string = assemble_cols_and_vals(data_values)
     lastid = -1
-    q = db_query(db, "INSERT INTO `$tablename` ($cols_string) values $vals_string")
+    try
+        q = db_query(db, "INSERT INTO `$tablename` ($cols_string) values $vals_string")
+    catch e
+        if verbose
+            Base.showerror(STDOUT, e)
+            println("\n")
+            println("Warning! Could not insert values $vals_string into table $tablename")
+        end
+        return -1
+    end
+
     lastid_query = db_query(db, "SELECT last_insert_rowid()")
     lastid = get(lastid_query[1][1], -1)
     if verbose
         println("Row successfully inserted into table: $tablename")
     end
+
     return lastid
 end

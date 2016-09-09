@@ -5,7 +5,7 @@ using BioMedQuery.DBUtils
 config = Dict(:host=>"localhost", :dbname=>"test", :username=>"root",
 :pswd=>"", :overwrite=>true)
 
-con = Entrez.DB.init_database_mysql(config)
+con = Entrez.DB.init_pubmed_db_mysql(config)
 
 #check collection of tables
 tables_query = BioMedQuery.DBUtils.select_all_tables(con)
@@ -18,15 +18,11 @@ BioMedQuery.DBUtils.insert_row!(con, "article", Dict(:pmid => 1234,
 :pubYear=>nothing))
 
 #check duplicate error insert
-duplicate_caught = false
-try
-    BioMedQuery.DBUtils.insert_row!(con, "article", Dict(:pmid => 1234,
+duplicate_id = BioMedQuery.DBUtils.insert_row!(con, "article", Dict(:pmid => 1234,
     :title=>"Test Article", :pubYear=>nothing))
-catch
-    duplicate_caught = true
-end
 
-@test duplicate_caught == true
+
+@test duplicate_id < 1
 sel = BioMedQuery.DBUtils.db_select(con, ["pmid"], "article", Dict(:title=>"Test Article"))
 
 @test length(sel[1]) == 1

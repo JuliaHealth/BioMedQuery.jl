@@ -1,4 +1,6 @@
-#Test "globals"
+
+using BioMedQuery.UMLS
+
 user= ""
 psswd = ""
 try
@@ -10,17 +12,17 @@ catch
     println("UMLS_PSSWD")
 end
 
-credentials = BioMedQuery.UMLS.Credentials(user, psswd)
+credentials = Credentials(user, psswd)
 term = "obesity"
 query = Dict("string"=>term, "searchType"=>"exact" )
 
 
 @testset "Testing UMLS" begin
     tgt = get_tgt(credentials)
-    all_results= BioMedQuery.UMLS.search_umls(tgt, query)
+    all_results= search_umls(tgt, query)
     @test length(all_results[1]["result"]["results"]) == 2
-    cui = BioMedQuery.UMLS.best_match_cui(all_results)
+    cui = best_match_cui(all_results)
     @test cui == "C0028754"
-    sm = BioMedQuery.UMLS.get_semantic_type(tgt, cui)
+    sm = get_semantic_type(tgt, cui)
     @test sm[1] == "Disease or Syndrome"
 end

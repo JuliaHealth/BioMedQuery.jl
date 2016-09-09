@@ -34,7 +34,7 @@ function citations_endnote(article::PubMedArticle, verbose=false)
     !isnull(article.url) && push!(lines, "%U $(article.url.value)")
     !isnull(article.abstract_text) && push!(lines, "%X $(article.abstract_text.value)")
 
-    
+
     for term in article.mesh
         !isnull(term) && push!(lines, "%K $(term.value)")
     end
@@ -84,10 +84,15 @@ function save_article_citations(efetch_dict, config, verbose=false)
     fout = open(output_file, "a")
     for xml_article in articles
         article = TypeArticle(xml_article)
-        citation = citation_func(article, verbose)
-        print(fout, citation)
-        println(fout) #two empty lines
-        println(fout)
+        try
+            citation = citation_func(article, verbose)
+            print(fout, citation)
+            println(fout) #two empty lines
+            println(fout)
+        catch
+            println("Citation failed for PMDI: ", article.pmid)
+            continue
+        end
     end
     close(fout)
 end

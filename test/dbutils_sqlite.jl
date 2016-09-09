@@ -5,7 +5,7 @@ using BioMedQuery.DBUtils
 db_path = "./test_db.sqlite"
 
 config = Dict(:db_path=>db_path, :overwrite=>true)
-db = Entrez.DB.init_database_sqlite(config)
+db = Entrez.DB.init_pubmed_db_sqlite(config)
 
 #check collection of tables
 tables_query = BioMedQuery.DBUtils.select_all_tables(db)

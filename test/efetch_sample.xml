@@ -1,0 +1,1376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE PubmedArticleSet PUBLIC "-//NLM//DTD PubMedArticle, 1st January 2016//EN" "http://www.ncbi.nlm.nih.gov/corehtml/query/DTD/pubmed_160101.dtd">
+<PubmedArticleSet>
+<PubmedArticle>
+    <MedlineCitation Owner="NLM" Status="MEDLINE">
+        <PMID Version="1">27483622</PMID>
+        <DateCreated>
+            <Year>2016</Year>
+            <Month>08</Month>
+            <Day>03</Day>
+        </DateCreated>
+        <DateCompleted>
+            <Year>2016</Year>
+            <Month>09</Month>
+            <Day>01</Day>
+        </DateCompleted>
+        <Article PubModel="Print">
+            <Journal>
+                <ISSN IssnType="Print">1048-5317</ISSN>
+                <JournalIssue CitedMedium="Print">
+                    <Volume>28</Volume>
+                    <Issue>3</Issue>
+                    <PubDate>
+                        <MedlineDate>2016 May-Jun</MedlineDate>
+                    </PubDate>
+                </JournalIssue>
+                <Title>Today's FDA : official monthly journal of the Florida Dental Association</Title>
+                <ISOAbbreviation>Todays FDA</ISOAbbreviation>
+            </Journal>
+            <ArticleTitle>Five Tips to Building a Successful Sleep Practice.</ArticleTitle>
+            <Pagination>
+                <MedlinePgn>36-7</MedlinePgn>
+            </Pagination>
+            <AuthorList CompleteYN="Y">
+                <Author ValidYN="Y">
+                    <LastName>Poss</LastName>
+                    <ForeName>Stephen</ForeName>
+                    <Initials>S</Initials>
+                </Author>
+            </AuthorList>
+            <Language>eng</Language>
+            <PublicationTypeList>
+                <PublicationType UI="D016428">Journal Article</PublicationType>
+            </PublicationTypeList>
+        </Article>
+        <MedlineJournalInfo>
+            <Country>United States</Country>
+            <MedlineTA>Todays FDA</MedlineTA>
+            <NlmUniqueID>9012957</NlmUniqueID>
+            <ISSNLinking>1048-5317</ISSNLinking>
+        </MedlineJournalInfo>
+        <CitationSubset>D</CitationSubset>
+        <MeshHeadingList>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D002012">Bruxism</DescriptorName>
+                <QualifierName MajorTopicYN="Y" UI="Q000517">prevention &amp; control</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D006801">Humans</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D011215">Practice Management, Dental</DescriptorName>
+                <QualifierName MajorTopicYN="Y" UI="Q000458">organization &amp; administration</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D019239">Practice Patterns, Dentists'</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D020181">Sleep Apnea, Obstructive</DescriptorName>
+                <QualifierName MajorTopicYN="Y" UI="Q000517">prevention &amp; control</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D013705">Temporomandibular Joint Disorders</DescriptorName>
+                <QualifierName MajorTopicYN="Y" UI="Q000517">prevention &amp; control</QualifierName>
+            </MeshHeading>
+        </MeshHeadingList>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2016</Year>
+                <Month>8</Month>
+                <Day>4</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2016</Year>
+                <Month>8</Month>
+                <Day>3</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2016</Year>
+                <Month>9</Month>
+                <Day>2</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>ppublish</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="pubmed">27483622</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+
+<PubmedArticle>
+    <MedlineCitation Owner="NLM" Status="MEDLINE">
+        <PMID Version="1">27451595</PMID>
+        <DateCreated>
+            <Year>2016</Year>
+            <Month>07</Month>
+            <Day>25</Day>
+        </DateCreated>
+        <DateCompleted>
+            <Year>2016</Year>
+            <Month>08</Month>
+            <Day>18</Day>
+        </DateCompleted>
+        <Article PubModel="Print">
+            <Journal>
+                <ISSN IssnType="Print">2067-2993</ISSN>
+                <JournalIssue CitedMedium="Print">
+                    <Volume>64</Volume>
+                    <Issue>4</Issue>
+                    <PubDate>
+                        <MedlineDate>2015 Oct-Dec</MedlineDate>
+                    </PubDate>
+                </JournalIssue>
+                <Title>Pneumologia (Bucharest, Romania)</Title>
+                <ISOAbbreviation>Pneumologia</ISOAbbreviation>
+            </Journal>
+            <ArticleTitle>The efficiency of continuous positive airway pressure therapy in reducing cardiovascular dysfunction in a patient with arterial hypertension and obstructive sleep apnea.</ArticleTitle>
+            <Pagination>
+                <MedlinePgn>41-4</MedlinePgn>
+            </Pagination>
+            <Abstract>
+                <AbstractText>Obstructive sleep apnea (OSA) has been included by European and American hypertension therapy guidelines as a common cause of high blood pressure. Recent studies have demonstrated a strong link between OSA and HBP and the treatment thereof should consist of combination therapy, especially in patients with refractory AHT and a non-dipping profile. We present the case of a patient with high grade hypertension, with secondary organ damage and severe OSA. The ultimate method for controlling blood pressure and reversing subclinical cardiac and cerebrovascular dysfunction of this patient was the specific therapy with continuous positive airway pressure (cPAP).</AbstractText>
+            </Abstract>
+            <AuthorList CompleteYN="Y">
+                <Author ValidYN="Y">
+                    <LastName>Magda</LastName>
+                    <ForeName>Stefania L</ForeName>
+                    <Initials>SL</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Mincu</LastName>
+                    <ForeName>Raluca I</ForeName>
+                    <Initials>RI</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Dumitrache-Rujinski</LastName>
+                    <ForeName>Stefan</ForeName>
+                    <Initials>S</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Cinteza</LastName>
+                    <ForeName>Mircea</ForeName>
+                    <Initials>M</Initials>
+                </Author>
+            </AuthorList>
+            <Language>eng</Language>
+            <PublicationTypeList>
+                <PublicationType UI="D002363">Case Reports</PublicationType>
+                <PublicationType UI="D016428">Journal Article</PublicationType>
+                <PublicationType UI="D013485">Research Support, Non-U.S. Gov't</PublicationType>
+            </PublicationTypeList>
+        </Article>
+        <MedlineJournalInfo>
+            <Country>Romania</Country>
+            <MedlineTA>Pneumologia</MedlineTA>
+            <NlmUniqueID>100941067</NlmUniqueID>
+            <ISSNLinking>2067-2993</ISSNLinking>
+        </MedlineJournalInfo>
+        <ChemicalList>
+            <Chemical>
+                <RegistryNumber>0</RegistryNumber>
+                <NameOfSubstance UI="D000959">Antihypertensive Agents</NameOfSubstance>
+            </Chemical>
+        </ChemicalList>
+        <CitationSubset>IM</CitationSubset>
+        <MeshHeadingList>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D000959">Antihypertensive Agents</DescriptorName>
+                <QualifierName MajorTopicYN="N" UI="Q000627">therapeutic use</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D001794">Blood Pressure</DescriptorName>
+                <QualifierName MajorTopicYN="N" UI="Q000187">drug effects</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D001795">Blood Pressure Determination</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="Y" UI="D045422">Continuous Positive Airway Pressure</DescriptorName>
+                <QualifierName MajorTopicYN="N" UI="Q000379">methods</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D006801">Humans</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D006973">Hypertension</DescriptorName>
+                <QualifierName MajorTopicYN="N" UI="Q000175">diagnosis</QualifierName>
+                <QualifierName MajorTopicYN="N" UI="Q000503">physiopathology</QualifierName>
+                <QualifierName MajorTopicYN="Y" UI="Q000628">therapy</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D008297">Male</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D008875">Middle Aged</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D020181">Sleep Apnea, Obstructive</DescriptorName>
+                <QualifierName MajorTopicYN="N" UI="Q000175">diagnosis</QualifierName>
+                <QualifierName MajorTopicYN="N" UI="Q000503">physiopathology</QualifierName>
+                <QualifierName MajorTopicYN="Y" UI="Q000628">therapy</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D016896">Treatment Outcome</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D018487">Ventricular Dysfunction, Left</DescriptorName>
+                <QualifierName MajorTopicYN="N" UI="Q000175">diagnosis</QualifierName>
+                <QualifierName MajorTopicYN="N" UI="Q000503">physiopathology</QualifierName>
+                <QualifierName MajorTopicYN="Y" UI="Q000628">therapy</QualifierName>
+            </MeshHeading>
+        </MeshHeadingList>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>26</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>28</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2016</Year>
+                <Month>8</Month>
+                <Day>19</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>ppublish</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="pubmed">27451595</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+
+<PubmedArticle>
+    <MedlineCitation Owner="NLM" Status="MEDLINE">
+        <PMID Version="1">27451590</PMID>
+        <DateCreated>
+            <Year>2016</Year>
+            <Month>07</Month>
+            <Day>25</Day>
+        </DateCreated>
+        <DateCompleted>
+            <Year>2016</Year>
+            <Month>08</Month>
+            <Day>18</Day>
+        </DateCompleted>
+        <Article PubModel="Print">
+            <Journal>
+                <ISSN IssnType="Print">2067-2993</ISSN>
+                <JournalIssue CitedMedium="Print">
+                    <Volume>64</Volume>
+                    <Issue>4</Issue>
+                    <PubDate>
+                        <MedlineDate>2015 Oct-Dec</MedlineDate>
+                    </PubDate>
+                </JournalIssue>
+                <Title>Pneumologia (Bucharest, Romania)</Title>
+                <ISOAbbreviation>Pneumologia</ISOAbbreviation>
+            </Journal>
+            <ArticleTitle>Predictors of daytime sleepiness in patients with obstructive sleep apnea.</ArticleTitle>
+            <Pagination>
+                <MedlinePgn>21-5</MedlinePgn>
+            </Pagination>
+            <Abstract>
+                <AbstractText Label="BACKGROUND" NlmCategory="BACKGROUND">The main symptomatic criterion to diagnose obstructive sleep apnea (OSA) is the level of daytime sleepiness. The Epworth Sleepiness Scale is a simple, self-administered questionnaire which provides a measurement of the subject's general level of daytime sleepiness. The aim of this study was to investigate the factors that can predict daytime sleepiness in patients with sleep apnea.</AbstractText>
+                <AbstractText Label="METHODS" NlmCategory="METHODS">50 consecutive patients with obstructive sleep apnea were enrolled into the study. Age, gender, anthropometric and polygraphic data were thoroughly analyzed. In all subjects daily sleepiness was assessed by Epworth Sleepiness Scale.</AbstractText>
+                <AbstractText Label="RESULTS" NlmCategory="RESULTS">The mean age of the subjects was 54.7 ± 12.8 years, 82% males. The mean BMI was 31.9 ± 6 kg/m2. Pearson correlation coefficient analysis demonstrates a significant positive correlation between the Epworth Sleepiness Scale and the desaturation index (r = 0.31, p &lt; 0.01) and arterial hypertension (r = 0.32, p &lt; 0.01). The forward stepwise regression analysis shows that the apnea hypopnea index and desaturation index are important predictors of daytime sleepiness in patients with obstructive sleep apnea which explains 40% of the Epworth Sleepiness Scale score.</AbstractText>
+                <AbstractText Label="CONCLUSION" NlmCategory="CONCLUSIONS">The desaturation index showed the strongest correlation with the Epworth scale. According to the results of the backward stepwise multiple regression and logistic regression, the predictors for the level of daytime sleepiness are oAHI and index of desaturation. According to the analysis of the ROC curve, desaturation index is a predictor of a high specificity.</AbstractText>
+            </Abstract>
+            <AuthorList CompleteYN="Y">
+                <Author ValidYN="Y">
+                    <LastName>Corlateanu</LastName>
+                    <ForeName>Alexandru</ForeName>
+                    <Initials>A</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Pylchenko</LastName>
+                    <ForeName>Serghei</ForeName>
+                    <Initials>S</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Sircu</LastName>
+                    <ForeName>Victoria</ForeName>
+                    <Initials>V</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Botnaru</LastName>
+                    <ForeName>Victor</ForeName>
+                    <Initials>V</Initials>
+                </Author>
+            </AuthorList>
+            <Language>eng</Language>
+            <PublicationTypeList>
+                <PublicationType UI="D016428">Journal Article</PublicationType>
+            </PublicationTypeList>
+        </Article>
+        <MedlineJournalInfo>
+            <Country>Romania</Country>
+            <MedlineTA>Pneumologia</MedlineTA>
+            <NlmUniqueID>100941067</NlmUniqueID>
+            <ISSNLinking>2067-2993</ISSNLinking>
+        </MedlineJournalInfo>
+        <CitationSubset>IM</CitationSubset>
+        <MeshHeadingList>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D000328">Adult</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D000368">Aged</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D015992">Body Mass Index</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D006970">Disorders of Excessive Somnolence</DescriptorName>
+                <QualifierName MajorTopicYN="Y" UI="Q000175">diagnosis</QualifierName>
+                <QualifierName MajorTopicYN="N" UI="Q000209">etiology</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D005260">Female</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D006801">Humans</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D008297">Male</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D008875">Middle Aged</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="Y" UI="D017286">Polysomnography</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D011237">Predictive Value of Tests</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D012307">Risk Factors</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D012680">Sensitivity and Specificity</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D017678">Sex Distribution</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D020181">Sleep Apnea, Obstructive</DescriptorName>
+                <QualifierName MajorTopicYN="N" UI="Q000150">complications</QualifierName>
+                <QualifierName MajorTopicYN="Y" UI="Q000175">diagnosis</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D012894">Sleep Stages</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D011795">Surveys and Questionnaires</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D013997">Time Factors</DescriptorName>
+            </MeshHeading>
+        </MeshHeadingList>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>26</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>28</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2016</Year>
+                <Month>8</Month>
+                <Day>19</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>ppublish</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="pubmed">27451590</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+
+<PubmedArticle>
+    <MedlineCitation Owner="NLM" Status="MEDLINE">
+        <PMID Version="1">27396145</PMID>
+        <DateCreated>
+            <Year>2016</Year>
+            <Month>07</Month>
+            <Day>11</Day>
+        </DateCreated>
+        <DateCompleted>
+            <Year>2016</Year>
+            <Month>07</Month>
+            <Day>28</Day>
+        </DateCompleted>
+        <Article PubModel="Print">
+            <Journal>
+                <ISSN IssnType="Print">1026-9428</ISSN>
+                <JournalIssue CitedMedium="Print">
+                    <Issue>4</Issue>
+                    <PubDate>
+                        <Year>2016</Year>
+                    </PubDate>
+                </JournalIssue>
+                <Title>Meditsina truda i promyshlennaia ekologiia</Title>
+                <ISOAbbreviation>Med Tr Prom Ekol</ISOAbbreviation>
+            </Journal>
+            <ArticleTitle>[Obstructive sleep apnea features and occupational fitness of railway workers].</ArticleTitle>
+            <Pagination>
+                <MedlinePgn>10-5</MedlinePgn>
+            </Pagination>
+            <Abstract>
+                <AbstractText>The article covers prevalence of obstructive sleep apnea syndrome, its role in health disorders of workers engaged into railway safety. The authors analyzed present standards of occupational fitness in workers performing critically important operating activities and methods of occupational selection with possible obstructive sleep apnea syndrome. I stage recommendations are suggested in diagnosis of obstructive sleep apnea syndrome in workers engaged into railway safety. Obstructive sleep apnea syndrome appeared to threaten operators' activity, to cause accidents, to early disablement due to life-threatening complications, to unsuitability for the occupation due to diseases connected with obstructive sleep apnea syndrome (arterial hypertension, diabetes mellitus, metabolic syndrome, cardiac rhythm and conductivity disorders, obesity).</AbstractText>
+            </Abstract>
+            <AuthorList CompleteYN="Y">
+                <Author ValidYN="Y">
+                    <LastName>Buniatyan</LastName>
+                    <ForeName>M S</ForeName>
+                    <Initials>MS</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Belozerova</LastName>
+                    <ForeName>N V</ForeName>
+                    <Initials>NV</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>At'kov</LastName>
+                    <ForeName>O Yu</ForeName>
+                    <Initials>OY</Initials>
+                </Author>
+            </AuthorList>
+            <Language>rus</Language>
+            <PublicationTypeList>
+                <PublicationType UI="D004740">English Abstract</PublicationType>
+                <PublicationType UI="D016428">Journal Article</PublicationType>
+            </PublicationTypeList>
+        </Article>
+        <MedlineJournalInfo>
+            <Country>Russia (Federation)</Country>
+            <MedlineTA>Med Tr Prom Ekol</MedlineTA>
+            <NlmUniqueID>9434213</NlmUniqueID>
+            <ISSNLinking>1026-9428</ISSNLinking>
+        </MedlineJournalInfo>
+        <CitationSubset>IM</CitationSubset>
+        <MeshHeadingList>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D000328">Adult</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D006801">Humans</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D008297">Male</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D008875">Middle Aged</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D009784">Occupational Diseases</DescriptorName>
+                <QualifierName MajorTopicYN="Y" UI="Q000453">epidemiology</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="Y" UI="D016272">Occupational Health</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="Y" UI="D011890">Railroads</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D020181">Sleep Apnea, Obstructive</DescriptorName>
+                <QualifierName MajorTopicYN="Y" UI="Q000453">epidemiology</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="Y" UI="D014938">Work Capacity Evaluation</DescriptorName>
+            </MeshHeading>
+        </MeshHeadingList>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>12</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>12</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>29</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>ppublish</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="pubmed">27396145</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+
+<PubmedArticle>
+    <MedlineCitation Owner="NLM" Status="MEDLINE">
+        <PMID Version="1">27396098</PMID>
+        <DateCreated>
+            <Year>2016</Year>
+            <Month>07</Month>
+            <Day>11</Day>
+        </DateCreated>
+        <DateCompleted>
+            <Year>2016</Year>
+            <Month>07</Month>
+            <Day>28</Day>
+        </DateCompleted>
+        <Article PubModel="Print">
+            <Journal>
+                <ISSN IssnType="Print">0954-7762</ISSN>
+                <JournalIssue CitedMedium="Print">
+                    <Volume>112</Volume>
+                    <Issue>21-23</Issue>
+                    <PubDate>
+                        <MedlineDate>2016 May 25-Jun 14</MedlineDate>
+                    </PubDate>
+                </JournalIssue>
+                <Title>Nursing times</Title>
+                <ISOAbbreviation>Nurs Times</ISOAbbreviation>
+            </Journal>
+            <ArticleTitle>Developing a sleep apnoea clinic for prisoners.</ArticleTitle>
+            <Pagination>
+                <MedlinePgn>17-9</MedlinePgn>
+            </Pagination>
+            <Abstract>
+                <AbstractText>People in prison may experience barriers in accessing health services. By exploring some of these barriers and how they have been overcome, this article describes how prisoners were made aware of obstructive sleep apnoea and the associated risks, and how a clinic was set up in a prison healthcare centre. It shows how access to a community service was made available to the prisoners, and details how the service was set up, how it operates and what the outcomes achieved.</AbstractText>
+            </Abstract>
+            <AuthorList CompleteYN="Y">
+                <Author ValidYN="Y">
+                    <LastName>Reynolds</LastName>
+                    <ForeName>Sue</ForeName>
+                    <Initials>S</Initials>
+                </Author>
+            </AuthorList>
+            <Language>eng</Language>
+            <PublicationTypeList>
+                <PublicationType UI="D016428">Journal Article</PublicationType>
+            </PublicationTypeList>
+        </Article>
+        <MedlineJournalInfo>
+            <Country>England</Country>
+            <MedlineTA>Nurs Times</MedlineTA>
+            <NlmUniqueID>0423236</NlmUniqueID>
+            <ISSNLinking>0954-7762</ISSNLinking>
+        </MedlineJournalInfo>
+        <CitationSubset>N</CitationSubset>
+        <MeshHeadingList>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="Y" UI="D045422">Continuous Positive Airway Pressure</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" Type="Geographic" UI="D004739">England</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="Y" UI="D006296">Health Services</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D006297">Health Services Accessibility</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D006801">Humans</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D017286">Polysomnography</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="Y" UI="D011329">Prisoners</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="Y" UI="D011330">Prisons</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D020181">Sleep Apnea, Obstructive</DescriptorName>
+                <QualifierName MajorTopicYN="N" UI="Q000175">diagnosis</QualifierName>
+                <QualifierName MajorTopicYN="N" UI="Q000503">physiopathology</QualifierName>
+                <QualifierName MajorTopicYN="Y" UI="Q000628">therapy</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D013222">State Medicine</DescriptorName>
+            </MeshHeading>
+        </MeshHeadingList>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>12</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>12</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>29</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>ppublish</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="pubmed">27396098</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+
+<PubmedArticle>
+    <MedlineCitation Owner="NLM" Status="MEDLINE">
+        <PMID Version="1">27396095</PMID>
+        <DateCreated>
+            <Year>2016</Year>
+            <Month>07</Month>
+            <Day>11</Day>
+        </DateCreated>
+        <DateCompleted>
+            <Year>2016</Year>
+            <Month>07</Month>
+            <Day>28</Day>
+        </DateCompleted>
+        <Article PubModel="Print">
+            <Journal>
+                <ISSN IssnType="Print">0954-7762</ISSN>
+                <JournalIssue CitedMedium="Print">
+                    <Volume>112</Volume>
+                    <Issue>21-23</Issue>
+                    <PubDate>
+                        <MedlineDate>2016 May 25-Jun 14</MedlineDate>
+                    </PubDate>
+                </JournalIssue>
+                <Title>Nursing times</Title>
+                <ISOAbbreviation>Nurs Times</ISOAbbreviation>
+            </Journal>
+            <ArticleTitle>Service aids prisoners with sleep apnoea.</ArticleTitle>
+            <Pagination>
+                <MedlinePgn>11</MedlinePgn>
+            </Pagination>
+            <AuthorList CompleteYN="Y">
+                <Author ValidYN="Y">
+                    <LastName>Shuttleworth</LastName>
+                    <ForeName>Ann</ForeName>
+                    <Initials>A</Initials>
+                </Author>
+            </AuthorList>
+            <Language>eng</Language>
+            <PublicationTypeList>
+                <PublicationType UI="D016428">Journal Article</PublicationType>
+            </PublicationTypeList>
+        </Article>
+        <MedlineJournalInfo>
+            <Country>England</Country>
+            <MedlineTA>Nurs Times</MedlineTA>
+            <NlmUniqueID>0423236</NlmUniqueID>
+            <ISSNLinking>0954-7762</ISSNLinking>
+        </MedlineJournalInfo>
+        <CitationSubset>N</CitationSubset>
+        <MeshHeadingList>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="Y" UI="D045422">Continuous Positive Airway Pressure</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="Y" UI="D006296">Health Services</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D006801">Humans</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="Y" UI="D011329">Prisoners</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="Y" UI="D011330">Prisons</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D020181">Sleep Apnea, Obstructive</DescriptorName>
+                <QualifierName MajorTopicYN="Y" UI="Q000628">therapy</QualifierName>
+            </MeshHeading>
+        </MeshHeadingList>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>12</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>12</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>29</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>ppublish</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="pubmed">27396095</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+
+<PubmedArticle>
+    <MedlineCitation Owner="NLM" Status="MEDLINE">
+        <PMID Version="1">27382691</PMID>
+        <DateCreated>
+            <Year>2016</Year>
+            <Month>07</Month>
+            <Day>06</Day>
+        </DateCreated>
+        <DateCompleted>
+            <Year>2016</Year>
+            <Month>07</Month>
+            <Day>12</Day>
+        </DateCompleted>
+        <Article PubModel="Print">
+            <Journal>
+                <ISSN IssnType="Print">1001-1781</ISSN>
+                <JournalIssue CitedMedium="Print">
+                    <Volume>30</Volume>
+                    <Issue>5</Issue>
+                    <PubDate>
+                        <Year>2016</Year>
+                        <Month>Mar</Month>
+                    </PubDate>
+                </JournalIssue>
+                <Title>Lin chuang er bi yan hou tou jing wai ke za zhi = Journal of clinical otorhinolaryngology, head, and neck surgery</Title>
+                <ISOAbbreviation>Lin Chung Er Bi Yan Hou Tou Jing Wai Ke Za Zhi</ISOAbbreviation>
+            </Journal>
+            <ArticleTitle>[Children severe OSAHS with pectus excavatum: a case report].</ArticleTitle>
+            <Pagination>
+                <MedlinePgn>407-9</MedlinePgn>
+            </Pagination>
+            <Abstract>
+                <AbstractText>The primary etiopathology of pediatric OSAHS includes tonsil or adenoid hypertrophy. Severe OSAHS contributes to or aggravates thoracic deformity, which is rarely reported. In the current report, This children sleep snoring more than 4 years, increasing with thoracic severe depression during sleep 2 days. Clinical examination indicated tonsil and adenoid hypertrophy, and polysomnography revealed OSAHS . The symptoms of OSAHS and severe inhalation-related sternum depression disappeared rapidly after tonsillectomy. Our findings indicated that OSAHS were the major causes underlying funnel chest in children. The rarity of the incidence may result in missed diagnosis or misdiagnosis. Polysomnography was recommended for the child diagnosed with funnel chest accompanied by upper airway stenosis.</AbstractText>
+            </Abstract>
+            <AuthorList CompleteYN="Y">
+                <Author ValidYN="Y">
+                    <LastName>Ma</LastName>
+                    <ForeName>Wei</ForeName>
+                    <Initials>W</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Wang</LastName>
+                    <ForeName>Jinfeng</ForeName>
+                    <Initials>J</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Xie</LastName>
+                    <ForeName>Yuping</ForeName>
+                    <Initials>Y</Initials>
+                </Author>
+            </AuthorList>
+            <Language>chi</Language>
+            <PublicationTypeList>
+                <PublicationType UI="D002363">Case Reports</PublicationType>
+                <PublicationType UI="D004740">English Abstract</PublicationType>
+                <PublicationType UI="D016428">Journal Article</PublicationType>
+            </PublicationTypeList>
+        </Article>
+        <MedlineJournalInfo>
+            <Country>China</Country>
+            <MedlineTA>Lin Chung Er Bi Yan Hou Tou Jing Wai Ke Za Zhi</MedlineTA>
+            <NlmUniqueID>101303164</NlmUniqueID>
+        </MedlineJournalInfo>
+        <CitationSubset>IM</CitationSubset>
+        <MeshHeadingList>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D000234">Adenoids</DescriptorName>
+                <QualifierName MajorTopicYN="N" UI="Q000473">pathology</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D002648">Child</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D005660">Funnel Chest</DescriptorName>
+                <QualifierName MajorTopicYN="Y" UI="Q000175">diagnosis</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D006801">Humans</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D006984">Hypertrophy</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D014066">Palatine Tonsil</DescriptorName>
+                <QualifierName MajorTopicYN="N" UI="Q000473">pathology</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D017286">Polysomnography</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D020181">Sleep Apnea, Obstructive</DescriptorName>
+                <QualifierName MajorTopicYN="Y" UI="Q000175">diagnosis</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D012913">Snoring</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D014068">Tonsillectomy</DescriptorName>
+            </MeshHeading>
+        </MeshHeadingList>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>8</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>8</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>13</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>ppublish</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="pubmed">27382691</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+
+<PubmedArticle>
+    <MedlineCitation Owner="NLM" Status="MEDLINE">
+        <PMID Version="1">27382686</PMID>
+        <DateCreated>
+            <Year>2016</Year>
+            <Month>07</Month>
+            <Day>06</Day>
+        </DateCreated>
+        <DateCompleted>
+            <Year>2016</Year>
+            <Month>07</Month>
+            <Day>12</Day>
+        </DateCompleted>
+        <Article PubModel="Print">
+            <Journal>
+                <ISSN IssnType="Print">1001-1781</ISSN>
+                <JournalIssue CitedMedium="Print">
+                    <Volume>30</Volume>
+                    <Issue>5</Issue>
+                    <PubDate>
+                        <Year>2016</Year>
+                        <Month>Mar</Month>
+                    </PubDate>
+                </JournalIssue>
+                <Title>Lin chuang er bi yan hou tou jing wai ke za zhi = Journal of clinical otorhinolaryngology, head, and neck surgery</Title>
+                <ISOAbbreviation>Lin Chung Er Bi Yan Hou Tou Jing Wai Ke Za Zhi</ISOAbbreviation>
+            </Journal>
+            <ArticleTitle>[Effects of different surgical procedures on immunity of children with obstructive sleep apnea hypopnea syndrome].</ArticleTitle>
+            <Pagination>
+                <MedlinePgn>396-8</MedlinePgn>
+            </Pagination>
+            <Abstract>
+                <AbstractText Label="OBJECTIVE" NlmCategory="OBJECTIVE">To explore the effects of pure adenoidectomy,adenoidectomy with partial tonsillectomy,and adenoidectomy with total tonsillectomy on humoral and cellular immunity of children with OSAHS.</AbstractText>
+                <AbstractText Label="METHOD" NlmCategory="METHODS">The children with OSAHS diagnosed by polysomnography were divided into pure adenoidectomy group(group A),adenoidectomy with partial tonsillectomy group(group B), and adenoidectomy with total tonsillectomy(group C), and there were 50 cases in each group. The serum IgG, IgA, IgM level and peripheral blood T cell subgroup per-centage were detected at 6 months preoperatively and postoperatively. Tonsil grading and polysomnography wereconducted, recording symptoms improvement situation at postoperative 6 months.</AbstractText>
+                <AbstractText Label="RESULT" NlmCategory="RESULTS">There was no statisticallysignificant difference compared with preoperative(P&gt;0. 05) in humoral immunity and cellular immunity index ofpostoperative 6 months. There was no significani difference(P&gt;C. 05) in curative effect among three groups in the 6th month post-operatively.</AbstractText>
+                <AbstractText Label="CONCLUSION" NlmCategory="CONCLUSIONS">All of these three surgical procedures had no obvious effect on humoral orcellular immune function in children, and could effectively treat children OSAHS.</AbstractText>
+            </Abstract>
+            <AuthorList CompleteYN="Y">
+                <Author ValidYN="Y">
+                    <LastName>Zhou</LastName>
+                    <ForeName>Juanjuan</ForeName>
+                    <Initials>J</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Wang</LastName>
+                    <ForeName>Yan</ForeName>
+                    <Initials>Y</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Li</LastName>
+                    <ForeName>Yanzhong</ForeName>
+                    <Initials>Y</Initials>
+                </Author>
+            </AuthorList>
+            <Language>chi</Language>
+            <PublicationTypeList>
+                <PublicationType UI="D004740">English Abstract</PublicationType>
+                <PublicationType UI="D016428">Journal Article</PublicationType>
+            </PublicationTypeList>
+        </Article>
+        <MedlineJournalInfo>
+            <Country>China</Country>
+            <MedlineTA>Lin Chung Er Bi Yan Hou Tou Jing Wai Ke Za Zhi</MedlineTA>
+            <NlmUniqueID>101303164</NlmUniqueID>
+        </MedlineJournalInfo>
+        <ChemicalList>
+            <Chemical>
+                <RegistryNumber>0</RegistryNumber>
+                <NameOfSubstance UI="D000906">Antibodies</NameOfSubstance>
+            </Chemical>
+        </ChemicalList>
+        <CitationSubset>IM</CitationSubset>
+        <MeshHeadingList>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D000233">Adenoidectomy</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D000906">Antibodies</DescriptorName>
+                <QualifierName MajorTopicYN="N" UI="Q000097">blood</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D002648">Child</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D006801">Humans</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="Y" UI="D007111">Immunity, Cellular</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="Y" UI="D056724">Immunity, Humoral</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D014066">Palatine Tonsil</DescriptorName>
+                <QualifierName MajorTopicYN="N" UI="Q000473">pathology</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D017286">Polysomnography</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D011184">Postoperative Period</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D020181">Sleep Apnea, Obstructive</DescriptorName>
+                <QualifierName MajorTopicYN="Y" UI="Q000276">immunology</QualifierName>
+                <QualifierName MajorTopicYN="Y" UI="Q000601">surgery</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D016176">T-Lymphocyte Subsets</DescriptorName>
+                <QualifierName MajorTopicYN="N" UI="Q000166">cytology</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D014068">Tonsillectomy</DescriptorName>
+            </MeshHeading>
+        </MeshHeadingList>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>8</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>8</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>13</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>ppublish</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="pubmed">27382686</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+
+<PubmedArticle>
+    <MedlineCitation Owner="NLM" Status="MEDLINE">
+        <PMID Version="1">27373092</PMID>
+        <DateCreated>
+            <Year>2016</Year>
+            <Month>07</Month>
+            <Day>04</Day>
+        </DateCreated>
+        <DateCompleted>
+            <Year>2016</Year>
+            <Month>07</Month>
+            <Day>12</Day>
+        </DateCompleted>
+        <Article PubModel="Print">
+            <Journal>
+                <ISSN IssnType="Print">1001-1781</ISSN>
+                <JournalIssue CitedMedium="Print">
+                    <Volume>30</Volume>
+                    <Issue>3</Issue>
+                    <PubDate>
+                        <Year>2016</Year>
+                        <Month>Feb</Month>
+                    </PubDate>
+                </JournalIssue>
+                <Title>Lin chuang er bi yan hou tou jing wai ke za zhi = Journal of clinical otorhinolaryngology, head, and neck surgery</Title>
+                <ISOAbbreviation>Lin Chung Er Bi Yan Hou Tou Jing Wai Ke Za Zhi</ISOAbbreviation>
+            </Journal>
+            <ArticleTitle>[The clinical significance and changes of serum tumor necrosis factor and plasma endothelium in patients with OSAHS associated Type 2 diabetes mellites].</ArticleTitle>
+            <Pagination>
+                <MedlinePgn>217-9, 225</MedlinePgn>
+            </Pagination>
+            <Abstract>
+                <AbstractText Label="OBJECTIVE" NlmCategory="OBJECTIVE">To investigate the significance of tumor necrosis factor-alpha (TNF-α) and plasma endothelium (ET) in pathophysiologic process of patients with obstructive sleep apnea hypopnea syndrome(OSAHS) with type 2 diabetes mellitus (T2DM).</AbstractText>
+                <AbstractText Label="METHOD" NlmCategory="METHODS">All observed subjects were divided into 4 groups. A number of 80 patients with OSAHS, 65 cases of OSAHS with T2DM patients, 20 patients with T2DM, and 32 cases of healthy control group were observed in this study. The serum levels of TNF-α and ET were detected by double antibody sandwich ELISA, the content of TNF-α and ET were compared between OSAHS group and OSAHS + T2DM group. It were also compared before and after treatment of CPAP or surgery.</AbstractText>
+                <AbstractText Label="RESULT" NlmCategory="RESULTS">TNF-α level is higher in OSAHS+T2DM group than that in the OSAHS group, T2DM group and the control group (P &lt; 0.05); TNF-α level in OSAHS group and the T2DM group are higher than that in the control group (P &lt; 0.05), but there was no difference in TNF-α level between the OSAHS group and the T2DM group. There was also no difference in ET level of the four groups. There were significant differences of TNF-α before and after treatment of CPAP or surgery in OSAHS group and OSAHS+T2DM group (P &lt; 0.05). But there was no significant differences of ET before and after treatment of CPAP or surgery in the OSAHS+T2DM group (P &gt; 0.05).</AbstractText>
+                <AbstractText Label="CONCLUSION" NlmCategory="CONCLUSIONS">TNF-α may be involved in the development of OSAHS and T2DM, while ET may have little effect on the occurrence and development of OSAHS and T2DM.</AbstractText>
+            </Abstract>
+            <AuthorList CompleteYN="Y">
+                <Author ValidYN="Y">
+                    <LastName>Hui</LastName>
+                    <ForeName>Peilin</ForeName>
+                    <Initials>P</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Jia</LastName>
+                    <ForeName>Shuangbao</ForeName>
+                    <Initials>S</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Ma</LastName>
+                    <ForeName>Wei</ForeName>
+                    <Initials>W</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Zhao</LastName>
+                    <ForeName>Lijun</ForeName>
+                    <Initials>L</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Wang</LastName>
+                    <ForeName>Jinfeng</ForeName>
+                    <Initials>J</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Wei</LastName>
+                    <ForeName>Xiaoquan</ForeName>
+                    <Initials>X</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Zhou</LastName>
+                    <ForeName>Liya</ForeName>
+                    <Initials>L</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Dai</LastName>
+                    <ForeName>Manke</ForeName>
+                    <Initials>M</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Zhang</LastName>
+                    <ForeName>Wenjuan</ForeName>
+                    <Initials>W</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Xie</LastName>
+                    <ForeName>Yuping</ForeName>
+                    <Initials>Y</Initials>
+                </Author>
+            </AuthorList>
+            <Language>chi</Language>
+            <PublicationTypeList>
+                <PublicationType UI="D004740">English Abstract</PublicationType>
+                <PublicationType UI="D016428">Journal Article</PublicationType>
+            </PublicationTypeList>
+        </Article>
+        <MedlineJournalInfo>
+            <Country>China</Country>
+            <MedlineTA>Lin Chung Er Bi Yan Hou Tou Jing Wai Ke Za Zhi</MedlineTA>
+            <NlmUniqueID>101303164</NlmUniqueID>
+        </MedlineJournalInfo>
+        <ChemicalList>
+            <Chemical>
+                <RegistryNumber>0</RegistryNumber>
+                <NameOfSubstance UI="D000906">Antibodies</NameOfSubstance>
+            </Chemical>
+            <Chemical>
+                <RegistryNumber>0</RegistryNumber>
+                <NameOfSubstance UI="D016232">Endothelins</NameOfSubstance>
+            </Chemical>
+            <Chemical>
+                <RegistryNumber>0</RegistryNumber>
+                <NameOfSubstance UI="D014409">Tumor Necrosis Factor-alpha</NameOfSubstance>
+            </Chemical>
+        </ChemicalList>
+        <CitationSubset>IM</CitationSubset>
+        <MeshHeadingList>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D000906">Antibodies</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D003924">Diabetes Mellitus, Type 2</DescriptorName>
+                <QualifierName MajorTopicYN="Y" UI="Q000097">blood</QualifierName>
+                <QualifierName MajorTopicYN="N" UI="Q000150">complications</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D016232">Endothelins</DescriptorName>
+                <QualifierName MajorTopicYN="Y" UI="Q000097">blood</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D004797">Enzyme-Linked Immunosorbent Assay</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D006801">Humans</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D020181">Sleep Apnea, Obstructive</DescriptorName>
+                <QualifierName MajorTopicYN="Y" UI="Q000097">blood</QualifierName>
+                <QualifierName MajorTopicYN="N" UI="Q000150">complications</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D014409">Tumor Necrosis Factor-alpha</DescriptorName>
+                <QualifierName MajorTopicYN="Y" UI="Q000097">blood</QualifierName>
+            </MeshHeading>
+        </MeshHeadingList>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>5</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>5</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>13</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>ppublish</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="pubmed">27373092</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+
+<PubmedArticle>
+    <MedlineCitation Owner="NLM" Status="MEDLINE">
+        <PMID Version="1">27373039</PMID>
+        <DateCreated>
+            <Year>2016</Year>
+            <Month>07</Month>
+            <Day>04</Day>
+        </DateCreated>
+        <DateCompleted>
+            <Year>2016</Year>
+            <Month>07</Month>
+            <Day>12</Day>
+        </DateCompleted>
+        <Article PubModel="Print">
+            <Journal>
+                <ISSN IssnType="Print">1001-1781</ISSN>
+                <JournalIssue CitedMedium="Print">
+                    <Volume>30</Volume>
+                    <Issue>4</Issue>
+                    <PubDate>
+                        <Year>2016</Year>
+                        <Month>Feb</Month>
+                    </PubDate>
+                </JournalIssue>
+                <Title>Lin chuang er bi yan hou tou jing wai ke za zhi = Journal of clinical otorhinolaryngology, head, and neck surgery</Title>
+                <ISOAbbreviation>Lin Chung Er Bi Yan Hou Tou Jing Wai Ke Za Zhi</ISOAbbreviation>
+            </Journal>
+            <ArticleTitle>[Effect of CPAP therapy on sleep quality and quality of life in patients with moderate or severe OSAHS].</ArticleTitle>
+            <Pagination>
+                <MedlinePgn>306-9</MedlinePgn>
+            </Pagination>
+            <Abstract>
+                <AbstractText Label="OBJECTIVE" NlmCategory="OBJECTIVE">To assess the effect of CPAP therapy on sleep quality and quality of life in patients with moderate or severe OSAHS.</AbstractText>
+                <AbstractText Label="METHOD" NlmCategory="METHODS">Seventy-two patients diagnosed as OSAHS by polysomnography (PSG) were assigned to receive CPAP therapy for 3 months. At baseline and three months after treatment patients underwent polysomnography (PSG). Analyze the results of PSG, sleep quality, excessive daytime sleepiness, quality of life and the general well-being.</AbstractText>
+                <AbstractText Label="RESULT" NlmCategory="RESULTS">The lowest average oxygen saturation and the average blood oxygen saturation improved significantly after CPAP therapy, and the longest sleep apnea time and AHI decreased obviously (P &lt; 0.01). Except body pain, the other seven dimensions of SF-36 improved obviously (P &lt; 0.01); ESS, PSQI and GWB also improved (P &lt; 0.05).</AbstractText>
+                <AbstractText Label="CONCLUSION" NlmCategory="CONCLUSIONS">For patients with moderate or severe OSAHS, CPAP therapy can obviously improve the sleep quality, excessive daytime sleepiness, improve patients' life quality and the general well-being.</AbstractText>
+            </Abstract>
+            <AuthorList CompleteYN="Y">
+                <Author ValidYN="Y">
+                    <LastName>Wang</LastName>
+                    <ForeName>Yafang</ForeName>
+                    <Initials>Y</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>He</LastName>
+                    <ForeName>Peng</ForeName>
+                    <Initials>P</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Teng</LastName>
+                    <ForeName>Bo</ForeName>
+                    <Initials>B</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Tong</LastName>
+                    <ForeName>Weifang</ForeName>
+                    <Initials>W</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Wen</LastName>
+                    <ForeName>Lianji</ForeName>
+                    <Initials>L</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Feng</LastName>
+                    <ForeName>Qingjie</ForeName>
+                    <Initials>Q</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Chen</LastName>
+                    <ForeName>Junyu</ForeName>
+                    <Initials>J</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Huang</LastName>
+                    <ForeName>Di</ForeName>
+                    <Initials>D</Initials>
+                </Author>
+            </AuthorList>
+            <Language>chi</Language>
+            <PublicationTypeList>
+                <PublicationType UI="D004740">English Abstract</PublicationType>
+                <PublicationType UI="D016428">Journal Article</PublicationType>
+            </PublicationTypeList>
+        </Article>
+        <MedlineJournalInfo>
+            <Country>China</Country>
+            <MedlineTA>Lin Chung Er Bi Yan Hou Tou Jing Wai Ke Za Zhi</MedlineTA>
+            <NlmUniqueID>101303164</NlmUniqueID>
+        </MedlineJournalInfo>
+        <CitationSubset>IM</CitationSubset>
+        <MeshHeadingList>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="Y" UI="D045422">Continuous Positive Airway Pressure</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D006801">Humans</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D010092">Oximetry</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D017286">Polysomnography</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="Y" UI="D011788">Quality of Life</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName MajorTopicYN="N" UI="D020181">Sleep Apnea, Obstructive</DescriptorName>
+                <QualifierName MajorTopicYN="Y" UI="Q000628">therapy</QualifierName>
+            </MeshHeading>
+        </MeshHeadingList>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>5</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>5</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2016</Year>
+                <Month>7</Month>
+                <Day>13</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>ppublish</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="pubmed">27373039</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
+
+</PubmedArticleSet>

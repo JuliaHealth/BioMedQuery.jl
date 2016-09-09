@@ -27,11 +27,20 @@ function init_mysql_database(;host = "localhost", dbname="test",
     # we then create DB we want
     con = mysql_connect(host, username, pswd)
 
-    if overwrite
-        println("Set to overwrite MySQL database $dbname")
-        mysql_execute(con, "DROP DATABASE IF EXISTS $dbname;")
+    q = mysql_execute(con, "SHOW DATABASES LIKE '$dbname'; ")
+    if length(q[1])>0
+        if overwrite
+            println("Set to overwrite MySQL database $dbname")
+            mysql_execute(con, "DROP DATABASE IF EXISTS $dbname;")
+        else
+            con = mysql_connect(host, username, pswd, dbname)
+            println("Connected to existing database")
+            println("Con: ", con)
+            return con
+        end
     end
-    mysql_execute(con, "CREATE DATABASE IF NOT EXISTS $dbname
+
+    mysql_execute(con, "CREATE DATABASE $dbname
         CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
     con = mysql_connect(host, username, pswd, dbname)
 
@@ -39,7 +48,7 @@ function init_mysql_database(;host = "localhost", dbname="test",
         mysql_execute(con, mysql_code)
         println("Database $dbname created and initialized")
     else
-        println("Empty or Existing Database Created")
+        println("Empty Database Created")
     end
 
     return con
@@ -97,11 +106,11 @@ function insert_row!{T}(con::MySQL.MySQLHandle, tablename, data_values::Dict{Sym
     try
         lastid = mysql_execute(con, "INSERT INTO `$tablename` ($cols_string) values $vals_string;
          SELECT LAST_INSERT_ID();")[2][1,1]
-    catch
-        Base.showerror(STDOUT, MySQLInternalError(con))
+    catch e
+        # Base.showerror(STDOUT, MySQLInternalError(con))
         println("\n")
-        println("Row not inserted into the table: $tablename")
-        throw(MySQLInternalError(con))
+        println("Warning: Row with values $vals_string not inserted into the table: $tablename")
+        # throw(MySQLInternalError(con))
     end
     return lastid
 end
@@ -128,11 +137,11 @@ function insert_row!{T}(con::MySQL.MySQLHandle, tablename, data_values::Dict{Sym
         lastid = q[2][1,1]
     catch
         if verbose
-            println("Row not inserted into the table: $tablename")
+            println("Warning! Row with values $vals_string not inserted into the table: $tablename")
             Base.showerror(STDOUT, MySQLInternalError(con))
             println("\n")
         end
-        throw(MySQLInternalError(con))
+        # throw(MySQLInternalError(con))
     end
     return lastid
 end
