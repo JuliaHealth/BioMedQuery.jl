@@ -40,24 +40,25 @@ A tgt is valid for 8 hours. Therefore, look for UTS_TGT.txt in the local
 directory to see if it has been recently stored.
 """
 function get_tgt(c::Credentials)
+    #Commented out due to old TGT not working
     #Check if there is a valid ticket on disk
-    TGT_file = "UTS_TGT.txt"
-    if isfile(TGT_file)
-        #check time
-        time_elapsed = time_to_last_save(TGT_file)
-        # Expiration time should be 8 hours - but I tend to expirience bad TGT after few hours
-        if time_elapsed > 2.5
-            println("UTS TGT Expired")
-            rm(TGT_file)
-        else
-            # println("Using TGT from disk - saved ", time_elapsed, " hours ago")
-            fin = open(TGT_file)
-            lines = readlines(fin)
-            ticket = lines[1]
-            return ticket
-        end
-
-    end
+    # TGT_file = "UTS_TGT.txt"
+    # if isfile(TGT_file)
+    #     #check time
+    #     time_elapsed = time_to_last_save(TGT_file)
+    #     # Expiration time should be 8 hours - but I tend to expirience bad TGT after few hours
+    #     if time_elapsed > 2.5
+    #         println("UTS TGT Expired")
+    #         rm(TGT_file)
+    #     else
+    #         # println("Using TGT from disk - saved ", time_elapsed, " hours ago")
+    #         fin = open(TGT_file)
+    #         lines = readlines(fin)
+    #         ticket = lines[1]
+    #         return ticket
+    #     end
+    #
+    # end
 
     println("Requesting new TGT")
     params = Dict("username" => c.username, "password"=> c.password)
@@ -74,8 +75,8 @@ function get_tgt(c::Credentials)
     catch
         error("Could not get TGT: UTS response structure is wrong")
     end
-    fout = open(TGT_file, "w")
-    write(fout, ticket)
+    # fout = open(TGT_file, "w")
+    # write(fout, ticket)
     return ticket
 end
 
