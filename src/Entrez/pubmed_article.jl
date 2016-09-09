@@ -1,6 +1,4 @@
-
 using NullableArrays
-
 
 # Given a multidict and a key, this function returns either the
 # (single) value for that key, or `nothing`. Thus, it assumes we
@@ -18,6 +16,11 @@ function get_if_exists{T}(mdict, k, default_val::Nullable{T}, i = 1)
     return res
 end
 
+# Note: If needed it could be further refactored to to that author, journal is a type
+"""
+    PubMedArticle
+Type that matches the NCBI-XML contents for a PubMedArticle
+"""
 type PubMedArticle
     types::NullableArray{UTF8String, 1}
     pmid::Nullable{Int64}
@@ -122,7 +125,7 @@ type PubMedArticle
                     text = ""
                     for abs in medline_article["Abstract"][1]["AbstractText"]
                         # println(abs)
-                        text = string(text, abs["Label"][1], ": ", abs["AbstractText"][1], "\n")
+                        text = string(text, abs["Label"][1], ": ", abs["AbstractText"][1], " ")
                     end
                     this.abstract_text = Nullable(text)
                 end
@@ -189,7 +192,6 @@ end
 
 
 type MeshHeading
-
     descriptor_name::Nullable{ASCIIString}
     descriptor_id::Nullable{Int64}
     descriptor_mjr::Nullable{ASCIIString}
@@ -258,9 +260,6 @@ type MeshHeading
         end
         return this
     end
-
-
-
 end
 
 

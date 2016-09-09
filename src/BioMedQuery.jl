@@ -62,10 +62,12 @@ module Processes
 export pubmed_search_and_save,
        map_mesh_to_umls_async!,
        umls_semantic_occurrences,
-       filter_mesh_by_concept
+       filter_mesh_by_concept,
+       export_citation
 include("Processes/pubmed_search_and_save.jl")
 include("Processes/pubmed_mesh_to_umls_map.jl")
 include("Processes/pubmed_occurrance_filtering.jl")
+include("Processes/pubmed_export_citations.jl")
 end
 
 #-----------------------------------

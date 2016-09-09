@@ -40,8 +40,6 @@ function citations_endnote(article::PubMedArticle, verbose=false)
     end
 
     if !isempty(article.affiliations)
-        println("affiliations not empty: ", length(article.affiliations))
-        println(article.affiliations)
         idx = find(x->!x, article.affiliations.isnull)
         affiliations_str = join(article.affiliations.values[idx], ", ")
         push!(lines, "%+ $affiliations_str")

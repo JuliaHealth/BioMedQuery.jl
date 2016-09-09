@@ -17,7 +17,8 @@ verbose = false
 
 #Database backend
 using_sqlite=false
-using_mysql=true
+using_mysql=false
+using_citations=true
 
 #***************************************************************************
 
@@ -29,7 +30,7 @@ if using_mysql
     mysql_pswd=""
     dbname="pubmed_obesity_2010_2012"
     #***************************************************************************
-    db_config = Dict(:host=>host,
+    config = Dict(:host=>host,
                      :dbname=>dbname,
                      :username=>mysql_usr,
                      :pswd=>mysql_pswd,
@@ -40,15 +41,23 @@ elseif using_sqlite
     db_path="./pubmed_obesity_2010_2012.db"
     #***************************************************************************
 
-    db_config = Dict(:db_path=>db_path,
+    config = Dict(:db_path=>db_path,
                         :overwrite=>overwrite_db)
     save_func = save_efetch_sqlite
+elseif using_citations
+    #************************ LOCALS TO CONFIGURE!!!! **************************
+    citation_type="endnote"
+    output_file="./pubmed_obesity_2010_2012.enw"
+    #***************************************************************************
+    config = Dict(:type => citation_type, :output_file => output_file)
+    save_func = save_article_citations
 else
-   error("Unsupported database backend")
+   error("Unsupported database backend, options are: sqlite, mysql, citations")
+
 end
 
 
 @time begin
     db = pubmed_search_and_save(email, search_term, max_articles,
-    save_func, db_config, verbose)
+    save_func, config, verbose)
 end
