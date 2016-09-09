@@ -463,14 +463,12 @@ esummary_response = esummary(esummary_dict)
 <h2 id="saving-efetch-to-a-sqlite-database">Saving EFetch to a SQLite database</h2>
 <p><a id='BioMedQuery.Entrez.save_efetch_sqlite-Tuple{Any,Any,Any}' href='#BioMedQuery.Entrez.save_efetch_sqlite-Tuple{Any,Any,Any}'>#</a>
 <strong><code>BioMedQuery.Entrez.save_efetch_sqlite</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>save_efetch_sqlite(efetch_dict, db_config, verbose)
-</code></pre>
-
+<p>save_efetch_sqlite(efetch_dict, db_config, verbose)</p>
 <p>Save the results (dictionary) of an entrez fetch to a SQLite database.</p>
 <h3 id="arguments_4">Arguments:</h3>
 <ul>
 <li><code>efetch_dict</code>: Response dictionary from efetch</li>
-<li><code>db_config::Dict{Symbol, T}</code>: Configuration dictionary for initialitizing SQLite         database. Must contain symbols <code>:db_path</code> and <code>:overwrite</code></li>
+<li><code>db_config::Dict{Symbol, T}</code>: Configuration dictionary for initialitizing SQLite database. Must contain symbols <code>:db_path</code> and <code>:overwrite</code></li>
 <li><code>verbose</code>: Boolean to turn on extra print statements</li>
 </ul>
 <h3 id="example_5">Example</h3>
@@ -482,19 +480,17 @@ db = save_efetch_sqlite(efetch_dict, db_config)
 <h2 id="saving-efetch-to-a-mysql-database">Saving EFetch to a MySQL database</h2>
 <p><a id='BioMedQuery.Entrez.save_efetch_mysql-Tuple{Any,Any,Any}' href='#BioMedQuery.Entrez.save_efetch_mysql-Tuple{Any,Any,Any}'>#</a>
 <strong><code>BioMedQuery.Entrez.save_efetch_mysql</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>save_efetch_mysql(efetch_dict, db_config, verbose)
-</code></pre>
-
+<p>save_efetch_mysql(efetch_dict, db_config, verbose)</p>
 <p>Save the results (dictionary) of an entrez fetch to a MySQL database.</p>
 <h3 id="arguments_5">Arguments:</h3>
 <ul>
 <li><code>efetch_dict</code>: Response dictionary from efetch</li>
-<li><code>db_config::Dict{Symbol, T}</code>: Configuration dictionary for initialitizing SQLite         database. Must contain symbols <code>:host</code>, <code>:dbname</code>, <code>:username</code>. <code>pswd</code>,         and <code>:overwrite</code></li>
+<li><code>db_config::Dict{Symbol, T}</code>: Configuration dictionary for initialitizing SQLite database. Must contain symbols <code>:host</code>, <code>:dbname</code>, <code>:username</code>. <code>pswd</code>, and <code>:overwrite</code></li>
 <li><code>verbose</code>: Boolean to turn on extra print statements</li>
 </ul>
 <h3 id="example_6">Example</h3>
 <pre><code class="julia">db_config =  Dict(:host=&gt;&quot;localhost&quot;, :dbname=&gt;&quot;test&quot;, :username=&gt;&quot;root&quot;,
-                  :pswd=&gt;&quot;&quot;, :overwrite=&gt;true)
+:pswd=&gt;&quot;&quot;, :overwrite=&gt;true)
 db = save_efetch_mysql(efetch_dict, db_config)
 </code></pre>
 

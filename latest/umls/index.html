@@ -304,9 +304,10 @@
 </ul>
 <h3 id="examples">Examples</h3>
 <pre><code class="julia">credentials = Credentials(user, psswd)
+tgt = get_tgt(credentials)
 term = &quot;obesity&quot;
 query = Dict(&quot;string&quot;=&gt;term, &quot;searchType&quot;=&gt;&quot;exact&quot; )
-all_results= search_umls(credentials, query)
+all_results= search_umls(tgt, query)
 </code></pre>
 
 <p><a id='Best-match-CUI-1'></a></p>
@@ -331,8 +332,9 @@ all_results= search_umls(credentials, query)
 <p>Return an array of the semantic types associated with a cui</p>
 <h3 id="example_1">Example</h3>
 <pre><code class="julia">credentials = Credentials(user, psswd)
+tgt = get_tgt(credentials)
 cui = &quot;C0028754&quot;
-sm = BioMedQuery.UMLS.get_semantic_type(credentials, cui)
+sm = BioMedQuery.UMLS.get_semantic_type(tgt, cui)
 </code></pre>
           <aside class="copyright" role="note">
             
