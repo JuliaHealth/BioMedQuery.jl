@@ -9,7 +9,7 @@ using MySQL
     ids = []
     efetch_dict = Dict()
     db_path = "./test_db.db"
-    verbose = true
+    verbose = false
     articles = []
 
     try
@@ -68,10 +68,12 @@ using MySQL
     end
 
     @testset "Testing Citations" begin
+        println("-----------------------------------------")
+        println("       Testing Citations      ")
         #parse 1st article
         # art = BioMedQuery.Entrez.MedlineArticle(articles[1])
         # println(art)
-        config = Dict(:type => "endnote", :output_file => "./citations_temp.endnote")
+        config = Dict(:type => "endnote", :output_file => "./citations_temp.endnote", :overwrite=>true)
         BioMedQuery.Entrez.save_article_citations(efetch_dict, config, verbose)
 
 
