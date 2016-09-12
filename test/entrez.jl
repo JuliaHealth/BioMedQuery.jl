@@ -8,7 +8,6 @@ using MySQL
     email=""
     ids = []
     efetch_dict = Dict()
-    db_path = "./test_db.db"
     verbose = false
     articles = []
 
@@ -108,6 +107,8 @@ using MySQL
         println("-----------------------------------------")
         println("       Testing SQLite Saving")
 
+        db_path = "./test_db.db"
+
         config = Dict(:db_path=> db_path, :overwrite=>true)
         db = BioMedQuery.Entrez.save_efetch_sqlite(efetch_dict, config, verbose)
 
@@ -129,6 +130,11 @@ using MySQL
             count = get(q[1][1])
             @test count > 0
         end
+
+        # remove temp files
+        if isfile(db_path)
+            rm(db_path)
+        end
     end
 
 
@@ -136,7 +142,8 @@ using MySQL
         println("-----------------------------------------")
         println("       Testing MySQL Saving")
 
-        config = Dict(:host=>"localhost", :dbname=>"entrez_test", :username=>"root",
+        dbname = "entrez_test"
+        config = Dict(:host=>"localhost", :dbname=>dbname, :username=>"root",
         :pswd=>"", :overwrite=>true)
         @time db = BioMedQuery.Entrez.save_efetch_mysql(efetch_dict, config, verbose)
 
@@ -159,6 +166,10 @@ using MySQL
             count = q[1][1]
             @test count > 0
         end
+
+        #clean-up
+        db_query(db, "DROP DATABASE IF EXISTS $dbname;")
+
     end
 
     @testset "Testing ELink" begin
@@ -189,10 +200,7 @@ using MySQL
         @test haskey( esummary_response_dict, "DocSum")
     end
 
-    # remove temp files
-    if isfile(db_path)
-        rm(db_path)
-    end
+
     println("------------End Test Entrez--------------")
     println("-----------------------------------------")
 

@@ -2,7 +2,9 @@ using BioMedQuery.Entrez
 using MySQL
 using BioMedQuery.DBUtils
 
-config = Dict(:host=>"localhost", :dbname=>"test", :username=>"root",
+dbname="test"
+
+config = Dict(:host=>"localhost", :dbname=>dbname, :username=>"root",
 :pswd=>"", :overwrite=>true)
 
 con = Entrez.DB.init_pubmed_db_mysql(config)
@@ -27,3 +29,6 @@ sel = BioMedQuery.DBUtils.db_select(con, ["pmid"], "article", Dict(:title=>"Test
 
 @test length(sel[1]) == 1
 @test sel[1][1] == 1234
+
+#clean up
+db_query(con, "DROP DATABASE IF EXISTS $dbname;")

@@ -1,5 +1,6 @@
 
 using BioMedQuery.UMLS
+using BioMedQuery.DBUtils
 
 user= ""
 psswd = ""
@@ -25,4 +26,29 @@ query = Dict("string"=>term, "searchType"=>"exact" )
     @test cui == "C0028754"
     sm = get_semantic_type(tgt, cui)
     @test sm[1] == "Disease or Syndrome"
+end
+
+
+@testset "Populate Semantic Network" begin
+
+    host="localhost"
+    username="root"
+    password=""
+    umls_sn_dbname="umls_sn_test"
+    overwrite_db=true
+
+    db_config = Dict(:host=>host,
+                     :dbname=>umls_sn_dbname,
+                     :username=>username,
+                     :pswd=>password,
+                     :overwrite=>overwrite_db)
+    umls_sn_db = populate_net_mysql(db_config)
+
+    #check collection of tables
+    tables_query = BioMedQuery.DBUtils.select_all_tables(umls_sn_db)
+    tables = ["SRDEF","SRFIL","SRFLD","SRSTR","SRSTRE1","SRSTRE2"]
+    @test sort(tables) == sort(tables_query)
+
+    db_query(umls_sn_db, "DROP DATABASE IF EXISTS $umls_sn_dbname;")
+
 end
