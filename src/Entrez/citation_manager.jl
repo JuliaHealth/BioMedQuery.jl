@@ -50,6 +50,37 @@ function citations_endnote(article::PubMedArticle, verbose=false)
     return join(lines, "\n")
 end
 
+function citations_bibtex(article::PubMedArticle, verbose=false)
+    types_idx = find(x->!x, article.types.isnull)
+    jrnl_art = find(x->(x=="Journal Article"), article.types.values[types_idx])
+
+    if length(jrnl_art)!= 1
+        error("EndNote can only export Journal Articles")
+    end
+
+    lines::Vector{UTF8String} = ["@article {PMID:$(article.pmid.value),"]
+    authors_str = []
+    for au in article.authors
+        if isnull(au[:Initials]) && isnull(au[:LastName])
+            println("Skipping author, null field: ", au)
+            continue
+        end
+        author = string(au[:LastName].value, ", ", au[:Initials].value)
+        push!(authors_str, "$author")
+    end
+    all_authors_str = join(authors_str, " and ")
+    push!(lines, "  author  = {$all_authors_str},")
+    !isnull(article.title)   && push!(lines, "  title   = {$(article.title.value)},")
+    !isnull(article.journal) && push!(lines, "  journal = {$(article.journal.value)},")
+    !isnull(article.year)    && push!(lines, "  year    = {$(article.year.value)},")
+    !isnull(article.volume)  && push!(lines, "  volume  = {$(article.volume.value)},")
+    !isnull(article.issue)   && push!(lines, "  number  = {$(article.issue.value)},")
+    !isnull(article.pages)   && push!(lines, "  pages   = {$(article.pages.value)},")
+    !isnull(article.url)     && push!(lines, "  url     = {$(article.url.value)},")
+    push!(lines, "}\n")
+    return join(lines, "\n")
+end
+
 function save_article_citations(efetch_dict, config, verbose=false)
     if !(haskey(config, :type) && haskey(config, :output_file) && haskey(config, :overwrite))
         error("Saving citations requires correct dictionary configuration")
@@ -61,13 +92,10 @@ function save_article_citations(efetch_dict, config, verbose=false)
             rm(output_file)
         end
     end
-    
+
     if config[:type] == "bibtex"
-        println("BibTex . Not implemented yet")
-        # save_refernces_bibtex(efetch_dict, output_file)
+        citation_func = citations_bibtex
     elseif config[:type] == "endnote"
-        # for
-        # citations = citations_endnote(efetch_dict, verbose)
         citation_func = citations_endnote
     else
         error("Reference type not supported")

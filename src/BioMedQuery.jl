@@ -21,6 +21,7 @@ export esearch,
        save_efetch_mysql,
        save_efetch_sqlite,
        citations_endnote,
+       citations_bibtex,
        save_article_citations
 
 #types

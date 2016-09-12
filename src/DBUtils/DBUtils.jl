@@ -92,7 +92,7 @@ function assemble_cols_and_vals_select{T}(data_values::Dict{Symbol, T}, op = "AN
 end
 
 #*****************
-# colname_dict_
+# colname_dict
 #*****************
 """
     colname_dict_(con)
