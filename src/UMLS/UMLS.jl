@@ -72,12 +72,12 @@ function get_tgt(c::Credentials)
     #TO DO:: parse and check
     try
         ticket = getattr(doc.root.children[2].children[2], "action")
+        return ticket
     catch
         error("Could not get TGT: UTS response structure is wrong")
     end
     # fout = open(TGT_file, "w")
     # write(fout, ticket)
-    return ticket
 end
 
 

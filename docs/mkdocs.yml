@@ -25,6 +25,8 @@ pages:
 - Entrez: entrez.md
 - UMLS: umls.md
 - Clinical Trials: ct.md
+- Processes/Workflows: processes.md
+- Examples: examples.md
 - Database Utilities: dbutils.md
 - Library: library.md
 

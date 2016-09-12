@@ -3,8 +3,9 @@ using SQLite
 using XMLconvert
 
 """
-pubmed_search_and_save(email, search_term, article_max::Int64=typemax(Int64),
-db_path="./pubmed_search.sqlite", verbose=false)
+pubmed_search_and_save(email, search_term, article_max::Int64,
+db_path, verbose=false)
+
 ###Arguments
 
 * email: valid email address (otherwise pubmed will block you)
@@ -13,7 +14,7 @@ e.g (asthma[MeSH Terms]) AND ("2001/01/29"[Date - Publication] : "2010"[Date - P
 see http://www.ncbi.nlm.nih.gov/pubmed/advanced for help constructing the string
 * article_max : maximum number of articles to return. Defaults to 600,000
 * db_path: path to output database
-* verbose: of true, the NCBI xml response files are saved to current directory
+* verbose: if true, the NCBI xml response files are saved to current directory
 """
 function pubmed_search_and_save(email, search_term, article_max,
     save_efetch_func, db_config, verbose=false)

@@ -22,6 +22,7 @@ results_dir = "./results"
 using_sqlite=false
 using_mysql=false
 using_endnote=true
+using_xml=false
 
 #***************************************************************************
 if !isdir(results_dir)
@@ -57,6 +58,12 @@ elseif using_endnote
     #***************************************************************************
     config = Dict(:type => citation_type, :output_file => output_file, :overwrite=> overwrite)
     save_func = save_article_citations
+elseif using_xml
+    #************************ LOCALS TO CONFIGURE!!!! **************************
+    output_file="results_dir/pubmed_obesity_2010_2012.xml"
+    #***************************************************************************
+    config = Dict(:output_file => output_file, :overwrite=> overwrite)
+    save_func = save_efetch_xml
 else
    error("Unsupported database backend, options are: sqlite, mysql, endnote")
 end
