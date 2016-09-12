@@ -41,7 +41,7 @@ end
     append = false
 
     @time begin
-        map_mesh_to_umls_async!(db, credentials; append_results=append)
+        map_mesh_to_umls!(db, credentials; append_results=append)
     end
 
     all_pairs_query = db_query(db, "SELECT mesh FROM mesh2umls;")

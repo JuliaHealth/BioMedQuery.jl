@@ -9,7 +9,7 @@ Export, to an output file, the citation for PubMed article identified by the giv
 * `citation_type::ASCIIString`: At the moment supported types include: "endnote"
 """
 function export_citation(entrez_email, pmid::Int64, citation_type, output_file,
-    verbose=false)
+    overwrite = true, verbose=false)
     fetch_dic = Dict("db"=>"pubmed","tool" =>"BioJulia", "email" => entrez_email,
     "retmode" => "xml", "rettype"=>"null")
     efetch_response = efetch(fetch_dic, [pmid])
@@ -17,7 +17,7 @@ function export_citation(entrez_email, pmid::Int64, citation_type, output_file,
         xmlASCII2file(efetch_response, "./efetch.xml")
     end
     efetch_dict = eparse(efetch_response)
-    config = Dict(:type => citation_type, :output_file => output_file)
+    config = Dict(:type => citation_type, :output_file => output_file, :overwrite=>overwrite)
     save_article_citations(efetch_dict, config, verbose)
 end
 
@@ -26,11 +26,11 @@ end
 
 Export, to an output file, the citation for collection of PubMed articles identified by the given pmids
 
-### Arguments  
+### Arguments
 * `citation_type::ASCIIString`: At the moment supported types include: "endnote"
 """
 function export_citation(entrez_email, pmids::Vector{Int64}, citation_type, output_file,
-    verbose=false)
+    overwrite=true, verbose=false)
     fetch_dic = Dict("db"=>"pubmed","tool" =>"BioJulia", "email" => entrez_email,
     "retmode" => "xml", "rettype"=>"null")
     efetch_response = efetch(fetch_dic, pmids)
@@ -38,6 +38,6 @@ function export_citation(entrez_email, pmids::Vector{Int64}, citation_type, outp
         xmlASCII2file(efetch_response, "./efetch.xml")
     end
     efetch_dict = eparse(efetch_response)
-    config = Dict(:type => citation_type, :output_file => output_file)
+    config = Dict(:type => citation_type, :output_file => output_file, :overwrite=>overwrite)
     save_article_citations(efetch_dict, config, verbose)
 end

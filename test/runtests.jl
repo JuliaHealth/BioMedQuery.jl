@@ -20,7 +20,8 @@ my_tests = [("dbutils_sqlite.jl",   "       Testing: DBUtils SQLite"),
             ("ct.jl",               "       Testing: CLINICAL TRIALS"),
             ("umls.jl",             "       Testing: UMLS"),
             ("processes_mysql.jl",  "       Testing: Processes MySQL"),
-            ("processes_sqlite.jl", "       Testing: Processes SQLite")
+            ("processes_sqlite.jl", "       Testing: Processes SQLite"),
+            ("export_citations.jl", "       Testing: Export Citations")
             ]
 # my_tests = [("entrez_types.jl",      "       Testing: Entrez Types")]
 

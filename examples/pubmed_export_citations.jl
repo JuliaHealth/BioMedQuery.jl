@@ -22,11 +22,8 @@ output_file1=results_dir*"/11748933.enw"
 
 pmid_list = [24008025, 24170597]
 output_file2 = results_dir* "/pmid_list.enw"
-verbose = false #extra debugging printouts and save efetch.xml
-
-
 
 #***************************************************************************
 
-export_citation(email, pmid, citation_type, output_file1, verbose)
-export_citation(email, pmid_list, citation_type, output_file2, verbose)
+export_citation(email, pmid, citation_type, output_file1)
+export_citation(email, pmid_list, citation_type, output_file2)
