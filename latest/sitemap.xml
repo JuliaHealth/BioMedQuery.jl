@@ -4,7 +4,7 @@
     
     <url>
      <loc>None/</loc>
-     <lastmod>2016-09-09</lastmod>
+     <lastmod>2016-09-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -12,7 +12,7 @@
     
     <url>
      <loc>None/entrez/</loc>
-     <lastmod>2016-09-09</lastmod>
+     <lastmod>2016-09-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -20,7 +20,7 @@
     
     <url>
      <loc>None/umls/</loc>
-     <lastmod>2016-09-09</lastmod>
+     <lastmod>2016-09-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -28,7 +28,23 @@
     
     <url>
      <loc>None/ct/</loc>
-     <lastmod>2016-09-09</lastmod>
+     <lastmod>2016-09-12</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>None/processes/</loc>
+     <lastmod>2016-09-12</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>None/examples/</loc>
+     <lastmod>2016-09-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -36,7 +52,7 @@
     
     <url>
      <loc>None/dbutils/</loc>
-     <lastmod>2016-09-09</lastmod>
+     <lastmod>2016-09-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -44,7 +60,7 @@
     
     <url>
      <loc>None/library/</loc>
-     <lastmod>2016-09-09</lastmod>
+     <lastmod>2016-09-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     

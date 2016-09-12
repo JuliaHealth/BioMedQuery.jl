@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Library - BioMedQuery.jl</title>
+        <title>Processes/Workflows - BioMedQuery.jl</title>
       
       
       
@@ -96,7 +96,7 @@
             
           </span>
         
-        Library
+        Processes/Workflows
       </div>
     </div>
     
@@ -206,9 +206,34 @@
           
             
   <li>
-    <a class="" title="Processes/Workflows" href="../processes/">
+    <a class="current" title="Processes/Workflows" href="./">
       Processes/Workflows
     </a>
+    
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Import" href="#import">
+                Import
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Index" href="#index">
+                Index
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Functions" href="#functions">
+                Functions
+              </a>
+            </li>
+          
+        </ul>
+      
     
   </li>
 
@@ -233,22 +258,9 @@
           
             
   <li>
-    <a class="current" title="Library" href="./">
+    <a class="" title="Library" href="../library/">
       Library
     </a>
-    
-      
-      
-        <ul>
-          
-            <li class="anchor">
-              <a title="Index" href="#index">
-                Index
-              </a>
-            </li>
-          
-        </ul>
-      
     
   </li>
 
@@ -263,44 +275,82 @@
       <article class="article">
         <div class="wrapper">
           
-            <h1>Library</h1>
+            <h1>Processes/Workflows</h1>
           
-          <p><a id='Index-1'></a></p>
+          <p>Common processes/workflows when using the BioMedQuery utilities. For instance, searching PubMed, requires calling the NCBI e-utils in a particular order. After the search, the results are often saved to the database. This module contains pre-assembled performing all necessary steps.</p>
+<h2 id="import">Import</h2>
+<pre><code>using BioMedQuery.Processes
+</code></pre>
+
+<p><a id='Index-1'></a></p>
 <h2 id="index">Index</h2>
 <ul>
-<li><a href="../umls/#BioMedQuery.UMLS.Credentials"><code>BioMedQuery.UMLS.Credentials</code></a></li>
-<li><a href="../dbutils/#BioMedQuery.DBUtils.assemble_cols_and_vals-Tuple{Dict{Symbol,T}}"><code>BioMedQuery.DBUtils.assemble_cols_and_vals</code></a></li>
-<li><a href="../dbutils/#BioMedQuery.DBUtils.assemble_cols_and_vals_select"><code>BioMedQuery.DBUtils.assemble_cols_and_vals_select</code></a></li>
-<li><a href="../dbutils/#BioMedQuery.DBUtils.assemble_vals-Tuple{Dict{Symbol,T},Array{Symbol,1}}"><code>BioMedQuery.DBUtils.assemble_vals</code></a></li>
-<li><a href="../dbutils/#BioMedQuery.DBUtils.colname_dict-Tuple{Any}"><code>BioMedQuery.DBUtils.colname_dict</code></a></li>
-<li><a href="../dbutils/#BioMedQuery.DBUtils.db_query-Tuple{SQLite.DB,Any}"><code>BioMedQuery.DBUtils.db_query</code></a></li>
-<li><a href="../dbutils/#BioMedQuery.DBUtils.db_query-Tuple{MySQL.MySQLHandle,Any}"><code>BioMedQuery.DBUtils.db_query</code></a></li>
-<li><a href="../dbutils/#BioMedQuery.DBUtils.db_select-Tuple{Any,Any,Any,Dict{Symbol,T}}"><code>BioMedQuery.DBUtils.db_select</code></a></li>
-<li><a href="../dbutils/#BioMedQuery.DBUtils.init_mysql_database-Tuple{}"><code>BioMedQuery.DBUtils.init_mysql_database</code></a></li>
-<li><a href="../dbutils/#BioMedQuery.DBUtils.insert_row!"><code>BioMedQuery.DBUtils.insert_row!</code></a></li>
-<li><a href="../dbutils/#BioMedQuery.DBUtils.insert_row!"><code>BioMedQuery.DBUtils.insert_row!</code></a></li>
-<li><a href="../dbutils/#BioMedQuery.DBUtils.select_all_tables-Tuple{SQLite.DB}"><code>BioMedQuery.DBUtils.select_all_tables</code></a></li>
-<li><a href="../dbutils/#BioMedQuery.DBUtils.select_all_tables-Tuple{MySQL.MySQLHandle}"><code>BioMedQuery.DBUtils.select_all_tables</code></a></li>
-<li><a href="../dbutils/#BioMedQuery.DBUtils.select_columns-Tuple{SQLite.DB,Any}"><code>BioMedQuery.DBUtils.select_columns</code></a></li>
-<li><a href="../dbutils/#BioMedQuery.DBUtils.select_columns-Tuple{MySQL.MySQLHandle,Any}"><code>BioMedQuery.DBUtils.select_columns</code></a></li>
-<li><a href="../entrez/#BioMedQuery.Entrez.DB.all_pmids-Tuple{Any}"><code>BioMedQuery.Entrez.DB.all_pmids</code></a></li>
-<li><a href="../entrez/#BioMedQuery.Entrez.DB.get_article_mesh-Tuple{Any,Integer}"><code>BioMedQuery.Entrez.DB.get_article_mesh</code></a></li>
-<li><a href="../entrez/#BioMedQuery.Entrez.efetch-Tuple{Any,Any}"><code>BioMedQuery.Entrez.efetch</code></a></li>
-<li><a href="../entrez/#BioMedQuery.Entrez.elink-Tuple{Any}"><code>BioMedQuery.Entrez.elink</code></a></li>
-<li><a href="../entrez/#BioMedQuery.Entrez.eparse-Tuple{ASCIIString}"><code>BioMedQuery.Entrez.eparse</code></a></li>
-<li><a href="../entrez/#BioMedQuery.Entrez.esearch-Tuple{Any}"><code>BioMedQuery.Entrez.esearch</code></a></li>
-<li><a href="../entrez/#BioMedQuery.Entrez.esummary-Tuple{Any}"><code>BioMedQuery.Entrez.esummary</code></a></li>
-<li><a href="../entrez/#BioMedQuery.Entrez.save_efetch_mysql-Tuple{Any,Any,Any}"><code>BioMedQuery.Entrez.save_efetch_mysql</code></a></li>
-<li><a href="../entrez/#BioMedQuery.Entrez.save_efetch_sqlite-Tuple{Any,Any,Any}"><code>BioMedQuery.Entrez.save_efetch_sqlite</code></a></li>
-<li><a href="../processes/#BioMedQuery.Processes.export_citation"><code>BioMedQuery.Processes.export_citation</code></a></li>
-<li><a href="../processes/#BioMedQuery.Processes.export_citation"><code>BioMedQuery.Processes.export_citation</code></a></li>
-<li><a href="../processes/#BioMedQuery.Processes.map_mesh_to_umls!-Tuple{Any,BioMedQuery.UMLS.Credentials}"><code>BioMedQuery.Processes.map_mesh_to_umls!</code></a></li>
-<li><a href="../processes/#BioMedQuery.Processes.map_mesh_to_umls_async!-Tuple{Any,BioMedQuery.UMLS.Credentials}"><code>BioMedQuery.Processes.map_mesh_to_umls_async!</code></a></li>
-<li><a href="../processes/#BioMedQuery.Processes.pubmed_search_and_save"><code>BioMedQuery.Processes.pubmed_search_and_save</code></a></li>
-<li><a href="../processes/#BioMedQuery.Processes.umls_semantic_occurrences-Tuple{Any,Any}"><code>BioMedQuery.Processes.umls_semantic_occurrences</code></a></li>
-<li><a href="../umls/#BioMedQuery.UMLS.best_match_cui-Tuple{Any}"><code>BioMedQuery.UMLS.best_match_cui</code></a></li>
-<li><a href="../umls/#BioMedQuery.UMLS.get_semantic_type-Tuple{BioMedQuery.UMLS.Credentials,Any}"><code>BioMedQuery.UMLS.get_semantic_type</code></a></li>
-<li><a href="../umls/#BioMedQuery.UMLS.search_umls-Tuple{BioMedQuery.UMLS.Credentials,Any}"><code>BioMedQuery.UMLS.search_umls</code></a></li>
+<li><a href="./#BioMedQuery.Processes.export_citation"><code>BioMedQuery.Processes.export_citation</code></a></li>
+<li><a href="./#BioMedQuery.Processes.export_citation"><code>BioMedQuery.Processes.export_citation</code></a></li>
+<li><a href="./#BioMedQuery.Processes.map_mesh_to_umls!-Tuple{Any,BioMedQuery.UMLS.Credentials}"><code>BioMedQuery.Processes.map_mesh_to_umls!</code></a></li>
+<li><a href="./#BioMedQuery.Processes.map_mesh_to_umls_async!-Tuple{Any,BioMedQuery.UMLS.Credentials}"><code>BioMedQuery.Processes.map_mesh_to_umls_async!</code></a></li>
+<li><a href="./#BioMedQuery.Processes.pubmed_search_and_save"><code>BioMedQuery.Processes.pubmed_search_and_save</code></a></li>
+<li><a href="./#BioMedQuery.Processes.umls_semantic_occurrences-Tuple{Any,Any}"><code>BioMedQuery.Processes.umls_semantic_occurrences</code></a></li>
+</ul>
+<p><a id='Functions-1'></a></p>
+<h2 id="functions">Functions</h2>
+<p><a id='BioMedQuery.Processes.export_citation' href='#BioMedQuery.Processes.export_citation'>#</a>
+<strong><code>BioMedQuery.Processes.export_citation</code></strong> &mdash; <em>Function</em>.</p>
+<pre><code>export_citation(entrez_email, pmid::Int64, citation_type, output_file,verbose)
+</code></pre>
+
+<p>Export, to an output file, the citation for PubMed article identified by the given pmid</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>citation_type::ASCIIString</code>: At the moment supported types include: "endnote"</li>
+</ul>
+<p><a id='BioMedQuery.Processes.export_citation' href='#BioMedQuery.Processes.export_citation'>#</a>
+<strong><code>BioMedQuery.Processes.export_citation</code></strong> &mdash; <em>Function</em>.</p>
+<pre><code>export_citation(entrez_email, pmids::Vector{Int64}, citation_type, output_file,verbose)
+</code></pre>
+
+<p>Export, to an output file, the citation for collection of PubMed articles identified by the given pmids</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>citation_type::ASCIIString</code>: At the moment supported types include: "endnote"</li>
+</ul>
+<p><a id='BioMedQuery.Processes.map_mesh_to_umls_async!-Tuple{Any,BioMedQuery.UMLS.Credentials}' href='#BioMedQuery.Processes.map_mesh_to_umls_async!-Tuple{Any,BioMedQuery.UMLS.Credentials}'>#</a>
+<strong><code>BioMedQuery.Processes.map_mesh_to_umls_async!</code></strong> &mdash; <em>Method</em>.</p>
+<p>map_mesh_to_umls_async!(db, c::Credentials; timeout, append_results, verbose) Build (using async UMLS-API calls) and store in the given database a map from MESH descriptors to UMLS Semantic Concepts. For large queies this function will be faster than it's synchrounous counterpart</p>
+<h3 id="arguments">Arguments</h3>
+<ul>
+<li><code>db</code>: Database. Must contain TABLE:mesh_descriptor. For each of the descriptors in that table, search and insert the associated semantic concepts into a new (cleared) TABLE:mesh2umls</li>
+<li><code>c::Credentials</code>: UMLS username and password</li>
+<li><code>append_results::Bool</code> : If false a NEW and EMPTY mesh2umls database table in creted</li>
+</ul>
+<p><a id='BioMedQuery.Processes.pubmed_search_and_save' href='#BioMedQuery.Processes.pubmed_search_and_save'>#</a>
+<strong><code>BioMedQuery.Processes.pubmed_search_and_save</code></strong> &mdash; <em>Function</em>.</p>
+<p>pubmed_search_and_save(email, search_term, article_max::Int64, db_path, verbose=false)</p>
+<h3 id="arguments_1">Arguments</h3>
+<ul>
+<li>email: valid email address (otherwise pubmed will block you)</li>
+<li>search_term : search string to submit to PubMed e.g (asthma[MeSH Terms]) AND ("2001/01/29"[Date - Publication] : "2010"[Date - Publication]) see http://www.ncbi.nlm.nih.gov/pubmed/advanced for help constructing the string</li>
+<li>article_max : maximum number of articles to return. Defaults to 600,000</li>
+<li>db_path: path to output database</li>
+<li>verbose: if true, the NCBI xml response files are saved to current directory</li>
+</ul>
+<p><a id='BioMedQuery.Processes.umls_semantic_occurrences-Tuple{Any,Any}' href='#BioMedQuery.Processes.umls_semantic_occurrences-Tuple{Any,Any}'>#</a>
+<strong><code>BioMedQuery.Processes.umls_semantic_occurrences</code></strong> &mdash; <em>Method</em>.</p>
+<p>umls_semantic_occurrences(db, umls_semantic_type)</p>
+<p>Return a sparse matrix indicating the presence of MESH descriptors associated with a given umls semantic type in all articles of the input database</p>
+<h3 id="output">Output</h3>
+<ul>
+<li><code>des_ind_dict</code>: Dictionary matching row number to descriptor names</li>
+<li><code>disease_occurances</code> : Sparse matrix. The columns correspond to a feature vector, where each row is a MESH descriptor. There are as many columns as articles. The occurance/abscense of a descriptor is labeled as 1/0</li>
+</ul>
+<p><a id='BioMedQuery.Processes.map_mesh_to_umls!-Tuple{Any,BioMedQuery.UMLS.Credentials}' href='#BioMedQuery.Processes.map_mesh_to_umls!-Tuple{Any,BioMedQuery.UMLS.Credentials}'>#</a>
+<strong><code>BioMedQuery.Processes.map_mesh_to_umls!</code></strong> &mdash; <em>Method</em>.</p>
+<p>map_mesh_to_umls!(db, c::Credentials)</p>
+<p>Build and store in the given database a map from MESH descriptors to UMLS Semantic Concepts</p>
+<h3 id="arguments_2">Arguments</h3>
+<ul>
+<li><code>db</code>: Database. Must contain TABLE:mesh_descriptor. For each of the descriptors in that table, search and insert the associated semantic concepts into a new (cleared) TABLE:mesh2umls</li>
+<li><code>c::Credentials</code>: UMLS username and password</li>
 </ul>
           <aside class="copyright" role="note">
             
@@ -318,7 +368,7 @@
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-        <a href="../dbutils/" title="Database Utilities">
+        <a href="../ct/" title="Clinical Trials">
           <span class="direction">
             Previous
           </span>
@@ -328,7 +378,7 @@
             </div>
             <div class="stretch">
               <div class="title">
-                Database Utilities
+                Clinical Trials
               </div>
             </div>
           </div>
@@ -336,6 +386,22 @@
       
     </div>
     <div class="next">
+      
+        <a href="../examples/" title="Examples">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Examples
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
       
     </div>
   </nav>
