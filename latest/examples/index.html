@@ -230,8 +230,14 @@
             </li>
           
             <li class="anchor">
-              <a title="Searching PubMed and Save" href="#searching-pubmed-and-save">
-                Searching PubMed and Save
+              <a title="Configuring local variables" href="#configuring-local-variables">
+                Configuring local variables
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Search&amp;Save PubMed" href="#searchsave-pubmed">
+                Search&amp;Save PubMed
               </a>
             </li>
           
@@ -286,23 +292,31 @@
           <p>Sample scripts of how to use BioMedQuery.Processes</p>
 <p><a id='Running-the-scripts-1'></a></p>
 <h2 id="running-the-scripts">Running the scripts</h2>
-<p>From the terminal:</p>
+<p>All scripts can be called from the terminal:</p>
 <p><code>julia script_name.jl</code>.</p>
-<p>All scripts contain block of codes where local variables need to be configured, these sections are enclosed by the comment lines</p>
+<p><a id='Configuring-local-variables-1'></a></p>
+<h2 id="configuring-local-variables">Configuring local variables</h2>
+<p>Local paths, database backends, and other variables need to be configured according to you needs, sections containing this local variables are enclosed by the comment lines</p>
 <pre><code>#************************ LOCALS TO CONFIGURE!!!! **************************
 #***************************************************************************
 </code></pre>
 
 <p><strong>User Credentials</strong></p>
-<p>Whenever and email address, passwords or any other type of credentials are required, they are expected to be stored in your system as environment variables.</p>
+<p>Email addresses, passwords or any other type of credentials are expected to be stored in your system as environment variables.</p>
 <p>From a Julia session, you can set an environment variable using</p>
-<p><code>ENV["MY_VAR"] = ""</code></p>
-<p>However, for this variable to be permanently available, you need to add that line to your <code>~/.juliarc.jl</code> file</p>
-<p><a id='Searching-PubMed-and-Save-1'></a></p>
-<h2 id="searching-pubmed-and-save">Searching PubMed and Save</h2>
-<p>It is common to search PubMed for a given number, or all articles associated with a search term, and further storing the results to a database, xml or exporting to a citation-style document.</p>
-<p>The script <code>pubmed_search_and_save.jl</code> allows for all that.</p>
-<p>The top of the script contains the configuration of the search term, maximum number of articles to fetch and the format for saving the results. Depending on the "exporting format", there will be other local variables to configure. Thus fur the results can be saved as: * MySQL/SQLite database * XML (raw NCBI response) * Citations: EndNote, BibTEX</p>
+<p><code>ENV["MY_PSWD"] = "MyPsWd"</code></p>
+<p>However, for this variable to be permanently available, you need to add that line to your <code>~/.juliarc.jl</code> file.</p>
+<p><a id='Search-and-Save-PubMed-1'></a></p>
+<h2 id="searchsave-pubmed">Search&amp;Save PubMed</h2>
+<p>It is common to search PubMed for a given number, or all articles associated with a search term, and further store the results to a database, xml or exporting to a citation-style document.</p>
+<p>The script <code>pubmed_search_and_save.jl</code> can achieve all that.</p>
+<p>The top of the script contains the configuration of the search term, the maximum number of articles to fetch and the format for saving the results. Depending on the "exporting format", there will be other local variables to configure. The results can be saved as:</p>
+<ul>
+<li>MySQL/SQLite database</li>
+<li>XML (raw NCBI response)</li>
+<li>Citations: EndNote, BibTEX</li>
+</ul>
+<p>The main configuration looks as follows:</p>
 <pre><code>#************************ LOCALS TO CONFIGURE!!!! **************************
 email= ENV[&quot;NCBI_EMAIL&quot;] #This is an enviroment variable that you need to setup
 search_term=&quot;(obesity[MeSH Major Topic]) AND (\&quot;2010\&quot;[Date - Publication] : \&quot;2012\&quot;[Date - Publication])&quot;
@@ -316,69 +330,43 @@ results_dir = &quot;./results&quot;
 #Exporting format
 using_sqlite=false
 using_mysql=false
-using_endnote=true
+using_endnote=false
 using_xml=false
 
 #***************************************************************************
+</code></pre>
 
-if using_mysql
-    #************************ LOCALS TO CONFIGURE!!!! **************************
-    host=&quot;localhost&quot; #If want to hide - use enviroment variables instead
-    mysql_usr=&quot;root&quot;
-    mysql_pswd=&quot;&quot;
-    dbname=&quot;pubmed_obesity_2010_2012&quot;
-    #***************************************************************************
+<h3 id="using-mysql">Using MySQL</h3>
+<p>If for instance, one wished to save the results to a MySQL database, all we need to do is to set</p>
+<p><code>using_mysql = true</code></p>
+<p>then, the following code would be executed:</p>
+<pre><code>#************************ LOCALS TO CONFIGURE!!!! **************************
+host=&quot;localhost&quot; #If want to hide - use enviroment variables instead
+mysql_usr=&quot;root&quot;
+mysql_pswd=&quot;&quot;
+dbname=&quot;pubmed_obesity_2010_2012&quot;
+#***************************************************************************
+config = Dict(:host=&gt;host,
+                 :dbname=&gt;dbname,
+                 :username=&gt;mysql_usr,
+                 :pswd=&gt;mysql_pswd,
+                 :overwrite=&gt;overwrite)
+ save_func = save_efetch_mysql
 
-elseif using_sqlite
-    #************************ LOCALS TO CONFIGURE!!!! **************************
-    db_path=&quot;results_dir/pubmed_obesity_2010_2012.db&quot;
-    #***************************************************************************
-
-elseif using_endnote
-    #************************ LOCALS TO CONFIGURE!!!! **************************
-    citation_type=&quot;endnote&quot;
-    output_file=&quot;results_dir/pubmed_obesity_2010_2012.enw&quot;
-    #***************************************************************************
-
-elseif using_xml
-    #************************ LOCALS TO CONFIGURE!!!! **************************
-    output_file=&quot;results_dir/pubmed_obesity_2010_2012.xml&quot;
-    #***************************************************************************
-else
-end
+ db = pubmed_search_and_save(email, search_term, max_articles,
+ save_func, config, verbose)
 </code></pre>
 
 <p><a id='Build-MESH-UMLS-map-1'></a></p>
 <h2 id="build-mesh-umls-map">Build MESH-UMLS map</h2>
 <p>All PubMed articles are associated with MESH descriptors. This script looks for all mesh descriptors in a results database (as created in pubmed_search_and_save.jl) and finds the UMLS concept associated with that descriptor.</p>
 <p>All MESH-UMLS relations are saved in a new (unless set to append) database table called MESH2UMLS.</p>
-<p>The user is responsible for configuring the environment variables containing the UMLS credentials and specifying the type and name of the database used to get the MESH and stored the MESH2UMLS.</p>
-<pre><code>#************************ LOCALS TO CONFIGURE!!!! **************************
-user = ENV[&quot;UMLS_USER&quot;]
+<p>The user is responsible for configuring the environment variables containing the UMLS credentials:</p>
+<pre><code>user = ENV[&quot;UMLS_USER&quot;]
 psswd = ENV[&quot;UMLS_PSSWD&quot;]
-
-
-#Database backend
-using_sqlite=false
-using_mysql=true
-#***************************************************************************
-
-if using_sqlite
-    #************************ LOCALS TO CONFIGURE!!!! **************************
-    db_path=&quot;./pubmed_obesity_2010_2012.db&quot;
-    #***************************************************************************
-elseif using_mysql
-    #************************ LOCALS TO CONFIGURE!!!! **************************
-    host=&quot;localhost&quot; #If want to hide - use enviroment variables instead
-    mysql_usr=&quot;root&quot;
-    mysql_pswd=&quot;&quot;
-    dbname=&quot;pubmed_obesity_2010_2012&quot;
-    #***************************************************************************
-else
-end
-
 </code></pre>
 
+<p>And specifying the type and name of the database used to get the MESH and stored the MESH2UMLS.</p>
 <p><a id='Occurrence-Matrix-1'></a></p>
 <h2 id="occurrence-matrix">Occurrence Matrix</h2>
 <p>This script finds all MESH descriptors of a given UMLS semantic type and builds the corresponding occurrance/data matrix as follows</p>
