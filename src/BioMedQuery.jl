@@ -61,6 +61,7 @@ end
 module Processes
 export pubmed_search_and_save,
        map_mesh_to_umls_async!,
+       map_mesh_to_umls!,
        umls_semantic_occurrences,
        filter_mesh_by_concept,
        export_citation

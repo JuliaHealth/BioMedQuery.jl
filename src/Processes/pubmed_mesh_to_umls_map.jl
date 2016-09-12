@@ -15,7 +15,7 @@ descriptors in that table, search and insert the associated semantic
 concepts into a new (cleared) TABLE:mesh2umls
 - `c::Credentials`: UMLS username and password
 """
-function map_mesh_to_umls!(db, c::Credentials; append_results=false)
+function map_mesh_to_umls!(db, c::Credentials; timeout = Inf, append_results=false)
 
     #if the mesh2umls relationship table doesn't esxist, create it
     db_query(db, "CREATE table IF NOT EXISTS mesh2umls (
@@ -43,7 +43,7 @@ function map_mesh_to_umls!(db, c::Credentials; append_results=false)
         query = Dict("string"=>term, "searchType"=>"exact" )
         # println("term: ", term)
 
-        all_results= search_umls(tgt, query)
+        all_results= search_umls(tgt, query, timeout=timeout)
 
         if length(all_results) > 0
 
