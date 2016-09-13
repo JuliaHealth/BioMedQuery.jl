@@ -226,6 +226,12 @@
               </a>
             </li>
           
+            <li class="anchor">
+              <a title="Semantic Network Database" href="#semantic-network-database">
+                Semantic Network Database
+              </a>
+            </li>
+          
         </ul>
       
     
@@ -252,8 +258,8 @@
           
             
   <li>
-    <a class="" title="Examples" href="../examples/">
-      Examples
+    <a class="" title="Sample Scripts" href="../examples/">
+      Sample Scripts
     </a>
     
   </li>
@@ -354,6 +360,44 @@ tgt = get_tgt(credentials)
 cui = &quot;C0028754&quot;
 sm = BioMedQuery.UMLS.get_semantic_type(tgt, cui)
 </code></pre>
+
+<p><a id='Semantic-Network-Database-1'></a></p>
+<h2 id="semantic-network-database">Semantic Network Database</h2>
+<p><a id='BioMedQuery.UMLS.populate_net_mysql-Tuple{Any}' href='#BioMedQuery.UMLS.populate_net_mysql-Tuple{Any}'>#</a>
+<strong><code>BioMedQuery.UMLS.populate_net_mysql</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>populate_net_mysql(config; sn_version, mysql_version)
+</code></pre>
+
+<p>Populate and return a MySQL database with the UMLS Semantic Network Structure</p>
+<p><strong>Arguments:</strong></p>
+<ul>
+<li><code>config:Dict()</code>: Dictionary containing MySQL database information</li>
+<li><code>sn_version</code>: Version of the Semantic Network (defaults to 2015AB). Available versions include: 2015AB (planning to include future releases)</li>
+<li><code>mysql_version:</code> Supported and default version is mysql5_6</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code>host=&quot;localhost&quot;
+username=&quot;root&quot;
+password=&quot;&quot;
+umls_sn_dbname=&quot;umls_sn&quot;
+overwrite_db=true
+
+db_config = Dict(:host=&gt;host,
+                 :dbname=&gt;umls_sn_dbname,
+                 :username=&gt;username,
+                 :pswd=&gt;password,
+                 :overwrite=&gt;overwrite_db)
+umls_sn_db= populate_net_mysql(db_config)
+</code></pre>
+
+<p><a id='Schema-1'></a></p>
+<h3 id="schema">Schema</h3>
+<p>The schema of the MySQL database of the semantic network is the following:</p>
+<p><img src="/images/umls_sn_schema.001.png" width="75%"></p>
+<h3 id="note">Note:</h3>
+<p>The previous function uses the original scripts that are part of MetamorphoSys (part of the mmsys.zip downloaded <a href="https://www.nlm.nih.gov/research/umls/licensedcontent/umlsknowledgesources.html">here</a>), and the current Relational ASCII (CVS) files for the UMLS Semantic Network (obtained <a href="https://semanticnetwork.nlm.nih.gov">here</a>)</p>
+<p>For useful information on loading your Semantic Network files into an Oracle or MySQL database, please consult the on-line documentation at:</p>
+<p>http://www.nlm.nih.gov/research/umls/implementation_resources/scripts/index.html</p>
           <aside class="copyright" role="note">
             
             Documentation built with

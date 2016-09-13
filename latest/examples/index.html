@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Examples - BioMedQuery.jl</title>
+        <title>Sample Scripts - BioMedQuery.jl</title>
       
       
       
@@ -96,7 +96,7 @@
             
           </span>
         
-        Examples
+        Sample Scripts
       </div>
     </div>
     
@@ -215,8 +215,8 @@
           
             
   <li>
-    <a class="current" title="Examples" href="./">
-      Examples
+    <a class="current" title="Sample Scripts" href="./">
+      Sample Scripts
     </a>
     
       
@@ -250,6 +250,12 @@
             <li class="anchor">
               <a title="Occurrence Matrix" href="#occurrence-matrix">
                 Occurrence Matrix
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Exporting Citations" href="#exporting-citations">
+                Exporting Citations
               </a>
             </li>
           
@@ -287,9 +293,15 @@
       <article class="article">
         <div class="wrapper">
           
-            <h1>Examples</h1>
+            <h1>Sample Scripts</h1>
           
-          <p>Sample scripts of how to use BioMedQuery.Processes</p>
+          <p>The <a href="https://github.com/bcbi/BioMedQuery.jl/tree/master/examples">examples</a> folder contains sample scripts demonstrating how to use BioMedQuery's pre-assembled processes/workflows. The following examples are available:</p>
+<ul>
+<li><a href="./#Search-and-Save-PubMed-1">Search&amp;Save PubMed</a>:  </li>
+<li><a href="./#Build-MESH-UMLS-map-1">Build MESH-UMLS map</a>:  </li>
+<li><a href="./#Occurrence-Matrix-1">Occurrence Matrix</a>:  </li>
+<li><a href="./#Exporting-Citations-1">Exporting Citations</a>:  </li>
+</ul>
 <p><a id='Running-the-scripts-1'></a></p>
 <h2 id="running-the-scripts">Running the scripts</h2>
 <p>All scripts can be called from the terminal:</p>
@@ -308,6 +320,7 @@
 <p>However, for this variable to be permanently available, you need to add that line to your <code>~/.juliarc.jl</code> file.</p>
 <p><a id='Search-and-Save-PubMed-1'></a></p>
 <h2 id="searchsave-pubmed">Search&amp;Save PubMed</h2>
+<p>See source file - <a href="https://github.com/bcbi/BioMedQuery.jl/blob/master/examples/pubmed_search_and_save.jl">pubmed_search_and_save.jl</a></p>
 <p>It is common to search PubMed for a given number, or all articles associated with a search term, and further store the results to a database, xml or exporting to a citation-style document.</p>
 <p>The script <code>pubmed_search_and_save.jl</code> can achieve all that.</p>
 <p>The top of the script contains the configuration of the search term, the maximum number of articles to fetch and the format for saving the results. Depending on the "exporting format", there will be other local variables to configure. The results can be saved as:</p>
@@ -359,6 +372,7 @@ config = Dict(:host=&gt;host,
 
 <p><a id='Build-MESH-UMLS-map-1'></a></p>
 <h2 id="build-mesh-umls-map">Build MESH-UMLS map</h2>
+<p>See source file - <a href="https://github.com/bcbi/BioMedQuery.jl/blob/master/examples/pubmed_mesh_to_umls_map.jl">pubmed_mesh_to_umls_map.jl</a></p>
 <p>All PubMed articles are associated with MESH descriptors. This script looks for all mesh descriptors in a results database (as created in pubmed_search_and_save.jl) and finds the UMLS concept associated with that descriptor.</p>
 <p>All MESH-UMLS relations are saved in a new (unless set to append) database table called MESH2UMLS.</p>
 <p>The user is responsible for configuring the environment variables containing the UMLS credentials:</p>
@@ -369,6 +383,7 @@ psswd = ENV[&quot;UMLS_PSSWD&quot;]
 <p>And specifying the type and name of the database used to get the MESH and stored the MESH2UMLS.</p>
 <p><a id='Occurrence-Matrix-1'></a></p>
 <h2 id="occurrence-matrix">Occurrence Matrix</h2>
+<p>See source file - <a href="https://github.com/bcbi/BioMedQuery.jl/blob/master/examples/umls_semantic_occurrences.jl">umls_semantic_occurrences.jl</a></p>
 <p>This script finds all MESH descriptors of a given UMLS semantic type and builds the corresponding occurrance/data matrix as follows</p>
 <p>Suppose we wish to find all MESH descriptors in all articles in our database associated with the UMLS Semantic Type: "Disease or Syndrome"</p>
 <p>Suppose we have a total of 4 articles and after filtering the MESH descriptors we have 3 descriptors. Further suppose that:</p>
@@ -423,6 +438,28 @@ psswd = ENV[&quot;UMLS_PSSWD&quot;]
 <pre><code>using JDL
 file  = jldopen(&quot;occur_sp.jdl&quot;, &quot;r&quot;)
 data_matrix = read(file, &quot;occur&quot;)
+</code></pre>
+
+<p><a id='Exporting-Citations-1'></a></p>
+<h2 id="exporting-citations">Exporting Citations</h2>
+<p>See source file - <a href="https://github.com/bcbi/BioMedQuery.jl/blob/master/examples/pubmed_export_citations.jl">pubmed_export_citations.jl</a></p>
+<p>BioMedQuery.Processes provides ready to use functions that save to EndNote/BibTEX formats the citations associated with a single PMID or a list of PMIDs. If you wish to search PubMed using a search-term and save the results as citations, refer to Examples/pubmed_search_and_save.jl</p>
+<p>Exporting citations requires configuring Entrez, email, output file and citation type. For instance,</p>
+<pre><code>using BioMedQuery.Processes
+
+results_dir = &quot;./results&quot;
+
+ if !isdir(results_dir)
+     mkdir(results_dir)
+ end
+
+email= ENV[&quot;NCBI_EMAIL&quot;] #This is an enviroment variable that you need to setup
+citation_type=&quot;endnote&quot;
+pmid = 11748933
+output_file=results_dir*&quot;/11748933.enw&quot;
+
+export_citation(email, pmid, citation_type, output_file)
+
 </code></pre>
           <aside class="copyright" role="note">
             
