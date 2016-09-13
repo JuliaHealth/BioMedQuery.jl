@@ -35,3 +35,28 @@ search_umls(c::Credentials, query)
 ```@docs
 get_semantic_type(c::Credentials, cui)
 ```
+
+## Semantic Network Database
+
+```@docs
+populate_net_mysql(config; sn_version, mysql_version)
+```
+
+### Schema
+
+The schema of the MySQL database of the semantic network is the following:
+
+<img src="/images/umls_sn_schema.001.png" width="75%">
+
+
+###Note:
+
+The previous function uses the original scripts that are part of MetamorphoSys (part of the mmsys.zip
+downloaded [here](https://www.nlm.nih.gov/research/umls/licensedcontent/umlsknowledgesources.html)), and the current Relational ASCII (CVS) files for the UMLS Semantic Network (obtained
+[here](https://semanticnetwork.nlm.nih.gov))
+
+For useful information on loading your Semantic Network files
+into an Oracle or MySQL database, please consult the on-line
+documentation at:
+
+http://www.nlm.nih.gov/research/umls/implementation_resources/scripts/index.html

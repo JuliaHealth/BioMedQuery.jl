@@ -1,4 +1,12 @@
-Sample scripts of how to use BioMedQuery.Processes
+The [examples](https://github.com/bcbi/BioMedQuery.jl/tree/master/examples)
+folder contains sample scripts demonstrating
+how to use BioMedQuery's pre-assembled processes/workflows.
+The following examples are available:
+
+* [Search&Save PubMed](@ref):  
+* [Build MESH-UMLS map](@ref):  
+* [Occurrence Matrix](@ref):  
+* [Exporting Citations](@ref):  
 
 ## Running the scripts
 
@@ -32,6 +40,8 @@ your `~/.juliarc.jl` file.
 
 
 ## Search&Save PubMed
+
+See source file - [pubmed_search_and_save.jl](https://github.com/bcbi/BioMedQuery.jl/blob/master/examples/pubmed_search_and_save.jl)
 
 It is common to search PubMed for a given number, or all articles associated with
 a search term, and further store the results to a database, xml or exporting
@@ -99,6 +109,8 @@ config = Dict(:host=>host,
 
 ## Build MESH-UMLS map
 
+See source file - [pubmed_mesh_to_umls_map.jl](https://github.com/bcbi/BioMedQuery.jl/blob/master/examples/pubmed_mesh_to_umls_map.jl)
+
 All PubMed articles are associated with MESH descriptors. This script looks for all
 mesh descriptors in a results database (as created in pubmed_search_and_save.jl)
 and finds the UMLS concept associated with that descriptor.
@@ -120,6 +132,8 @@ MESH and stored the MESH2UMLS.
 
 
 ## Occurrence Matrix
+
+See source file - [umls_semantic_occurrences.jl](https://github.com/bcbi/BioMedQuery.jl/blob/master/examples/umls_semantic_occurrences.jl)
 
 This script finds all MESH descriptors of a given UMLS semantic type and
 builds the corresponding occurrance/data matrix as follows
@@ -156,4 +170,34 @@ To load back these variable into julia use JDL package. e.g,
 using JDL
 file  = jldopen("occur_sp.jdl", "r")
 data_matrix = read(file, "occur")
+```
+
+## Exporting Citations
+
+See source file - [pubmed_export_citations.jl](https://github.com/bcbi/BioMedQuery.jl/blob/master/examples/pubmed_export_citations.jl)
+
+BioMedQuery.Processes provides ready to use functions that save to EndNote/BibTEX
+formats the citations associated with a single PMID or a list of
+PMIDs. If you wish to search PubMed using a search-term and save the results as citations,
+refer to Examples/pubmed_search_and_save.jl
+
+Exporting citations requires configuring Entrez, email, output file and citation type.
+For instance,
+
+```
+using BioMedQuery.Processes
+
+results_dir = "./results"
+
+ if !isdir(results_dir)
+     mkdir(results_dir)
+ end
+
+email= ENV["NCBI_EMAIL"] #This is an enviroment variable that you need to setup
+citation_type="endnote"
+pmid = 11748933
+output_file=results_dir*"/11748933.enw"
+
+export_citation(email, pmid, citation_type, output_file)
+
 ```

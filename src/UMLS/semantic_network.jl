@@ -1,6 +1,36 @@
 using MySQL
 using ..DBUtils
 
+
+"""
+    populate_net_mysql(config; sn_version, mysql_version)
+
+Populate and return a MySQL database with the UMLS Semantic Network Structure
+
+### Arguments:
+
+* `config:Dict()`: Dictionary containing MySQL database information
+* `sn_version`: Version of the Semantic Network (defaults to 2015AB). Available
+versions include: 2015AB (planning to include future releases)
+* `mysql_version:` Supported and default version is mysql5_6
+
+### Example:
+
+```
+host="localhost"
+username="root"
+password=""
+umls_sn_dbname="umls_sn"
+overwrite_db=true
+
+db_config = Dict(:host=>host,
+                 :dbname=>umls_sn_dbname,
+                 :username=>username,
+                 :pswd=>password,
+                 :overwrite=>overwrite_db)
+umls_sn_db= populate_net_mysql(db_config)
+```
+"""
 function populate_net_mysql(config; sn_version="2015AB", mysql_version="mysql5_6")
 
     println("Populating UMSL S-NET MySQL Database")
