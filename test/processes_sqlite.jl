@@ -1,11 +1,3 @@
-using BioMedQuery.Processes
-using BioMedQuery.Entrez
-using BioMedQuery.Entrez.DB
-using BioMedQuery.DBUtils
-
-using SQLite
-using BioMedQuery.UMLS
-
 #************************ LOCALS TO CONFIGURE!!!! **************************
 email= ENV["NCBI_EMAIL"] #This is an enviroment variable that you need to setup
 search_term="(obesity[MeSH Major Topic]) AND (\"2010\"[Date - Publication] : \"2012\"[Date - Publication])"

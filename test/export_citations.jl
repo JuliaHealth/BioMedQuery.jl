@@ -1,5 +1,3 @@
-using BioMedQuery.Processes
-
 
 email= ENV["NCBI_EMAIL"] #This is an enviroment variable that you need to setup
 pmid = 11748933

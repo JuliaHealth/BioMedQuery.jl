@@ -9,7 +9,12 @@ else
 end
 
 using XMLconvert
-using BioMedQuery
+using BioMedQuery.Processes
+using BioMedQuery.Entrez
+using BioMedQuery.Entrez.DB
+using BioMedQuery.DBUtils
+using BioMedQuery.UMLS
+using MySQL
 using SQLite
 using DataStreams
 
@@ -23,7 +28,6 @@ my_tests = [("dbutils_sqlite.jl",   "       Testing: DBUtils SQLite"),
             ("processes_sqlite.jl", "       Testing: Processes SQLite"),
             ("export_citations.jl", "       Testing: Export Citations")
             ]
-# my_tests = [("entrez_types.jl",      "       Testing: Entrez Types")]
 
 println("Running tests:")
 

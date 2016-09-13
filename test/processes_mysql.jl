@@ -1,10 +1,3 @@
-using BioMedQuery.Processes
-using BioMedQuery.Entrez
-using BioMedQuery.Entrez.DB
-using BioMedQuery.DBUtils
-
-using MySQL
-using BioMedQuery.UMLS
 
 #************************ LOCALS TO CONFIGURE!!!! **************************
 email= ENV["NCBI_EMAIL"] #Enviroment variable that need to be setup
