@@ -3,3 +3,4 @@ docs/site/
 *.cov
 UTS_TGT.txt
 *efetch.xml
+*results/
