@@ -6,9 +6,8 @@ os:
   - osx
 julia:
   - 0.5
-  - release
 notifications:
-  email: false
+  email: true
 before_script:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then . ./ci/travis/before_install-osx.sh; fi
   - export OLD_PATH=$LD_LIBRARY_PATH
