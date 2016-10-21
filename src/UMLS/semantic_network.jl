@@ -45,7 +45,7 @@ function populate_net_mysql(config; sn_version="2015AB", mysql_version="mysql5_6
         mysql_version,  "/mysql_net_tables.sql")
        try
            f = open(filename, "r")
-           mysql_code = readall(f)
+           mysql_code = readstring(f)
            close(f)
        catch
            error("Could not read $filename")

@@ -112,6 +112,7 @@ function save_article_citations(efetch_dict, config, verbose=false)
     println("Saving citation for " , length(articles) ,  " articles")
 
     fout = open(output_file, "a")
+    nsucess=0
     for xml_article in articles
         article = TypeArticle(xml_article)
         try
@@ -119,10 +120,13 @@ function save_article_citations(efetch_dict, config, verbose=false)
             print(fout, citation)
             println(fout) #two empty lines
             println(fout)
+            nsucess+=1
         catch
-            println("Citation failed for PMDI: ", article.pmid)
+            println("Citation failed for article: ", article)
+            println("Likely it is not a Journal type")
             continue
         end
     end
     close(fout)
+    return nsucess
 end
