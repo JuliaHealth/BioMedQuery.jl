@@ -22,8 +22,18 @@ Supported databases/APIS include:
 - Clinical Trials
 
 ## Installation
+
+Stable:
+
 ```{Julia}
-Pkg.clone("https://github.com/bcbi/BioMedQuery.jl.git")
+Pkg.add("BioMedQuery")
 ```
+
+Master branch:
+
+```{Julia}
+Pkg.checkout("BioMedQuery")
+```
+
 
 
