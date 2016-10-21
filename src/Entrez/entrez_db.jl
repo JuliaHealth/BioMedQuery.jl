@@ -65,7 +65,7 @@ end
 # Entrez related searches. All tables are empty at this point
 # If a database existis at the given path - an error is ruturned an the user
 # is asked whether he intended to clean the existing file
-function init_pubmed_db_sqlite(path::ASCIIString, overwrite=false)
+function init_pubmed_db_sqlite(path::String, overwrite=false)
 
 
     if isfile(path)
@@ -202,6 +202,9 @@ function db_insert!(db, article::PubMedArticle, verbose=false)
             else
                 error("Can't save nor find Author: ", au)
             end
+        else
+          insert_row!(db, "author2article",
+          Dict(:aid =>author_id, :pmid => article.pmid.value), verbose)
         end
     end
 end

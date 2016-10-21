@@ -36,7 +36,7 @@ Insert a row of values into the specified table for a given a SQLite database ha
 ### Arguments:
 
 * `db::MySQLDB`: Database object (connection and map)
-* `data_values::Dict{ASCIIString, Any}`: Array of (string) values
+* `data_values::Dict{String, Any}`: Array of (string) values
 * `verbose`: Print debugginh info
 """
 function insert_row!{T}(db::SQLite.DB, tablename, data_values::Dict{Symbol, T},

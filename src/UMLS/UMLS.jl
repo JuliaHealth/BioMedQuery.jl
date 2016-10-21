@@ -21,9 +21,9 @@ end
 """
 type Credentials
     "username"
-    username::ASCIIString
+    username::String
     "password"
-    password::ASCIIString
+    password::String
 end
 
 function time_to_last_save(file)
@@ -65,7 +65,7 @@ function get_tgt(c::Credentials)
     headers = Dict("Content-type"=> "application/x-www-form-urlencoded",
     "Accept"=> "text/plain", "User-Agent"=>"julia" )
     r = post(uri*auth_endpoint,data=params,headers=headers)
-    ascii_r = ASCIIString(r.data)
+    ascii_r = String(r.data)
 
     doc = parsehtml(ascii_r)
     #for now - harcoded
@@ -91,7 +91,7 @@ function get_ticket(TGT)
     h = Dict("Content-type"=> "application/x-www-form-urlencoded",
     "Accept"=> "text/plain", "User-Agent"=>"julia" )
     r = post(TGT; data=params, headers=h)
-    return ASCIIString(r.data)
+    return String(r.data)
 end
 
 """
@@ -127,7 +127,7 @@ query = Dict("string"=>term, "searchType"=>"exact" )
 all_results= search_umls(tgt, query)
 ```
 """
-function search_umls(tgt, query; version::ASCIIString="current", timeout=1)
+function search_umls(tgt, query; version::String="current", timeout=1)
 
     # Ticket granting ticket
     if tgt== nothing
@@ -210,7 +210,7 @@ function get_semantic_type(tgt, cui)
 
     json_response = Requests.json(r)
     st = json_response["result"]["semanticTypes"]
-    concepts = Array{ASCIIString}(length(st))
+    concepts = Array{String}(length(st))
     for (ci, concept) in enumerate(st)
         concepts[ci] =concept["name"]
     end

@@ -6,7 +6,7 @@ using BioMedQuery.Entrez
 Export, to an output file, the citation for PubMed article identified by the given pmid
 
 ### Arguments
-* `citation_type::ASCIIString`: At the moment supported types include: "endnote"
+* `citation_type::String`: At the moment supported types include: "endnote"
 """
 function export_citation(entrez_email, pmid::Int64, citation_type, output_file,
     overwrite = true, verbose=false)
@@ -27,7 +27,7 @@ end
 Export, to an output file, the citation for collection of PubMed articles identified by the given pmids
 
 ### Arguments
-* `citation_type::ASCIIString`: At the moment supported types include: "endnote"
+* `citation_type::String`: At the moment supported types include: "endnote"
 """
 function export_citation(entrez_email, pmids::Vector{Int64}, citation_type, output_file,
     overwrite=true, verbose=false)

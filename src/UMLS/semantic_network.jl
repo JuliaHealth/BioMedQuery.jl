@@ -75,7 +75,7 @@ function build_tree_dict(db)
     query_code = "SELECT * FROM SRSTR WHERE `RL`='isa' AND `STY_RL2` is NULL;"
     query = db_query(db, query_code)
     roots = query[1]
-    all_keys = Dict{ASCIIString, ASCIIString}()
+    all_keys = Dict{String, String}()
     for (idx, r) in enumerate(roots)
         root_dict = Dict{Symbol,Any}(:name=>r)
         all_keys[r]= string("[:children]", "[", idx, "]")

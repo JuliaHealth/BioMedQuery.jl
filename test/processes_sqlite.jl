@@ -40,7 +40,7 @@ end
     all_pairs = all_pairs_query[1].values
     @test length(all_pairs) > 0
     println(typeof(all_pairs))
-    @test isa(all_pairs, Array{UTF8String,1})
+    @test isa(all_pairs, Array{String,1})
 end
 
 @testset "Occurrences" begin

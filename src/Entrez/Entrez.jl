@@ -34,7 +34,7 @@ function open_entrez(cgi, params, post=false)
     end
 
     # convert binary xml data to ascii
-    return ASCIIString(response.data)
+    return String(response.data)
 end
 
 
@@ -49,7 +49,7 @@ Request list of UIDs matiching a query - see [NCBI Entrez:Esearch](http://www.nc
 
 ###Output
 
-* `::ASCIIString`: XML response from NCBI
+* `::String`: XML response from NCBI
 
 ###Example
 
@@ -91,7 +91,7 @@ Retrieve data records from a list of UIDs - see [NCBI Entrez: EFetch](http://www
 
 ###Results
 
-* `::ASCIIString` - XML response from NCBI
+* `::String` - XML response from NCBI
 
 ###Example
 
@@ -144,7 +144,7 @@ different Entrez database. For more info see
 
 ###Output
 
-* `::ASCIIString`: XML response from NCBI
+* `::String`: XML response from NCBI
 
 ###Example
 
@@ -173,7 +173,7 @@ Return document summaries for a list of input UIDs. For more info see
 
 ###Output
 
-* `::ASCIIString`: XML response from NCBI
+* `::String`: XML response from NCBI
 
 ###Example
 
@@ -189,12 +189,12 @@ function esummary(esummary_dict)
 end
 
 """
-    eparse(response::ASCIIString)
+    eparse(response::String)
 
 Converts NCBI XML response into a Julia dictionary
 
 """
-function eparse(ncbi_response::ASCIIString)
+function eparse(ncbi_response::String)
     xdoc = parse_string(ncbi_response)
     # get the root element
     xroot = root(xdoc)  # an instance of XMLElement
@@ -209,12 +209,12 @@ end
 
 
 """
-    eparse_from_file(xml_file::ASCIIString)
+    eparse_from_file(xml_file::String)
 
 Converts NCBI XML (previously saved) file into a Julia dictionary
 
 """
-function eparse_from_file(xml_file::ASCIIString)
+function eparse_from_file(xml_file::String)
     xdoc = parse_file(xml_file)
     # get the root element
     xroot = root(xdoc)  # an instance of XMLElement

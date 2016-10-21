@@ -9,7 +9,7 @@ Create a MySQL database using the code inside mysql_code
 ### Arguments
 
 * `host`, `dbname`, `user`, `pswd`
-* `mysql_code::ASCIIString`: String with MySQL code that crates all default tables
+* `mysql_code::String`: String with MySQL code that crates all default tables
 * `overwrite::Bool` : Flag, if true and dbname exists, it deletes it
 
 ### Output
@@ -95,7 +95,7 @@ function db_query(con::MySQL.MySQLHandle, query_code)
 end
 
 function insert_row!{T}(con::MySQL.MySQLHandle, tablename, data_values::Dict{Symbol, T},
-    colname_dict::Dict{ASCIIString, Array{ASCIIString, 1}}, verbose = false)
+    colname_dict::Dict{String, Array{String, 1}}, verbose = false)
 
     table_cols = colname_dict[symbol(tablename)]
     table_cols_backticks = [string("`", x, "`") for x in table_cols]
@@ -123,7 +123,7 @@ Insert a row of values into the specified table for a given a MySQL database han
 ### Arguments:
 
 * `db::MySQLDB`: Database object (connection and map)
-* `data_values::Dict{ASCIIString, Any}`: Array of (string) values
+* `data_values::Dict{String, Any}`: Array of (string) values
 * `verbose`: Print debugginh info
 """
 function insert_row!{T}(con::MySQL.MySQLHandle, tablename, data_values::Dict{Symbol, T},

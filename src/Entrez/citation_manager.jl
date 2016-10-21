@@ -14,7 +14,7 @@ function citations_endnote(article::PubMedArticle, verbose=false)
         error("EndNote can only export Journal Articles")
     end
 
-    lines::Vector{UTF8String} = ["%0 Journal Article"]
+    lines::Vector{String} = ["%0 Journal Article"]
     for au in article.authors
         if isnull(au[:Initials]) && isnull(au[:LastName])
             println("Skipping author, null field: ", au)
@@ -58,7 +58,7 @@ function citations_bibtex(article::PubMedArticle, verbose=false)
         error("EndNote can only export Journal Articles")
     end
 
-    lines::Vector{UTF8String} = ["@article {PMID:$(article.pmid.value),"]
+    lines::Vector{String} = ["@article {PMID:$(article.pmid.value),"]
     authors_str = []
     for au in article.authors
         if isnull(au[:Initials]) && isnull(au[:LastName])

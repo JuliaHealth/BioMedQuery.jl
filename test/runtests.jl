@@ -18,7 +18,8 @@ using MySQL
 using SQLite
 using DataStreams
 
-my_tests = [("dbutils_sqlite.jl",   "       Testing: DBUtils SQLite"),
+my_tests = [
+            ("dbutils_sqlite.jl",   "       Testing: DBUtils SQLite"),
             ("dbutils_mysql.jl",    "       Testing: DBUtils MySQL"),
             ("entrez.jl",           "       Testing: ENTREZ"),
             ("entrez_types.jl",      "       Testing: Entrez Types"),

@@ -23,7 +23,7 @@ using HttpCommon
 # For more information on possible searche critiria see:
  # https://clinicaltrials.gov/ct2/search/advanced
 function search_ct(query, fout; results=false)
-    query = convert(Dict{ASCIIString, Any}, query)
+    query = convert(Dict{String, Any}, query)
 
     ext = splitext(fout)[2]
     if  !isequal(ext,".zip")

@@ -55,7 +55,7 @@ esummary(esummary_dict)
 
 ## EParse
 ```@docs
-eparse(ncbi_response::ASCIIString)
+eparse(ncbi_response::String)
 ```
 
 ## Saving NCBI Responses to XML

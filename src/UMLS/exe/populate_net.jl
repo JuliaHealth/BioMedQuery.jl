@@ -22,19 +22,19 @@ function parse_commandline()
     @add_arg_table s["mysql"] begin
         "--host"
              help = "Host where you database lives"
-             arg_type = ASCIIString
+             arg_type = String
              default = "localhost"
         "--dbname"
              help = "Database name"
-             arg_type = ASCIIString
+             arg_type = String
              required = true
         "--username"
              help = "MySQL username"
-             arg_type = ASCIIString
+             arg_type = String
              default = "root"
         "--password"
              help = "MySQL password"
-             arg_type = ASCIIString
+             arg_type = String
              default = ""
     end
     return parse_args(s)

@@ -15,7 +15,7 @@ other non-numeric values be passed with single quotes around them.
 """
 function assemble_cols_and_vals{T}(data_values::Dict{Symbol, T})
     vals_single_quotes = Array{Any, 1}(length(data_values))        # put values in Array to be joined
-    table_cols_backticks = Array{ASCIIString}(length(data_values))
+    table_cols_backticks = Array{String}(length(data_values))
     for (i, (key,val)) in enumerate(data_values)
         table_cols_backticks[i] = string("`", key, "`")
         if typeof(val) <: Number
@@ -69,8 +69,8 @@ other non-numeric values be passed with single quotes around them.
 """
 function assemble_cols_and_vals_select{T}(data_values::Dict{Symbol, T}, op = "AND")
     val_single_quotes::Any = nothing        # put values in Array to be joined
-    col_backticks::ASCIIString = ""
-    select_string_array = Array{UTF8String}(length(data_values))
+    col_backticks::String = ""
+    select_string_array = Array{String}(length(data_values))
     for (i, (key,val)) in enumerate(data_values)
         col_backticks = string("`", key, "`")
         if typeof(val) <: Number

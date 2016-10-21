@@ -129,6 +129,7 @@ function map_mesh_to_umls_async!(db, c::Credentials; timeout = Inf, append_resul
                     print("!")
                     errors[i] = err.code
                 end
+                # println(all_results)
                 if length(all_results) > 0
 
                     cui = best_match_cui(all_results)

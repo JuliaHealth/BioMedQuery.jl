@@ -1,4 +1,6 @@
 using NullableArrays
+using DataStructures
+
 
 # Given a multidict and a key, this function returns either the
 # (single) value for that key, or `nothing`. Thus, it assumes we
@@ -22,19 +24,19 @@ end
 Type that matches the NCBI-XML contents for a PubMedArticle
 """
 type PubMedArticle
-    types::NullableArray{UTF8String, 1}
+    types::NullableArray{String, 1}
     pmid::Nullable{Int64}
-    url::Nullable{UTF8String}
-    title::Nullable{UTF8String}
-    authors::Vector{Dict{Symbol,Nullable{UTF8String}}}
+    url::Nullable{String}
+    title::Nullable{String}
+    authors::Vector{Dict{Symbol,Nullable{String}}}
     year::Nullable{Int64}
-    journal::Nullable{UTF8String}
-    volume::Nullable{ASCIIString}
-    issue::Nullable{ASCIIString}
-    abstract_text::Nullable{UTF8String}
-    pages::Nullable{ASCIIString}
-    mesh::NullableArray{UTF8String, 1}
-    affiliations::NullableArray{UTF8String, 1}
+    journal::Nullable{String}
+    volume::Nullable{String}
+    issue::Nullable{String}
+    abstract_text::Nullable{String}
+    pages::Nullable{String}
+    mesh::NullableArray{String, 1}
+    affiliations::NullableArray{String, 1}
 
     #Constructor from XML article element
     function PubMedArticle(NCBIXMLarticle)
@@ -57,28 +59,28 @@ type PubMedArticle
         # Retrieve basic article info
         if haskey(medline_citation,"Article")
             medline_article = medline_citation["Article"][1]
-            this.types = NullableArray{UTF8String}(0)
+            this.types = NullableArray{String}(0)
             if haskey(medline_article,"PublicationTypeList")
                 if haskey(medline_article["PublicationTypeList"][1],"PublicationType")
                     for pub_type_xml in medline_article["PublicationTypeList"][1]["PublicationType"]
-                        pub_type = get_if_exists(pub_type_xml, "PublicationType",Nullable{UTF8String}())
+                        pub_type = get_if_exists(pub_type_xml, "PublicationType",Nullable{String}())
                         push!(this.types, pub_type)
                     end
                 end
             end
-            this.title = get_if_exists(medline_article, "ArticleTitle", Nullable{UTF8String}())
+            this.title = get_if_exists(medline_article, "ArticleTitle", Nullable{String}())
 
             if haskey(medline_article, "Journal")
-                this.journal = get_if_exists(medline_article["Journal"][1], "ISOAbbreviation", Nullable{UTF8String}())
+                this.journal = get_if_exists(medline_article["Journal"][1], "ISOAbbreviation", Nullable{String}())
                 if haskey(medline_article["Journal"][1], "JournalIssue")
                     #Issues and volumesn may be a number or a string e.g issue=4 or "4-6"
-                    volume = get_if_exists(medline_article["Journal"][1]["JournalIssue"][1], "Volume",Nullable{ASCIIString}())
+                    volume = get_if_exists(medline_article["Journal"][1]["JournalIssue"][1], "Volume",Nullable{String}())
                     if isa(volume, Nullable{Int64})
                         this.volume = string(volume.value)
                     else
                         this.volume = volume
                     end
-                    issue = get_if_exists(medline_article["Journal"][1]["JournalIssue"][1], "Issue",Nullable{ASCIIString}())
+                    issue = get_if_exists(medline_article["Journal"][1]["JournalIssue"][1], "Issue",Nullable{String}())
                     if isa(issue, Nullable{Int64})
                         this.issue = string(issue.value)
                     else
@@ -89,7 +91,7 @@ type PubMedArticle
 
 
             if haskey(medline_article,"Pagination")
-                pages = get_if_exists(medline_article["Pagination"][1], "MedlinePgn",Nullable{ASCIIString}())
+                pages = get_if_exists(medline_article["Pagination"][1], "MedlinePgn",Nullable{String}())
                 if isa(pages, Nullable{Int64})
                     this.pages = string(pages.value)
                 else
@@ -114,13 +116,13 @@ type PubMedArticle
                 end
             end
 
-            this.abstract_text = Nullable{UTF8String}()
+            this.abstract_text = Nullable{String}()
             # println(medline_article)
             if haskey(medline_article, "Abstract")
                 # println("Has Abstract")
                 # println(medline_article["Abstract"][1])
                 try
-                    this.abstract_text = get_if_exists(medline_article["Abstract"][1], "AbstractText",Nullable{UTF8String}() )
+                    this.abstract_text = get_if_exists(medline_article["Abstract"][1], "AbstractText",Nullable{String}() )
                 catch
                     text = ""
                     for abs in medline_article["Abstract"][1]["AbstractText"]
@@ -134,8 +136,8 @@ type PubMedArticle
             end
 
             # Get authors
-            this.authors = Vector{Dict{Symbol,Nullable{UTF8String}}}()
-            this.affiliations = NullableArray{UTF8String}(0)
+            this.authors = Vector{Dict{Symbol,Nullable{String}}}()
+            this.affiliations = NullableArray{String}(0)
             if haskey(medline_article, "AuthorList")
                 xml_authors = medline_article["AuthorList"][1]["Author"]
                 for author in xml_authors
@@ -146,9 +148,9 @@ type PubMedArticle
                             continue
                         end
                     end
-                    forname = get_if_exists(author, "ForeName", Nullable{UTF8String}())
-                    initials = get_if_exists(author, "Initials", Nullable{UTF8String}())
-                    lastname = get_if_exists(author, "LastName", Nullable{UTF8String}())
+                    forname = get_if_exists(author, "ForeName", Nullable{String}())
+                    initials = get_if_exists(author, "Initials", Nullable{String}())
+                    lastname = get_if_exists(author, "LastName", Nullable{String}())
                     if haskey(author, "AffiliationInfo")
                         if haskey(author["AffiliationInfo"][1], "Affiliation")
                             for aff in author["AffiliationInfo"][1]["Affiliation"]
@@ -171,7 +173,7 @@ type PubMedArticle
 
 
         # Get MESH Descriptors
-        this.mesh = NullableArray{UTF8String}(0)
+        this.mesh = NullableArray{String}(0)
         if haskey(medline_citation, "MeshHeadingList")
             if haskey(medline_citation["MeshHeadingList"][1], "MeshHeading")
                 mesh_headings = medline_citation["MeshHeadingList"][1]["MeshHeading"]
@@ -192,12 +194,12 @@ end
 
 
 type MeshHeading
-    descriptor_name::Nullable{ASCIIString}
+    descriptor_name::Nullable{String}
     descriptor_id::Nullable{Int64}
-    descriptor_mjr::Nullable{ASCIIString}
-    qualifier_name::NullableArray{ASCIIString, 1}
+    descriptor_mjr::Nullable{String}
+    qualifier_name::NullableArray{String, 1}
     qualifier_id::NullableArray{Int64, 1}
-    qualifier_mjr::NullableArray{ASCIIString, 1}
+    qualifier_mjr::NullableArray{String, 1}
 
     #Constructor from XML heading element
     function MeshHeading(NCBIXMLheading)
@@ -211,40 +213,40 @@ type MeshHeading
         this = new()
 
 
-        this.descriptor_name = Nullable{ASCIIString}()
+        this.descriptor_name = Nullable{String}()
         this.descriptor_id = Nullable{Int64}()
 
         #Descriptor
-        descriptor_name = get_if_exists(NCBIXMLheading["DescriptorName"][1], "DescriptorName", Nullable{ASCIIString}())
+        descriptor_name = get_if_exists(NCBIXMLheading["DescriptorName"][1], "DescriptorName", Nullable{String}())
 
         if !isnull(descriptor_name)
             this.descriptor_name = normalize_string(descriptor_name.value, casefold=true)
         end
 
-        did = get_if_exists(NCBIXMLheading["DescriptorName"][1], "UI", Nullable{ASCIIString}())
+        did = get_if_exists(NCBIXMLheading["DescriptorName"][1], "UI", Nullable{String}())
 
         if !isnull(did)
             this.descriptor_id = parse(Int64, did.value[2:end])  #remove preceding D
         end
 
-        this.descriptor_mjr = get_if_exists(NCBIXMLheading["DescriptorName"][1], "MajorTopicYN", Nullable{ASCIIString}())
+        this.descriptor_mjr = get_if_exists(NCBIXMLheading["DescriptorName"][1], "MajorTopicYN", Nullable{String}())
 
 
         #Qualifier
-        this.qualifier_name = NullableArray{ASCIIString, 1}()
+        this.qualifier_name = NullableArray{String, 1}()
         this.qualifier_id = NullableArray{Int64, 1}()
-        this.qualifier_mjr = NullableArray{ASCIIString, 1}()
+        this.qualifier_mjr = NullableArray{String, 1}()
         if haskey(NCBIXMLheading,"QualifierName")
             qualifiers = NCBIXMLheading["QualifierName"]
             for qual in qualifiers
 
-                qname = get_if_exists(qual, "QualifierName", Nullable{ASCIIString}())
+                qname = get_if_exists(qual, "QualifierName", Nullable{String}())
 
                 if !isnull(qname)
                     qname = normalize_string(qname.value, casefold=true)
                     push!(this.qualifier_name, Nullable(qname))
 
-                    qid = get_if_exists(qual, "UI", Nullable{ASCIIString}())
+                    qid = get_if_exists(qual, "UI", Nullable{String}())
 
                     if !isnull(qid)
                         qid = parse(Int64, qid.value[2:end])  #remove preceding Q
@@ -252,7 +254,7 @@ type MeshHeading
                     end
 
 
-                    qmjr = get_if_exists(qual, "MajorTopicYN", Nullable{ASCIIString}())
+                    qmjr = get_if_exists(qual, "MajorTopicYN", Nullable{String}())
                     push!(this.qualifier_mjr, qmjr)
 
                 end
@@ -267,17 +269,24 @@ end
 typealias MeshHeadingList Vector{MeshHeading}
 
 #Constructor-Like method from XML article element
-function MeshHeadingList(NCBIXMLarticle)
+function MeshHeadingList(NCBIXMLarticle::DataStructures.MultiDict{Any,Any})
     if !haskey(NCBIXMLarticle,"MedlineCitation")
         error("MedlineCitation not found")
     end
 
+    # println("===========typeof================")
+    # println(typeof(NCBIXMLarticle))
+
     this = MeshHeadingList()
+    # println("===========typeof================")
+    # println(typeof(this))
     medline_citation = NCBIXMLarticle["MedlineCitation"][1]
     if haskey(medline_citation, "MeshHeadingList")
         if haskey(medline_citation["MeshHeadingList"][1], "MeshHeading")
             xml_mesh_headings = medline_citation["MeshHeadingList"][1]["MeshHeading"]
             for xml_heading in xml_mesh_headings
+                # println("===========push================")
+                # println(xml_heading)
                 heading = MeshHeading(xml_heading)
                 # show(heading)
                 push!(this, MeshHeading(xml_heading))
