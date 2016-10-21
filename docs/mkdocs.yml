@@ -26,7 +26,7 @@ pages:
 - UMLS: umls.md
 - Clinical Trials: ct.md
 - Processes/Workflows: processes.md
-- Sample Scripts: examples.md
+- Examples: examples.md
 - Database Utilities: dbutils.md
 - Library: library.md
 
