@@ -10,7 +10,7 @@ notifications:
   email: true
 before_script:
   - echo "[mysqld]" > $HOME/.my.cnf
-  - echo "secure_file_priv = \"\" >> $HOME/.my.cnf
+  - echo "secure_file_priv = \"\" ">> $HOME/.my.cnf
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then . ./ci/travis/before_install-osx.sh; fi
   - export OLD_PATH=$LD_LIBRARY_PATH
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`mysql_config --libs | cut -d ' ' -f1 | sed 's/-L//'`
