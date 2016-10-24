@@ -29,7 +29,7 @@ Stable:
 Pkg.add("BioMedQuery")
 ```
 
-Master branch:
+Master (development) branch:
 
 ```{Julia}
 Pkg.checkout("BioMedQuery")
