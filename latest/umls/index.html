@@ -215,12 +215,6 @@
             </li>
           
             <li class="anchor">
-              <a title="Best match CUI" href="#best-match-cui">
-                Best match CUI
-              </a>
-            </li>
-          
-            <li class="anchor">
               <a title="Semantic types of a CUI" href="#semantic-types-of-a-cui">
                 Semantic types of a CUI
               </a>
@@ -258,8 +252,8 @@
           
             
   <li>
-    <a class="" title="Sample Scripts" href="../examples/">
-      Sample Scripts
+    <a class="" title="Examples" href="../examples/">
+      Examples
     </a>
     
   </li>
@@ -308,6 +302,7 @@
 <pre><code>Credentials(user, psswd)
 </code></pre>
 
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/UMLS/UMLS.jl#L19-L21' class='documenter-source'>source</a><br></p>
 <p><a id='Search-the-UMLS-1'></a></p>
 <h2 id="search-the-umls">Search the UMLS</h2>
 <p><a id='BioMedQuery.UMLS.search_umls-Tuple{BioMedQuery.UMLS.Credentials,Any}' href='#BioMedQuery.UMLS.search_umls-Tuple{BioMedQuery.UMLS.Credentials,Any}'>#</a>
@@ -324,28 +319,43 @@
 </ul>
 <h3 id="output">Output</h3>
 <ul>
-<li><code>result_pages</code>: Array, where each entry is a dictionary containing a page of results. e.g  <code>Dict{AbstractString,Any} with 3 entries:   "pageSize"   =&gt; 25    "pageNumber" =&gt; 1   "result"     =&gt; Dict{AbstractString,Any}("classType"=&gt;"searchResults","result…</code></li>
+<li><code>result_pages</code>: Array, where each entry is a dictionary containing a page of</li>
 </ul>
+<p>results. e.g</p>
+<p><code>Dict{AbstractString,Any} with 3 entries:
+  "pageSize"   =&gt; 25
+   "pageNumber" =&gt; 1
+  "result"     =&gt; Dict{AbstractString,Any}("classType"=&gt;"searchResults","result…</code></p>
 <h3 id="examples">Examples</h3>
-<pre><code class="julia">credentials = Credentials(user, psswd)
-tgt = get_tgt(credentials)
-term = &quot;obesity&quot;
-query = Dict(&quot;string&quot;=&gt;term, &quot;searchType&quot;=&gt;&quot;exact&quot; )
-all_results= search_umls(tgt, query)
+<pre><code>
+julia credentials = Credentials(user, psswd) tgt = get_tgt(credentials) term = &quot;obesity&quot; query = Dict(&quot;string&quot;=&gt;term, &quot;searchType&quot;=&gt;&quot;exact&quot; ) all_results= search_umls(tgt, query) ```
+
+
+&lt;a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/UMLS/UMLS.jl#L97-L129' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
+
+
+&lt;a id='Best-match-CUI-1'&gt;&lt;/a&gt;
+
+## Best match CUI
+
+&lt;a id='BioMedQuery.UMLS.best_match_cui-Tuple{Any}' href='#BioMedQuery.UMLS.best_match_cui-Tuple{Any}'&gt;#&lt;/a&gt;
+**`BioMedQuery.UMLS.best_match_cui`** &amp;mdash; *Method*.
+
+
+
 </code></pre>
 
-<p><a id='Best-match-CUI-1'></a></p>
-<h2 id="best-match-cui">Best match CUI</h2>
-<p><a id='BioMedQuery.UMLS.best_match_cui-Tuple{Any}' href='#BioMedQuery.UMLS.best_match_cui-Tuple{Any}'>#</a>
-<strong><code>BioMedQuery.UMLS.best_match_cui</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>best_match_cui(result_pages)
+<p>best_match_cui(result_pages)</p>
+<pre><code>
+Retrive the best match from array of all result pages
+
+###Example
+
+```julia
+cui = BioMedQuery.UMLS.best_match_cui(all_results)
 </code></pre>
 
-<p>Retrive the best match from array of all result pages</p>
-<h3 id="example">Example</h3>
-<pre><code class="julia">cui = BioMedQuery.UMLS.best_match_cui(all_results)
-</code></pre>
-
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/UMLS/UMLS.jl#L175-L185' class='documenter-source'>source</a><br></p>
 <p><a id='Semantic-types-of-a-CUI-1'></a></p>
 <h2 id="semantic-types-of-a-cui">Semantic types of a CUI</h2>
 <p><a id='BioMedQuery.UMLS.get_semantic_type-Tuple{BioMedQuery.UMLS.Credentials,Any}' href='#BioMedQuery.UMLS.get_semantic_type-Tuple{BioMedQuery.UMLS.Credentials,Any}'>#</a>
@@ -354,13 +364,14 @@ all_results= search_umls(tgt, query)
 </code></pre>
 
 <p>Return an array of the semantic types associated with a cui</p>
-<h3 id="example_1">Example</h3>
+<h3 id="example">Example</h3>
 <pre><code class="julia">credentials = Credentials(user, psswd)
 tgt = get_tgt(credentials)
 cui = &quot;C0028754&quot;
 sm = BioMedQuery.UMLS.get_semantic_type(tgt, cui)
 </code></pre>
 
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/UMLS/UMLS.jl#L190-L203' class='documenter-source'>source</a><br></p>
 <p><a id='Semantic-Network-Database-1'></a></p>
 <h2 id="semantic-network-database">Semantic Network Database</h2>
 <p><a id='BioMedQuery.UMLS.populate_net_mysql-Tuple{Any}' href='#BioMedQuery.UMLS.populate_net_mysql-Tuple{Any}'>#</a>
@@ -372,7 +383,10 @@ sm = BioMedQuery.UMLS.get_semantic_type(tgt, cui)
 <p><strong>Arguments:</strong></p>
 <ul>
 <li><code>config:Dict()</code>: Dictionary containing MySQL database information</li>
-<li><code>sn_version</code>: Version of the Semantic Network (defaults to 2015AB). Available versions include: 2015AB (planning to include future releases)</li>
+<li><code>sn_version</code>: Version of the Semantic Network (defaults to 2015AB). Available</li>
+</ul>
+<p>versions include: 2015AB (planning to include future releases)</p>
+<ul>
 <li><code>mysql_version:</code> Supported and default version is mysql5_6</li>
 </ul>
 <p><strong>Example:</strong></p>
@@ -390,6 +404,7 @@ db_config = Dict(:host=&gt;host,
 umls_sn_db= populate_net_mysql(db_config)
 </code></pre>
 
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/UMLS/semantic_network.jl#L5-L33' class='documenter-source'>source</a><br></p>
 <p><a id='Schema-1'></a></p>
 <h3 id="schema">Schema</h3>
 <p>The schema of the MySQL database of the semantic network is the following:</p>

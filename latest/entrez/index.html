@@ -288,8 +288,8 @@
           
             
   <li>
-    <a class="" title="Sample Scripts" href="../examples/">
-      Sample Scripts
+    <a class="" title="Examples" href="../examples/">
+      Examples
     </a>
     
   </li>
@@ -365,7 +365,7 @@
 </ul>
 <h3 id="output">Output</h3>
 <ul>
-<li><code>::ASCIIString</code>: XML response from NCBI</li>
+<li><code>::String</code>: XML response from NCBI</li>
 </ul>
 <h3 id="example">Example</h3>
 <pre><code class="julia">search_dic = Dict(&quot;db&quot;=&gt;&quot;pubmed&quot;, &quot;term&quot; =&gt; search_term,
@@ -377,9 +377,11 @@ esearch_response = esearch(search_dic)
 <h3 id="note">Note</h3>
 <ul>
 <li>email must be a valid email address (otherwise pubmed will block you)</li>
-<li>search_term corresponds to a valid <a href="http://www.ncbi.nlm.nih.gov/pubmed/advanced">PubMed Search</a>. It may contain one or more filtering criteria using AND/OR. For instance:</li>
+<li>search_term corresponds to a valid <a href="http://www.ncbi.nlm.nih.gov/pubmed/advanced">PubMed Search</a>. It may contain one or more filtering criteria using AND/OR.</li>
 </ul>
+<p>For instance:</p>
 <p><code>search_term = (asthma[MeSH Terms]) AND ("2001/01/29"[Date - Publication] : "2010"[Date - Publication])</code>.</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/Entrez/Entrez.jl#L41-L71' class='documenter-source'>source</a><br></p>
 <p><a id='EFetch-1'></a></p>
 <h2 id="efetch">EFetch</h2>
 <p><a id='BioMedQuery.Entrez.efetch-Tuple{Any,Any}' href='#BioMedQuery.Entrez.efetch-Tuple{Any,Any}'>#</a>
@@ -395,7 +397,7 @@ esearch_response = esearch(search_dic)
 </ul>
 <h3 id="results">Results</h3>
 <ul>
-<li><code>::ASCIIString</code> - XML response from NCBI</li>
+<li><code>::String</code> - XML response from NCBI</li>
 </ul>
 <h3 id="example_1">Example</h3>
 <pre><code class="julia"># get the list of ids
@@ -417,6 +419,7 @@ fetch_dic = Dict(&quot;db&quot;=&gt;&quot;pubmed&quot;,&quot;tool&quot; =&gt;&qu
 efetch_response = efetch(fetch_dic, ids)
 </code></pre>
 
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/Entrez/Entrez.jl#L82-L118' class='documenter-source'>source</a><br></p>
 <p><a id='ELink-1'></a></p>
 <h2 id="elink">ELink</h2>
 <p><a id='BioMedQuery.Entrez.elink-Tuple{Any}' href='#BioMedQuery.Entrez.elink-Tuple{Any}'>#</a>
@@ -431,7 +434,7 @@ efetch_response = efetch(fetch_dic, ids)
 </ul>
 <h3 id="output_1">Output</h3>
 <ul>
-<li><code>::ASCIIString</code>: XML response from NCBI</li>
+<li><code>::String</code>: XML response from NCBI</li>
 </ul>
 <h3 id="example_2">Example</h3>
 <pre><code class="julia">pmid = &quot;19304878&quot;
@@ -440,6 +443,7 @@ elink_dict = Dict(&quot;dbfrom&quot; =&gt;&quot;pubmed&quot;, &quot;id&quot; =&g
 elink_response = elink(elink_dict)
 </code></pre>
 
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/Entrez/Entrez.jl#L134-L157' class='documenter-source'>source</a><br></p>
 <p><a id='ESummary-1'></a></p>
 <h2 id="esummary">ESummary</h2>
 <p><a id='BioMedQuery.Entrez.esummary-Tuple{Any}' href='#BioMedQuery.Entrez.esummary-Tuple{Any}'>#</a>
@@ -454,7 +458,7 @@ elink_response = elink(elink_dict)
 </ul>
 <h3 id="output_2">Output</h3>
 <ul>
-<li><code>::ASCIIString</code>: XML response from NCBI</li>
+<li><code>::String</code>: XML response from NCBI</li>
 </ul>
 <h3 id="example_3">Example</h3>
 <pre><code class="julia">pmid = &quot;30367&quot;
@@ -462,14 +466,16 @@ esummary_dict = Dict(&quot;db&quot; =&gt;&quot;pubmed&quot;, &quot;id&quot; =&gt
 esummary_response = esummary(esummary_dict)
 </code></pre>
 
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/Entrez/Entrez.jl#L164-L185' class='documenter-source'>source</a><br></p>
 <p><a id='EParse-1'></a></p>
 <h2 id="eparse">EParse</h2>
-<p><a id='BioMedQuery.Entrez.eparse-Tuple{ASCIIString}' href='#BioMedQuery.Entrez.eparse-Tuple{ASCIIString}'>#</a>
+<p><a id='BioMedQuery.Entrez.eparse-Tuple{String}' href='#BioMedQuery.Entrez.eparse-Tuple{String}'>#</a>
 <strong><code>BioMedQuery.Entrez.eparse</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>eparse(response::ASCIIString)
+<pre><code>eparse(response::String)
 </code></pre>
 
 <p>Converts NCBI XML response into a Julia dictionary</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/Entrez/Entrez.jl#L191-L196' class='documenter-source'>source</a><br></p>
 <p><a id='Saving-NCBI-Responses-to-XML-1'></a></p>
 <h2 id="saving-ncbi-responses-to-xml">Saving NCBI Responses to XML</h2>
 <p>You can save directly the XML String to file using the <a href="https://github.com/bcbi/XMLconvert.jl">XMLconvert Package</a></p>
@@ -479,37 +485,12 @@ esummary_response = esummary(esummary_dict)
 
 <p><a id='Saving-EFetch-to-a-SQLite-database-1'></a></p>
 <h2 id="saving-efetch-to-a-sqlite-database">Saving EFetch to a SQLite database</h2>
-<p><a id='BioMedQuery.Entrez.save_efetch_sqlite-Tuple{Any,Any,Any}' href='#BioMedQuery.Entrez.save_efetch_sqlite-Tuple{Any,Any,Any}'>#</a>
-<strong><code>BioMedQuery.Entrez.save_efetch_sqlite</code></strong> &mdash; <em>Method</em>.</p>
-<p>save_efetch_sqlite(efetch_dict, db_config, verbose)</p>
-<p>Save the results (dictionary) of an entrez fetch to a SQLite database.</p>
-<h3 id="arguments_4">Arguments:</h3>
-<ul>
-<li><code>efetch_dict</code>: Response dictionary from efetch</li>
-<li><code>db_config::Dict{Symbol, T}</code>: Configuration dictionary for initialitizing SQLite database. Must contain symbols <code>:db_path</code> and <code>:overwrite</code></li>
-<li><code>verbose</code>: Boolean to turn on extra print statements</li>
-</ul>
-<h3 id="example_5">Example</h3>
-<pre><code class="julia">db_config =  Dict(:db_path=&gt;&quot;test_db.slqite&quot;, :overwrite=&gt;true)
-db = save_efetch_sqlite(efetch_dict, db_config)
+<pre><code>save_efetch_sqlite(efetch_dict, db_config, verbose)
 </code></pre>
 
 <p><a id='Saving-EFetch-to-a-MySQL-database-1'></a></p>
 <h2 id="saving-efetch-to-a-mysql-database">Saving EFetch to a MySQL database</h2>
-<p><a id='BioMedQuery.Entrez.save_efetch_mysql-Tuple{Any,Any,Any}' href='#BioMedQuery.Entrez.save_efetch_mysql-Tuple{Any,Any,Any}'>#</a>
-<strong><code>BioMedQuery.Entrez.save_efetch_mysql</code></strong> &mdash; <em>Method</em>.</p>
-<p>save_efetch_mysql(efetch_dict, db_config, verbose)</p>
-<p>Save the results (dictionary) of an entrez fetch to a MySQL database.</p>
-<h3 id="arguments_5">Arguments:</h3>
-<ul>
-<li><code>efetch_dict</code>: Response dictionary from efetch</li>
-<li><code>db_config::Dict{Symbol, T}</code>: Configuration dictionary for initialitizing SQLite database. Must contain symbols <code>:host</code>, <code>:dbname</code>, <code>:username</code>. <code>pswd</code>, and <code>:overwrite</code></li>
-<li><code>verbose</code>: Boolean to turn on extra print statements</li>
-</ul>
-<h3 id="example_6">Example</h3>
-<pre><code class="julia">db_config =  Dict(:host=&gt;&quot;localhost&quot;, :dbname=&gt;&quot;test&quot;, :username=&gt;&quot;root&quot;,
-:pswd=&gt;&quot;&quot;, :overwrite=&gt;true)
-db = save_efetch_mysql(efetch_dict, db_config)
+<pre><code>save_efetch_mysql(efetch_dict, db_config, verbose)
 </code></pre>
 
 <p>The following schema has been used to store the results. If you are interested in having this module store additional fields, feel free to open an issue</p>
@@ -522,6 +503,7 @@ db = save_efetch_mysql(efetch_dict, db_config)
 </code></pre>
 
 <p>Return all PMIDs stored in the <em>article</em> table of the input database</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/Entrez/entrez_db.jl#L134-L137' class='documenter-source'>source</a><br></p>
 <p><a id='All-MESH-descriptors-for-an-article-1'></a></p>
 <h2 id="all-mesh-descriptors-for-an-article">All MESH descriptors for an article</h2>
 <p><a id='BioMedQuery.Entrez.DB.get_article_mesh-Tuple{Any,Integer}' href='#BioMedQuery.Entrez.DB.get_article_mesh-Tuple{Any,Integer}'>#</a>
@@ -530,6 +512,7 @@ db = save_efetch_mysql(efetch_dict, db_config)
 </code></pre>
 
 <p>Get the all mesh-descriptors associated with a give article</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/Entrez/entrez_db.jl#L153-L156' class='documenter-source'>source</a><br></p>
           <aside class="copyright" role="note">
             
             Documentation built with

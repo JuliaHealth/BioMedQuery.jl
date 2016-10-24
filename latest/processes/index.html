@@ -240,8 +240,8 @@
           
             
   <li>
-    <a class="" title="Sample Scripts" href="../examples/">
-      Sample Scripts
+    <a class="" title="Examples" href="../examples/">
+      Examples
     </a>
     
   </li>
@@ -302,8 +302,9 @@
 <p>Export, to an output file, the citation for collection of PubMed articles identified by the given pmids</p>
 <p><strong>Arguments</strong></p>
 <ul>
-<li><code>citation_type::ASCIIString</code>: At the moment supported types include: "endnote"</li>
+<li><code>citation_type::String</code>: At the moment supported types include: "endnote"</li>
 </ul>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/Processes/pubmed_export_citations.jl#L24-L31' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.export_citation' href='#BioMedQuery.Processes.export_citation'>#</a>
 <strong><code>BioMedQuery.Processes.export_citation</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>export_citation(entrez_email, pmid::Int64, citation_type, output_file,verbose)
@@ -312,37 +313,50 @@
 <p>Export, to an output file, the citation for PubMed article identified by the given pmid</p>
 <p><strong>Arguments</strong></p>
 <ul>
-<li><code>citation_type::ASCIIString</code>: At the moment supported types include: "endnote"</li>
+<li><code>citation_type::String</code>: At the moment supported types include: "endnote"</li>
 </ul>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/Processes/pubmed_export_citations.jl#L3-L10' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.map_mesh_to_umls!-Tuple{Any,BioMedQuery.UMLS.Credentials}' href='#BioMedQuery.Processes.map_mesh_to_umls!-Tuple{Any,BioMedQuery.UMLS.Credentials}'>#</a>
 <strong><code>BioMedQuery.Processes.map_mesh_to_umls!</code></strong> &mdash; <em>Method</em>.</p>
 <p>map_mesh_to_umls!(db, c::Credentials)</p>
 <p>Build and store in the given database a map from MESH descriptors to UMLS Semantic Concepts</p>
 <h3 id="arguments">Arguments</h3>
 <ul>
-<li><code>db</code>: Database. Must contain TABLE:mesh_descriptor. For each of the descriptors in that table, search and insert the associated semantic concepts into a new (cleared) TABLE:mesh2umls</li>
+<li><code>db</code>: Database. Must contain TABLE:mesh_descriptor. For each of the</li>
+</ul>
+<p>descriptors in that table, search and insert the associated semantic concepts into a new (cleared) TABLE:mesh2umls</p>
+<ul>
 <li><code>c::Credentials</code>: UMLS username and password</li>
 </ul>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/Processes/pubmed_mesh_to_umls_map.jl#L5-L17' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.map_mesh_to_umls_async!-Tuple{Any,BioMedQuery.UMLS.Credentials}' href='#BioMedQuery.Processes.map_mesh_to_umls_async!-Tuple{Any,BioMedQuery.UMLS.Credentials}'>#</a>
 <strong><code>BioMedQuery.Processes.map_mesh_to_umls_async!</code></strong> &mdash; <em>Method</em>.</p>
 <p>map_mesh_to_umls_async!(db, c::Credentials; timeout, append_results, verbose) Build (using async UMLS-API calls) and store in the given database a map from MESH descriptors to UMLS Semantic Concepts. For large queies this function will be faster than it's synchrounous counterpart</p>
 <h3 id="arguments_1">Arguments</h3>
 <ul>
-<li><code>db</code>: Database. Must contain TABLE:mesh_descriptor. For each of the descriptors in that table, search and insert the associated semantic concepts into a new (cleared) TABLE:mesh2umls</li>
+<li><code>db</code>: Database. Must contain TABLE:mesh_descriptor. For each of the</li>
+</ul>
+<p>descriptors in that table, search and insert the associated semantic concepts into a new (cleared) TABLE:mesh2umls</p>
+<ul>
 <li><code>c::Credentials</code>: UMLS username and password</li>
 <li><code>append_results::Bool</code> : If false a NEW and EMPTY mesh2umls database table in creted</li>
 </ul>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/Processes/pubmed_mesh_to_umls_map.jl#L71-L84' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.pubmed_search_and_save' href='#BioMedQuery.Processes.pubmed_search_and_save'>#</a>
 <strong><code>BioMedQuery.Processes.pubmed_search_and_save</code></strong> &mdash; <em>Function</em>.</p>
 <p>pubmed_search_and_save(email, search_term, article_max::Int64, db_path, verbose=false)</p>
 <h3 id="arguments_2">Arguments</h3>
 <ul>
 <li>email: valid email address (otherwise pubmed will block you)</li>
-<li>search_term : search string to submit to PubMed e.g (asthma[MeSH Terms]) AND ("2001/01/29"[Date - Publication] : "2010"[Date - Publication]) see http://www.ncbi.nlm.nih.gov/pubmed/advanced for help constructing the string</li>
+<li>search_term : search string to submit to PubMed</li>
+</ul>
+<p>e.g (asthma[MeSH Terms]) AND ("2001/01/29"[Date - Publication] : "2010"[Date - Publication]) see http://www.ncbi.nlm.nih.gov/pubmed/advanced for help constructing the string</p>
+<ul>
 <li>article_max : maximum number of articles to return. Defaults to 600,000</li>
 <li>db_path: path to output database</li>
 <li>verbose: if true, the NCBI xml response files are saved to current directory</li>
 </ul>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/Processes/pubmed_search_and_save.jl#L5-L18' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.umls_semantic_occurrences-Tuple{Any,Any}' href='#BioMedQuery.Processes.umls_semantic_occurrences-Tuple{Any,Any}'>#</a>
 <strong><code>BioMedQuery.Processes.umls_semantic_occurrences</code></strong> &mdash; <em>Method</em>.</p>
 <p>umls_semantic_occurrences(db, umls_semantic_type)</p>
@@ -350,8 +364,10 @@
 <h3 id="output">Output</h3>
 <ul>
 <li><code>des_ind_dict</code>: Dictionary matching row number to descriptor names</li>
-<li><code>disease_occurances</code> : Sparse matrix. The columns correspond to a feature vector, where each row is a MESH descriptor. There are as many columns as articles. The occurance/abscense of a descriptor is labeled as 1/0</li>
+<li><code>disease_occurances</code> : Sparse matrix. The columns correspond to a feature</li>
 </ul>
+<p>vector, where each row is a MESH descriptor. There are as many columns as articles. The occurance/abscense of a descriptor is labeled as 1/0</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/Processes/pubmed_occurrance_filtering.jl#L10-L22' class='documenter-source'>source</a><br></p>
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -387,14 +403,14 @@
     </div>
     <div class="next">
       
-        <a href="../examples/" title="Sample Scripts">
+        <a href="../examples/" title="Examples">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Sample Scripts
+                Examples
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">
