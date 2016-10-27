@@ -302,7 +302,7 @@
 <pre><code>Credentials(user, psswd)
 </code></pre>
 
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/UMLS/UMLS.jl#L19-L21' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/6784d8728ec34959a797e41b8178c17a1243251d/src/UMLS/UMLS.jl#L19-L21' class='documenter-source'>source</a><br></p>
 <p><a id='Search-the-UMLS-1'></a></p>
 <h2 id="search-the-umls">Search the UMLS</h2>
 <p><a id='BioMedQuery.UMLS.search_umls-Tuple{BioMedQuery.UMLS.Credentials,Any}' href='#BioMedQuery.UMLS.search_umls-Tuple{BioMedQuery.UMLS.Credentials,Any}'>#</a>
@@ -331,7 +331,7 @@
 julia credentials = Credentials(user, psswd) tgt = get_tgt(credentials) term = &quot;obesity&quot; query = Dict(&quot;string&quot;=&gt;term, &quot;searchType&quot;=&gt;&quot;exact&quot; ) all_results= search_umls(tgt, query) ```
 
 
-&lt;a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/UMLS/UMLS.jl#L97-L129' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
+&lt;a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/6784d8728ec34959a797e41b8178c17a1243251d/src/UMLS/UMLS.jl#L97-L129' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
 
 
 &lt;a id='Best-match-CUI-1'&gt;&lt;/a&gt;
@@ -355,7 +355,7 @@ Retrive the best match from array of all result pages
 cui = BioMedQuery.UMLS.best_match_cui(all_results)
 </code></pre>
 
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/UMLS/UMLS.jl#L175-L185' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/6784d8728ec34959a797e41b8178c17a1243251d/src/UMLS/UMLS.jl#L175-L185' class='documenter-source'>source</a><br></p>
 <p><a id='Semantic-types-of-a-CUI-1'></a></p>
 <h2 id="semantic-types-of-a-cui">Semantic types of a CUI</h2>
 <p><a id='BioMedQuery.UMLS.get_semantic_type-Tuple{BioMedQuery.UMLS.Credentials,Any}' href='#BioMedQuery.UMLS.get_semantic_type-Tuple{BioMedQuery.UMLS.Credentials,Any}'>#</a>
@@ -371,7 +371,7 @@ cui = &quot;C0028754&quot;
 sm = BioMedQuery.UMLS.get_semantic_type(tgt, cui)
 </code></pre>
 
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/UMLS/UMLS.jl#L190-L203' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/6784d8728ec34959a797e41b8178c17a1243251d/src/UMLS/UMLS.jl#L190-L203' class='documenter-source'>source</a><br></p>
 <p><a id='Semantic-Network-Database-1'></a></p>
 <h2 id="semantic-network-database">Semantic Network Database</h2>
 <p><a id='BioMedQuery.UMLS.populate_net_mysql-Tuple{Any}' href='#BioMedQuery.UMLS.populate_net_mysql-Tuple{Any}'>#</a>
@@ -404,7 +404,7 @@ db_config = Dict(:host=&gt;host,
 umls_sn_db= populate_net_mysql(db_config)
 </code></pre>
 
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/19ff9052b451ad706d7e87124627c52eee765c85/src/UMLS/semantic_network.jl#L5-L33' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/6784d8728ec34959a797e41b8178c17a1243251d/src/UMLS/semantic_network.jl#L5-L33' class='documenter-source'>source</a><br></p>
 <p><a id='Schema-1'></a></p>
 <h3 id="schema">Schema</h3>
 <p>The schema of the MySQL database of the semantic network is the following:</p>
