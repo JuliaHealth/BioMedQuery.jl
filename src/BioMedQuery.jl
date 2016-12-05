@@ -57,6 +57,16 @@ include("CT/CT.jl")
 end
 #-----------------------------------
 
+# --------MTI------------
+module MTI
+export install_web_api,
+       generic_batch,
+       abstracts_to_request_file,
+       parse_and_save_results
+include("MTI/MTI.jl")
+end
+# -----------------------------------
+
 
 #--------Processes------------
 module Processes
@@ -65,11 +75,13 @@ export pubmed_search_and_save,
        map_mesh_to_umls!,
        umls_semantic_occurrences,
        filter_mesh_by_concept,
-       export_citation
+       export_citation,
+       mti_search_and_save
 include("Processes/pubmed_search_and_save.jl")
 include("Processes/pubmed_mesh_to_umls_map.jl")
 include("Processes/pubmed_occurrance_filtering.jl")
 include("Processes/pubmed_export_citations.jl")
+include("Processes/mti_search_and_save.jl")
 end
 
 #-----------------------------------

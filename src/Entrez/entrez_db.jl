@@ -12,7 +12,8 @@ export init_pubmed_db_mysql,
        get_value,
        all_pmids,
        get_article_mesh,
-       db_insert!
+       db_insert!,
+       abstracts_by_year
 
 
 get_value{T}(val::Nullable{T}) = get(val)
@@ -84,7 +85,8 @@ function init_pubmed_db_sqlite(path::String, overwrite=false)
     SQLite.query(db, "CREATE TABLE
     article(pmid INTEGER NOT NULL PRIMARY KEY,
     title TEXT,
-    pubYear INTEGER)")
+    pubYear INTEGER,
+    abstract TEXT)")
 
 
     SQLite.query(db, "CREATE TABLE
@@ -145,10 +147,26 @@ end
 Return all PMIDs stored in the *article* table of the input database
 """
 function all_mesh(db)
-    query = db_query(db, "SELECT name FROM mesh_descriptor;")
-    return get_value(query[1])
+    sel = db_query(db, "SELECT name FROM mesh_descriptor;")
+    return get_value(sel[1])
 end
 
+"""
+
+"""
+function abstracts_by_year(db, pub_year)
+
+    #get all abstracts UNIQUE pairs
+    query_code = "SELECT ar.pmid as pmid
+                     ,ar.abstract as abstract_text
+                FROM article as ar
+               WHERE ar.pubYear = '$pub_year' "
+
+    sel = db_query(db, query_code)
+    num_abstracts = size(sel)[1]
+    println("Retrieved: ", num_abstracts, " abstracts")
+    return sel
+end
 
 """
     get_article_mesh(db, pmid)
@@ -172,9 +190,12 @@ function db_insert!(db, article::PubMedArticle, verbose=false)
     isnull(article.pmid) && error("NULL PMID")
 
     # Save article data
-    insert_row!(db, "article", Dict(:pmid =>article.pmid.value,
-                                    :title=>get(article.title, ""),
-                                    :pubYear=>get(article.year, 0)), verbose)
+    insert_row!(db, "article",
+                Dict(:pmid =>article.pmid.value,
+                     :title=>get(article.title, ""),
+                     :pubYear=>get(article.year, 0),
+                     :abstract=>get(article.abstract_text, "")),
+                verbose)
 
     #------- AUTHORS
     for au in article.authors

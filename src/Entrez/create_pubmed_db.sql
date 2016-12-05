@@ -1,7 +1,8 @@
 CREATE TABLE article(
     pmid INTEGER NOT NULL PRIMARY KEY,
     title TEXT,
-    pubYear INTEGER
+    pubYear INTEGER,
+    abstract TEXT
 );
 
 

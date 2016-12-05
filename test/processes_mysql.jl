@@ -3,7 +3,7 @@
 email= ENV["NCBI_EMAIL"] #Enviroment variable that need to be setup
 umls_user = ENV["UMLS_USER"]
 umls_pswd = ENV["UMLS_PSSWD"]
-search_term="(obesity[MeSH Major Topic]) AND (\"2010\"[Date - Publication] : \"2012\"[Date - Publication])"
+search_term="(obesity[MeSH Major Topic]) AND (\"2010\"[Date - Publication])"
 max_articles = 10
 overwrite_db=true
 verbose = false
@@ -66,6 +66,42 @@ end
     @test length(find(x->x=="obesity", collect(keys(labels2ind)))) ==1
 end
 
+# db = mysql_connect(host, mysql_usr, mysql_pswd, dbname)
+if !(ENV["TRAVIS"] == "yes")
+
+    @testset "MTI Search and Save" begin
+        println("-----------------------------------------")
+        println("       MTI Search and Save")
+
+        root_path = string(Pkg.dir() , "/BioMedQuery/test")
+        in_file= root_path*"/mti_test_query.txt"
+        out_file= root_path*"/mti_test_result.txt"
+
+        config = Dict(:db => db,
+                      :email => email,
+                      :pub_year => "2010",
+                      :mti_query_file =>in_file,
+                      :mti_result_file=>out_file)
+
+        @time begin
+            mti_search_and_save(config)
+        end
+
+        narticles_sel = db_query(db, "SELECT DISTINCT pmid FROM mti;")
+        empty_abs_sel = db_query(db, "SELECT COUNT(abstract) FROM article
+    		WHERE abstract = '' ")
+        @test length(narticles_sel[1]) == (max_articles - empty_abs_sel[1])[1]
+
+        # remove temp files
+        if isfile(in_file)
+            rm(in_file)
+        end
+        if isfile(out_file)
+            rm(out_file)
+        end
+
+    end
+end
 
 db_query(db, "DROP DATABASE IF EXISTS $dbname;")
 

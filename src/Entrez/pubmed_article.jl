@@ -117,19 +117,18 @@ type PubMedArticle
             end
 
             this.abstract_text = Nullable{String}()
-            # println(medline_article)
             if haskey(medline_article, "Abstract")
-                # println("Has Abstract")
-                # println(medline_article["Abstract"][1])
                 try
                     this.abstract_text = get_if_exists(medline_article["Abstract"][1], "AbstractText",Nullable{String}() )
                 catch
                     text = ""
                     for abs in medline_article["Abstract"][1]["AbstractText"]
-                        # println(abs)
-                        text = string(text, abs["Label"][1], ": ", abs["AbstractText"][1], " ")
+                        if (haskey(abs, "Label"))
+                           text = string(text, abs["Label"][1], ": ", abs["AbstractText"][1], " ")
+                        end
                     end
                     this.abstract_text = Nullable(text)
+                    # println(this.abstract_text)
                 end
             else
                 println("Warning: No Abstract Text found, PMID: ", this.pmid.value)
