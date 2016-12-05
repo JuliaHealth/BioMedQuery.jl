@@ -67,38 +67,39 @@ end
 end
 
 # db = mysql_connect(host, mysql_usr, mysql_pswd, dbname)
-if !(ENV["TRAVIS"] == "yes")
-
+if haskey(ENV, "TRAVIS") && ENV["TRAVIS"] == "yes"
+    println(" MTI Search and Save only runs locally")
+else
     @testset "MTI Search and Save" begin
-        println("-----------------------------------------")
-        println("       MTI Search and Save")
+            println("-----------------------------------------")
+            println("       MTI Search and Save")
 
-        root_path = string(Pkg.dir() , "/BioMedQuery/test")
-        in_file= root_path*"/mti_test_query.txt"
-        out_file= root_path*"/mti_test_result.txt"
+            root_path = string(Pkg.dir() , "/BioMedQuery/test")
+            in_file= root_path*"/mti_test_query.txt"
+            out_file= root_path*"/mti_test_result.txt"
 
-        config = Dict(:db => db,
-                      :email => email,
-                      :pub_year => "2010",
-                      :mti_query_file =>in_file,
-                      :mti_result_file=>out_file)
+            config = Dict(:db => db,
+                          :email => email,
+                          :pub_year => "2010",
+                          :mti_query_file =>in_file,
+                          :mti_result_file=>out_file)
 
-        @time begin
-            mti_search_and_save(config)
-        end
+            @time begin
+                mti_search_and_save(config)
+            end
 
-        narticles_sel = db_query(db, "SELECT DISTINCT pmid FROM mti;")
-        empty_abs_sel = db_query(db, "SELECT COUNT(abstract) FROM article
-    		WHERE abstract = '' ")
-        @test length(narticles_sel[1]) == (max_articles - empty_abs_sel[1])[1]
+            narticles_sel = db_query(db, "SELECT DISTINCT pmid FROM mti;")
+            empty_abs_sel = db_query(db, "SELECT COUNT(abstract) FROM article
+        		WHERE abstract = '' ")
+            @test length(narticles_sel[1]) == (max_articles - empty_abs_sel[1])[1]
 
-        # remove temp files
-        if isfile(in_file)
-            rm(in_file)
-        end
-        if isfile(out_file)
-            rm(out_file)
-        end
+            # remove temp files
+            if isfile(in_file)
+                rm(in_file)
+            end
+            if isfile(out_file)
+                rm(out_file)
+            end
 
     end
 end
