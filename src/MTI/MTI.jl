@@ -91,7 +91,6 @@ end
 
 function init_db_tables(db, append_results = false)
 
-    println("Herrrrerrererere")
     query_str ="CREATE TABLE IF NOT EXISTS mti (
                     term VARCHAR(255),
                     dui INT,
@@ -101,7 +100,14 @@ function init_db_tables(db, append_results = false)
                     term_type CHAR(2),
 
                     PRIMARY KEY(pmid, dui)
-                ); "
+                );
+                CREATE TABLE IF NOT EXISTS mti_prc  (
+                                pmid INT,
+                                prc_pmid INT,
+
+                                PRIMARY KEY(pmid, prc_pmid)
+                 );
+                 "
 
 
     # FOREIGN KEY (term, dui)
@@ -128,8 +134,19 @@ function save_results(db, mesh_lines, prc_lines, append_results=false, verbose= 
                          :cui=>cui,
                          :score=>ml[4],
                          :term_type=> ml[5],
-                         :dui=>dui), true)
+                         :dui=>dui), verbose)
 
+    end
+
+    for prc in prc_lines
+        println(prc)
+        prc_pmids = split(prc[3], ';')
+        println(prc_pmids)
+        for id in prc_pmids
+            insert_row!(db, "mti_prc",
+                        Dict(:pmid =>prc[1],
+                             :prc_pmid=>id), verbose)
+        end
     end
 
 end

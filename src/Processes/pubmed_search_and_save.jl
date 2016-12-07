@@ -97,3 +97,39 @@ function pubmed_search_and_save(email, search_term, article_max,
     println("Finished searching, total number of articles: ", article_total)
     return db
 end
+
+"""
+pubmed_search_and_save(eemail::String, pmids::Array{Int64},
+    save_efetch_func, db_config, verbose=false)
+
+###Arguments
+
+* email: valid email address (otherwise pubmed will block you)
+* pmid : list of pmids to retrieve info from PubMed
+* save_efetch_func: save_efetch_mysql or save_efetch_sqlite
+* db_config: e.g Dict(:host=>host,
+                      :dbname=>dbname,
+                      :username=>mysql_usr,
+                      :pswd=>mysql_pswd,
+                      :overwrite=>overwrite)
+* verbose: if true, the NCBI xml response files are saved to current directory
+"""
+function pubmed_search_and_save(email::String, pmids::Array{Int64},
+    save_efetch_func, db_config, verbose=false)
+
+    fetch_dic = Dict("db"=>"pubmed", "tool" =>"BioJulia", "email" => email,
+    "retmode" => "xml", "rettype"=>"null")
+    efetch_response = efetch(fetch_dic, pmids)
+    if verbose
+        xmlASCII2file(efetch_response, "./efetch.xml")
+    end
+    efetch_dict = eparse(efetch_response)
+
+    #save the results of an entrez fetch to database
+    println("------Saving to database--------")
+    db = save_efetch_func(efetch_dict, db_config, verbose)
+
+    #after the first pass - make sure the database is not deleted
+    db_config[:overwrite] = false
+
+end

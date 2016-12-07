@@ -2,6 +2,8 @@ using BioMedQuery.MTI
 
 function mti_search_and_save(config)
 
+    println("*-------------This is: mti_search_and_save-------------------*")
+
     # make sure all keys are present
     keys = [:email, :db, :pub_year, :mti_query_file, :mti_result_file]
 
