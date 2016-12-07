@@ -381,7 +381,7 @@ esearch_response = esearch(search_dic)
 </ul>
 <p>For instance:</p>
 <p><code>search_term = (asthma[MeSH Terms]) AND ("2001/01/29"[Date - Publication] : "2010"[Date - Publication])</code>.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/54fb5911c4650648988ea9b8dae880fd770e4d5f/src/Entrez/Entrez.jl#L41-L71' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/2d56bf1a0e4ac6cc232ca530c4d1a1b9159fb55d/src/Entrez/Entrez.jl#L41-L71' class='documenter-source'>source</a><br></p>
 <p><a id='EFetch-1'></a></p>
 <h2 id="efetch">EFetch</h2>
 <p><a id='BioMedQuery.Entrez.efetch-Tuple{Any,Any}' href='#BioMedQuery.Entrez.efetch-Tuple{Any,Any}'>#</a>
@@ -419,7 +419,7 @@ fetch_dic = Dict(&quot;db&quot;=&gt;&quot;pubmed&quot;,&quot;tool&quot; =&gt;&qu
 efetch_response = efetch(fetch_dic, ids)
 </code></pre>
 
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/54fb5911c4650648988ea9b8dae880fd770e4d5f/src/Entrez/Entrez.jl#L82-L118' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/2d56bf1a0e4ac6cc232ca530c4d1a1b9159fb55d/src/Entrez/Entrez.jl#L82-L118' class='documenter-source'>source</a><br></p>
 <p><a id='ELink-1'></a></p>
 <h2 id="elink">ELink</h2>
 <p><a id='BioMedQuery.Entrez.elink-Tuple{Any}' href='#BioMedQuery.Entrez.elink-Tuple{Any}'>#</a>
@@ -443,7 +443,7 @@ elink_dict = Dict(&quot;dbfrom&quot; =&gt;&quot;pubmed&quot;, &quot;id&quot; =&g
 elink_response = elink(elink_dict)
 </code></pre>
 
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/54fb5911c4650648988ea9b8dae880fd770e4d5f/src/Entrez/Entrez.jl#L134-L157' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/2d56bf1a0e4ac6cc232ca530c4d1a1b9159fb55d/src/Entrez/Entrez.jl#L134-L157' class='documenter-source'>source</a><br></p>
 <p><a id='ESummary-1'></a></p>
 <h2 id="esummary">ESummary</h2>
 <p><a id='BioMedQuery.Entrez.esummary-Tuple{Any}' href='#BioMedQuery.Entrez.esummary-Tuple{Any}'>#</a>
@@ -466,7 +466,7 @@ esummary_dict = Dict(&quot;db&quot; =&gt;&quot;pubmed&quot;, &quot;id&quot; =&gt
 esummary_response = esummary(esummary_dict)
 </code></pre>
 
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/54fb5911c4650648988ea9b8dae880fd770e4d5f/src/Entrez/Entrez.jl#L164-L185' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/2d56bf1a0e4ac6cc232ca530c4d1a1b9159fb55d/src/Entrez/Entrez.jl#L164-L185' class='documenter-source'>source</a><br></p>
 <p><a id='EParse-1'></a></p>
 <h2 id="eparse">EParse</h2>
 <p><a id='BioMedQuery.Entrez.eparse-Tuple{String}' href='#BioMedQuery.Entrez.eparse-Tuple{String}'>#</a>
@@ -475,7 +475,7 @@ esummary_response = esummary(esummary_dict)
 </code></pre>
 
 <p>Converts NCBI XML response into a Julia dictionary</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/54fb5911c4650648988ea9b8dae880fd770e4d5f/src/Entrez/Entrez.jl#L191-L196' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/2d56bf1a0e4ac6cc232ca530c4d1a1b9159fb55d/src/Entrez/Entrez.jl#L191-L196' class='documenter-source'>source</a><br></p>
 <p><a id='Saving-NCBI-Responses-to-XML-1'></a></p>
 <h2 id="saving-ncbi-responses-to-xml">Saving NCBI Responses to XML</h2>
 <p>You can save directly the XML String to file using the <a href="https://github.com/bcbi/XMLconvert.jl">XMLconvert Package</a></p>
@@ -503,7 +503,7 @@ esummary_response = esummary(esummary_dict)
 </code></pre>
 
 <p>Return all PMIDs stored in the <em>article</em> table of the input database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/54fb5911c4650648988ea9b8dae880fd770e4d5f/src/Entrez/entrez_db.jl#L136-L139' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/2d56bf1a0e4ac6cc232ca530c4d1a1b9159fb55d/src/Entrez/entrez_db.jl#L136-L139' class='documenter-source'>source</a><br></p>
 <p><a id='All-MESH-descriptors-for-an-article-1'></a></p>
 <h2 id="all-mesh-descriptors-for-an-article">All MESH descriptors for an article</h2>
 <p><a id='BioMedQuery.Entrez.DB.get_article_mesh-Tuple{Any,Integer}' href='#BioMedQuery.Entrez.DB.get_article_mesh-Tuple{Any,Integer}'>#</a>
@@ -512,7 +512,7 @@ esummary_response = esummary(esummary_dict)
 </code></pre>
 
 <p>Get the all mesh-descriptors associated with a give article</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/54fb5911c4650648988ea9b8dae880fd770e4d5f/src/Entrez/entrez_db.jl#L171-L174' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/tree/2d56bf1a0e4ac6cc232ca530c4d1a1b9159fb55d/src/Entrez/entrez_db.jl#L171-L174' class='documenter-source'>source</a><br></p>
           <aside class="copyright" role="note">
             
             Documentation built with
