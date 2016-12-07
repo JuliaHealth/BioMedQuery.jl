@@ -43,12 +43,7 @@ function init_mysql_database(;host = "localhost", dbname="test",
     mysql_execute(con, "CREATE DATABASE $dbname
         CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
     con = mysql_connect(host, username, pswd, dbname)
-
-    q = mysql_execute(con, "SHOW VARIABLES LIKE 'secure_file_priv'; ")
-    println("Secure file *******************")
-    println(q)
-    println("Secure file *******************")
-
+    
     if mysql_code != nothing
         mysql_execute(con, mysql_code)
         println("Database $dbname created and initialized")

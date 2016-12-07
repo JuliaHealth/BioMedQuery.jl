@@ -48,14 +48,21 @@ type PubMedArticle
         this = new()
 
         medline_citation = NCBIXMLarticle["MedlineCitation"][1]
+
         if haskey(medline_citation,"PMID")
             this.pmid = get_if_exists(medline_citation["PMID"][1], "PMID", Nullable{Int64}())
         end
         if isnull(this.pmid)
             error("PMID not found - cannot be nothing")
         end
-
         this.url = Nullable(string("http://www.ncbi.nlm.nih.gov/pubmed/", this.pmid.value))
+
+        status = get_if_exists(medline_citation, "Status", Nullable{String}()).value
+        # println("PMID: ", this.pmid.value, " has status: ", status)
+        if status != "MEDLINE"
+            println("Warning: Article with PMID: ", this.pmid.value, " may have missing fields. MEDLINE status: ", status)
+        end
+
         # Retrieve basic article info
         if haskey(medline_citation,"Article")
             medline_article = medline_citation["Article"][1]
@@ -123,8 +130,10 @@ type PubMedArticle
                 catch
                     text = ""
                     for abs in medline_article["Abstract"][1]["AbstractText"]
-                        if (haskey(abs, "Label"))
+                        if (haskey(abs, "Label") && haskey(abs, "AbstractText"))
                            text = string(text, abs["Label"][1], ": ", abs["AbstractText"][1], " ")
+                        else
+                            println("Warning: No Abstract Text: ", abs, " - PMID: ", this.pmid.value)
                         end
                     end
                     this.abstract_text = Nullable(text)

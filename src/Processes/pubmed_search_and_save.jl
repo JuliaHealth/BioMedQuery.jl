@@ -16,7 +16,7 @@ see http://www.ncbi.nlm.nih.gov/pubmed/advanced for help constructing the string
 * db_path: path to output database
 * verbose: if true, the NCBI xml response files are saved to current directory
 """
-function pubmed_search_and_save(email, search_term, article_max,
+function pubmed_search_and_save(email, search_term::String, article_max,
     save_efetch_func, db_config, verbose=false)
 
     retstart = 0
@@ -114,7 +114,7 @@ pubmed_search_and_save(eemail::String, pmids::Array{Int64},
                       :overwrite=>overwrite)
 * verbose: if true, the NCBI xml response files are saved to current directory
 """
-function pubmed_search_and_save(email::String, pmids::Array{Int64},
+function pubmed_search_and_save{T <: AbstractArray}(email::String, pmids::T,
     save_efetch_func, db_config, verbose=false)
 
     fetch_dic = Dict("db"=>"pubmed", "tool" =>"BioJulia", "email" => email,
@@ -131,5 +131,7 @@ function pubmed_search_and_save(email::String, pmids::Array{Int64},
 
     #after the first pass - make sure the database is not deleted
     db_config[:overwrite] = false
+
+    return db
 
 end

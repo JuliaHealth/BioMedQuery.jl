@@ -139,9 +139,7 @@ function save_results(db, mesh_lines, prc_lines, append_results=false, verbose= 
     end
 
     for prc in prc_lines
-        println(prc)
         prc_pmids = split(prc[3], ';')
-        println(prc_pmids)
         for id in prc_pmids
             insert_row!(db, "mti_prc",
                         Dict(:pmid =>prc[1],
