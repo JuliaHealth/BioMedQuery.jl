@@ -27,7 +27,7 @@ function open_entrez(cgi, params, post=false)
         response = Requests.get(cgi; query=params)
     end
 
-    println("NCBI Response: ", STATUS_CODES[response.status])
+    info("NCBI Response: $(STATUS_CODES[response.status])")
 
     if response.status != 200
         error("Bad response from NCBI ENTREZ")

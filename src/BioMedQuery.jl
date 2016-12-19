@@ -7,7 +7,8 @@ export init_mysql_database,
        insert_row!,
        db_select,
        db_query,
-       db_clean_string
+       db_clean_string,
+       create_server
 
 include("DBUtils/DBUtils.jl")
 end
@@ -71,6 +72,8 @@ end
 #--------Processes------------
 module Processes
 export pubmed_search_and_save,
+       pubmed_search_and_save_mysql,
+       pubmed_search_pmids,
        map_mesh_to_umls_async!,
        map_mesh_to_umls!,
        umls_semantic_occurrences,

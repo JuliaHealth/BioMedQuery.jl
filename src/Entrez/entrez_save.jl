@@ -2,6 +2,7 @@ include("entrez_db.jl")
 using .DB
 using ..DBUtils
 using SQLite
+using MySQL
 
 
 """
@@ -60,14 +61,50 @@ db = save_efetch_mysql(efetch_dict, db_config)
 """
 function save_efetch_mysql{T}(efetch_dict, db_config::Dict{Symbol, T}, verbose=false)
 
-    if haskey(efetch_dict, "PubmedArticle")
-        db = init_pubmed_db_mysql(db_config)
-        pubmed_save_efetch!(efetch_dict, db, verbose)
-        return db
-    else
-        error("Unsupported efetch save. Responses must be searches to: PubMed")
-        return nothing
+    if !haskey(efetch_dict, "PubmedArticle")
+        warn("Unsupported efetch save. Responses must be searches to: PubMed")
     end
+
+    db = init_pubmed_db_mysql(db_config)
+    pubmed_save_efetch!(efetch_dict, db, verbose)
+
+    return db
+end
+
+"""
+save_efetch_mysqlefetch_dict, con::MySQL.MySQLHandle, clean_efetch_tables = false, verbose=false)
+
+Save the results (dictionary) of an entrez fetch to a MySQL database.
+
+###Arguments:
+
+* `efetch_dict`: Response dictionary from efetch
+* `con::MySQL.MySQLHandle`: Connection to MySQL database
+* `clean_efetch_tables`: If true, all tables related to efetch results are dropped
+* `verbose`: Boolean to turn on extra print statements
+
+
+###Example
+
+```julia
+db_config =  Dict(:host=>"localhost", :dbname=>"test", :username=>"root",
+:pswd=>"", :overwrite=>true)
+db = save_efetch_mysql(efetch_dict, db_config)
+```
+
+"""
+function save_efetch_mysql(efetch_dict, con::MySQL.MySQLHandle, clean_efetch_tables = false, verbose=false)
+
+    if !haskey(efetch_dict, "PubmedArticle")
+        warn("Unsupported efetch save. Responses must be searches to: PubMed")
+    end
+
+    if clean_efetch_tables
+        init_pubmed_db_mysql!(con, !clean_efetch_tables)
+    end
+
+    pubmed_save_efetch!(efetch_dict, con, verbose)
+
 end
 
 
@@ -79,28 +116,25 @@ Save the results (dictionary) of an entrez-pubmed fetch to the input database.
 function pubmed_save_efetch!(efetch_dict, db, verbose=false)
 
     #Decide type of article based on structrure of efetch
-    articles = nothing
+    all_pmids = Array{Int64}(0)
     if haskey(efetch_dict, "PubmedArticle")
-        TypeArticle = PubMedArticle
         articles = efetch_dict["PubmedArticle"]
-    else
-        error("Save efetch is only supported for PubMed searches")
+        println("Saving " , length(articles) ,  " articles to database")
+        all_pmids = Array{Int64}(length(articles))
+        for (idx, xml_article) in enumerate(articles)
+
+            article = PubMedArticle(xml_article)
+
+            # println("=============Article=====================")
+            # println(article)
+            db_insert!(db, article, verbose)
+
+            #-------MeshHeadingList
+            mesh_heading_list = MeshHeadingList(xml_article)
+            db_insert!(db, article.pmid.value, mesh_heading_list, verbose)
+            all_pmids[idx] = article.pmid.value
+        end
     end
 
-    println("Saving " , length(articles) ,  " articles to database")
-
-    for xml_article in articles
-
-        article = TypeArticle(xml_article)
-
-        # println("=============Article=====================")
-        # println(article)
-        db_insert!(db, article, verbose)
-
-        #-------MeshHeadingList
-        mesh_heading_list = MeshHeadingList(xml_article)
-        db_insert!(db, article.pmid.value, mesh_heading_list, verbose)
-
-    end
-    db
+    all_pmids
 end

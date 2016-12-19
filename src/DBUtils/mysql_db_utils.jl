@@ -10,7 +10,7 @@ Create a MySQL database using the code inside mysql_code
 
 * `host`, `dbname`, `user`, `pswd`
 * `mysql_code::String`: String with MySQL code that crates all default tables
-* `overwrite::Bool` : Flag, if true and dbname exists, it deletes it
+* `overwrite::Bool` : Flag, if true and dbname exists, drops all database and re-creates it
 
 ### Output
 
@@ -32,18 +32,13 @@ function init_mysql_database(;host = "localhost", dbname="test",
         if overwrite
             println("Set to overwrite MySQL database $dbname")
             mysql_execute(con, "DROP DATABASE IF EXISTS $dbname;")
-        else
-            con = mysql_connect(host, username, pswd, dbname)
-            println("Connected to existing database")
-            println("Con: ", con)
-            return con
+            mysql_execute(con, "CREATE DATABASE $dbname
+                CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
         end
     end
 
-    mysql_execute(con, "CREATE DATABASE $dbname
-        CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
     con = mysql_connect(host, username, pswd, dbname)
-    
+
     if mysql_code != nothing
         mysql_execute(con, mysql_code)
         println("Database $dbname created and initialized")
@@ -144,4 +139,13 @@ function insert_row!{T}(con::MySQL.MySQLHandle, tablename, data_values::Dict{Sym
         # throw(MySQLInternalError(con))
     end
     return lastid
+end
+
+function create_server(con::MySQL.MySQLHandle, dbname; linkname = "fedlink", user="root", psswd="", host="localhost", port=3306)
+
+    query_str = "CREATE SERVER $linkname
+                 FOREIGN DATA WRAPPER mysql
+                 OPTIONS (USER '$user', PASSWORD '$psswd', HOST '$host', PORT $port, DATABASE '$dbname');"
+
+    mysql_execute(con, query_str)
 end

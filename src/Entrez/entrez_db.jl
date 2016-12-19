@@ -8,6 +8,7 @@ using DataStreams, DataFrames
 using NullableArrays
 
 export init_pubmed_db_mysql,
+       init_pubmed_db_mysql!,
        init_pubmed_db_sqlite,
        get_value,
        all_pmids,
@@ -47,6 +48,36 @@ function init_pubmed_db_mysql(config)
 
        return db
    end
+end
+
+function init_pubmed_db_mysql!(con::MySQL.MySQLHandle, clean_tables = false)
+
+    println("Initializing MySQL PubMed Database")
+
+    mysql_code=""
+    sql_file = ""
+
+    if clean_tables
+       sql_file = Pkg.dir() * "/BioMedQuery/src/Entrez/clean_and_create_pubmed_db.sql"
+    else
+       sql_file = Pkg.dir() * "/BioMedQuery/src/Entrez/create_pubmed_db.sql"
+    end
+
+    try
+       f = open(sql_file, "r")
+       mysql_code = readall(f)
+       close(f)
+    catch
+       error("Could not read create_entrez_db.sql")
+    end
+
+
+    if mysql_code != ""
+       mysql_execute(con, mysql_code)
+    else
+       println("Empty Database Created")
+    end
+
 end
 
 function init_pubmed_db_sqlite(config)

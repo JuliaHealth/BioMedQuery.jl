@@ -1,19 +1,21 @@
-CREATE TABLE IF NOT EXISTS article(
+DROP TABLE IF EXISTS article;
+CREATE TABLE article(
     pmid INTEGER NOT NULL PRIMARY KEY,
     title TEXT,
     pubYear INTEGER,
     abstract TEXT
 );
 
-
-CREATE TABLE IF NOT EXISTS author(
+DROP TABLE IF EXISTS author;
+CREATE TABLE author(
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     forename VARCHAR(255),
     lastname VARCHAR(255) NOT NULL,
     CONSTRAINT unq UNIQUE(forename,  lastname)
 );
 
-CREATE TABLE IF NOT EXISTS author2article(
+DROP TABLE IF EXISTS author2article;
+CREATE TABLE author2article(
     aid INTEGER,
     pmid INTEGER,
     FOREIGN KEY(aid) REFERENCES author(id),
@@ -31,19 +33,22 @@ CREATE TABLE IF NOT EXISTS author2article(
 -- lookup in the mesh browerser
 --  https://www.nlm.nih.gov/mesh/MBrowser.html
 
-CREATE TABLE IF NOT EXISTS mesh_descriptor(
+DROP TABLE IF EXISTS mesh_descriptor;
+CREATE TABLE mesh_descriptor(
     id INTEGER NOT NULL PRIMARY KEY,
     name VARCHAR(255) UNIQUE
 );
 
 -- Qualifier
-CREATE TABLE IF NOT EXISTS mesh_qualifier(
+DROP TABLE IF EXISTS mesh_qualifier;
+CREATE TABLE mesh_qualifier(
     id INTEGER NOT NULL PRIMARY KEY,
     name VARCHAR(255) UNIQUE
 );
 
 -- Heading
-CREATE TABLE IF NOT EXISTS mesh_heading(
+DROP TABLE IF EXISTS mesh_heading;
+CREATE TABLE mesh_heading(
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     pmid INTEGER, did INTEGER, qid INTEGER,
     dmjr VARCHAR(1), qmjr VARCHAR(1),
