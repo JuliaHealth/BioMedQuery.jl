@@ -104,3 +104,25 @@ function pubmed_save_efetch!(efetch_dict, db, verbose=false)
     end
     db
 end
+
+"""
+save_pmid_mysql(pmids, db_config, verbose)
+
+Save a list of PMIDS into input database.
+###Arguments:
+
+* `pmids`: Array of PMIDs
+* `db_config::Dict{Symbol, T}`: Configuration dictionary for initialitizing SQLite
+database. Must contain symbols `:host`, `:dbname`, `:username`. `pswd`,
+and `:overwrite`
+* `verbose`: Boolean to turn on extra print statements
+"""
+function save_pmid_mysql{T}(pmids::Array{Int64}, db_config::Dict{Symbol, T}, verbose=false)
+    db = init_pmid_db_mysql(db_config)
+    for pmid in pmids
+        insert_row!(db,
+                    "article",
+                    Dict(:pmid=> pmid),
+                    verbose )
+    end
+end

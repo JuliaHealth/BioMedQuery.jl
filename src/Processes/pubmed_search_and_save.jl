@@ -203,7 +203,7 @@ function pubmed_search_and_save_mysql(email, search_term::String, article_max,
 end
 
 
-function pubmed_search_pmids(email, search_term::String, article_max, verbose=false)
+function pubmed_pmid_search(email, search_term::String, article_max, verbose=false)
 
      retstart = 0
      retmax = 10000  #e-utils only allows 10,000 at a time
@@ -270,6 +270,16 @@ function pubmed_search_pmids(email, search_term::String, article_max, verbose=fa
      return all_pmids
  end
 
+function pubmed_pmid_search_and_save(email, search_term::String, article_max,
+    save_pmid_func, db_config, verbose=false)
+
+    pmids = pubmed_pmid_search(email, search_term, article_max, verbose)
+    db = save_pmid_func(pmids, db_config, verbose)
+
+    narticles = length(pmids)
+    info("Finished saving $narticles articles")
+
+end
 
 """
 pubmed_search_and_save(email::String, pmids::Array{Int64},

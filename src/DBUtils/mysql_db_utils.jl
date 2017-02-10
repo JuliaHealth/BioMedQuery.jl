@@ -35,7 +35,11 @@ function init_mysql_database(;host = "localhost", dbname="test",
             mysql_execute(con, "CREATE DATABASE $dbname
                 CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
         end
+    else
+        mysql_execute(con, "CREATE DATABASE $dbname
+            CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
     end
+
 
     con = mysql_connect(host, username, pswd, dbname)
 

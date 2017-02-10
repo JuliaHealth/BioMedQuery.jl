@@ -10,6 +10,7 @@ using NullableArrays
 export init_pubmed_db_mysql,
        init_pubmed_db_mysql!,
        init_pubmed_db_sqlite,
+       init_pmid_db_mysql,
        get_value,
        all_pmids,
        get_article_mesh,
@@ -21,6 +22,27 @@ get_value{T}(val::Nullable{T}) = get(val)
 get_value(val)= val
 get_value{T}(val_array::Array{T}) = val_array
 get_value{T}(val_array::NullableArray{T, 1}) = val_array.values
+
+function init_pmid_db_mysql(config)
+
+    println("Initializing PMID MySQL Database")
+
+    #intput dictionary must have the following keys
+    if haskey(config, :host) && haskey(config, :dbname) &&
+       haskey(config, :username) && haskey(config, :pswd) &&
+       haskey(config, :overwrite)
+
+       mysql_code="CREATE TABLE IF NOT EXISTS article(
+                       pmid INTEGER NOT NULL PRIMARY KEY
+                   );"
+
+       db = DBUtils.init_mysql_database(host = config[:host], dbname =config[:dbname],
+       username = config[:username], pswd= config[:pswd],
+       overwrite = config[:overwrite], mysql_code = mysql_code)
+
+       return db
+   end
+end
 
 function init_pubmed_db_mysql(config)
 
