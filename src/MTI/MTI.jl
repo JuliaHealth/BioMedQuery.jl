@@ -21,15 +21,14 @@ function install_web_api( clean_install = false)
     # compile
     cd("SKR_Web_API_V2_3")
     run(`chmod +x ./compile.sh ./run.sh ./build.sh`)
-    cd("examples")
-    run(`../compile.sh GenericBatchNew.java`)
+    run(`./compile.sh ../../GenericBatchCustom.java`)
 
 end
 
-function generic_batch(email, in_file, out_file)
+function generic_batch(email, username, password, in_file, out_file)
     root_dir= string(Pkg.dir() , "/BioMedQuery/src/MTI")
     cd(root_dir)
-    run(`./generic_batch.sh $email $in_file $out_file`)
+    run(`./generic_batch.sh $email $username $password $in_file $out_file`)
 end
 
 
@@ -42,8 +41,8 @@ The format is:
 UI - pmid
 AB - abstract_text
 """
-function abstracts_to_request_file(db, pub_year, out_file)
-    abs_sel = abstracts_by_year(db, pub_year)
+function abstracts_to_request_file(db, pub_year, out_file; local_medline = false)
+    abs_sel = abstracts_by_year(db, pub_year; local_medline = local_medline)
 
     #call MTI
     open(out_file, "w") do file

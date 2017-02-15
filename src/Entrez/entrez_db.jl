@@ -205,15 +205,56 @@ function all_mesh(db)
 end
 
 """
+abstracts_by_year(db, pub_year; local_medline=false)
 
+Return all abstracts of article published in the given year.
+If local_medline flag is set to true, it is assumed that db contains *article*
+table with only PMIDs and all other info is available in a (same host) medline database
 """
-function abstracts_by_year(db, pub_year)
+function abstracts_by_year(db, pub_year; local_medline=false)
 
     #get all abstracts UNIQUE pairs
-    query_code = "SELECT ar.pmid as pmid
-                     ,ar.abstract as abstract_text
-                FROM article as ar
-               WHERE ar.pubYear = '$pub_year' "
+    query_code = ""
+    if local_medline
+        query_code = "SELECT article.pmid as pmid,
+                             medline.basic.abstract as abstract_text
+                        FROM article
+                  INNER JOIN medline.basic ON medline.basic.pmid = article.pmid
+                       WHERE medline.basic.pubYear = '$pub_year' "
+    else
+        query_code = "SELECT ar.pmid as pmid,
+                             ar.abstract as abstract_text
+                        FROM article as ar
+                       WHERE ar.pubYear = '$pub_year' "
+    end
+
+    sel = db_query(db, query_code)
+    num_abstracts = size(sel)[1]
+    println("Retrieved: ", num_abstracts, " abstracts")
+    return sel
+end
+
+"""
+abstracts(db; local_medline=false)
+
+Return all abstracts related to PMIDs in the database.
+If local_medline flag is set to true, it is assumed that db contains *article*
+table with only PMIDs and all other info is available in a (same host) medline database
+"""
+function abstracts(db; local_medline=false)
+
+    #get all abstracts UNIQUE pairs
+    query_code = ""
+    if local_medline
+        query_code = "SELECT article.pmid as pmid,
+                             medline.basic.abstract as abstract_text
+                        FROM article
+                  INNER JOIN medline.basic ON medline.basic.pmid = article.pmid"
+    else
+        query_code = "SELECT ar.pmid as pmid,
+                             ar.abstract as abstract_text
+                        FROM article as ar "
+    end
 
     sel = db_query(db, query_code)
     num_abstracts = size(sel)[1]
