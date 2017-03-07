@@ -56,8 +56,8 @@ import gov.nih.nlm.nls.skr.*;
 
 public class GenericBatchCustom
 {
-  // static String defaultCommand = "MTI -opt1L_DCMS -E";
-  static String defaultCommand = "MTI -MoD_PP -detail -E";
+  static String defaultCommand = "MTI -default_MTI -detail -E";
+  // static String defaultCommand = "MTI -MoD_PP -detail -E";
 
   /** print information about server options */
   public static void printHelp() {

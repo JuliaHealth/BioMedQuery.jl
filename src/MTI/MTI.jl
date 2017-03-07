@@ -64,10 +64,16 @@ function abstracts_to_request_file(db, pub_year, out_file; local_medline = false
 
 end
 
-function parse_and_save_results(file, db; num_cols = 9, num_cols_prc = 4)
+function parse_and_save_MoD(file, db; num_cols = 9, num_cols_prc = 4, append_results=false, verbose= false)
     mesh_lines, prc_lines = parse_result_file(file, num_cols, num_cols_prc)
     println("Saving ", length(mesh_lines), " mesh entries")
-    save_results(db, mesh_lines, prc_lines)
+    save_MoD(db, mesh_lines, prc_lines; append_results=append_results, verbose= verbose)
+end
+
+function parse_and_save_default_MTI(file, db; num_cols = 8, num_cols_prc = 10000, append_results=false, verbose= false)
+    mesh_lines, prc_lines = parse_result_file(file, num_cols, num_cols_prc)
+    println("Saving ", length(mesh_lines), " mesh entries")
+    save_default_MTI(db, mesh_lines; append_results=append_results, verbose= verbose)
 end
 
 
@@ -88,7 +94,7 @@ function parse_result_file(file, num_cols = 9, num_cols_prc = 4)
     return mesh_lines, prc_lines
 end
 
-function init_db_tables(db, append_results = false)
+function init_MoD_tables(db, append_results = false)
 
     query_str ="CREATE TABLE IF NOT EXISTS mti (
                     term VARCHAR(255),
@@ -98,7 +104,7 @@ function init_db_tables(db, append_results = false)
                     score INT,
                     term_type CHAR(2),
 
-                    PRIMARY KEY(pmid, dui)
+                    PRIMARY KEY(pmid, term)
                 );
                 CREATE TABLE IF NOT EXISTS mti_prc  (
                                 pmid INT,
@@ -119,8 +125,33 @@ function init_db_tables(db, append_results = false)
     end
 end
 
-function save_results(db, mesh_lines, prc_lines, append_results=false, verbose= false)
-    init_db_tables(db, append_results)
+
+function init_default_MTI_tables(db, append_results = false)
+
+    query_str ="CREATE TABLE IF NOT EXISTS mti (
+                    term VARCHAR(255),
+                    dui INT,
+                    pmid INT,
+                    cui INT,
+                    score INT,
+                    term_type CHAR(2),
+
+                    PRIMARY KEY(pmid, term)
+                );
+                "
+
+
+    # FOREIGN KEY (term, dui)
+    #   REFERENCES mesh_descriptor(name, id),
+    db_query(db, query_str)
+
+    #clear the relationship table
+    if !append_results
+        db_query(db, "DELETE FROM mti")
+    end
+end
+function save_MoD(db, mesh_lines, prc_lines; append_results=false, verbose= false)
+    init_MoD_tables(db, append_results)
 
     for ml in mesh_lines
 
@@ -129,7 +160,7 @@ function save_results(db, mesh_lines, prc_lines, append_results=false, verbose= 
 
         insert_row!(db, "mti",
                     Dict(:pmid =>ml[1],
-                         :term => normalize_string(ml[2], casefold=true),
+                         :term => ml[2],
                          :cui=>cui,
                          :score=>ml[4],
                          :term_type=> ml[5],
@@ -144,6 +175,26 @@ function save_results(db, mesh_lines, prc_lines, append_results=false, verbose= 
                         Dict(:pmid =>prc[1],
                              :prc_pmid=>id), verbose)
         end
+    end
+
+end
+
+
+function save_default_MTI(db, mesh_lines; append_results=false, verbose= false)
+
+    init_default_MTI_tables(db, append_results)
+
+    for ml in mesh_lines
+
+        cui = parse(Int64, ml[3][2:end])  #remove preceding C
+
+        insert_row!(db, "mti",
+                    Dict(:pmid =>ml[1],
+                         :term => ml[2],
+                         :cui=>cui,
+                         :score=>ml[4],
+                         :term_type=> ml[5]), verbose)
+
     end
 
 end

@@ -64,7 +64,8 @@ module MTI
 export install_web_api,
        generic_batch,
        abstracts_to_request_file,
-       parse_and_save_results
+       parse_and_save_default_MTI,
+       parse_and_save_MoD
 include("MTI/MTI.jl")
 end
 # -----------------------------------

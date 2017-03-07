@@ -1,6 +1,6 @@
 using BioMedQuery.MTI
 
-function mti_search_and_save(config)
+function mti_search_and_save(config, main_func = parse_and_save_default_MTI; append_results=false, verbose= false, num_cols = 9, num_cols_prc = 4)
 
     println("*-------------This is: mti_search_and_save-------------------*")
 
@@ -29,6 +29,6 @@ function mti_search_and_save(config)
     generic_batch(email, username, password, mti_query_file, mti_result_file)
 
     #save to Database
-    parse_and_save_results(mti_result_file, db)
+    main_func(mti_result_file, db; num_cols = num_cols, num_cols_prc = num_cols_prc, append_results=append_results, verbose= verbose)
 
 end
