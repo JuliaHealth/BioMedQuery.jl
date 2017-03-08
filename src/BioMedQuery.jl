@@ -4,6 +4,9 @@ module BioMedQuery
 module DBUtils
 export init_mysql_database,
        assemble_vals,
+       assemble_cols_and_vals_select,
+       assemble_cols_and_vals,
+       assemble_cols_and_vals_string,
        insert_row!,
        db_select,
        db_query,

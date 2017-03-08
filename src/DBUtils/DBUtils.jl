@@ -67,7 +67,7 @@ formatted for a MySQL SELECT. E.g MySQL requires CHAR or
 other non-numeric values be passed with single quotes around them.
 
 """
-function assemble_cols_and_vals_select{T}(data_values::Dict{Symbol, T}, op = "AND")
+function assemble_cols_and_vals_string{T}(data_values::Dict{Symbol, T}, op = "AND")
     val_single_quotes::Any = nothing        # put values in Array to be joined
     col_backticks::String = ""
     select_string_array = Array{String}(length(data_values))
@@ -89,6 +89,10 @@ function assemble_cols_and_vals_select{T}(data_values::Dict{Symbol, T}, op = "AN
     end
     select_string = join(select_string_array, string(" ", op, " "))
     return select_string
+end
+
+function assemble_cols_and_vals_select{T}(data_values::Dict{Symbol, T}, op = "AND")
+    assemble_cols_and_vals_string(data_values, "AND")
 end
 
 #*****************
