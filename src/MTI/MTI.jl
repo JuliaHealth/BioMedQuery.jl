@@ -186,7 +186,14 @@ function save_default_MTI(db, mesh_lines; append_results=false, verbose= false)
 
     for ml in mesh_lines
 
-        cui = parse(Int64, ml[3][2:end])  #remove preceding C
+        cui = 0
+
+        try
+          cui = parse(Int64, ml[3][2:end], 10)  #remove preceding C
+        catch
+          warn("Could not parse CUI field: ", ml[3][2:end])
+          println("Line: ", ml)
+        end
 
         insert_row!(db, "mti",
                     Dict(:pmid =>ml[1],
