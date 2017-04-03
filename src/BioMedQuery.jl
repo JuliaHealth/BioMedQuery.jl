@@ -77,7 +77,7 @@ end
 #--------Processes------------
 module Processes
 export pubmed_search_and_save,
-       pubmed_search_and_save_mysql,
+       pubmed_search_and_save_mysql!,
        pubmed_pmid_search,
        pubmed_pmid_search_and_save,
        map_mesh_to_umls_async!,

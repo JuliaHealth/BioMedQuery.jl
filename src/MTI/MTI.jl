@@ -70,14 +70,14 @@ function parse_and_save_MoD(file, db; num_cols = 9, num_cols_prc = 4, append_res
     save_MoD(db, mesh_lines, prc_lines; append_results=append_results, verbose= verbose)
 end
 
-function parse_and_save_default_MTI(file, db; num_cols = 8, num_cols_prc = 10000, append_results=false, verbose= false)
+function parse_and_save_default_MTI(file, db; num_cols = 8, num_cols_prc = 4, append_results=false, verbose= false)
     mesh_lines, prc_lines = parse_result_file(file, num_cols, num_cols_prc)
     println("Saving ", length(mesh_lines), " mesh entries")
     save_default_MTI(db, mesh_lines; append_results=append_results, verbose= verbose)
 end
 
 
-function parse_result_file(file, num_cols = 9, num_cols_prc = 4)
+function parse_result_file(file, num_cols = 8, num_cols_prc = 10000)
     mesh_lines = []
     prc_lines =[]
     open(file, "r") do f
@@ -88,6 +88,8 @@ function parse_result_file(file, num_cols = 9, num_cols_prc = 4)
                 push!(mesh_lines, entries)
             elseif length(entries) == num_cols_prc
                 push!(prc_lines, entries)
+            else
+                warn("Parsing MTI results - unexpected number of entries per line")
             end
         end
     end

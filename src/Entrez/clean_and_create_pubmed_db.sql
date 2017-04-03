@@ -1,4 +1,13 @@
+SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS article;
+DROP TABLE IF EXISTS author;
+DROP TABLE IF EXISTS author2article;
+DROP TABLE IF EXISTS mesh_descriptor;
+DROP TABLE IF EXISTS mesh_qualifier;
+DROP TABLE IF EXISTS mesh_heading;
+SET FOREIGN_KEY_CHECKS=1;
+
+
 CREATE TABLE article(
     pmid INTEGER NOT NULL PRIMARY KEY,
     title TEXT,
@@ -6,7 +15,6 @@ CREATE TABLE article(
     abstract TEXT
 );
 
-DROP TABLE IF EXISTS author;
 CREATE TABLE author(
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     forename VARCHAR(255),
@@ -14,7 +22,6 @@ CREATE TABLE author(
     CONSTRAINT unq UNIQUE(forename,  lastname)
 );
 
-DROP TABLE IF EXISTS author2article;
 CREATE TABLE author2article(
     aid INTEGER,
     pmid INTEGER,
@@ -33,21 +40,18 @@ CREATE TABLE author2article(
 -- lookup in the mesh browerser
 --  https://www.nlm.nih.gov/mesh/MBrowser.html
 
-DROP TABLE IF EXISTS mesh_descriptor;
 CREATE TABLE mesh_descriptor(
     id INTEGER NOT NULL PRIMARY KEY,
     name VARCHAR(255) UNIQUE
 );
 
 -- Qualifier
-DROP TABLE IF EXISTS mesh_qualifier;
 CREATE TABLE mesh_qualifier(
     id INTEGER NOT NULL PRIMARY KEY,
     name VARCHAR(255) UNIQUE
 );
 
 -- Heading
-DROP TABLE IF EXISTS mesh_heading;
 CREATE TABLE mesh_heading(
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     pmid INTEGER, did INTEGER, qid INTEGER,

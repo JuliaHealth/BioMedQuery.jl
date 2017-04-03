@@ -2,6 +2,7 @@ include("entrez_db.jl")
 using .DB
 using ..DBUtils
 using SQLite
+using MySQL
 
 
 """
@@ -72,6 +73,44 @@ end
 
 
 """
+ save_efetch_mysql(efetch_dict, con::MySQL.MySQLHandle, clean_efetch_tables = false, verbose=false)
+
+Save the results (dictionary) of an entrez fetch to a MySQL database.
+
+###Arguments:
+
+* `efetch_dict`: Response dictionary from efetch
+* `con::MySQL.MySQLHandle`: Connection to MySQL database
+* `clean_efetch_tables`: If true, all tables related to efetch results are dropped
+* `verbose`: Boolean to turn on extra print statements
+
+
+###Example
+
+```julia
+db_config =  Dict(:host=>"localhost", :dbname=>"test", :username=>"root",
+:pswd=>"", :overwrite=>true)
+db = save_efetch_mysql(efetch_dict, db_config)
+ ```
+
+"""
+function save_efetch_mysql(efetch_dict, con::MySQL.MySQLHandle, clean_efetch_tables = false, verbose=false)
+
+     if !haskey(efetch_dict, "PubmedArticle")
+         warn("Unsupported efetch save. Responses must be searches to: PubMed")
+     end
+
+     if clean_efetch_tables
+         init_pubmed_db_mysql!(con, !clean_efetch_tables)
+      end
+
+     pubmed_save_efetch!(efetch_dict, con, verbose)
+
+ end
+
+
+
+"""
 pubmed_save_efetch(efetch_dict, db_path)
 
 Save the results (dictionary) of an entrez-pubmed fetch to the input database.
@@ -88,11 +127,8 @@ function pubmed_save_efetch!(efetch_dict, db, verbose=false)
     end
 
     println("Saving " , length(articles) ,  " articles to database")
-
     for xml_article in articles
-
         article = TypeArticle(xml_article)
-
         # println("=============Article=====================")
         # println(article)
         db_insert!(db, article, verbose)
@@ -100,8 +136,8 @@ function pubmed_save_efetch!(efetch_dict, db, verbose=false)
         #-------MeshHeadingList
         mesh_heading_list = MeshHeadingList(xml_article)
         db_insert!(db, article.pmid.value, mesh_heading_list, verbose)
-
     end
+
     db
 end
 
@@ -117,7 +153,7 @@ database. Must contain symbols `:host`, `:dbname`, `:username`. `pswd`,
 and `:overwrite`
 * `verbose`: Boolean to turn on extra print statements
 """
-function save_pmid_mysql{T}(pmids::Array{Int64}, db_config::Dict{Symbol, T}, verbose=false)
+function save_pmid_mysql{T}(pmids::Array{Int64,1}, db_config::Dict{Symbol, T}, verbose=false)
     db = init_pmid_db_mysql(db_config)
     for pmid in pmids
         insert_row!(db,
@@ -125,4 +161,6 @@ function save_pmid_mysql{T}(pmids::Array{Int64}, db_config::Dict{Symbol, T}, ver
                     Dict(:pmid=> pmid),
                     verbose )
     end
+
+    db
 end

@@ -101,7 +101,7 @@ end
 
 
 """
-pubmed_search_and_save_mysql(email, search_term::String, article_max,
+pubmed_search_and_save_mysql!(email, search_term::String, article_max,
      con::MySQL.MySQLHandle, clean_efetch_tables = false, verbose=false)
 
 ###Arguments
@@ -115,7 +115,7 @@ see http://www.ncbi.nlm.nih.gov/pubmed/advanced for help constructing the string
 * `clean_efetch_tables`: If true the pubmed/efetch related tables are cleaned/overwritten
 * `verbose`: if true, the NCBI xml response files are saved to current directory
 """
-function pubmed_search_and_save_mysql(email, search_term::String, article_max,
+function pubmed_search_and_save_mysql!(email, search_term::String, article_max,
      con::MySQL.MySQLHandle, clean_efetch_tables = false, verbose=false)
 
     retstart = 0
@@ -126,7 +126,6 @@ function pubmed_search_and_save_mysql(email, search_term::String, article_max,
         retmax = article_max
     end
 
-    all_pmids = Array{Int64}[]
     article_total = 0
 
     for rs=retstart:retmax:(article_max- 1)
@@ -165,15 +164,12 @@ function pubmed_search_and_save_mysql(email, search_term::String, article_max,
             error("Response esearch_dict does not contain IdList")
         end
 
-        ids = Array{typeof(esearch_dict["IdList"][1]["Id"][1])}[]
-        println(esearch_dict["IdList"][1])
-        try
-            for id_node in esearch_dict["IdList"][1]["Id"]
-                push!(ids, id_node)
-            end
-        catch
-            warn("No Ids returned in currnt esearch")
+        ids = Array{Int64,1}()
+
+        for id_node in esearch_dict["IdList"][1]["Id"]
+            push!(ids, Int64(id_node))
         end
+
 
         efetch_response = efetch(fetch_dic, ids)
 
@@ -183,9 +179,9 @@ function pubmed_search_and_save_mysql(email, search_term::String, article_max,
 
         efetch_dict = eparse(efetch_response)
 
-        #save the results of an entrez fetch to a sqlite database
+        #save the results of an entrez fetch to a database
         println("------Saving to database--------")
-        all_pmids = save_efetch_mysql(efetch_dict, con, clean_efetch_tables, verbose)
+        save_efetch_mysql(efetch_dict, con, clean_efetch_tables, verbose)
 
         #after the first pass - make sure the tables are not cleaned
         clean_efetch_tables = false
@@ -199,7 +195,8 @@ function pubmed_search_and_save_mysql(email, search_term::String, article_max,
     end
 
     println("Finished searching, total number of articles: ", article_total)
-    return all_pmids
+
+    return nothing
 end
 
 
@@ -249,8 +246,9 @@ function pubmed_pmid_search(email, search_term::String, article_max, verbose=fal
 
          ids = Array{Int64,1}()
          try
-             println(esearch_dict["IdList"][1]["Id"])
-             for id_node in esearch_dict["IdList"][1]["Id"]
+             println(esearch_dict["IdList"][1]["Id"]["Id"])
+             println("here")
+             for id_node in esearch_dict["IdList"][1]["Id"]["Id"]
                  push!(ids, id_node)
                  push!(all_pmids, id_node)
              end
@@ -267,6 +265,7 @@ function pubmed_pmid_search(email, search_term::String, article_max, verbose=fal
      end
 
      println("Finished searching, total number of articles: ", article_total)
+
      return all_pmids
  end
 
@@ -279,6 +278,7 @@ function pubmed_pmid_search_and_save(email, search_term::String, article_max,
     narticles = length(pmids)
     info("Finished saving $narticles articles")
 
+    return nothing
 end
 
 """

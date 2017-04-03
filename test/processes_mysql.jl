@@ -31,6 +31,22 @@ db = nothing
     @time db = pubmed_search_and_save(email, search_term, max_articles,
     save_efetch_mysql, db_config, verbose)
 
+
+    #query the article table and make sure the count is correct
+    all_pmids = BioMedQuery.Entrez.DB.all_pmids(db)
+    @test length(all_pmids) == max_articles
+
+    pubmed_search_and_save_mysql!(email, search_term, max_articles,
+    db, verbose)
+
+    #query the article table and make sure the count is correct
+    all_pmids = BioMedQuery.Entrez.DB.all_pmids(db)
+    @test length(all_pmids) == max_articles
+
+
+    pubmed_pmid_search_and_save(email, search_term, max_articles,
+        save_pmid_mysql, db_config, verbose)
+
     #query the article table and make sure the count is correct
     all_pmids = BioMedQuery.Entrez.DB.all_pmids(db)
     @test length(all_pmids) == max_articles
@@ -81,8 +97,10 @@ else
             config = Dict(:db => db,
                           :email => email,
                           :pub_year => "2010",
-                          :mti_query_file =>in_file,
-                          :mti_result_file=>out_file)
+                          :mti_query_file => in_file,
+                          :mti_result_file => out_file,
+                          :uts_user => umls_user,
+                          :uts_psswd => umls_pswd)
 
             @time begin
                 mti_search_and_save(config)
@@ -91,6 +109,8 @@ else
             narticles_sel = db_query(db, "SELECT DISTINCT pmid FROM mti;")
             empty_abs_sel = db_query(db, "SELECT COUNT(abstract) FROM article
         		WHERE abstract = '' ")
+            println(narticles_sel)
+            println(empty_abs_sel)
             @test length(narticles_sel[1]) == (max_articles - empty_abs_sel[1])[1]
 
             # remove temp files

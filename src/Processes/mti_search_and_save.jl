@@ -1,6 +1,6 @@
 using BioMedQuery.MTI
 
-function mti_search_and_save(config, main_func = parse_and_save_default_MTI; append_results=false, verbose= false, num_cols = 9, num_cols_prc = 4)
+function mti_search_and_save(config, main_func = parse_and_save_default_MTI; append_results=false, verbose= false, num_cols = 8, num_cols_prc = 4)
 
     println("*-------------This is: mti_search_and_save-------------------*")
 
@@ -19,7 +19,11 @@ function mti_search_and_save(config, main_func = parse_and_save_default_MTI; app
     pub_year = config[:pub_year]
     mti_query_file = config[:mti_query_file]
     mti_result_file = config[:mti_result_file]
-    use_local_medline = config[:local_medline]
+
+    use_local_medline = false
+    if haskey(config, :local_medline)
+        use_local_medline = config[:local_medline]
+    end
 
 
     # write abstracts to quey file

@@ -8,6 +8,8 @@ config = Dict(:host=>"localhost", :dbname=>dbname, :username=>"root",
 :pswd=>"", :overwrite=>true)
 
 con = Entrez.DB.init_pubmed_db_mysql(config)
+Entrez.DB.init_pubmed_db_mysql!(con, true)
+Entrez.DB.init_pubmed_db_mysql!(con, false)
 
 #check collection of tables
 tables_query = BioMedQuery.DBUtils.select_all_tables(con)

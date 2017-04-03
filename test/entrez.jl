@@ -6,7 +6,7 @@ using MySQL
     #testset "globals"
     narticles =10
     email=""
-    ids = []
+    ids = Array{Int64,1}()
     efetch_dict = Dict()
     verbose = false
     articles = []
@@ -36,12 +36,27 @@ using MySQL
         @test haskey(esearch_dict, "IdList")
 
         for id_node in esearch_dict["IdList"][1]["Id"]
-            push!(ids, id_node)
+            push!(ids, Int64(id_node))
         end
 
         @test length(ids)==narticles
 
     end
+
+    @testset "Test Save PMID MySQL" begin
+        println("-----------------------------------------")
+        println("       Test Save PMID MySQL     ")
+        dbname = "entrez_test"
+        config = Dict(:host=>"localhost", :dbname=>dbname, :username=>"root",
+        :pswd=>"", :overwrite=>true)
+        con = Entrez.DB.save_pmid_mysql(ids, config, false)
+
+        #query the article table and make sure the count is correct
+        all_pmids = BioMedQuery.Entrez.DB.all_pmids(con)
+        @test length(all_pmids) == narticles
+
+    end
+
 
     @testset "Testing EFetch"    begin
         println("-----------------------------------------")
@@ -107,6 +122,10 @@ using MySQL
         all_pmids = BioMedQuery.Entrez.DB.all_pmids(db)
         @test length(all_pmids) == narticles
 
+        #query the article table and make sure the count is correct
+        all_abstracts = BioMedQuery.Entrez.DB.abstracts(db)
+        @test size(all_abstracts)[1] == narticles
+
         #check we can get the MESH descriptor for an article
         mesh = BioMedQuery.Entrez.DB.get_article_mesh(db, all_pmids[1])
         @test length(mesh) > 0
@@ -141,6 +160,10 @@ using MySQL
         #query the article table and make sure the count is correct
         all_pmids = BioMedQuery.Entrez.DB.all_pmids(db)
         @test length(all_pmids) == narticles
+
+        #query the article table and make sure the count is correct
+        all_abstracts = BioMedQuery.Entrez.DB.abstracts(db)
+        @test size(all_abstracts)[1] == narticles
 
         #check we can get the MESH descriptor for an article
         mesh = BioMedQuery.Entrez.DB.get_article_mesh(db, all_pmids[1])

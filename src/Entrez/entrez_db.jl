@@ -58,7 +58,7 @@ function init_pubmed_db_mysql(config)
            filename = Pkg.dir() * "/BioMedQuery/src/Entrez/create_pubmed_db.sql"
            println(filename)
            f = open(filename, "r")
-           mysql_code = readall(f)
+           mysql_code = readstring(f)
            close(f)
        catch
            error("Could not read create_entrez_db.sql")
@@ -87,7 +87,7 @@ function init_pubmed_db_mysql!(con::MySQL.MySQLHandle, clean_tables = false)
 
     try
        f = open(sql_file, "r")
-       mysql_code = readall(f)
+       mysql_code = readstring(f)
        close(f)
     catch
        error("Could not read create_entrez_db.sql")
