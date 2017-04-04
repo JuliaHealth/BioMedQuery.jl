@@ -4,7 +4,7 @@ using BioMedQuery.DBUtils
 
 dbname="test"
 
-config = Dict(:host=>"localhost", :dbname=>dbname, :username=>"root",
+config = Dict(:host=>"127.0.0.1", :dbname=>dbname, :username=>"root",
 :pswd=>"", :overwrite=>true)
 
 con = Entrez.DB.init_pubmed_db_mysql(config)
