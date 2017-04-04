@@ -2,12 +2,8 @@ language: julia
 dist: trusty
 sudo: required
 # group: edge
-addons:
-  apt:
-    packages:
-    - mysql-server-5.6
-    - mysql-client-core-5.6
-    - mysql-client-5.6
+service:
+ - mysql
 os:
   - linux
   - osx
@@ -17,19 +13,19 @@ notifications:
   email: true
 before_script:
   - service mysql status
-  - echo "[mysqld]" > $HOME/.my.cnf
-  - echo "secure_file_priv = \"\" ">> $HOME/.my.cnf
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then . ./ci/travis/before_install-osx.sh; fi
-  - export OLD_PATH=$LD_LIBRARY_PATH
-  - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`mysql_config --libs | cut -d ' ' -f1 | sed 's/-L//'`
-  - echo $LD_LIBRARY_PATH
-after_script:
-  - export LD_LIBRARY_PATH=$OLD_PATH
-  - unset OLD_PATH
-script:
-  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-  - julia -e 'Pkg.clone(pwd()); Pkg.build("BioMedQuery"); ENV["TRAVIS"] = "yes"; Pkg.test("BioMedQuery"; coverage=true)'
-after_success:
-  - julia -e 'Pkg.add("Documenter")'
-  - julia -e 'cd(Pkg.dir("BioMedQuery")); include(joinpath("docs", "make.jl"))'
-  - julia -e 'cd(Pkg.dir("BioMedQuery")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
+  - mysql -e 'CREATE DATABASE myapp_test;'
+  # - echo "[mysqld]" > $HOME/.my.cnf
+  # - echo "secure_file_priv = \"\" ">> $HOME/.my.cnf
+  # - if [ "$TRAVIS_OS_NAME" == "osx" ]; then . ./ci/travis/before_install-osx.sh; fi
+# after_script:
+#   - export LD_LIBRARY_PATH=$OLD_PATH
+#   - unset OLD_PATH
+# script:
+#   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+#   - julia -e 'Pkg.clone(pwd()); Pkg.build("BioMedQuery"); ENV["TRAVIS"] = "yes"; Pkg.test("BioMedQuery"; coverage=true)'
+# after_success:
+#   - julia -e 'Pkg.add("Documenter")'
+#   - julia -e 'cd(Pkg.dir("BioMedQuery")); include(joinpath("docs", "make.jl"))'
+#   - julia -e 'cd(Pkg.dir("BioMedQuery")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
+# sudo mkdir -p /var/run/mysqld
+# sudo ln -s /run/mysql-5.6/mysqld.sock /var/run/mysqld/mysqld.sock
