@@ -7,12 +7,12 @@ julia:
 notifications:
   email: true
 before_script:
-  - echo "[mysqld]" > $HOME/.my.cnf
-  - echo "secure_file_priv = \"\" ">> $HOME/.my.cnf
+  # - echo "[mysqld]" > $HOME/.my.cnf
+  # - echo "secure_file_priv = \"\" ">> $HOME/.my.cnf
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then . ./ci/travis/before_install-osx.sh; fi
   - export OLD_PATH=$LD_LIBRARY_PATH
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`mariadb_config --libs | cut -d ' ' -f1 | sed 's/-L//'`
-  - mysql -e 'CREATE DATABASE myapp_test;'
+  # - mysql -e 'CREATE DATABASE myapp_test;'
 after_script:
   - export LD_LIBRARY_PATH=$OLD_PATH
   - unset OLD_PATH
