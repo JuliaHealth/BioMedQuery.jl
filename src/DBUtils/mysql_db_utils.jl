@@ -1,7 +1,7 @@
 using MySQL
 
 """
-    init_mysql_database(;host = "localhost", dbname="test",
+    init_mysql_database(;host = "127.0.0.1", dbname="test",
     username="root", pswd="", mysql_code=nothing, overwrite=false)
 
 Create a MySQL database using the code inside mysql_code
@@ -17,7 +17,7 @@ Create a MySQL database using the code inside mysql_code
 * `con`: Database connection and table-column names map
 
 """
-function init_mysql_database(;host = "localhost", dbname="test",
+function init_mysql_database(;host = "127.0.0.1", dbname="test",
     username="root", pswd="", mysql_code=nothing, overwrite=false)
 
     # call shell to ensure the MySQL server is running
@@ -145,7 +145,7 @@ function insert_row!{T}(con::MySQL.MySQLHandle, tablename, data_values::Dict{Sym
     return lastid
 end
 
-function create_server(con::MySQL.MySQLHandle, dbname; linkname = "fedlink", user="root", psswd="", host="localhost", port=3306)
+function create_server(con::MySQL.MySQLHandle, dbname; linkname = "fedlink", user="root", psswd="", host="127.0.0.1", port=3306)
 
     query_str = "CREATE SERVER $linkname
                  FOREIGN DATA WRAPPER mysql
