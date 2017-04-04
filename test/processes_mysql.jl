@@ -10,7 +10,7 @@ verbose = false
 
 
 #************************ MYSQL **********************************************
-host="localhost" #If want to hide - use enviroment variables instead
+host="127.0.0.1" #If want to hide - use enviroment variables instead
 mysql_usr="root"
 mysql_pswd=""
 dbname="pubmed_processes_test"

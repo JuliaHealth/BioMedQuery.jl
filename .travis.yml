@@ -15,16 +15,16 @@ julia:
   - 0.5
 notifications:
   email: true
-# before_script:
-#   - echo "[mysqld]" > $HOME/.my.cnf
-#   - echo "secure_file_priv = \"\" ">> $HOME/.my.cnf
-#   # - if [ "$TRAVIS_OS_NAME" == "osx" ]; then . ./ci/travis/before_install-osx.sh; fi
-#   # - export OLD_PATH=$LD_LIBRARY_PATH
-#   # - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`mysql_config --libs | cut -d ' ' -f1 | sed 's/-L//'`
-#   # - echo $LD_LIBRARY_PATH
-# after_script:
-  # - export LD_LIBRARY_PATH=$OLD_PATH
-  # - unset OLD_PATH
+before_script:
+  - echo "[mysqld]" > $HOME/.my.cnf
+  - echo "secure_file_priv = \"\" ">> $HOME/.my.cnf
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then . ./ci/travis/before_install-osx.sh; fi
+  - export OLD_PATH=$LD_LIBRARY_PATH
+  - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`mysql_config --libs | cut -d ' ' -f1 | sed 's/-L//'`
+  - echo $LD_LIBRARY_PATH
+after_script:
+  - export LD_LIBRARY_PATH=$OLD_PATH
+  - unset OLD_PATH
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
   - julia -e 'Pkg.clone(pwd()); Pkg.build("BioMedQuery"); ENV["TRAVIS"] = "yes"; Pkg.test("BioMedQuery"; coverage=true)'

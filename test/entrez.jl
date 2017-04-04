@@ -47,7 +47,7 @@ using MySQL
         println("-----------------------------------------")
         println("       Test Save PMID MySQL     ")
         dbname = "entrez_test"
-        config = Dict(:host=>"localhost", :dbname=>dbname, :username=>"root",
+        config = Dict(:host=>"127.0.0.1", :dbname=>dbname, :username=>"root",
         :pswd=>"", :overwrite=>true)
         con = Entrez.DB.save_pmid_mysql(ids, config, false)
 
@@ -153,7 +153,7 @@ using MySQL
         println("       Testing MySQL Saving")
 
         dbname = "entrez_test"
-        config = Dict(:host=>"localhost", :dbname=>dbname, :username=>"root",
+        config = Dict(:host=>"127.0.0.1", :dbname=>dbname, :username=>"root",
         :pswd=>"", :overwrite=>true)
         @time db = BioMedQuery.Entrez.save_efetch_mysql(efetch_dict, config, verbose)
 
