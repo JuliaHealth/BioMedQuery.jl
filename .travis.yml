@@ -15,7 +15,8 @@ julia:
   - 0.5
 notifications:
   email: true
-# before_script:
+before_script:
+  - service mysql status
 #   - echo "[mysqld]" > $HOME/.my.cnf
 #   - echo "secure_file_priv = \"\" ">> $HOME/.my.cnf
 #   # - if [ "$TRAVIS_OS_NAME" == "osx" ]; then . ./ci/travis/before_install-osx.sh; fi
