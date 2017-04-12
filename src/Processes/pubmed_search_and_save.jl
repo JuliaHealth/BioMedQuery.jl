@@ -13,7 +13,7 @@ db_path, verbose=false)
 * search_term : search string to submit to PubMed
 e.g (asthma[MeSH Terms]) AND ("2001/01/29"[Date - Publication] : "2010"[Date - Publication])
 see http://www.ncbi.nlm.nih.gov/pubmed/advanced for help constructing the string
-* article_max : maximum number of articles to return. Defaults to 600,000
+* article_max : maximum number of articles to return
 * db_path: path to output database
 * verbose: if true, the NCBI xml response files are saved to current directory
 """

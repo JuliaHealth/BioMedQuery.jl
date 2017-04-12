@@ -1,7 +1,6 @@
 using Gumbo
 using Requests
-import Requests: post, get
-
+using HttpCommon
 
 const uri="https://utslogin.nlm.nih.gov"
 const auth_endpoint = "/cas/v1/tickets/"
@@ -40,25 +39,25 @@ A tgt is valid for 8 hours. Therefore, look for UTS_TGT.txt in the local
 directory to see if it has been recently stored.
 """
 function get_tgt(c::Credentials)
-    #Commented out due to old TGT not working
-    #Check if there is a valid ticket on disk
-    # TGT_file = "UTS_TGT.txt"
-    # if isfile(TGT_file)
-    #     #check time
-    #     time_elapsed = time_to_last_save(TGT_file)
-    #     # Expiration time should be 8 hours - but I tend to expirience bad TGT after few hours
-    #     if time_elapsed > 2.5
-    #         println("UTS TGT Expired")
-    #         rm(TGT_file)
-    #     else
-    #         # println("Using TGT from disk - saved ", time_elapsed, " hours ago")
-    #         fin = open(TGT_file)
-    #         lines = readlines(fin)
-    #         ticket = lines[1]
-    #         return ticket
-    #     end
-    #
-    # end
+    # Commented out due to old TGT not working
+    # Check if there is a valid ticket on disk
+    TGT_file = "UTS_TGT.txt"
+    if isfile(TGT_file)
+        #check time
+        time_elapsed = time_to_last_save(TGT_file)
+        # Expiration time should be 8 hours - but I tend to expirience bad TGT after few hours
+        if time_elapsed > 1
+            println("UTS TGT Expired")
+            rm(TGT_file)
+        else
+            # println("Using TGT from disk - saved ", time_elapsed, " hours ago")
+            fin = open(TGT_file)
+            lines = readlines(fin)
+            ticket = lines[1]
+            return ticket
+        end
+
+    end
 
     println("Requesting new TGT")
     params = Dict("username" => c.username, "password"=> c.password)
@@ -76,8 +75,8 @@ function get_tgt(c::Credentials)
     catch
         error("Could not get TGT: UTS response structure is wrong")
     end
-    # fout = open(TGT_file, "w")
-    # write(fout, ticket)
+    fout = open(TGT_file, "w")
+    write(fout, ticket)
 end
 
 
@@ -89,8 +88,13 @@ Retrieve a single-use Service Ticket using TGT
 function get_ticket(TGT)
     params = Dict("service"=> service)
     h = Dict("Content-type"=> "application/x-www-form-urlencoded",
-    "Accept"=> "text/plain", "User-Agent"=>"julia" )
-    r = post(TGT; data=params, headers=h)
+    "Accept"=> "text/plain", "User-Agent"=>"bcbi-julia" )
+    r = HttpCommon.Response(503)
+    try
+        r = post(TGT; data=params, headers=h)
+    catch
+        error("UMLS POST error: ", STATUS_CODES[r.code])
+    end
     return String(r.data)
 end
 
@@ -130,7 +134,7 @@ all_results= search_umls(tgt, query)
 function search_umls(tgt, query; version::String="current", timeout=1)
 
     # Ticket granting ticket
-    if tgt== nothing
+    if tgt == nothing
         tgt = get_tgt(c)
     end
     page=0
@@ -149,15 +153,22 @@ function search_umls(tgt, query; version::String="current", timeout=1)
     while true
 
         #get a new ticket per page if necessary
-        ticket = get_ticket(tgt)
+        ticket = ""
+        try
+            ticket = get_ticket(tgt)
+        catch err
+            rethrow(err)
+        end
+
         page +=1
         #append ticket to query
         query["ticket"]= ticket
         query["pageNumber"]= @sprintf("%d", page)
+
         r = get(rest_uri*content_endpoint, query=query, timeout=timeout)
 
         if r.status != 200
-            throw(BadResponseException(r.status))
+            error("Bad HTTP status $(r.status)")
         end
 
         json_response = Requests.json(r)
@@ -205,8 +216,19 @@ function get_semantic_type(tgt, cui)
 
     content_endpoint = "/rest/content/current/CUI/"*cui
     #get a new ticket
-    ticket = get_ticket(tgt)
-    r = get( rest_uri*content_endpoint,query=Dict("ticket"=> ticket))
+    ticket = ""
+    try
+        ticket = get_ticket(tgt)
+    catch err
+        rethrow(err)
+    end
+
+    r = HttpCommon.Response(503)
+    try
+        r = get( rest_uri*content_endpoint,query=Dict("ticket"=> ticket))
+    catch
+        error("UMLS GET error: ", r.code)
+    end
 
     json_response = Requests.json(r)
     st = json_response["result"]["semanticTypes"]

@@ -82,7 +82,7 @@ concepts into a new (cleared) TABLE:mesh2umls
 - `c::Credentials`: UMLS username and password
 - `append_results::Bool` : If false a NEW and EMPTY mesh2umls database table in creted
 """
-function map_mesh_to_umls_async!(db, c::Credentials; timeout = Inf, append_results=false, verbose=false)
+function map_mesh_to_umls_async!(db, c::Credentials; timeout = 5, append_results=false, verbose=false)
 
     #if the mesh2umls relationship table doesn't esxist, create it
     db_query(db, "CREATE table IF NOT EXISTS mesh2umls (
@@ -107,38 +107,36 @@ function map_mesh_to_umls_async!(db, c::Credentials; timeout = Inf, append_resul
     tgt = get_tgt(c)
     errors = 200*ones(length(mesh_terms))
     times = -ones(length(mesh_terms))
+    batch_size = 50
 
-    for m=1:50:length(mesh_terms)
-        end_loop=m+50
+    for m=1:batch_size:length(mesh_terms)
+        end_loop=m+batch_size
         if end_loop > length(mesh_terms)
             end_loop = length(mesh_terms)
         end
         @sync for i=m:end_loop
             #submit umls async batch query
             @async begin
-
                 term = mesh_terms[i]
                 query = Dict("string"=>term, "searchType"=>"exact" )
                 # println("term: ", term)
                 all_results = []
-                try
-                    t = @elapsed all_results= search_umls(tgt, query, timeout=timeout)
-                    times[i] = t
-                    print(".")
-                catch err
-                    print("!")
-                    errors[i] = err.code
+                for attempt=1:5
+                    try
+                        all_results= search_umls(tgt, query, timeout=timeout)
+                        info("Descriptor $i out of ", length(mesh_terms))
+                        break
+                    catch err
+                        println("! failed attempt $attempt out of 5 for term $term with error ", err)
+                    end
                 end
-                # println(all_results)
                 if length(all_results) > 0
-
                     cui = best_match_cui(all_results)
                     if cui == ""
                         println("Nothing!")
                         println(all_results)
                     end
                     all_concepts = get_semantic_type(tgt, cui)
-
                     for concept in all_concepts
                         insert_row!(db, "mesh2umls", Dict(:mesh=> term, :umls=> concept), verbose)
                     end
@@ -146,7 +144,5 @@ function map_mesh_to_umls_async!(db, c::Credentials; timeout = Inf, append_resul
             end
         end
     end
-    println("")
-    println("--------------------------------------------------")
-    return (times,errors)
+
 end

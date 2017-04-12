@@ -99,11 +99,8 @@ type PubMedArticle
 
             if haskey(medline_article,"Pagination")
                 pages = get_if_exists(medline_article["Pagination"][1], "MedlinePgn",Nullable{String}())
-                if isa(pages, Nullable{Int64})
-                    this.pages = string(pages.value)
-                else
-                    this.pages = pages
-                end
+                this.pages = string(pages.value)
+
             end
 
             this.year = Nullable{Int64}()
@@ -130,9 +127,9 @@ type PubMedArticle
                 catch
                     text = ""
                     for abs in medline_article["Abstract"][1]["AbstractText"]
-                        if (haskey(abs, "Label") && haskey(abs, "AbstractText"))
+                        try
                            text = string(text, abs["Label"][1], ": ", abs["AbstractText"][1], " ")
-                        else
+                        catch
                             println("Warning: No Abstract Text: ", abs, " - PMID: ", this.pmid.value)
                         end
                     end
