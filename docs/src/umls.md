@@ -46,7 +46,7 @@ populate_net_mysql(config; sn_version, mysql_version)
 
 The schema of the MySQL database of the semantic network is the following:
 
-![Alt]("/images/umls_sn_schema.001.png")
+![Alt](/images/umls_sn_schema.001.png)
 
 
 ###Note:
