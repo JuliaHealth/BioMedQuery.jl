@@ -227,7 +227,7 @@ function get_semantic_type(tgt, cui)
     try
         r = get( rest_uri*content_endpoint,query=Dict("ticket"=> ticket))
     catch
-        error("UMLS GET error: ", r.code)
+        isdefined(r, :code) ? error("UMLS GET error: ", r.code) : error("UMLS COULD NOT GET")
     end
 
     json_response = Requests.json(r)
