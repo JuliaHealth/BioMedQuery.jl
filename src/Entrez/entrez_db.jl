@@ -55,7 +55,7 @@ function init_pubmed_db_mysql(config)
 
        mysql_code=nothing
        try
-           filename = Pkg.dir() * "/BioMedQuery/src/Entrez/create_pubmed_db.sql"
+           filename = dirname(@__FILE__) * "/create_pubmed_db.sql"
            println(filename)
            f = open(filename, "r")
            mysql_code = readstring(f)
@@ -80,9 +80,9 @@ function init_pubmed_db_mysql!(con::MySQL.MySQLHandle, clean_tables = false)
     sql_file = ""
 
     if clean_tables
-       sql_file = Pkg.dir() * "/BioMedQuery/src/Entrez/clean_and_create_pubmed_db.sql"
+       sql_file = dirname(@__FILE__) * "/clean_and_create_pubmed_db.sql"
     else
-       sql_file = Pkg.dir() * "/BioMedQuery/src/Entrez/create_pubmed_db.sql"
+       sql_file = dirname(@__FILE__) * "/create_pubmed_db.sql"
     end
 
     try

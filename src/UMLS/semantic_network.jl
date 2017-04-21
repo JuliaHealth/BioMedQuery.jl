@@ -41,7 +41,7 @@ function populate_net_mysql(config; sn_version="2015AB", mysql_version="mysql5_6
 
        mysql_code=nothing
 
-       filename = string(Pkg.dir() , "/BioMedQuery/src/UMLS/NET/", sn_version, "/",
+       filename = string(dirname(@__FILE__) , "/NET/", sn_version, "/",
         mysql_version,  "/mysql_net_tables.sql")
        try
            f = open(filename, "r")
@@ -51,7 +51,7 @@ function populate_net_mysql(config; sn_version="2015AB", mysql_version="mysql5_6
            error("Could not read $filename")
        end
 
-       sql_data_path = string("infile '", Pkg.dir() , "/BioMedQuery/src/UMLS/NET/", sn_version, "/SR")
+       sql_data_path = string("infile '", dirname(@__FILE__) , "/NET/", sn_version, "/SR")
        mysql_code = replace(mysql_code, "infile 'SR", sql_data_path)
 
        db = init_mysql_database(host = config[:host], dbname =config[:dbname],

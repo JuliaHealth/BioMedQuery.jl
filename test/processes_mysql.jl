@@ -90,7 +90,7 @@ else
             println("-----------------------------------------")
             println("       MTI Search and Save")
 
-            root_path = string(Pkg.dir() , "/BioMedQuery/test")
+            root_path = dirname(@__FILE__)
             in_file= root_path*"/mti_test_query.txt"
             out_file= root_path*"/mti_test_result.txt"
 
