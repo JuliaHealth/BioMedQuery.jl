@@ -93,7 +93,7 @@ function get_ticket(TGT)
     try
         r = post(TGT; data=params, headers=h)
     catch
-        error("UMLS POST error: ", STATUS_CODES[r.code])
+        isdefined(r, :code) ? error("UMLS GET error: ", r.code) : error("UMLS COULD NOT GET")
     end
     return String(r.data)
 end
