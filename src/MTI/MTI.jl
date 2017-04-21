@@ -3,7 +3,7 @@ using BioMedQuery.DBUtils
 using DataArrays
 
 function install_web_api( clean_install = false)
-    root_dir= string(Pkg.dir() , "/BioMedQuery/src/MTI/IIWebAPI")
+    root_dir= string(dirname(@__FILE__) , "/IIWebAPI")
 
     if !isdir(root_dir)
         mkdir(root_dir)
@@ -26,7 +26,7 @@ function install_web_api( clean_install = false)
 end
 
 function generic_batch(email, username, password, in_file, out_file)
-    root_dir= string(Pkg.dir() , "/BioMedQuery/src/MTI")
+    root_dir= dirname(@__FILE__)
     cd(root_dir)
     run(`./generic_batch.sh $email $username $password $in_file $out_file`)
 end
