@@ -18,7 +18,7 @@ see http://www.ncbi.nlm.nih.gov/pubmed/advanced for help constructing the string
 * verbose: if true, the NCBI xml response files are saved to current directory
 """
 function pubmed_search_and_save(email, search_term::String, article_max,
-    save_efetch_func, db_config, verbose=false)
+    save_efetch_func, config, verbose=false)
 
     retstart = 0
     retmax = 10000  #e-utils only allows 10,000 at a time
@@ -80,12 +80,12 @@ function pubmed_search_and_save(email, search_term::String, article_max,
 
         efetch_dict = eparse(efetch_response)
 
-        #save the results of an entrez fetch to a sqlite database
+        #save the results of an entrez fetch
         println("------Saving to database--------")
-        db = save_efetch_func(efetch_dict, db_config, verbose)
+        db = save_efetch_func(efetch_dict, config, verbose)
 
         #after the first pass - make sure the database is not deleted
-        db_config[:overwrite] = false
+        config[:overwrite] = false
 
         article_total+=length(ids)
 
@@ -141,7 +141,7 @@ function pubmed_search_and_save_mysql!(email, search_term::String, article_max,
         #with obesity indicated as the major MeSH descriptor.
         println("------Searching Entrez--------")
         search_dic = Dict("db"=>"pubmed","term" => search_term,
-        "retstart" => rs, "retmax"=>retmax, "tool" =>"BioMedQueryJL",
+        "retstart" => rs, "retmax"=>retmax, "tool" =>"BioMedQuery",
         "email" => email)
         esearch_response = esearch(search_dic)
 
@@ -164,12 +164,8 @@ function pubmed_search_and_save_mysql!(email, search_term::String, article_max,
             error("Response esearch_dict does not contain IdList")
         end
 
-        ids = Array{Int64,1}()
-
-        for id_node in esearch_dict["IdList"][1]["Id"]
-            push!(ids, Int64(id_node))
-        end
-
+        flat_easearch_dict = flatten(esearch_dict)
+        ids = Array{Int64,1}(flat_easearch_dict["IdList-Id" ])
 
         efetch_response = efetch(fetch_dic, ids)
 
@@ -244,17 +240,9 @@ function pubmed_pmid_search(email, search_term::String, article_max, verbose=fal
              error("Response esearch_dict does not contain IdList")
          end
 
-         ids = Array{Int64,1}()
-         try
-             println(esearch_dict["IdList"][1]["Id"]["Id"])
-             println("here")
-             for id_node in esearch_dict["IdList"][1]["Id"]["Id"]
-                 push!(ids, id_node)
-                 push!(all_pmids, id_node)
-             end
-         catch
-             warn("No Ids returned in currnt esearch")
-         end
+         flat_easearch_dict = flatten(esearch_dict)
+         ids = Array{Int64,1}(flat_easearch_dict["IdList-Id" ])
+         append!(all_pmids, ids)
 
          article_total+=length(ids)
 
@@ -298,7 +286,7 @@ pubmed_search_and_save(email::String, pmids::Array{Int64},
 * verbose: if true, the NCBI xml response files are saved to current directory
 """
 function pubmed_search_and_save{T <: AbstractArray}(email::String, pmids::T,
-    save_efetch_func, db_config, verbose=false)
+    save_efetch_func, config, verbose=false)
 
     fetch_dic = Dict("db"=>"pubmed", "tool" =>"BioJulia", "email" => email,
     "retmode" => "xml", "rettype"=>"null")
@@ -310,10 +298,10 @@ function pubmed_search_and_save{T <: AbstractArray}(email::String, pmids::T,
 
     #save the results of an entrez fetch to database
     println("------Saving to database--------")
-    db = save_efetch_func(efetch_dict, db_config, verbose)
+    db = save_efetch_func(efetch_dict, config, verbose)
 
     #after the first pass - make sure the database is not deleted
-    db_config[:overwrite] = false
+    config[:overwrite] = false
 
     return db
 

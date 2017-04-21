@@ -54,6 +54,7 @@ Request list of UIDs matiching a query - see [NCBI Entrez:Esearch](http://www.nc
 ###Example
 
 ```julia
+search_term = "(asthma[MeSH Terms])"
 search_dic = Dict("db"=>"pubmed", "term" => search_term,
 "retstart" => 0, "retmax"=>5, "tool" =>"BioJulia",
 "email" => "email")
