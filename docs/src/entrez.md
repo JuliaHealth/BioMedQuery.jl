@@ -84,7 +84,7 @@ The following schema has been used to store the results.
 If you are interested in having this module store additional fields, feel free
 to open an issue
 
-![Alt](/images/save_efetch_schema.001.jpeg)
+![Alt](/images/save_efetch_schema.jpeg)
 
 ## All PMIDs
 
