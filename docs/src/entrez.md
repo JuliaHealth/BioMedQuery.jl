@@ -63,7 +63,7 @@ eparse(ncbi_response::String)
 You can save directly the XML String to file using the
 [XMLconvert Package](https://github.com/bcbi/XMLconvert.jl)
 
-###Example
+### Example
 
 ```
     XMLconvert.xmlASCII2file(efetch_response, "./efetch.xml")
@@ -84,7 +84,7 @@ The following schema has been used to store the results.
 If you are interested in having this module store additional fields, feel free
 to open an issue
 
-![Alt](/images/save_efetch_schema.jpeg)
+![alt](https://github.com/bcbi/BioMedQuery.jl/blob/master/docs/src/images/save_efetch_schema.jpeg)
 
 ## All PMIDs
 

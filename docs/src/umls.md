@@ -7,7 +7,7 @@ Search the Unified Medical Language System (UMLS), for more details visit the [R
 Searching the UMLS requires approved credentials.
 You can sign up [here]](https://uts.nlm.nih.gov//license.html)
 
-##Import
+## Import
 ```
 using BioMedQuery.UMLS
 ```
@@ -46,10 +46,10 @@ populate_net_mysql(config; sn_version, mysql_version)
 
 The schema of the MySQL database of the semantic network is the following:
 
-![Alt](/images/umls_sn_schema.png)
+![alt](https://github.com/bcbi/BioMedQuery.jl/blob/master/docs/src/images/umls_sn_schema.png)
 
 
-###Note:
+### Note:
 
 The previous function uses the original scripts that are part of MetamorphoSys (part of the mmsys.zip
 downloaded [here](https://www.nlm.nih.gov/research/umls/licensedcontent/umlsknowledgesources.html)), and the current Relational ASCII (CVS) files for the UMLS Semantic Network (obtained
