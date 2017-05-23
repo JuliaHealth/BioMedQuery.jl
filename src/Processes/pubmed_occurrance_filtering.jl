@@ -21,46 +21,13 @@ vector, where each row is a MESH descriptor. There are as many
 columns as articles. The occurance/abscense of a descriptor is labeled as 1/0
 """
 
-function umls_semantic_occurrences(db, umls_semantic_type_1, umls_semantic_type_2 = "none", umls_semantic_type_3 = "none", umls_semantic_type_4 = "none", umls_semantic_type_5 = "none")
+function umls_semantic_occurrences(db, umls_concepts::Array{String})
 
-    mesh_descriptor = mysql_execute(db, "SELECT * FROM mesh_descriptor;") #get mesh descriptor data from MySQL
-    mesh_heading = mysql_execute(db, "SELECT * FROM mesh_heading;") #get header data from MySQL
-    mesh2umls = mysql_execute(db, "SELECT * FROM mesh2umls;") #get data umls data from MySQL
-    rename!(mesh_descriptor, [:id, :name], [:did, :mesh_descriptor]) #change columns name for join
-    data = sort(join(mesh_descriptor, mesh_heading, on = :did)[:,[:mesh_descriptor, :pmid]], cols=:pmid) #data of mesh terms for each article
-    rename!(mesh2umls, :mesh, :mesh_descriptor) #change column name for join
-    if umls_semantic_type_2 == "none"
-        umls_filtered = mesh2umls[mesh2umls[:umls] .== "$umls_semantic_type_1",:] #filter by semantic type
-    elseif umls_semantic_type_3 == "none"
-        umls_filtered = mesh2umls[(mesh2umls[:umls] .== "$umls_semantic_type_1") | (mesh2umls[:umls] .== "$umls_semantic_type_2"),:] #filter by semantic type
-    elseif umls_semantic_type_4 == "none"
-        umls_filtered = mesh2umls[(mesh2umls[:umls] .== "$umls_semantic_type_1") | (mesh2umls[:umls] .== "$umls_semantic_type_2") | (mesh2umls[:umls] .== "$umls_semantic_type_3"),:] #filter by semantic type
-    elseif umls_semantic_type_5 == "none"
-        umls_filtered = mesh2umls[(mesh2umls[:umls] .== "$umls_semantic_type_1") | (mesh2umls[:umls] .== "$umls_semantic_type_2") | (mesh2umls[:umls] .== "$umls_semantic_type_3") | (mesh2umls[:umls] .== "$umls_semantic_type_4"),:] #filter by semantic type
-    else
-        umls_filtered = mesh2umls[(mesh2umls[:umls] .== "$umls_semantic_type_1") | (mesh2umls[:umls] .== "$umls_semantic_type_2") | (mesh2umls[:umls] .== "$umls_semantic_type_3") | (mesh2umls[:umls] .== "$umls_semantic_type_4") | (mesh2umls[:umls] .== "$umls_semantic_type_5"),:] #filter by semantic type
-    end
-    data_filtered = join(data, umls_filtered, on = :mesh_descriptor) #new data after filtering
-    arts_filtered = unique(data_filtered[:pmid]) #article ID's after filtering
-    mesh_counts_filtered = sort(collect(zip(values(countmap(data_filtered[:mesh_descriptor])),keys(countmap(data_filtered[:mesh_descriptor])))),rev=true) #counts for mesh descriptors after filtering
-    mesh_descrips_filtered=DataFrame(Any,0,2)
-    for i in 1:length(mesh_counts_filtered)
-        mesh_descrip_filtered = [mesh_counts_filtered[i][1],mesh_counts_filtered[i][2]]
-        push!(mesh_descrips_filtered, mesh_descrip_filtered)
-    end #get mesh counts into usable form
-    frequency = DataArray(Float64, length(mesh_descrips_filtered[2]))
-    for i in 1:length(mesh_descrips_filtered[2])
-        freq = length(unique(data_filtered[data_filtered[:mesh_descriptor] .== mesh_descrips_filtered[i,2],2]))/length(arts_filtered)
-        frequency[i] = freq
-    end #calculate frequency for each mesh term
-    mesh_descrips_filtered[:freq]=frequency #add frequencies to data
-    sort!(mesh_descrips_filtered, cols = :freq, rev = true) #sort by frequency
-    rename!(mesh_descrips_filtered, [:x1, :x2], [:count, :mesh_descriptor]) #rename columns
 
-    filtered_mesh = Set(mesh_descrips_filtered[:mesh_descriptor])
+    filtered_mesh = Set(filter_mesh_by_concept(db, umls_concepts))
 
     #create a map of filtered descriptor name to index to guarantee order
-    des_ind_dict = Dict()
+    des_ind_dict = Dict{String, Int}()
 
     for (i, fm) in enumerate(filtered_mesh)
         des_ind_dict[fm]= i
@@ -103,35 +70,42 @@ function umls_semantic_occurrences(db, umls_semantic_type_1, umls_semantic_type_
         narticle+=1
     end
 
-    name_dict = sort(collect(des_ind_dict), by=x->x[2])
-
-    col_names = DataArray(AbstractString, length(des_ind_dict))
-
-    for i in 1:length(des_ind_dict)
-        name = name_dict[i][1]
-        col_names[i] = name
-    end
-
-    itemsets = DataFrame(Matrix(convert(Array{Int64}, disease_occurances')))
-
-    names!(itemsets, [symbol(col_names[i]) for i in 1:length(col_names)])
-
     println("-------------------------------------------------------------")
     println("Found ", narticle, " articles with valid descriptors")
     println("-------------------------------------------------------------")
-    return itemsets
+    return des_ind_dict, disease_occurances
 
 end
 
 
 # Retrieve all mesh descriptors associated with the given umls_concept
-function filter_mesh_by_concept(db, umls_concept)
+function filter_mesh_by_concept(db, umls_concepts::Array{String})
 
-    uc = string("'", replace(umls_concept, "'", "''") , "'")
-    query  = db_query(db, "SELECT mesh FROM mesh2umls
-    WHERE umls LIKE $uc ")
+    queries = DataArray(String, length(umls_concepts)-1)
+    for i in 2:length(umls_concepts)
+        query = string(" OR umls LIKE '", umls_concepts[i], "'")
+        queries[i-1] = query
+    end
+    query_1 = string("SELECT mesh FROM mesh2umls WHERE umls LIKE '", umls_concepts[1], "'")
+    query_2 = join(queries)
+    query_joined = string(query_1, query_2)
+    query  = mysql_execute(db, query_joined)
 
     #return data array
     return get_value(query.columns[1])
 
+end
+
+
+#convert sparse matrix from semantic occurances function into a dataframe ready to be plugged into the apriori function
+function occurances_to_itemsets(des_ind_dict, disease_occurances)
+    name_dict = sort(collect(des_ind_dict), by=x->x[2])
+    col_names = DataArray(String, length(des_ind_dict))
+    for i in 1:length(des_ind_dict)
+        name = name_dict[i][1]
+        col_names[i] = name
+    end
+    itemsets = DataFrame(Matrix(convert(Array{Int64}, disease_occurances')))
+    names!(itemsets, [symbol(col_names[i]) for i in 1:length(col_names)])
+    return itemsets
 end
