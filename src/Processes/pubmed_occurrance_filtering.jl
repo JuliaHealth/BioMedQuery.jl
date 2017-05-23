@@ -84,10 +84,10 @@ function filter_mesh_by_concept(db, umls_concepts...)
         query  = mysql_execute(db, "SELECT mesh FROM mesh2umls
         WHERE umls LIKE $uc ")
     else
-        query_1 = string(" '", umls_conceptss[1], "'")
-        queries = DataArray(String, length(umls_conceptss)-1)
-        for i in 2:length(umls_conceptss)
-            query = string(", '", umls_conceptss[i], "'")
+        query_1 = string(" '", umls_concepts[1], "'")
+        queries = DataArray(String, length(umls_concepts)-1)
+        for i in 2:length(umls_concepts)
+            query = string(", '", umls_concepts[i], "'")
             queries[i-1] = query
         end
         query_2 = join(queries)
