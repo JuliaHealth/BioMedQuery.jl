@@ -20,18 +20,13 @@ with a given umls semantic type in all articles of the input database
 vector, where each row is a MESH descriptor. There are as many
 columns as articles. The occurance/abscense of a descriptor is labeled as 1/0
 """
-function umls_semantic_occurrences(db, umls_semantic_type)
 
-    #retrieve a list of filtered descriptors
-    filtered_mesh = Set(filter_mesh_by_concept(db, umls_semantic_type))
+function umls_semantic_occurrences(db, umls_concepts...)
 
-    println("-------------------------------------------------------------")
-    println("Found ", length(filtered_mesh), " MESH decriptor related to  ", umls_semantic_type)
-    println(filtered_mesh)
-    println("-------------------------------------------------------------")
+    filtered_mesh = Set(filter_mesh_by_concept(db, umls_concepts...))
 
     #create a map of filtered descriptor name to index to guarantee order
-    des_ind_dict = Dict()
+    des_ind_dict = Dict{String, Int}()
 
     for (i, fm) in enumerate(filtered_mesh)
         des_ind_dict[fm]= i
@@ -44,6 +39,7 @@ function umls_semantic_occurrences(db, umls_semantic_type)
 
     #Can this process be more efficient using database join/select?
     narticle = 0
+
     for (i, pmid) in enumerate(articles)
 
         #get all mesh descriptors associated with give article
@@ -82,13 +78,33 @@ end
 
 
 # Retrieve all mesh descriptors associated with the given umls_concept
-function filter_mesh_by_concept(db, umls_concept)
+function filter_mesh_by_concept(db, umls_concepts...)
 
-    uc = string("'", replace(umls_concept, "'", "''") , "'")
-    query  = db_query(db, "SELECT mesh FROM mesh2umls
-    WHERE umls LIKE $uc ")
+    concept_set_str = """( "$(umls_concepts[1])" """
 
-    #return data array
-    return get_value(query.columns[1])
+    for i=2:length(umls_concepts)
+        concept_set_str = """$(concept_set_str), "$(umls_concepts[i])" """
+    end
 
+    concept_set_str = "$(concept_set_str))"
+
+    query = string("SELECT mesh FROM mesh2umls WHERE umls IN $(concept_set_str)")
+    println("Filter mesh query string : $(query)")
+
+    sel  = mysql_execute(db, query)
+    return get_value(sel[1])
+end
+
+
+#convert sparse matrix from semantic occurances function into a dataframe ready to be plugged into the apriori function
+function occurances_to_itemsets(des_ind_dict, disease_occurances)
+    name_dict = sort(collect(des_ind_dict), by=x->x[2])
+    col_names = DataArray(String, length(des_ind_dict))
+    for i in 1:length(des_ind_dict)
+        name = name_dict[i][1]
+        col_names[i] = name
+    end
+    itemsets = DataFrame(Matrix(convert(Array{Int64}, disease_occurances')))
+    names!(itemsets, [symbol(col_names[i]) for i in 1:length(col_names)])
+    return itemsets
 end
