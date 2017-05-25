@@ -125,22 +125,33 @@ function map_mesh_to_umls_async!(db, c::Credentials; timeout = 5, append_results
                     try
                         all_results= search_umls(tgt, query, timeout=timeout)
                         info("Descriptor $i out of ", length(mesh_terms))
+                        if length(all_results) > 0
+                            cui = best_match_cui(all_results)
+                            if cui == ""
+                                println("Nothing!")
+                                println(all_results)
+                            end
+                            all_concepts = get_semantic_type(tgt, cui)
+                            for concept in all_concepts
+                                insert_row!(db, "mesh2umls", Dict(:mesh=> term, :umls=> concept), verbose)
+                            end
+                        end
                         break
                     catch err
                         println("! failed attempt $attempt out of 5 for term $term with error ", err)
                     end
                 end
-                if length(all_results) > 0
-                    cui = best_match_cui(all_results)
-                    if cui == ""
-                        println("Nothing!")
-                        println(all_results)
-                    end
-                    all_concepts = get_semantic_type(tgt, cui)
-                    for concept in all_concepts
-                        insert_row!(db, "mesh2umls", Dict(:mesh=> term, :umls=> concept), verbose)
-                    end
-                end
+                # if length(all_results) > 0
+                #     cui = best_match_cui(all_results)
+                #     if cui == ""
+                #         println("Nothing!")
+                #         println(all_results)
+                #     end
+                #     all_concepts = get_semantic_type(tgt, cui)
+                #     for concept in all_concepts
+                #         insert_row!(db, "mesh2umls", Dict(:mesh=> term, :umls=> concept), verbose)
+                #     end
+                # end
             end
         end
     end

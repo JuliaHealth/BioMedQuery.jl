@@ -23,7 +23,7 @@ columns as articles. The occurance/abscense of a descriptor is labeled as 1/0
 
 function umls_semantic_occurrences(db, umls_concepts...)
 
-    filtered_mesh = Set(filter_mesh_by_concepts(db, umls_concepts...))
+    filtered_mesh = Set(filter_mesh_by_concept(db, umls_concepts...))
 
     #create a map of filtered descriptor name to index to guarantee order
     des_ind_dict = Dict{String, Int}()
@@ -79,23 +79,20 @@ end
 
 # Retrieve all mesh descriptors associated with the given umls_concept
 function filter_mesh_by_concept(db, umls_concepts...)
-    if length(umls_concepts) == 1
-        uc = string("'", replace(umls_concepts, "'", "''") , "'")
-        query  = mysql_execute(db, "SELECT mesh FROM mesh2umls
-        WHERE umls LIKE $uc ")
-    else
-        query_1 = string(" '", umls_concepts[1], "'")
-        queries = DataArray(String, length(umls_concepts)-1)
-        for i in 2:length(umls_concepts)
-            query = string(", '", umls_concepts[i], "'")
-            queries[i-1] = query
-        end
-        query_2 = join(queries)
-        query_joined = string("SELECT mesh FROM mesh2umls WHERE umls IN (", query_1, query_2, " )")
-        query  = mysql_execute(db, query_joined)
+
+    concept_set_str = """( "$(umls_concepts[1])" """
+
+    for i=2:length(umls_concepts)
+        concept_set_str = """$(concept_set_str), "$(umls_concepts[i])" """
     end
-    #return data array
-    return get_value(query.columns[1])
+
+    concept_set_str = "$(concept_set_str))"
+
+    query = string("SELECT mesh FROM mesh2umls WHERE umls IN $(concept_set_str)")
+    println("Filter mesh query string : $(query)")
+
+    sel  = mysql_execute(db, query)
+    return get_value(sel[1])
 end
 
 
