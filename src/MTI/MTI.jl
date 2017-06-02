@@ -41,23 +41,25 @@ The format is:
 UI - pmid
 AB - abstract_text
 """
-function abstracts_to_request_file(db, pub_year, out_file; local_medline = false)
+function abstracts_to_request_file(db, pub_year, out_file;
+                                   local_medline = false,
+                                   uid_column::Symbol = :pmid)
     abs_sel = abstracts_by_year(db, pub_year; local_medline = local_medline)
 
     #call MTI
     open(out_file, "w") do file
 
         for i=1:size(abs_sel)[1]
-            pmid = abs_sel[i, :pmid]
+            uid = abs_sel[i, uid_column]
             abstract_text = abs_sel[i, :abstract_text]
 
             if isna(abstract_text)
-                println( "Skipping empty abstract for PMID: ", pmid)
+                println( "Skipping empty abstract for PMID: ", uid)
                 continue
             end
             # convert to ascii - all unicode caracters to " "
             abstract_ascii = replace(abstract_text, r"[^\u0000-\u007F]", " ")
-            write(file, "UI  - $pmid \n")
+            write(file, "UI  - $uid \n")
             write(file, "AB  - $abstract_ascii \n \n")
         end
     end
@@ -70,10 +72,10 @@ function parse_and_save_MoD(file, db; num_cols = 9, num_cols_prc = 4, append_res
     save_MoD(db, mesh_lines, prc_lines; append_results=append_results, verbose= verbose)
 end
 
-function parse_and_save_default_MTI(file, db; num_cols = 8, num_cols_prc = 4, append_results=false, verbose= false)
+function parse_and_save_default_MTI(file, db; num_cols = 8, num_cols_prc = 4, append_results=false, verbose= false, uid_column::Symbol = :pmid)
     mesh_lines, prc_lines = parse_result_file(file, num_cols, num_cols_prc)
     println("Saving ", length(mesh_lines), " mesh entries")
-    save_default_MTI(db, mesh_lines; append_results=append_results, verbose= verbose)
+    save_default_MTI(db, mesh_lines; append_results=append_results, verbose= verbose, uid_column = uid_column)
 end
 
 
@@ -128,12 +130,13 @@ function init_MoD_tables(db, append_results = false)
 end
 
 
-function init_default_MTI_tables(db, append_results = false)
+function init_default_MTI_tables(db; append_results = false, uid_column::Symbol = :pmid)
 
+    uid_column_name = string(uid_column)
     query_str ="CREATE TABLE IF NOT EXISTS mti (
                     term VARCHAR(255),
                     dui INT,
-                    pmid INT,
+                    $uid_column_name INT,
                     cui INT,
                     score INT,
                     term_type CHAR(2),
@@ -182,9 +185,10 @@ function save_MoD(db, mesh_lines, prc_lines; append_results=false, verbose= fals
 end
 
 
-function save_default_MTI(db, mesh_lines; append_results=false, verbose= false)
+function save_default_MTI(db, mesh_lines; append_results=false, verbose= false,
+                          uid_column::Symbol = :pmid)
 
-    init_default_MTI_tables(db, append_results)
+    init_default_MTI_tables(db, append_results, uid_column = uid_column)
 
     for ml in mesh_lines
 
@@ -198,7 +202,7 @@ function save_default_MTI(db, mesh_lines; append_results=false, verbose= false)
         end
 
         insert_row!(db, "mti",
-                    Dict(:pmid =>ml[1],
+                    Dict(uid_column =>ml[1],
                          :term => ml[2],
                          :cui=>cui,
                          :score=>ml[4],
