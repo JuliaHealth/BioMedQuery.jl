@@ -1,7 +1,8 @@
 using BioMedQuery.MTI
 
 function mti_search_and_save(config, main_func = parse_and_save_default_MTI;
-                             append_results=false, verbose= false, num_cols = 8, num_cols_prc = 4
+                             append_results=false, verbose= false,
+                             num_cols = 8, num_cols_prc = 4,
                              uid_column::Symbol = :pmid)
 
     println("*-------------This is: mti_search_and_save-------------------*")
@@ -37,6 +38,8 @@ function mti_search_and_save(config, main_func = parse_and_save_default_MTI;
     generic_batch(email, username, password, mti_query_file, mti_result_file)
 
     #save to Database
-    main_func(mti_result_file, db; num_cols = num_cols, num_cols_prc = num_cols_prc, append_results=append_results, verbose= verbose)
+    main_func(mti_result_file, db; num_cols = num_cols, num_cols_prc = num_cols_prc,
+              append_results=append_results, verbose= verbose,
+              uid_column = uid_column)
 
 end

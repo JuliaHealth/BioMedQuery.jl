@@ -44,7 +44,8 @@ AB - abstract_text
 function abstracts_to_request_file(db, pub_year, out_file;
                                    local_medline = false,
                                    uid_column::Symbol = :pmid)
-    abs_sel = abstracts_by_year(db, pub_year; local_medline = local_medline)
+
+    abs_sel = abstracts_by_year(db, pub_year; local_medline = local_medline, uid_str = string(uid_column))
 
     #call MTI
     open(out_file, "w") do file
@@ -57,6 +58,7 @@ function abstracts_to_request_file(db, pub_year, out_file;
                 println( "Skipping empty abstract for PMID: ", uid)
                 continue
             end
+
             # convert to ascii - all unicode caracters to " "
             abstract_ascii = replace(abstract_text, r"[^\u0000-\u007F]", " ")
             write(file, "UI  - $uid \n")
@@ -72,7 +74,9 @@ function parse_and_save_MoD(file, db; num_cols = 9, num_cols_prc = 4, append_res
     save_MoD(db, mesh_lines, prc_lines; append_results=append_results, verbose= verbose)
 end
 
-function parse_and_save_default_MTI(file, db; num_cols = 8, num_cols_prc = 4, append_results=false, verbose= false, uid_column::Symbol = :pmid)
+function parse_and_save_default_MTI(file, db; num_cols = 8, num_cols_prc = 4,
+                                    append_results=false, verbose= false,
+                                    uid_column::Symbol = :pmid)
     mesh_lines, prc_lines = parse_result_file(file, num_cols, num_cols_prc)
     println("Saving ", length(mesh_lines), " mesh entries")
     save_default_MTI(db, mesh_lines; append_results=append_results, verbose= verbose, uid_column = uid_column)
@@ -92,6 +96,7 @@ function parse_result_file(file, num_cols = 8, num_cols_prc = 10000)
                 push!(prc_lines, entries)
             else
                 warn("Parsing MTI results - unexpected number of entries per line")
+                println(line)
             end
         end
     end
@@ -141,7 +146,7 @@ function init_default_MTI_tables(db; append_results = false, uid_column::Symbol 
                     score INT,
                     term_type CHAR(2),
 
-                    PRIMARY KEY(pmid, term)
+                    PRIMARY KEY($uid_column_name, term)
                 );
                 "
 
@@ -188,7 +193,7 @@ end
 function save_default_MTI(db, mesh_lines; append_results=false, verbose= false,
                           uid_column::Symbol = :pmid)
 
-    init_default_MTI_tables(db, append_results, uid_column = uid_column)
+    init_default_MTI_tables(db, append_results = append_results, uid_column = uid_column)
 
     for ml in mesh_lines
 

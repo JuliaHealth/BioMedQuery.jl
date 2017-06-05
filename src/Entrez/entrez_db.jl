@@ -211,18 +211,18 @@ Return all abstracts of article published in the given year.
 If local_medline flag is set to true, it is assumed that db contains *article*
 table with only PMIDs and all other info is available in a (same host) medline database
 """
-function abstracts_by_year(db, pub_year; local_medline=false)
+function abstracts_by_year(db, pub_year; local_medline=false, uid_str = "pmid")
 
     #get all abstracts UNIQUE pairs
     query_code = ""
     if local_medline
-        query_code = "SELECT article.pmid as pmid,
-                             medline.basic.abstract as abstract_text
-                        FROM article
-                  INNER JOIN medline.basic ON medline.basic.pmid = article.pmid
-                       WHERE medline.basic.pubYear = '$pub_year' "
+    query_code = "SELECT article.$uid_str as $uid_str,
+                         medline.basic.abstract as abstract_text
+                    FROM article
+              INNER JOIN medline.basic ON medline.basic.pmid = article.pmid
+                   WHERE medline.basic.pubYear = '$pub_year' "
     else
-        query_code = "SELECT ar.pmid as pmid,
+        query_code = "SELECT ar.$uid_str as $uid_str,
                              ar.abstract as abstract_text
                         FROM article as ar
                        WHERE ar.pubYear = '$pub_year' "
