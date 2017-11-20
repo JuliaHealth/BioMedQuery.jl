@@ -1,4 +1,5 @@
 using BioMedQuery.Entrez
+using BioServices.EUtils
 using SQLite
 using MySQL
 using XMLconvert
@@ -221,10 +222,13 @@ function pubmed_pmid_search(email, search_term::String, article_max, verbose=fal
          #1. Formulate PubMed/MEDLINE search for articles between 2000 and 201
          #with obesity indicated as the major MeSH descriptor.
          println("------Searching Entrez--------")
-         search_dic = Dict("db"=>"pubmed","term" => search_term,
-         "retstart" => rs, "retmax"=>retmax, "tool" =>"BioMedQueryJL",
-         "email" => email)
-         esearch_response = esearch(search_dic)
+        #  search_dic = Dict("db"=>"pubmed","term" => search_term,
+        #  "retstart" => rs, "retmax"=>retmax, "tool" =>"BioMedQueryJL",
+        #  "email" => email)
+         res = EUtils.esearch(db="pubmed", term=search_term,
+                            retstart = rs, retmax=retmax, tool ="BioMedQueryJL", email = email )
+
+        esearch_response = String(res)
 
          if verbose
              xmlASCII2file(esearch_response, "./esearch.xml")

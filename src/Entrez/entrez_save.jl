@@ -155,9 +155,16 @@ and `:overwrite`
 """
 function save_pmid_mysql{T}(pmids::Array{Int64,1}, db_config::Dict{Symbol, T}, verbose=false)
     db = init_pmid_db_mysql(db_config)
+    
+    tablename  = haskey(db_config, :tablename) ? db_config[:tablename]:"article"
+    
+    if verbose
+        println("Saving to MySQL table: ", tablename)
+    end
+
     for pmid in pmids
         insert_row!(db,
-                    "article",
+                    tablename,
                     Dict(:pmid=> pmid),
                     verbose )
     end

@@ -32,7 +32,9 @@ function init_pmid_db_mysql(config)
        haskey(config, :username) && haskey(config, :pswd) &&
        haskey(config, :overwrite)
 
-       mysql_code="CREATE TABLE IF NOT EXISTS article(
+       tablename  = haskey(config, :tablename) ? config[:tablename]:"article"
+
+       mysql_code="CREATE TABLE IF NOT EXISTS $tablename(
                        pmid INTEGER NOT NULL PRIMARY KEY
                    );"
 
@@ -273,6 +275,37 @@ function get_article_mesh(db, pmid::Integer)
                            mesh_descriptor as md
                      WHERE mh.did = md.id
                       AND mh.pmid = $pmid"
+    query  = db_query(db, query_string)
+    #return data array
+    return get_value(query.columns[1])
+
+end
+
+"""
+    get_article_mesh_by_concept(db, pmid, umls_concepts...; local_medline)
+Get the all mesh-descriptors associated with a give article
+## Argumets:
+* query_string: "" - assumes full set of results were saved by BioMedQuery directly from XML
+"""
+function get_article_mesh_by_concept(db, pmid::Integer, umls_concepts...; query_string="")
+
+    concept_set_str = """( "$(umls_concepts[1])" """
+
+    for i=2:length(umls_concepts)
+        concept_set_str = """$(concept_set_str), "$(umls_concepts[i])" """
+    end
+    
+    concept_set_str = "$(concept_set_str))"   
+
+    if query_string == ""
+        query_string = "SELECT DISTINCT(md.name), m2u.umls
+                        FROM mesh_descriptor AS md
+                        JOIN mesh_heading AS mh ON mh.did = md.id
+                        JOIN mesh2umls AS m2u ON m2u.mesh = md.name
+                        WHERE mh.pmid = $pmid
+                        AND m2u.umls IN  $(concept_set_str)"
+    end
+
     query  = db_query(db, query_string)
     #return data array
     return get_value(query.columns[1])
