@@ -8,6 +8,8 @@ using NullableArrays
 function citations_endnote(article::PubMedArticle, verbose=false)
 
     types_idx = find(x->!x, article.types.isnull)
+
+    # println("***Types: ", article.types)
     jrnl_art = find(x->(x=="Journal Article"), article.types.values[types_idx])
 
     if length(jrnl_art)!= 1
@@ -112,7 +114,7 @@ function save_article_citations(efetch_dict, config, verbose=false)
     println("Saving citation for " , length(articles) ,  " articles")
 
     fout = open(output_file, "a")
-    nsucess=0
+    nsuccess=0
     for xml_article in articles
         article = TypeArticle(xml_article)
         try
@@ -120,13 +122,13 @@ function save_article_citations(efetch_dict, config, verbose=false)
             print(fout, citation)
             println(fout) #two empty lines
             println(fout)
-            nsucess+=1
-        catch
+            nsuccess+=1
+        catch error
             println("Citation failed for article: ", article)
-            println("Likely it is not a Journal type")
+            println(error)
             continue
         end
     end
     close(fout)
-    return nsucess
+    return nsuccess
 end

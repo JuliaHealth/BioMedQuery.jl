@@ -1,22 +1,8 @@
-module DB
-
-using ...DBUtils
-using ..Entrez
+using ..DBUtils
 using SQLite
 using MySQL
 using DataStreams, DataFrames
 using NullableArrays
-
-export init_pubmed_db_mysql,
-       init_pubmed_db_mysql!,
-       init_pubmed_db_sqlite,
-       init_pmid_db_mysql,
-       get_value,
-       all_pmids,
-       get_article_mesh,
-       db_insert!,
-       abstracts_by_year
-
 
 get_value{T}(val::Nullable{T}) = get(val)
 get_value(val)= val
@@ -404,6 +390,3 @@ function db_insert!(db, pmid::Int64, mesh_heading_list::MeshHeadingList, verbose
 
     end
 end
-
-
-end #module

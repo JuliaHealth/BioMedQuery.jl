@@ -16,44 +16,41 @@ export init_mysql_database,
 include("DBUtils/DBUtils.jl")
 end
 
-#-----------Entrez----------------
-module Entrez
-# export esearch,
-#        efetch,
-#        eparse,
-#        eparse_from_file,
-export  save_efetch_mysql,
-        save_pmid_mysql,
-        save_efetch_sqlite,
-        citations_endnote,
-        citations_bibtex,
-        save_article_citations
+#-----------PubMed----------------
+module PubMed
 
 #types
-export PubMedArticle,
-       MeshHeading,
-       MeshHeadingList
+export  PubMedArticle,
+MeshHeading,
+MeshHeadingList
+include("PubMed/pubmed_article.jl")
 
+# sql utilities
+export  init_pubmed_db_mysql,
+        init_pubmed_db_mysql!,
+        init_pubmed_db_sqlite,
+        init_pmid_db_mysql,
+        get_value,
+        all_pmids,
+        get_article_mesh,
+        db_insert!,
+        abstracts_by_year
+include("PubMed/pubmed_sql_utils.jl")
+        
+# eutils -> sql
+export  save_efetch_mysql,
+        save_pmid_mysql,
+        save_efetch_sqlite
+include("PubMed/eutils_sql_save.jl")
+        
+# citation formats
+export  citations_endnote,
+citations_bibtex,
+save_article_citations
+include("PubMed/citation_manager.jl")
 
-# include("Entrez/Entrez.jl")
-include("Entrez/pubmed_article.jl")
-include("Entrez/entrez_save.jl")
-include("Entrez/citation_manager.jl")
 end
 
-
-#----------UMLS--------------------
-# module UMLS
-# export Credentials,
-#        get_tgt,
-#        search_umls,
-#        best_match_cui,
-#        get_semantic_type,
-#        populate_net_mysql,
-#        build_tree_dict
-# include("UMLS/UMLS.jl")
-# include("UMLS/semantic_network.jl")
-# end
 
 #--------Clinical Trials------------
 module CT
@@ -62,35 +59,24 @@ include("CT/CT.jl")
 end
 #-----------------------------------
 
-# --------MTI------------
-# module MTI
-# export install_web_api,
-#        generic_batch,
-#        abstracts_to_request_file,
-#        parse_and_save_default_MTI,
-#        parse_and_save_MoD
-# include("MTI/MTI.jl")
-# end
-# -----------------------------------
-
 
 #--------Processes------------
-module Processes
-export pubmed_search_and_save,
-       pubmed_search_and_save_mysql!,
-       pubmed_pmid_search,
-       pubmed_pmid_search_and_save,
-       map_mesh_to_umls_async!,
-       map_mesh_to_umls!,
-       umls_semantic_occurrences,
-       filter_mesh_by_concept,
-       export_citation,
-include("Processes/pubmed_search_and_save.jl")
-include("Processes/pubmed_mesh_to_umls_map.jl")
-include("Processes/pubmed_occurrance_filtering.jl")
-include("Processes/pubmed_export_citations.jl")
+# module Processes
+# export pubmed_search_and_save,
+#        pubmed_search_and_save_mysql!,
+#        pubmed_pmid_search,
+#        pubmed_pmid_search_and_save,
+#        map_mesh_to_umls_async!,
+#        map_mesh_to_umls!,
+#        umls_semantic_occurrences,
+#        filter_mesh_by_concept,
+#        export_citation,
+# include("Processes/pubmed_search_and_save.jl")
+# include("Processes/pubmed_mesh_to_umls_map.jl")
+# include("Processes/pubmed_occurrance_filtering.jl")
+# include("Processes/pubmed_export_citations.jl")
 
-end
+# end
 
 #-----------------------------------
 

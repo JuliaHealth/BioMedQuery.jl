@@ -1,5 +1,3 @@
-include("entrez_db.jl")
-using .DB
 using ..DBUtils
 using SQLite
 using MySQL
