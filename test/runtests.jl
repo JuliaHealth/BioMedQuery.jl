@@ -4,7 +4,7 @@
 using Base.Test
 
 using XMLDict
-# using BioMedQuery.Processes
+using BioMedQuery.Processes
 using BioMedQuery.PubMed
 using BioMedQuery.DBUtils
 using MySQL
@@ -14,12 +14,11 @@ using DataStreams
 my_tests = [
             # ("dbutils_sqlite.jl",   "       Testing: DBUtils SQLite"),
             # ("dbutils_mysql.jl",    "       Testing: DBUtils MySQL"),
-            ("entrez.jl",           "       Testing: Eutils/PubMed"),
-            ("entrez_types.jl",     "       Testing: Entrez Types")
+            # ("pubmed.jl",           "       Testing: Eutils/PubMed"),
+            # ("pubmed_types.jl",     "       Testing: Entrez Types"),
             # ("ct.jl",               "       Testing: CLINICAL TRIALS"),
-            # ("umls.jl",             "       Testing: UMLS"),
-            # ("processes_mysql.jl",  "       Testing: Processes MySQL"),
-            # ("processes_sqlite.jl", "       Testing: Processes SQLite"),
+            ("processes_mysql.jl",  "       Testing: Processes MySQL"),
+            ("processes_sqlite.jl", "       Testing: Processes SQLite")
             # ("export_citations.jl", "       Testing: Export Citations")
             ]
 

@@ -1,8 +1,9 @@
-using BioMedQuery.Entrez
+using BioMedQuery.PubMed
 using BioServices.EUtils
 using SQLite
 using MySQL
-using XMLconvert
+using XMLDict
+using LightXML
 
 """
 pubmed_search_and_save(email, search_term, article_max::Int64,
@@ -41,48 +42,44 @@ function pubmed_search_and_save(email, search_term::String, article_max,
 
         println("Getting ", retmax, " articles, starting at index ", rs)
 
-        #1. Formulate PubMed/MEDLINE search for articles between 2000 and 201
-        #with obesity indicated as the major MeSH descriptor.
-        println("------Searching Entrez--------")
-        search_dic = Dict("db"=>"pubmed","term" => search_term,
-        "retstart" => rs, "retmax"=>retmax, "tool" =>"BioJulia",
-        "email" => email)
-        esearch_response = esearch(search_dic)
+        println("------ESearch--------")
+
+        esearch_response = esearch(db = "pubmed", term = search_term,
+        retstart = rs, retmax = retmax, tool = "BioJulia",
+        email = email)
 
         if verbose
-            xmlASCII2file(esearch_response, "./esearch.xml")
+            xdoc = parse_string(esearch_response)
+            save_file(xdoc, "./esearch.xml")
         end
 
         #convert xml to dictionary
-        esearch_dict = eparse(esearch_response)
-
-        #2. Obtain PubMed/MEDLINE records (in MEDLINE or XML format) for
-        #formulated search using NCBI E-Utilities.
-        println("------Fetching Entrez--------")
-        fetch_dic = Dict("db"=>"pubmed","tool" =>"BioJulia", "email" => email,
-        "retmode" => "xml", "rettype"=>"null")
-        #get the list of ids and perfom a fetch
+        esearch_dict = parse_xml(String(esearch_response.data))
+        
         if !haskey(esearch_dict, "IdList")
             println("Error with esearch_dict:")
             println(esearch_dict)
             error("Response esearch_dict does not contain IdList")
         end
 
-        ids = []
-        for id_node in esearch_dict["IdList"][1]["Id"]
-            push!(ids, id_node)
-        end
+        println("------EFetch--------")
+        
+        #get the list of ids and perfom a fetch
+        ids = [parse(Int64, id_node) for id_node in esearch_dict["IdList"]["Id"]]
 
-        efetch_response = efetch(fetch_dic, ids)
+        efetch_response = efetch(db = "pubmed", tool = "BioJulia", retmode = "xml", rettype = "null", id = ids)
 
         if verbose
-            xmlASCII2file(efetch_response, "./efetch.xml")
+            xdoc = parse_string(efetch_response)
+            save_file(xdoc, "./efetch.xml")
         end
 
-        efetch_dict = eparse(efetch_response)
+        #convert xml to dictionary
+        efetch_dict = parse_xml(String(efetch_response.data))
 
         #save the results of an entrez fetch
-        println("------Saving to database--------")
+        println("------Save to database--------")
+        
         db = save_efetch_func(efetch_dict, config, verbose)
 
         #after the first pass - make sure the database is not deleted
@@ -136,48 +133,43 @@ function pubmed_search_and_save_mysql!(email, search_term::String, article_max,
             retmax = article_max - rs
         end
 
-        # info("Getting ", retmax, " max articles, starting at index ", rs)
-
-        #1. Formulate PubMed/MEDLINE search for articles between 2000 and 201
-        #with obesity indicated as the major MeSH descriptor.
-        println("------Searching Entrez--------")
-        search_dic = Dict("db"=>"pubmed","term" => search_term,
-        "retstart" => rs, "retmax"=>retmax, "tool" =>"BioMedQuery",
-        "email" => email)
-        esearch_response = esearch(search_dic)
+        println("------ESearch--------")
+        
+        esearch_response = esearch(db = "pubmed", term = search_term,
+        retstart = rs, retmax = retmax, tool = "BioJulia",
+        email = email)
 
         if verbose
-            xmlASCII2file(esearch_response, "./esearch.xml")
+            xdoc = parse_string(esearch_response)
+            save_file(xdoc, "./esearch.xml")
         end
 
         #convert xml to dictionary
-        esearch_dict = eparse(esearch_response)
-
-        #2. Obtain PubMed/MEDLINE records (in MEDLINE or XML format) for
-        #formulated search using NCBI E-Utilities.
-        println("------Fetching Entrez--------")
-        fetch_dic = Dict("db"=>"pubmed","tool" =>"BioJulia", "email" => email,
-        "retmode" => "xml", "rettype"=>"null")
-        #get the list of ids and perfom a fetch
+        esearch_dict = parse_xml(String(esearch_response.data))
+        
         if !haskey(esearch_dict, "IdList")
             println("Error with esearch_dict:")
             println(esearch_dict)
             error("Response esearch_dict does not contain IdList")
         end
 
-        flat_easearch_dict = flatten(esearch_dict)
-        ids = Array{Int64,1}(flat_easearch_dict["IdList-Id" ])
+        println("------EFetch--------")
+        
+        #get the list of ids and perfom a fetch
+        ids = [parse(Int64, id_node) for id_node in esearch_dict["IdList"]["Id"]]
 
-        efetch_response = efetch(fetch_dic, ids)
+        efetch_response = efetch(db = "pubmed", tool = "BioJulia", retmode = "xml", rettype = "null", id = ids)
 
         if verbose
-            xmlASCII2file(efetch_response, "./efetch.xml")
+            xdoc = parse_string(efetch_response)
+            save_file(xdoc, "./efetch.xml")
         end
 
-        efetch_dict = eparse(efetch_response)
+        #convert xml to dictionary
+        efetch_dict = parse_xml(String(efetch_response.data))
 
         #save the results of an entrez fetch to a database
-        println("------Saving to database--------")
+        println("------Save to database--------")
         save_efetch_mysql(efetch_dict, con, clean_efetch_tables, verbose)
 
         #after the first pass - make sure the tables are not cleaned
@@ -212,47 +204,43 @@ function pubmed_pmid_search(email, search_term::String, article_max, verbose=fal
 
      for rs=retstart:retmax:(article_max- 1)
 
-         rm = rs + retmax
-         if rm > article_max
-             retmax = article_max - rs
-         end
+        rm = rs + retmax
+        if rm > article_max
+            retmax = article_max - rs
+        end
 
-         # info("Getting ", retmax, " max articles, starting at index ", rs)
+        println("Getting ", retmax, " articles, starting at index ", rs)
+        
+        println("------ESearch--------")
 
-         #1. Formulate PubMed/MEDLINE search for articles between 2000 and 201
-         #with obesity indicated as the major MeSH descriptor.
-         println("------Searching Entrez--------")
-        #  search_dic = Dict("db"=>"pubmed","term" => search_term,
-        #  "retstart" => rs, "retmax"=>retmax, "tool" =>"BioMedQueryJL",
-        #  "email" => email)
-         res = EUtils.esearch(db="pubmed", term=search_term,
-                            retstart = rs, retmax=retmax, tool ="BioMedQueryJL", email = email )
+        esearch_response = esearch(db = "pubmed", term = search_term,
+        retstart = rs, retmax = retmax, tool = "BioJulia",
+        email = email)
 
-        esearch_response = String(res)
+        if verbose
+            xdoc = parse_string(esearch_response)
+            save_file(xdoc, "./esearch.xml")
+        end
 
-         if verbose
-             xmlASCII2file(esearch_response, "./esearch.xml")
-         end
+        #convert xml to dictionary
+        esearch_dict = parse_xml(String(esearch_response.data))
 
-         #convert xml to dictionary
-         esearch_dict = eparse(esearch_response)
+        if !haskey(esearch_dict, "IdList")
+            println("Error with esearch_dict:")
+            println(esearch_dict)
+            error("Response esearch_dict does not contain IdList")
+        end
 
-         #get the list of ids and perfom a fetch
-         if !haskey(esearch_dict, "IdList")
-             println("Error with esearch_dict:")
-             println(esearch_dict)
-             error("Response esearch_dict does not contain IdList")
-         end
+        #get the list of ids and perfom a fetch
+        ids = [parse(Int64, id_node) for id_node in esearch_dict["IdList"]["Id"]]
+         
+        append!(all_pmids, ids)
 
-         flat_easearch_dict = flatten(esearch_dict)
-         ids = Array{Int64,1}(flat_easearch_dict["IdList-Id" ])
-         append!(all_pmids, ids)
+        article_total+=length(ids)
 
-         article_total+=length(ids)
-
-         if (length(ids) < retmax)
-             break
-         end
+        if (length(ids) < retmax)
+            break
+        end
 
      end
 
@@ -273,40 +261,41 @@ function pubmed_pmid_search_and_save(email, search_term::String, article_max,
     return nothing
 end
 
-"""
-pubmed_search_and_save(email::String, pmids::Array{Int64},
-    save_efetch_func, db_config, verbose=false)
+# ToDO: Is this used anywhere
+# """
+# pubmed_fetch_and_save(email::String, pmids::Array{Int64},
+#     save_efetch_func, db_config, verbose=false)
 
-###Arguments
+# ###Arguments
 
-* email: valid email address (otherwise pubmed will block you)
-* pmid : list of pmids to retrieve info from PubMed
-* save_efetch_func: save_efetch_mysql or save_efetch_sqlite
-* db_config: e.g Dict(:host=>host,
-                      :dbname=>dbname,
-                      :username=>mysql_usr,
-                      :pswd=>mysql_pswd,
-                      :overwrite=>overwrite)
-* verbose: if true, the NCBI xml response files are saved to current directory
-"""
-function pubmed_search_and_save{T <: AbstractArray}(email::String, pmids::T,
-    save_efetch_func, config, verbose=false)
+# * email: valid email address (otherwise pubmed will block you)
+# * pmid : list of pmids to retrieve info from PubMed
+# * save_efetch_func: save_efetch_mysql or save_efetch_sqlite
+# * db_config: e.g Dict(:host=>host,
+#                       :dbname=>dbname,
+#                       :username=>mysql_usr,
+#                       :pswd=>mysql_pswd,
+#                       :overwrite=>overwrite)
+# * verbose: if true, the NCBI xml response files are saved to current directory
+# """
+# function pubmed_fetch_and_save(email::String, pmids::Array{Int64},
+#     save_efetch_func, config, verbose=false)
 
-    fetch_dic = Dict("db"=>"pubmed", "tool" =>"BioJulia", "email" => email,
-    "retmode" => "xml", "rettype"=>"null")
-    efetch_response = efetch(fetch_dic, pmids)
-    if verbose
-        xmlASCII2file(efetch_response, "./efetch.xml")
-    end
-    efetch_dict = eparse(efetch_response)
+#     fetch_dic = Dict("db"=>"pubmed", "tool" =>"BioJulia", "email" => email,
+#     "retmode" => "xml", "rettype"=>"null")
+#     efetch_response = efetch(fetch_dic, pmids)
+#     if verbose
+#         xmlASCII2file(efetch_response, "./efetch.xml")
+#     end
+#     efetch_dict = eparse(efetch_response)
 
-    #save the results of an entrez fetch to database
-    println("------Saving to database--------")
-    db = save_efetch_func(efetch_dict, config, verbose)
+#     #save the results of an entrez fetch to database
+#     println("------Saving to database--------")
+#     db = save_efetch_func(efetch_dict, config, verbose)
 
-    #after the first pass - make sure the database is not deleted
-    config[:overwrite] = false
+#     #after the first pass - make sure the database is not deleted
+#     config[:overwrite] = false
 
-    return db
+#     return db
 
-end
+# end

@@ -33,6 +33,7 @@ export  init_pubmed_db_mysql,
         get_value,
         all_pmids,
         get_article_mesh,
+        get_article_mesh_by_concept,        
         db_insert!,
         abstracts_by_year
 include("PubMed/pubmed_sql_utils.jl")
@@ -61,22 +62,22 @@ end
 
 
 #--------Processes------------
-# module Processes
-# export pubmed_search_and_save,
-#        pubmed_search_and_save_mysql!,
-#        pubmed_pmid_search,
-#        pubmed_pmid_search_and_save,
-#        map_mesh_to_umls_async!,
-#        map_mesh_to_umls!,
-#        umls_semantic_occurrences,
-#        filter_mesh_by_concept,
+module Processes
+export pubmed_search_and_save,
+       pubmed_search_and_save_mysql!,
+       pubmed_pmid_search,
+       pubmed_pmid_search_and_save,
+       map_mesh_to_umls_async!,
+       map_mesh_to_umls!,
+       umls_semantic_occurrences,
+       filter_mesh_by_concept
 #        export_citation,
-# include("Processes/pubmed_search_and_save.jl")
-# include("Processes/pubmed_mesh_to_umls_map.jl")
-# include("Processes/pubmed_occurrance_filtering.jl")
+include("Processes/pubmed_search_and_save.jl")
+include("Processes/pubmed_mesh_to_umls_map.jl")
+include("Processes/pubmed_occurrance_filtering.jl")
 # include("Processes/pubmed_export_citations.jl")
 
-# end
+end
 
 #-----------------------------------
 

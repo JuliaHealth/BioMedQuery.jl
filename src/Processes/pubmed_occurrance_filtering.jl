@@ -4,7 +4,7 @@
 # BCBI - Brown University
 # Version: Julia 0.4.5
 
-using BioMedQuery.Entrez.DB
+using BioMedQuery.PubMed
 
 
 """
@@ -41,8 +41,8 @@ function umls_semantic_occurrences(db, umls_concepts...)
 
     for (i, pmid) in enumerate(articles)
 
-          #not all mesh are of the desired semantic type
-        article_filtered_mesh = Entrez.DB.get_article_mesh_by_concept(db, pmid, umls_concepts...)
+        #not all mesh are of the desired semantic type
+        article_filtered_mesh = get_article_mesh_by_concept(db, pmid, umls_concepts...)
 
         #skip if empty
         if isempty(article_filtered_mesh)

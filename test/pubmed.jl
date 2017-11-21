@@ -34,8 +34,7 @@ using XMLDict
         @test length(ids)==narticles
 
 
-        efetch_response = efetch(db = "pubmed", tool = "BioJulia", 
-        retmode = "xml", rettype = "null", id = ids)
+        efetch_response = efetch(db = "pubmed", tool = "BioJulia", retmode = "xml", rettype = "null", id = ids)
 
         #convert xml to dictionary
         efetch_dict = parse_xml(String(efetch_response.data))

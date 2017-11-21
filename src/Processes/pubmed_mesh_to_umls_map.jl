@@ -1,5 +1,5 @@
-using BioMedQuery.UMLS
-using BioMedQuery.Entrez.DB
+using BioServices.UMLS
+using BioMedQuery.PubMed
 using BioMedQuery.DBUtils
 
 """
@@ -15,7 +15,7 @@ descriptors in that table, search and insert the associated semantic
 concepts into a new (cleared) TABLE:mesh2umls
 - `c::Credentials`: UMLS username and password
 """
-function map_mesh_to_umls!(db, c::Credentials; timeout = Inf, append_results=false)
+function map_mesh_to_umls!(db, user, psswd; timeout = Inf, append_results=false, verbose=false)
 
     #if the mesh2umls relationship table doesn't esxist, create it
     db_query(db, "CREATE table IF NOT EXISTS mesh2umls (
@@ -36,41 +36,43 @@ function map_mesh_to_umls!(db, c::Credentials; timeout = Inf, append_results=fal
     #get the array of terms
     mesh_terms =get_value(mq.columns[1])
     println("----------Matching MESH to UMLS-----------")
-    tgt = get_tgt(c)
-    for mt in mesh_terms
+    tgt = get_tgt(username = user, password = psswd)
+    for (i, mt) in enumerate(mesh_terms)
+        
+        info("Descriptor $i out of ", length(mesh_terms))
         #submit umls query
         term = mt
         query = Dict("string"=>term, "searchType"=>"exact" )
         # println("term: ", term)
 
-        all_results= search_umls(tgt, query, timeout=timeout)
-
-        if length(all_results) > 0
-
-            cui = best_match_cui(all_results)
-            #   println("Cui: ", cui)
-            if cui == ""
-                println("Nothing!")
-                println(all_results)
+        for attempt=1:5
+            try
+                all_results= search_umls(tgt, query, timeout=timeout)
+                if length(all_results) > 0
+                    cui = best_match_cui(all_results)
+                    if cui == ""
+                        println("Nothing!")
+                        println(all_results)
+                    end
+                    all_concepts = get_semantic_types(tgt, cui)
+                    for concept in all_concepts
+                        insert_row!(db, "mesh2umls", Dict(:mesh=> term, :umls=> concept), verbose)
+                    end
+                end
+                break
+            catch err
+                println("! failed attempt $attempt out of 5 for term $term with error ", err)
             end
-            all_concepts = get_semantic_type(tgt, cui)
-
-            for concept in all_concepts
-                # insert "semantic concept" into database
-                insert_row!(db, "mesh2umls", Dict(:mesh=> term, :umls=> concept))
-                # println(concept)
-            end
-
         end
-        print(".")
     end
     println("--------------------------------------------------")
 end
 
 
 """
-map_mesh_to_umls_async!(db, c::Credentials; timeout, append_results, verbose)
-Build (using async UMLS-API calls) and store in the given database a map from
+    map_mesh_to_umls_async!(db, c::Credentials; timeout, append_results, verbose)
+
+    Build (using async UMLS-API calls) and store in the given database a map from
 MESH descriptors to UMLS Semantic Concepts. For large queies this function will
 be faster than it's synchrounous counterpart
 
@@ -82,7 +84,7 @@ concepts into a new (cleared) TABLE:mesh2umls
 - `c::Credentials`: UMLS username and password
 - `append_results::Bool` : If false a NEW and EMPTY mesh2umls database table in creted
 """
-function map_mesh_to_umls_async!(db, c::Credentials; timeout = 5, append_results=false, verbose=false)
+function map_mesh_to_umls_async!(db, user, psswd; timeout = 5, append_results=false, verbose=false)
 
     #if the mesh2umls relationship table doesn't esxist, create it
     db_query(db, "CREATE table IF NOT EXISTS mesh2umls (
@@ -104,7 +106,7 @@ function map_mesh_to_umls_async!(db, c::Credentials; timeout = 5, append_results
     mesh_terms =get_value(mq.columns[1])
     println("----------Matching MESH to UMLS-----------")
 
-    tgt = get_tgt(c)
+    tgt = get_tgt(username = user, password = psswd)
     errors = 200*ones(length(mesh_terms))
     times = -ones(length(mesh_terms))
     batch_size = 50
@@ -120,7 +122,6 @@ function map_mesh_to_umls_async!(db, c::Credentials; timeout = 5, append_results
                 term = mesh_terms[i]
                 query = Dict("string"=>term, "searchType"=>"exact" )
                 # println("term: ", term)
-                all_results = []
                 for attempt=1:5
                     try
                         all_results= search_umls(tgt, query, timeout=timeout)
@@ -131,7 +132,7 @@ function map_mesh_to_umls_async!(db, c::Credentials; timeout = 5, append_results
                                 println("Nothing!")
                                 println(all_results)
                             end
-                            all_concepts = get_semantic_type(tgt, cui)
+                            all_concepts = get_semantic_types(tgt, cui)
                             for concept in all_concepts
                                 insert_row!(db, "mesh2umls", Dict(:mesh=> term, :umls=> concept), verbose)
                             end
@@ -141,17 +142,6 @@ function map_mesh_to_umls_async!(db, c::Credentials; timeout = 5, append_results
                         println("! failed attempt $attempt out of 5 for term $term with error ", err)
                     end
                 end
-                # if length(all_results) > 0
-                #     cui = best_match_cui(all_results)
-                #     if cui == ""
-                #         println("Nothing!")
-                #         println(all_results)
-                #     end
-                #     all_concepts = get_semantic_type(tgt, cui)
-                #     for concept in all_concepts
-                #         insert_row!(db, "mesh2umls", Dict(:mesh=> term, :umls=> concept), verbose)
-                #     end
-                # end
             end
         end
     end

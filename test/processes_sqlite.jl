@@ -1,7 +1,7 @@
 #************************ LOCALS TO CONFIGURE!!!! **************************
-email= ENV["NCBI_EMAIL"] #This is an enviroment variable that you need to setup
+email= "" #This is an enviroment variable that you need to setup
 search_term="(obesity[MeSH Major Topic]) AND (\"2010\"[Date - Publication] : \"2012\"[Date - Publication])"
-max_articles = 10
+max_articles = 2
 overwrite_db=true
 verbose = false
 #************************ SQLite **************************
@@ -19,7 +19,7 @@ db = nothing
     db = pubmed_search_and_save(email, search_term, max_articles,
     save_efetch_sqlite, db_config, verbose)
     #query the article table and make sure the count is correct
-    all_pmids = BioMedQuery.Entrez.DB.all_pmids(db)
+    all_pmids = BioMedQuery.PubMed.all_pmids(db)
     @test length(all_pmids) == max_articles
 
 end
@@ -29,18 +29,24 @@ end
     println("       Testing MESH2UMLS")
     user = ENV["UMLS_USER"]
     psswd = ENV["UMLS_PSSWD"]
-    credentials = Credentials(user, psswd)
     append = false
 
+
     @time begin
-        map_mesh_to_umls!(db, credentials; append_results=append)
+        map_mesh_to_umls_async!(db, umls_user, umls_pswd; append_results=append)
     end
 
     all_pairs_query = db_query(db, "SELECT mesh FROM mesh2umls;")
-    all_pairs = all_pairs_query[1].values
+    all_pairs = all_pairs_query[1]
     @test length(all_pairs) > 0
-    println(typeof(all_pairs))
-    @test isa(all_pairs, Array{String,1})
+
+    @time begin
+        map_mesh_to_umls!(db, umls_user, umls_pswd; append_results=append)
+    end
+
+    all_pairs_query = db_query(db, "SELECT mesh FROM mesh2umls;")
+    all_pairs = all_pairs_query[1]
+    @test length(all_pairs) > 0
 end
 
 @testset "Occurrences" begin
@@ -53,7 +59,7 @@ end
     end
 
     @test length(keys(labels2ind)) > 0
-    @test length(find(x->x=="obesity", collect(keys(labels2ind)))) ==1
+    @test length(find(x->x=="Obesity", collect(keys(labels2ind)))) ==1
 end
 
 # remove temp files

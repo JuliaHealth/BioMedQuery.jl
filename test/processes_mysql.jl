@@ -1,10 +1,11 @@
 
 #************************ LOCALS TO CONFIGURE!!!! **************************
-email= ENV["NCBI_EMAIL"] #Enviroment variable that need to be setup
+email= "" 
+#Enviroment variable that need to be setup
 umls_user = ENV["UMLS_USER"]
 umls_pswd = ENV["UMLS_PSSWD"]
 search_term="(obesity[MeSH Major Topic]) AND (\"2010\"[Date - Publication])"
-max_articles = 10
+max_articles = 2
 overwrite_db=true
 verbose = false
 
@@ -33,14 +34,14 @@ db = nothing
 
 
     #query the article table and make sure the count is correct
-    all_pmids = BioMedQuery.Entrez.DB.all_pmids(db)
+    all_pmids = BioMedQuery.PubMed.all_pmids(db)
     @test length(all_pmids) == max_articles
 
     pubmed_search_and_save_mysql!(email, search_term, max_articles,
     db, verbose)
 
     #query the article table and make sure the count is correct
-    all_pmids = BioMedQuery.Entrez.DB.all_pmids(db)
+    all_pmids = BioMedQuery.PubMed.all_pmids(db)
     @test length(all_pmids) == max_articles
 
 
@@ -48,7 +49,7 @@ db = nothing
         save_pmid_mysql, db_config, verbose)
 
     #query the article table and make sure the count is correct
-    all_pmids = BioMedQuery.Entrez.DB.all_pmids(db)
+    all_pmids = BioMedQuery.PubMed.all_pmids(db)
     @test length(all_pmids) == max_articles
 
 end
@@ -56,17 +57,23 @@ end
 @testset "MESH2UMLS" begin
     println("-----------------------------------------")
     println("       Testing MESH2UMLS")
-    credentials = Credentials(umls_user, umls_pswd)
     append = false
 
     @time begin
-        map_mesh_to_umls_async!(db, credentials; append_results=append)
+        map_mesh_to_umls_async!(db, umls_user, umls_pswd; append_results=append)
     end
 
     all_pairs_query = db_query(db, "SELECT mesh FROM mesh2umls;")
     all_pairs = all_pairs_query[1]
     @test length(all_pairs) > 0
-    @test isa(all_pairs, DataArrays.DataArray{AbstractString,1})
+
+    @time begin
+        map_mesh_to_umls!(db, umls_user, umls_pswd; append_results=append)
+    end
+
+    all_pairs_query = db_query(db, "SELECT mesh FROM mesh2umls;")
+    all_pairs = all_pairs_query[1]
+    @test length(all_pairs) > 0
 
 end
 
@@ -79,50 +86,9 @@ end
     end
 
     @test length(keys(labels2ind)) > 0
-    @test length(find(x->x=="obesity", collect(keys(labels2ind)))) ==1
+    @test length(find(x->x=="Obesity", collect(keys(labels2ind)))) ==1
 end
 
-# db = mysql_connect(host, mysql_usr, mysql_pswd, dbname)
-if haskey(ENV, "TRAVIS") && ENV["TRAVIS"] == "yes"
-    println(" MTI Search and Save only runs locally")
-else
-    @testset "MTI Search and Save" begin
-            println("-----------------------------------------")
-            println("       MTI Search and Save")
-
-            root_path = dirname(@__FILE__)
-            in_file= root_path*"/mti_test_query.txt"
-            out_file= root_path*"/mti_test_result.txt"
-
-            config = Dict(:db => db,
-                          :email => email,
-                          :pub_year => "2010",
-                          :mti_query_file => in_file,
-                          :mti_result_file => out_file,
-                          :uts_user => umls_user,
-                          :uts_psswd => umls_pswd)
-
-            @time begin
-                mti_search_and_save(config)
-            end
-
-            narticles_sel = db_query(db, "SELECT DISTINCT pmid FROM mti;")
-            empty_abs_sel = db_query(db, "SELECT COUNT(abstract) FROM article
-        		WHERE abstract = '' ")
-            println(narticles_sel)
-            println(empty_abs_sel)
-            @test length(narticles_sel[1]) == (max_articles - empty_abs_sel[1])[1]
-
-            # remove temp files
-            if isfile(in_file)
-                rm(in_file)
-            end
-            if isfile(out_file)
-                rm(out_file)
-            end
-
-    end
-end
 
 db_query(db, "DROP DATABASE IF EXISTS $dbname;")
 
