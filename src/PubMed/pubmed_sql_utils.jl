@@ -344,8 +344,8 @@ function db_insert!(db, article::PubMedArticle, verbose=false)
 end
 
 function db_insert!(db, pmid::Int64, mesh_heading_list::MeshHeadingList, verbose=false)
+    
     for heading in mesh_heading_list
-
         did_int = heading.descriptor_id.value
         descriptor_name = heading.descriptor_name.value
         dmjr = get(heading.descriptor_mjr, nothing)

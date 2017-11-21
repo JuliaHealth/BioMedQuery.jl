@@ -91,91 +91,91 @@ using XMLDict
         end
 
         @test nlines == nsucceses
-        # rm("./citations_temp.endnote")
+        rm("./citations_temp.endnote")
     end
 
-    # # save the results of an entrez fetch to a sqlite database
-    # @testset "Testing SQLite Saving" begin
-    #     println("-----------------------------------------")
-    #     println("       Testing SQLite Saving")
+    # save the results of an entrez fetch to a sqlite database
+    @testset "Testing SQLite Saving" begin
+        println("-----------------------------------------")
+        println("       Testing SQLite Saving")
 
-    #     db_path = "./test_db.db"
+        db_path = "./test_db.db"
 
-    #     config = Dict(:db_path=> db_path, :overwrite=>true)
-    #     db = BioMedQuery.PubMed.save_efetch_sqlite(efetch_dict, config, verbose)
+        config = Dict(:db_path=> db_path, :overwrite=>true)
+        db = BioMedQuery.PubMed.save_efetch_sqlite(efetch_dict, config, verbose)
 
-    #     #query the article table and make sure the count is correct
-    #     all_pmids = BioMedQuery.PubMed.all_pmids(db)
-    #     @test length(all_pmids) == narticles
+        #query the article table and make sure the count is correct
+        all_pmids = BioMedQuery.PubMed.all_pmids(db)
+        @test length(all_pmids) == narticles
 
-    #     #query the article table and make sure the count is correct
-    #     all_abstracts = BioMedQuery.PubMed.abstracts(db)
-    #     @test size(all_abstracts)[1] == narticles
+        #query the article table and make sure the count is correct
+        all_abstracts = BioMedQuery.PubMed.abstracts(db)
+        @test size(all_abstracts)[1] == narticles
 
-    #     #check we can get the MESH descriptor for an article
-    #     mesh = BioMedQuery.PubMed.get_article_mesh(db, all_pmids[1])
-    #     @test length(mesh) > 0
+        #check we can get the MESH descriptor for an article
+        mesh = BioMedQuery.PubMed.get_article_mesh(db, all_pmids[1])
+        @test length(mesh) > 0
 
-    #     #check that reminder of tables are not empty
-    #     tables = ["author", "author2article", "mesh_descriptor",
-    #     "mesh_qualifier", "mesh_heading"]
+        #check that reminder of tables are not empty
+        tables = ["author", "author2article", "mesh_descriptor",
+        "mesh_qualifier", "mesh_heading"]
 
-    #     for t in tables
-    #         query_str = "SELECT count(*) FROM "*t*";"
-    #         q = BioMedQuery.DBUtils.db_query(db, query_str)
-    #         count = get(q[1][1])
-    #         @test count > 0
-    #     end
+        for t in tables
+            query_str = "SELECT count(*) FROM "*t*";"
+            q = BioMedQuery.DBUtils.db_query(db, query_str)
+            count = get(q[1][1])
+            @test count > 0
+        end
 
-    #     # remove temp files
-    #     if isfile(db_path)
-    #         rm(db_path)
-    #     end
-    # end
+        # remove temp files
+        if isfile(db_path)
+            rm(db_path)
+        end
+    end
 
 
-    # @testset "Testing MySQL Saving" begin
-    #     println("-----------------------------------------")
-    #     println("       Testing MySQL Saving")
+    @testset "Testing MySQL Saving" begin
+        println("-----------------------------------------")
+        println("       Testing MySQL Saving")
 
-    #     dbname = "entrez_test"
-    #     config = Dict(:host=>"127.0.0.1", :dbname=>dbname, :username=>"root",
-    #     :pswd=>"", :overwrite=>true)
-    #     @time db = BioMedQuery.PubMed.save_efetch_mysql(efetch_dict, config, verbose)
+        dbname = "entrez_test"
+        config = Dict(:host=>"127.0.0.1", :dbname=>dbname, :username=>"root",
+        :pswd=>"", :overwrite=>true)
+        @time db = BioMedQuery.PubMed.save_efetch_mysql(efetch_dict, config, verbose)
 
-    #     #query the article table and make sure the count is correct
-    #     all_pmids = BioMedQuery.PubMed.all_pmids(db)
-    #     @test length(all_pmids) == narticles
+        #query the article table and make sure the count is correct
+        all_pmids = BioMedQuery.PubMed.all_pmids(db)
+        @test length(all_pmids) == narticles
 
-    #     #query the article table and make sure the count is correct
-    #     all_abstracts = BioMedQuery.PubMed.abstracts(db)
-    #     @test size(all_abstracts)[1] == narticles
+        #query the article table and make sure the count is correct
+        all_abstracts = BioMedQuery.PubMed.abstracts(db)
+        @test size(all_abstracts)[1] == narticles
 
-    #     #check we can get the MESH descriptor for an article
-    #     mesh = BioMedQuery.PubMed.get_article_mesh(db, all_pmids[1])
-    #     println(mesh)
-    #     @test length(mesh) > 0
+        #check we can get the MESH descriptor for an article
+        mesh = BioMedQuery.PubMed.get_article_mesh(db, all_pmids[1])
+        # println(mesh)
+        @test length(mesh) > 0
 
-    #     #check that reminder of tables are not empty
-    #     tables = ["author", "author2article", "mesh_descriptor",
-    #     "mesh_qualifier", "mesh_heading"]
+        #check that reminder of tables are not empty
+        tables = ["author", "author2article", "mesh_descriptor",
+        "mesh_qualifier", "mesh_heading"]
 
-    #     for t in tables
-    #         query_str = "SELECT count(*) FROM "*t*";"
-    #         q = BioMedQuery.DBUtils.db_query(db, query_str)
-    #         println(q)
-    #         println(q[1])
-    #         println(q[1][1])
-    #         count = q[1][1]
-    #         @test count > 0
-    #     end
+        for t in tables
+            query_str = "SELECT count(*) FROM "*t*";"
+            q = BioMedQuery.DBUtils.db_query(db, query_str)
+            # println(q)
+            # println(q[1])
+            # println(q[1][1])
+            count = q[1][1]
+            @test count > 0
+        end
 
-    #     #clean-up
-    #     db_query(db, "DROP DATABASE IF EXISTS $dbname;")
+        #clean-up
+        db_query(db, "DROP DATABASE IF EXISTS $dbname;")
 
-    # end
+    end
 
-    println("------------End Test Entrez--------------")
+    println("------------End Test Eutils/PubMed--------------")
     println("-----------------------------------------")
 
 end

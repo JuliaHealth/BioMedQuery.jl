@@ -1,8 +1,6 @@
-using BioMedQuery.Entrez
-
-
 #convert to a dictionary
-efetch_dict = eparse_from_file("efetch_sample.xml")
+efetch_sample = readstring("efetch_sample.xml")
+efetch_dict = parse_xml(efetch_sample)
 
 articles = []
 
@@ -16,9 +14,7 @@ end
 
 for (i, xml_article) in enumerate(articles)
 
-
     article = PubMedArticle(xml_article)
-    #PMIDs should not be null
     @test !isnull(article.pmid)
     mesh_heading_list = MeshHeadingList(xml_article)
 
@@ -30,7 +26,7 @@ for (i, xml_article) in enumerate(articles)
         @test article.title.value == "Five Tips to Building a Successful Sleep Practice."
         @test article.pmid.value == 27483622
         @test article.authors[1][:LastName].value == "Poss"
-        @test mesh_heading_list[1].descriptor_name.value == "bruxism"
+        @test mesh_heading_list[1].descriptor_name.value == "Bruxism"
         @test length(mesh_heading_list)== 6
     end
 end

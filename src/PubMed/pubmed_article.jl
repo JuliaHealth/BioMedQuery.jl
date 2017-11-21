@@ -127,40 +127,58 @@ mutable struct PubMedArticle
             this.authors = Vector{Dict{Symbol,Nullable{String}}}()
             this.affiliations = NullableArray{String}(0)
             if haskey(medline_article, "AuthorList")
-                xml_authors = medline_article["AuthorList"]["Author"]
-                for author in xml_authors
-
-                    if haskey(author, "ValidYN")
-                        if author["ValidYN"] == "N"
+                authors_list = medline_article["AuthorList"]["Author"]
+                if typeof(authors_list) <: Array
+                    for author in authors_list
+                        if author[:ValidYN] == "N"
                             println("Skipping Author Valid:N: ", author)
                             continue
                         end
-                    end
-                    forname = get_if_exists(author, "ForeName", Nullable{String}())
-                    initials = get_if_exists(author, "Initials", Nullable{String}())
-                    lastname = get_if_exists(author, "LastName", Nullable{String}())
-                    
-                    if haskey(author, "AffiliationInfo")
-                        if typeof(author["AffiliationInfo"]) <: Array
-                            for aff in author["AffiliationInfo"]
-                                push!(this.affiliations, aff["Affiliation"])
+                        forname = get_if_exists(author, "ForeName", Nullable{String}())
+                        initials = get_if_exists(author, "Initials", Nullable{String}())
+                        lastname = get_if_exists(author, "LastName", Nullable{String}())
+                        
+                        if haskey(author, "AffiliationInfo")
+                            if typeof(author["AffiliationInfo"]) <: Array
+                                for aff in author["AffiliationInfo"]
+                                    push!(this.affiliations, aff["Affiliation"])
+                                end
+                            else
+                                push!(this.affiliations, get_if_exists(author["AffiliationInfo"], "Affiliation", Nullable{String}()))
                             end
-                        else
-                            push!(this.affiliations, get_if_exists(author["AffiliationInfo"], "Affiliation", Nullable{String}()))
                         end
+
+                        if isnull(lastname)
+                            println("Skipping Author: ", author)
+                            continue
+                        end
+
+                        push!(this.authors, Dict(:ForeName=> forname, :LastName=> lastname, :Initials=> initials))
                     end
-
-
-                    if isnull(lastname)
-                        println("Skipping Author: ", author)
-                        continue
+                else           
+                    author = authors_list
+                    if author[:ValidYN] == "Y"                       
+                        forname = author["ForeName"]
+                        initials = get_if_exists(author, "Initials", Nullable{String}())
+                        lastname = author["LastName"]
+                        
+                        if haskey(author, "AffiliationInfo")
+                            if typeof(author["AffiliationInfo"]) <: Array
+                                for aff in author["AffiliationInfo"]
+                                    push!(this.affiliations, aff["Affiliation"])
+                                end
+                            else
+                                push!(this.affiliations, get_if_exists(author["AffiliationInfo"], "Affiliation", Nullable{String}()))
+                            end
+                        end
+                        push!(this.authors, Dict(:ForeName=> forname, :LastName=> lastname, :Initials=> initials))
+    
+                    else
+                        println("Skipping Author: ", author)                        
                     end
-
-                    push!(this.authors, Dict(:ForeName=> forname, :LastName=> lastname, :Initials=> initials))
-
                 end
             end
-
+            
         end
 
 
@@ -180,12 +198,15 @@ mutable struct PubMedArticle
                 end
             end
         end
+        
         return this
+    
     end
-end
+
+end #struct
 
 
-type MeshHeading
+mutable struct MeshHeading
     descriptor_name::Nullable{String}
     descriptor_id::Nullable{Int64}
     descriptor_mjr::Nullable{String}
@@ -197,31 +218,23 @@ type MeshHeading
     function MeshHeading(NCBIXMLheading)
 
         # A Mesh Heading is composed of ONE descriptor and 0/MANY qualifiers
-
-        if !haskey(NCBIXMLheading,"DescriptorName")
+        if !haskey(NCBIXMLheading, "DescriptorName")
             error("Error: MeshHeading must have DescriptorName")
         end
 
         this = new()
 
-
-        this.descriptor_name = Nullable{String}()
-        this.descriptor_id = Nullable{Int64}()
-
         #Descriptor
-        descriptor_name = get_if_exists(NCBIXMLheading["DescriptorName"], "DescriptorName", Nullable{String}())
+        this.descriptor_name = NCBIXMLheading["DescriptorName"][""]
 
-        if !isnull(descriptor_name)
-            this.descriptor_name = normalize_string(descriptor_name.value, casefold=true)
-        end
 
-        did = get_if_exists(NCBIXMLheading["DescriptorName"], "UI", Nullable{String}())
+        # if !isnull(descriptor_name)
+        #     this.descriptor_name = normalize_string(descriptor_name.value, casefold=true)
+        # end
 
-        if !isnull(did)
-            this.descriptor_id = parse(Int64, did.value[2:end])  #remove preceding D
-        end
-
-        this.descriptor_mjr = get_if_exists(NCBIXMLheading["DescriptorName"], "MajorTopicYN", Nullable{String}())
+        did = NCBIXMLheading["DescriptorName"][:UI]
+        this.descriptor_id = parse(Int64, did[2:end])  #remove preceding D
+        this.descriptor_mjr = NCBIXMLheading["DescriptorName"][:MajorTopicYN]
 
 
         #Qualifier
@@ -230,26 +243,28 @@ type MeshHeading
         this.qualifier_mjr = NullableArray{String, 1}()
         if haskey(NCBIXMLheading,"QualifierName")
             qualifiers = NCBIXMLheading["QualifierName"]
-            for qual in qualifiers
-
-                qname = get_if_exists(qual, "QualifierName", Nullable{String}())
-
-                if !isnull(qname)
-                    qname = normalize_string(qname.value, casefold=true)
+            if typeof(qualifiers) <: Array
+                for qual in qualifiers
+                    qname = qual[""]
+                    # qname = normalize_string(qname.value, casefold=true)
                     push!(this.qualifier_name, Nullable(qname))
-
-                    qid = get_if_exists(qual, "UI", Nullable{String}())
-
-                    if !isnull(qid)
-                        qid = parse(Int64, qid.value[2:end])  #remove preceding Q
-                        push!(this.qualifier_id, Nullable(qid))
-                    end
-
-
-                    qmjr = get_if_exists(qual, "MajorTopicYN", Nullable{String}())
-                    push!(this.qualifier_mjr, qmjr)
-
+                    qid = qual[:UI]
+                    qid = parse(Int64, qid[2:end])  #remove preceding Q
+                    push!(this.qualifier_id, qid)
+                    qmjr = qual[:MajorTopicYN]
+                    push!(this.qualifier_mjr, qmjr)                   
                 end
+            else
+                qual = NCBIXMLheading["QualifierName"]
+                qname = qual[""]
+                push!(this.qualifier_name, Nullable(qname))
+                
+                qid = qual[:UI]
+                qid = parse(Int64, qid[2:end])  #remove preceding Q
+                push!(this.qualifier_id, qid)
+
+                qmjr = qual[:MajorTopicYN]
+                push!(this.qualifier_mjr, qmjr)
             end
         end
         return this
@@ -261,7 +276,8 @@ end
 const MeshHeadingList =  Vector{MeshHeading}
 
 #Constructor-Like method from XML article element
-function MeshHeadingList(NCBIXMLarticle::DataStructures.MultiDict{Any,Any})
+function MeshHeadingList(NCBIXMLarticle::T) where T <: Associative
+    
     if !haskey(NCBIXMLarticle,"MedlineCitation")
         error("MedlineCitation not found")
     end
