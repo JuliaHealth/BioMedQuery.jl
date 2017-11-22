@@ -115,8 +115,23 @@ function save_article_citations(efetch_dict, config, verbose=false)
 
     fout = open(output_file, "a")
     nsuccess=0
-    for xml_article in articles
-        article = TypeArticle(xml_article)
+    if typeof(articles) <: Array
+        for xml_article in articles
+            article = TypeArticle(xml_article)
+            try
+                citation = citation_func(article, verbose)
+                print(fout, citation)
+                println(fout) #two empty lines
+                println(fout)
+                nsuccess+=1
+            catch error
+                println("Citation failed for article: ", article)
+                println(error)
+                continue
+            end
+        end
+    else
+        article = TypeArticle(articles)
         try
             citation = citation_func(article, verbose)
             print(fout, citation)
@@ -126,7 +141,6 @@ function save_article_citations(efetch_dict, config, verbose=false)
         catch error
             println("Citation failed for article: ", article)
             println(error)
-            continue
         end
     end
     close(fout)

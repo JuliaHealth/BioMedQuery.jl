@@ -1,5 +1,4 @@
 
-email= ENV["NCBI_EMAIL"] #This is an enviroment variable that you need to setup
 pmid = 11748933
 pmid_list = [24008025, 24170597]
 
@@ -13,8 +12,8 @@ pmid_list = [24008025, 24170597]
     output_file1="11748933.enw"
     output_file2 = "pmid_list.enw"
 
-    export_citation(email, pmid, citation_type, output_file1)
-    export_citation(email, pmid_list, citation_type, output_file2)
+    export_citation(pmid, citation_type, output_file1)
+    export_citation(pmid_list, citation_type, output_file2)
 
     #Read back the files and do minimal testing
     ref_lines=[]
@@ -23,15 +22,15 @@ pmid_list = [24008025, 24170597]
     end
 
 
-    @test ref_lines[1]== "%0 Journal Article\n"
+    @test ref_lines[1]== "%0 Journal Article"
 
     ref_lines=[]
     open("./pmid_list.enw") do f
        ref_lines = readlines(f)
     end
 
-    @test ref_lines[1]== "%0 Journal Article\n"
-    @test ref_lines[25]== "%0 Journal Article\n"
+    @test ref_lines[1]== "%0 Journal Article"
+    @test ref_lines[25]== "%0 Journal Article"
 
     # remove temp files
     if isfile(output_file1)
@@ -49,8 +48,8 @@ end
     output_file1="11748933.bibtex"
     output_file2 = "pmid_list.bibtex"
 
-    export_citation(email, pmid, citation_type, output_file1)
-    export_citation(email, pmid_list, citation_type, output_file2)
+    export_citation(pmid, citation_type, output_file1)
+    export_citation(pmid_list, citation_type, output_file2)
 
     #Read back the files and do minimal testing
     ref_lines=[]
@@ -59,15 +58,15 @@ end
     end
 
 
-    @test ref_lines[1]== "@article {PMID:11748933,\n"
+    @test ref_lines[1]== "@article {PMID:11748933,"
 
     ref_lines=[]
     open("./pmid_list.bibtex") do f
        ref_lines = readlines(f)
     end
 
-    @test ref_lines[1]== "@article {PMID:24008025,\n"
-    @test ref_lines[13]== "@article {PMID:24170597,\n"
+    @test ref_lines[1]== "@article {PMID:24008025,"
+    @test ref_lines[13]== "@article {PMID:24170597,"
 
     # remove temp files
     if isfile(output_file1)

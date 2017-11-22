@@ -87,7 +87,7 @@ function filter_mesh_by_concept(db, umls_concepts...)
     query = string("SELECT mesh FROM mesh2umls WHERE umls IN $(concept_set_str)")
     println("Filter mesh query string : $(query)")
 
-    sel  = mysql_execute(db, query)
+    sel  = db_query(db, query)
     return get_value(sel[1])
 end
 
