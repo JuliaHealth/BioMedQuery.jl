@@ -9,6 +9,9 @@
 
 # BioMedQuery
 
+## Master branch has changed significantly! Old master is now tag v0.2.3-depracate. Documentation updates are ongoing
+
+
 | Travis CI | Coverage | License | Documentation|
 |-----------|----------|---------|--------------|
 | [![Build&Test Status](https://travis-ci.org/bcbi/BioMedQuery.jl.svg?branch=metapackage)](https://travis-ci.org/bcbi/BioMedQuery.jl)| [![codecov](https://codecov.io/gh/bcbi/BioMedQuery.jl/branch/metapackage/graph/badge.svg)](https://codecov.io/gh/bcbi/BioMedQuery.jl)|[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/bcbi/BioMedQuery.jl/metapackage/LICENSE.md) | [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://bcbi.github.io/BioMedQuery.jl/stable) [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://bcbi.github.io/BioMedQuery.jl/latest)
