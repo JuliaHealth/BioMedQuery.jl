@@ -1,7 +1,10 @@
 # BioMedQuery Julia Package
 
-Julia utilities to interact with BioMedical databases/APIs. Supported
-databases/APIS include:
+Julia utilities to process and save results from BioMedical databases/APIs. 
+
+[BioServices.jl](https://github.com/BioJulia/BioServices.jl) (part of BioJulia) provides the basic interface to the APIs, while BioMedQuery helps parse and save results into MySQL, SQLite, DataFrames etcs. 
+
+Supported databases/APIS include:
 
 **National Library of Medicine (NLM)**
 
@@ -18,24 +21,7 @@ BioMedQuery is a registered package. To install the latest stable version, use t
 Pkg.add("BioMedQuery")
 ```
 
-## Dependencies
-
-###Registered Packages - automatically installed
-
-- ArgParse
-- SQLite
-- MySQL
-- Gumbo
-- Requests
-- DataStreams
-- LightXML
-- Requests
-- HttpCommon
-- BaseTestNext
-- XMLconvert
-
-
 ## Sister Packages
 
-- [PubMedMiner](https://github.com/bcbi/PubMedMiner.jl) - Executables to search PubMed, link Mesh Descriptors to to UMLS concepts and visualize results.
-- [XMLConvert](https://github.com/bcbi/XMLconvert.jl) - Utilities to convert, flatten and explore XML file. Useful to investigate server responses.
+- [PubMedMiner](https://github.com/bcbi/PubMedMiner.jl) - Examples of comorbidity studies using PubMed artciles
+
