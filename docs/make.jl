@@ -6,5 +6,5 @@ deploydocs(
     deps   = Deps.pip("mkdocs", "python-markdown-math", "mkdocs-material"),
     repo = "github.com/bcbi/BioMedQuery.jl.git",
     julia  = "0.6",
-    osname = "osx"
+    osname = "linux"
 )
