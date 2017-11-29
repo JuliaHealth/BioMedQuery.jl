@@ -37,6 +37,3 @@ Master (development) branch:
 ```{Julia}
 Pkg.checkout("BioMedQuery")
 ```
-
-
-

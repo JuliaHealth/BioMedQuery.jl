@@ -2,9 +2,9 @@
 
 Julia utilities to process and save results from BioMedical databases/APIs. 
 
-[BioServices.jl](https://github.com/BioJulia/BioServices.jl) (part of BioJulia) provides the basic interface to the APIs, while BioMedQuery helps parse and save results into MySQL, SQLite, DataFrames etcs. 
+[BioServices.jl](https://github.com/BioJulia/BioServices.jl) (part of BioJulia) provides the basic interface to some of the APIs, while BioMedQuery helps parse and save results into MySQL, SQLite, DataFrames etcs. 
 
-Supported databases/APIS include:
+Supported APIs include:
 
 **National Library of Medicine (NLM)**
 
@@ -15,10 +15,16 @@ Supported databases/APIS include:
 
 ## Installation
 
-BioMedQuery is a registered package. To install the latest stable version, use the package manager.
+BioMedQuery is a registered package. To install the latest **stable version**, use the package manager.
 
 ```
 Pkg.add("BioMedQuery")
+```
+
+To chekout the current master (development) branch:
+
+```{Julia}
+Pkg.checkout("BioMedQuery")
 ```
 
 ## Sister Packages
