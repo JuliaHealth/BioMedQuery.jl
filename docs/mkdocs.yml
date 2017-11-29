@@ -4,7 +4,9 @@ repo_url:         https://github.com/bcbi/BioMedQuery.jl
 site_description: Julia connection to BioMedial Search APIs
 site_author:      bcbi
 
-theme: material
+theme: 
+  name: 'material'
+  # logo: 'images/bcbi_logo.jpeg'
 
 extra_css:
   - assets/Documenter.css
@@ -31,6 +33,4 @@ pages:
 - Examples: examples.md
 - Database Utilities: dbutils.md
 - Library: library.md
-
-extra:
-  logo: 'src/images/bcbi_logo.jpeg'
+  
