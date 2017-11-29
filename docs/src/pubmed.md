@@ -11,7 +11,7 @@ This module provides utility functions to parse, store and export queries to Pub
 
 ## Basics of searching PubMed
 
-We are often interseted in searching PubMed for all articles relater to a search term, and possibly restricted by other search criteria. To do so we use [BioServices.EUtils](http://biojulia.net/BioServices.jl/latest/man/eutils). A basic example of how we may use the functions `esearch` and `efetch` to accomplish such task is illustrated below.
+We are often interseted in searching PubMed for all articles related to a search term, and possibly restricted by other search criteria. To do so we use [BioServices.EUtils](http://biojulia.net/BioServices.jl/latest/man/eutils). A basic example of how we may use the functions `esearch` and `efetch` to accomplish such task is illustrated below.
 
 ```julia
 using BioServices.EUtils
@@ -44,15 +44,15 @@ Many APIs return responses in XML form.
 To parse an XML to a Julia dictionary we can use the XMLDict package
 
 ```julia
-    using XMLDict
-    dict = parse_xml(String(response.data))  
+using XMLDict
+dict = parse_xml(String(response.data))  
 ```
 
 You can save directly the XML String to file using LightXML
 
 ```julia
-    xdoc = parse_string(esearch)
-    save_file(xdoc, "./file.xml")
+xdoc = parse_string(esearch)
+save_file(xdoc, "./file.xml")
 ```
 ---
 
@@ -60,42 +60,49 @@ You can save directly the XML String to file using LightXML
 
 ### Save PMIDs to MySQL
 
-```julia        
-    dbname = "entrez_test"
-    config = Dict(:host=>"127.0.0.1", :dbname=>dbname, :username=>"root",
-    :pswd=>"", :overwrite=>true)
-    con = PubMed.save_pmid_mysql(ids, config, false)
+If we are only interseted in saving a list of PMIDs associated with a query, we can do so as follows
 
-    # get array of PMIDS store in database
-    all_pmids = BioMedQuery.PubMed.all_pmids(con)
+```julia        
+dbname = "entrez_test"
+config = Dict(:host=>"127.0.0.1", :dbname=>dbname, :username=>"root",
+:pswd=>"", :overwrite=>true)
+con = PubMed.save_pmid_mysql(ids, config, false)
+
+# get array of PMIDS store in database
+all_pmids = BioMedQuery.PubMed.all_pmids(con)
 ```
 
 
 ### Export efetch response as EndNote citation file
 
-```
-    config = Dict(:type => "endnote", :output_file => "./citations_temp.endnote", :overwrite=>true)
-    nsucceses = BioMedQuery.PubMed.save_article_citations(efetch_dict, config, verbose)
+We can export the information returned by efetch as and EndNote/BibTex library file
+
+```julia
+config = Dict(:type => "endnote", :output_file => "./citations_temp.endnote", :overwrite=>true)
+nsucceses = BioMedQuery.PubMed.save_article_citations(efetch_dict, config, verbose)
 ```
 
 ### Save efetch response to MySQL database
 
+Save the information returned by efetch to a MySQL database
+
 ```julia
-    dbname = "entrez_test"
-    config = Dict(:host=>"127.0.0.1", :dbname=>dbname, :username=>"root",
-    :pswd=>"", :overwrite=>true)
-    @time db = BioMedQuery.PubMed.save_efetch_mysql(efetch_dict, config, verbose)
+dbname = "entrez_test"
+config = Dict(:host=>"127.0.0.1", :dbname=>dbname, :username=>"root",
+:pswd=>"", :overwrite=>true)
+@time db = BioMedQuery.PubMed.save_efetch_mysql(efetch_dict, config, verbose)
 ```
 
 ### Save efetch response to SQLite database
 
- ```julia
-    verbose = false
-    db_path = "./test_db.db"
+Save the information returned by efetch to a MySQL database
 
-    config = Dict(:db_path=> db_path, :overwrite=>true)
-    db = BioMedQuery.PubMed.save_efetch_sqlite(efetch_dict, config, verbose)
-end
+ ```julia
+verbose = false
+db_path = "./test_db.db"
+
+config = Dict(:db_path=> db_path, :overwrite=>true)
+db = BioMedQuery.PubMed.save_efetch_sqlite(efetch_dict, config, verbose)
 ```
 
 ### Exploring output databases
@@ -107,14 +114,14 @@ The following schema has been used to store the results. If you are interested i
 We can als eexplore the tables using BioMedQuery.DBUtils, e,g
 
 ```julia
-    tables = ["author", "author2article", "mesh_descriptor",
-    "mesh_qualifier", "mesh_heading"]
+tables = ["author", "author2article", "mesh_descriptor",
+"mesh_qualifier", "mesh_heading"]
 
-    for t in tables
-        query_str = "SELECT * FROM "*t*" LIMIT 10;"
-        q = BioMedQuery.DBUtils.db_query(db, query_str)
-        println(q)
-    end
+for t in tables
+    query_str = "SELECT * FROM "*t*" LIMIT 10;"
+    q = BioMedQuery.DBUtils.db_query(db, query_str)
+    println(q)
+end
 ```
 
 ---

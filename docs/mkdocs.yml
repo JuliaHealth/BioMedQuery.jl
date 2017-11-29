@@ -1,4 +1,5 @@
 site_name:        BioMedQuery.jl
+site_author:      Isabel Restrepo
 repo_url:         https://github.com/bcbi/BioMedQuery.jl
 site_description: Julia connection to BioMedial Search APIs
 site_author:      bcbi
@@ -8,27 +9,28 @@ theme: material
 extra_css:
   - assets/Documenter.css
 
-extra_javascript:
-  - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
-  - assets/mathjaxhelper.js
+# extra_javascript:
+#   - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+#   - assets/mathjaxhelper.js
 
 markdown_extensions:
   - extra
   - tables
   - fenced_code
+  - codehilite
+
   # - mdx_math
 
 docs_dir: 'build'
 
 pages:
 - Overview: index.md
-- PubMed: pubmed.md
-- UMLS: umls.md
-- Clinical Trials: ct.md
 - Processes/Workflows: processes.md
+- PubMed: pubmed.md
+- Clinical Trials: ct.md
 - Examples: examples.md
 - Database Utilities: dbutils.md
 - Library: library.md
 
 extra:
-  logo: 'images/bcbi_logo.jpeg'
+  logo: 'src/images/bcbi_logo.jpeg'
