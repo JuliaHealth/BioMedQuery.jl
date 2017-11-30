@@ -44,7 +44,6 @@ function init_pubmed_db_mysql(config)
        mysql_code=nothing
        try
            filename = dirname(@__FILE__) * "/create_pubmed_db.sql"
-           println(filename)
            f = open(filename, "r")
            mysql_code = readstring(f)
            close(f)
