@@ -13,17 +13,17 @@ mysql_config = Dict(:host=>"localhost",
                     :username=>"root",
                     :pswd=>"",
                     :overwrite=>true)
-db = pubmed_search_and_save(email, search_term, max_articles,
+db_mysql = pubmed_search_and_save(email, search_term, max_articles,
     save_efetch_mysql, mysql_config, verbose)
 
-display(all_pmids(db))
+display(all_pmids(db_mysql))
 
 tables = ["author", "author2article", "mesh_descriptor",
 "mesh_qualifier", "mesh_heading"]
 
 for t in tables
     query_str = "SELECT * FROM "*t*" LIMIT 5;"
-    q = BioMedQuery.DBUtils.db_query(db, query_str)
+    q = BioMedQuery.DBUtils.db_query(db_mysql, query_str)
     println(q)
 end
 
