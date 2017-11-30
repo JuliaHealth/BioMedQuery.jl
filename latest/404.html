@@ -31,20 +31,20 @@
       
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
-      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <link rel="shortcut icon" href="/assets/images/favicon.png">
       <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.2.0">
     
     
       
-        <title>Examples - BioMedQuery.jl</title>
+        <title>BioMedQuery.jl</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.5d3fffba.css">
+      <link rel="stylesheet" href="/assets/stylesheets/application.5d3fffba.css">
       
     
     
-      <script src="../assets/javascripts/modernizr.1aa3b519.js"></script>
+      <script src="/assets/javascripts/modernizr.1aa3b519.js"></script>
     
     
       
@@ -54,7 +54,7 @@
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
     
-      <link rel="stylesheet" href="../assets/Documenter.css">
+      <link rel="stylesheet" href="/assets/Documenter.css">
     
     
   </head>
@@ -77,7 +77,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href=".." title="BioMedQuery.jl" class="md-header-nav__button md-logo">
+        <a href="/" title="BioMedQuery.jl" class="md-header-nav__button md-logo">
           
             <i class="md-icon"></i>
           
@@ -94,7 +94,7 @@
                 BioMedQuery.jl
               </span>
               <span class="md-header-nav__topic">
-                Examples
+                
               </span>
             
           
@@ -209,7 +209,7 @@
 
 
   <li class="md-nav__item">
-    <a href=".." title="Overview" class="md-nav__link">
+    <a href="/" title="Overview" class="md-nav__link">
       Overview
     </a>
   </li>
@@ -221,7 +221,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../processes/" title="Processes/Workflows" class="md-nav__link">
+    <a href="/processes/" title="Processes/Workflows" class="md-nav__link">
       Processes/Workflows
     </a>
   </li>
@@ -233,7 +233,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../pubmed/" title="PubMed" class="md-nav__link">
+    <a href="/pubmed/" title="PubMed" class="md-nav__link">
       PubMed
     </a>
   </li>
@@ -245,7 +245,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../ct/" title="Clinical Trials" class="md-nav__link">
+    <a href="/ct/" title="Clinical Trials" class="md-nav__link">
       Clinical Trials
     </a>
   </li>
@@ -255,50 +255,11 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="toc">
-        Examples
-      </label>
-    
-    <a href="./" title="Examples" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="/examples/" title="Examples" class="md-nav__link">
       Examples
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-  
-    <label class="md-nav__title" for="toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#running-the-scripts" title="Running the scripts" class="md-nav__link">
-    Running the scripts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuring-local-variables" title="Configuring local variables" class="md-nav__link">
-    Configuring local variables
-  </a>
-  
-</li>
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
     
@@ -308,7 +269,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../dbutils/" title="Database Utilities" class="md-nav__link">
+    <a href="/dbutils/" title="Database Utilities" class="md-nav__link">
       Database Utilities
     </a>
   </li>
@@ -320,7 +281,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../library/" title="Library" class="md-nav__link">
+    <a href="/library/" title="Library" class="md-nav__link">
       Library
     </a>
   </li>
@@ -333,70 +294,12 @@
               </div>
             
             
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-<nav class="md-nav md-nav--secondary">
-  
-  
-  
-    <label class="md-nav__title" for="toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#running-the-scripts" title="Running the scripts" class="md-nav__link">
-    Running the scripts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuring-local-variables" title="Configuring local variables" class="md-nav__link">
-    Configuring local variables
-  </a>
-  
-</li>
-      
-      
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
               
-                
-                  <a href="https://github.com/bcbi/BioMedQuery.jl/edit/master/docs/examples.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
-                
-                
-                  <h1>Examples</h1>
-                
-                <p>The <a href="https://github.com/bcbi/BioMedQuery.jl/tree/master/examples">examples</a> folder contains sample scripts demonstrating how to use BioMedQuery's pre-assembled processes/workflows. The following examples are available:</p>
-<ul>
-<li><a href="">Search&amp;Save PubMed</a>:</li>
-<li><a href="">Build MESH-UMLS map</a>:</li>
-<li><a href="">Occurrence Matrix</a>:</li>
-<li><a href="">Exporting Citations</a>:</li>
-</ul>
-<p><a id='Running-the-scripts-1'></a></p>
-<h2 id="running-the-scripts">Running the scripts</h2>
-<p><a id='Configuring-local-variables-1'></a></p>
-<h2 id="configuring-local-variables">Configuring local variables</h2>
-<p><strong>User Credentials</strong></p>
-<p>Email addresses, passwords or any other type of credentials are expected to be stored in your system as environment variables.</p>
-<p>From a Julia session, you can set an environment variable using</p>
-<p><code>ENV["MY_PSWD"] = "MyPsWd"</code></p>
-<p>However, for this variable to be permanently available, you need to add that line to your <code>~/.juliarc.jl</code> file.</p>
-                
-                  
-                
-              
+  <h1>404 - Not found</h1>
+
               
                 
               
@@ -407,41 +310,6 @@
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../ct/" title="Clinical Trials" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Clinical Trials
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../dbutils/" title="Database Utilities" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Database Utilities
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -462,9 +330,9 @@
       
     </div>
     
-      <script src="../assets/javascripts/application.6cdc17f0.js"></script>
+      <script src="/assets/javascripts/application.6cdc17f0.js"></script>
       
-      <script>app.initialize({version:"0.17.2",url:{base:".."}})</script>
+      <script>app.initialize({version:"0.17.2",url:{base:""}})</script>
       
     
     

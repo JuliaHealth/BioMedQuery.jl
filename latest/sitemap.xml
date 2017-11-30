@@ -4,31 +4,7 @@
     
     <url>
      <loc>/</loc>
-     <lastmod>2016-12-07</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-    
-
-    
-    <url>
-     <loc>/entrez/</loc>
-     <lastmod>2016-12-07</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-    
-
-    
-    <url>
-     <loc>/umls/</loc>
-     <lastmod>2016-12-07</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-    
-
-    
-    <url>
-     <loc>/ct/</loc>
-     <lastmod>2016-12-07</lastmod>
+     <lastmod>2017-11-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -36,7 +12,23 @@
     
     <url>
      <loc>/processes/</loc>
-     <lastmod>2016-12-07</lastmod>
+     <lastmod>2017-11-30</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>/pubmed/</loc>
+     <lastmod>2017-11-30</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>/ct/</loc>
+     <lastmod>2017-11-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -44,7 +36,7 @@
     
     <url>
      <loc>/examples/</loc>
-     <lastmod>2016-12-07</lastmod>
+     <lastmod>2017-11-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -52,7 +44,7 @@
     
     <url>
      <loc>/dbutils/</loc>
-     <lastmod>2016-12-07</lastmod>
+     <lastmod>2017-11-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -60,7 +52,7 @@
     
     <url>
      <loc>/library/</loc>
-     <lastmod>2016-12-07</lastmod>
+     <lastmod>2017-11-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
