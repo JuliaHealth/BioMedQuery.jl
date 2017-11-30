@@ -8,7 +8,7 @@ max_articles = 5
 results_dir = "./results"
 verbose = false;
 
-mysql_config = Dict(:host=>"localhost",
+mysql_config = Dict(:host=>"127.0.0.1",
                     :dbname=>"pubmed_obesity_2010_2012",
                     :username=>"root",
                     :pswd=>"",

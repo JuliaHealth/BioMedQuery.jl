@@ -7,7 +7,7 @@ using SQLite
 results_dir = "./results"
 umls_concept = "Disease or Syndrome";
 
-host="localhost" 
+host="127.0.0.1" 
 mysql_usr="root"
 mysql_pswd=""
 dbname="pubmed_obesity_2010_2012"

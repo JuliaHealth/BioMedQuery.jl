@@ -9,7 +9,7 @@ umls_user = ENV["UMLS_USER"];
 umls_pswd = ENV["UMLS_PSSWD"];
 results_dir = "./results";
 
-host="localhost" 
+host="127.0.0.1" 
 mysql_usr="root"
 mysql_pswd=""
 dbname="pubmed_obesity_2010_2012"
