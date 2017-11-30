@@ -1,13 +1,20 @@
 language: julia
-os:
-  - linux
-  - osx
 julia:
   - 0.6
   - nightly
+os:
+  - linux
+  - osx
+env:
+  - GROUP=Test
+  - GROUP=Examples
 matrix:
+  exclude:
+       - os: osx
+         env: GROUP=Examples
   allow_failures:
     - julia: nightly
+    - env: GROUP=Examples
 notifications:
   email: true
 before_script:
@@ -22,7 +29,17 @@ after_script:
   - unset OLD_PATH
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-  - julia -e 'Pkg.clone(pwd()); Pkg.build("BioMedQuery"); ENV["TRAVIS"] = "yes"; Pkg.test("BioMedQuery"; coverage=true)'
+  # - julia -e 'Pkg.clone(pwd(), "BioMedQuery"); Pkg.build("BioMedQuery"); ENV["TRAVIS"] = "yes"; Pkg.test("BioMedQuery"; coverage=true)'
+  - julia --check-bounds=yes -e 'Pkg.update();
+          Pkg.clone(pwd(), "BioMedQuery");
+          Pkg.build("BioMedQuery");
+          if ENV["GROUP"] == "Test"
+            Pkg.test("BioMedQuery"; coverage=true)
+          elseif ENV["GROUP"] == "Examples"
+            include(Pkg.dir("BioMedQuery")*"/examples/runexamples.jl")
+          else
+                println("Unknown test command.")
+          end'
 after_success:
   - julia -e 'cd(Pkg.dir("BioMedQuery")); Pkg.add("Documenter"); include(joinpath("docs", "make.jl"))'
   - julia -e 'cd(Pkg.dir("BioMedQuery")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
