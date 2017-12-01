@@ -601,7 +601,7 @@
 <ul>
 <li><code>citation_type::String</code>: At the moment supported types include: "endnote"</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/ae3c2f0cc52f9b9461fcf0bfeb834fbd0247f9df/src/Processes/pubmed_export_citations.jl#L6-L13' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/80dc9fb807087699ea6de217dc04dcb5bd42bbfe/src/Processes/pubmed_export_citations.jl#L6-L13' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.export_citation' href='#BioMedQuery.Processes.export_citation'>#</a>
 <strong><code>BioMedQuery.Processes.export_citation</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>export_citation(pmids::Vector{Int64}, citation_type, output_file,verbose)
@@ -613,7 +613,7 @@
 <ul>
 <li><code>citation_type::String</code>: At the moment supported types include: "endnote"</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/ae3c2f0cc52f9b9461fcf0bfeb834fbd0247f9df/src/Processes/pubmed_export_citations.jl#L29-L36' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/80dc9fb807087699ea6de217dc04dcb5bd42bbfe/src/Processes/pubmed_export_citations.jl#L29-L36' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.map_mesh_to_umls!-Tuple{Any,Any,Any}' href='#BioMedQuery.Processes.map_mesh_to_umls!-Tuple{Any,Any,Any}'>#</a>
 <strong><code>BioMedQuery.Processes.map_mesh_to_umls!</code></strong> &mdash; <em>Method</em>.</p>
 <p>map_mesh_to_umls!(db, c::Credentials)</p>
@@ -626,7 +626,7 @@
 <ul>
 <li><code>c::Credentials</code>: UMLS username and password</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/ae3c2f0cc52f9b9461fcf0bfeb834fbd0247f9df/src/Processes/pubmed_mesh_to_umls_map.jl#L5-L17' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/80dc9fb807087699ea6de217dc04dcb5bd42bbfe/src/Processes/pubmed_mesh_to_umls_map.jl#L5-L17' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.map_mesh_to_umls_async!-Tuple{Any,Any,Any}' href='#BioMedQuery.Processes.map_mesh_to_umls_async!-Tuple{Any,Any,Any}'>#</a>
 <strong><code>BioMedQuery.Processes.map_mesh_to_umls_async!</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span><span class="nt">map_mesh_to_umls_async</span><span class="o">!(</span><span class="nt">db</span><span class="o">,</span> <span class="nt">c</span><span class="p">::</span><span class="nd">Credentials</span><span class="o">;</span> <span class="nt">timeout</span><span class="o">,</span> <span class="nt">append_results</span><span class="o">,</span> <span class="nt">verbose</span><span class="o">)</span>
@@ -645,7 +645,7 @@
 <li><code>c::Credentials</code>: UMLS username and password</li>
 <li><code>append_results::Bool</code> : If false a NEW and EMPTY mesh2umls database table in creted</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/ae3c2f0cc52f9b9461fcf0bfeb834fbd0247f9df/src/Processes/pubmed_mesh_to_umls_map.jl#L72-L86' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/80dc9fb807087699ea6de217dc04dcb5bd42bbfe/src/Processes/pubmed_mesh_to_umls_map.jl#L72-L86' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.pubmed_search_and_save' href='#BioMedQuery.Processes.pubmed_search_and_save'>#</a>
 <strong><code>BioMedQuery.Processes.pubmed_search_and_save</code></strong> &mdash; <em>Function</em>.</p>
 <p>pubmed_search_and_save(email, search_term, article_max::Int64, db_path, verbose=false)</p>
@@ -660,7 +660,7 @@
 <li>db_path: path to output database</li>
 <li>verbose: if true, the NCBI xml response files are saved to current directory</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/ae3c2f0cc52f9b9461fcf0bfeb834fbd0247f9df/src/Processes/pubmed_search_and_save.jl#L8-L21' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/80dc9fb807087699ea6de217dc04dcb5bd42bbfe/src/Processes/pubmed_search_and_save.jl#L8-L21' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.pubmed_search_and_save_mysql!' href='#BioMedQuery.Processes.pubmed_search_and_save_mysql!'>#</a>
 <strong><code>BioMedQuery.Processes.pubmed_search_and_save_mysql!</code></strong> &mdash; <em>Function</em>.</p>
 <p>pubmed_search_and_save_mysql!(email, search_term::String, article_max,      con::MySQL.MySQLHandle, clean_efetch_tables = false, verbose=false)</p>
@@ -676,7 +676,7 @@
 <li><code>clean_efetch_tables</code>: If true the pubmed/efetch related tables are cleaned/overwritten</li>
 <li><code>verbose</code>: if true, the NCBI xml response files are saved to current directory</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/ae3c2f0cc52f9b9461fcf0bfeb834fbd0247f9df/src/Processes/pubmed_search_and_save.jl#L101-L115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/80dc9fb807087699ea6de217dc04dcb5bd42bbfe/src/Processes/pubmed_search_and_save.jl#L101-L115' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.umls_semantic_occurrences-Tuple{Any,Vararg{Any,N} where N}' href='#BioMedQuery.Processes.umls_semantic_occurrences-Tuple{Any,Vararg{Any,N} where N}'>#</a>
 <strong><code>BioMedQuery.Processes.umls_semantic_occurrences</code></strong> &mdash; <em>Method</em>.</p>
 <p>umls_semantic_occurrences(db, umls_semantic_type)</p>
@@ -687,7 +687,7 @@
 <li><code>disease_occurances</code> : Sparse matrix. The columns correspond to a feature</li>
 </ul>
 <p>vector, where each row is a MESH descriptor. There are as many columns as articles. The occurance/abscense of a descriptor is labeled as 1/0</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/ae3c2f0cc52f9b9461fcf0bfeb834fbd0247f9df/src/Processes/pubmed_occurrance_filtering.jl#L10-L22' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/80dc9fb807087699ea6de217dc04dcb5bd42bbfe/src/Processes/pubmed_occurrance_filtering.jl#L10-L22' class='documenter-source'>source</a><br></p>
                 
                   
                 

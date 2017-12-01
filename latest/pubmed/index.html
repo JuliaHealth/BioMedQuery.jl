@@ -841,12 +841,12 @@
 <strong><code>BioMedQuery.PubMed.abstracts</code></strong> &mdash; <em>Method</em>.</p>
 <p>abstracts(db; local_medline=false)</p>
 <p>Return all abstracts related to PMIDs in the database. If local_medline flag is set to true, it is assumed that db contains <em>article</em> table with only PMIDs and all other info is available in a (same host) medline database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/ae3c2f0cc52f9b9461fcf0bfeb834fbd0247f9df/src/PubMed/pubmed_sql_utils.jl#L224-L230' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/80dc9fb807087699ea6de217dc04dcb5bd42bbfe/src/PubMed/pubmed_sql_utils.jl#L224-L230' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.abstracts_by_year-Tuple{Any,Any}' href='#BioMedQuery.PubMed.abstracts_by_year-Tuple{Any,Any}'>#</a>
 <strong><code>BioMedQuery.PubMed.abstracts_by_year</code></strong> &mdash; <em>Method</em>.</p>
 <p>abstracts_by_year(db, pub_year; local_medline=false)</p>
 <p>Return all abstracts of article published in the given year. If local_medline flag is set to true, it is assumed that db contains <em>article</em> table with only PMIDs and all other info is available in a (same host) medline database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/ae3c2f0cc52f9b9461fcf0bfeb834fbd0247f9df/src/PubMed/pubmed_sql_utils.jl#L194-L200' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/80dc9fb807087699ea6de217dc04dcb5bd42bbfe/src/PubMed/pubmed_sql_utils.jl#L194-L200' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.all_pmids-Tuple{Any}' href='#BioMedQuery.PubMed.all_pmids-Tuple{Any}'>#</a>
 <strong><code>BioMedQuery.PubMed.all_pmids</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>all_pmids(db)
@@ -854,7 +854,7 @@
 
 
 <p>Return all PMIDs stored in the <em>article</em> table of the input database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/ae3c2f0cc52f9b9461fcf0bfeb834fbd0247f9df/src/PubMed/pubmed_sql_utils.jl#L176-L179' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/80dc9fb807087699ea6de217dc04dcb5bd42bbfe/src/PubMed/pubmed_sql_utils.jl#L176-L179' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.get_article_mesh-Tuple{Any,Integer}' href='#BioMedQuery.PubMed.get_article_mesh-Tuple{Any,Integer}'>#</a>
 <strong><code>BioMedQuery.PubMed.get_article_mesh</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>get_article_mesh(db, pmid)
@@ -862,7 +862,7 @@
 
 
 <p>Get the all mesh-descriptors associated with a give article</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/ae3c2f0cc52f9b9461fcf0bfeb834fbd0247f9df/src/PubMed/pubmed_sql_utils.jl#L252-L255' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/80dc9fb807087699ea6de217dc04dcb5bd42bbfe/src/PubMed/pubmed_sql_utils.jl#L252-L255' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.get_article_mesh_by_concept-Tuple{Any,Integer,Vararg{Any,N} where N}' href='#BioMedQuery.PubMed.get_article_mesh_by_concept-Tuple{Any,Integer,Vararg{Any,N} where N}'>#</a>
 <strong><code>BioMedQuery.PubMed.get_article_mesh_by_concept</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>get_article_mesh_by_concept(db, pmid, umls_concepts...; local_medline)
@@ -874,7 +874,7 @@
 <ul>
 <li>query_string: "" - assumes full set of results were saved by BioMedQuery directly from XML</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/ae3c2f0cc52f9b9461fcf0bfeb834fbd0247f9df/src/PubMed/pubmed_sql_utils.jl#L269-L274' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/80dc9fb807087699ea6de217dc04dcb5bd42bbfe/src/PubMed/pubmed_sql_utils.jl#L269-L274' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.save_efetch_mysql' href='#BioMedQuery.PubMed.save_efetch_mysql'>#</a>
 <strong><code>BioMedQuery.PubMed.save_efetch_mysql</code></strong> &mdash; <em>Function</em>.</p>
 <p>save_efetch_mysql(efetch_dict, con::MySQL.MySQLHandle, clean_efetch_tables = false, verbose=false)</p>
@@ -888,7 +888,7 @@
 </ul>
 <h3 id="example">Example</h3>
 <p><code>julia db_config =  Dict(:host=&gt;"localhost", :dbname=&gt;"test", :username=&gt;"root", :pswd=&gt;"", :overwrite=&gt;true) db = save_efetch_mysql(efetch_dict, db_config)</code></p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/ae3c2f0cc52f9b9461fcf0bfeb834fbd0247f9df/src/PubMed/eutils_sql_save.jl#L73-L94' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/80dc9fb807087699ea6de217dc04dcb5bd42bbfe/src/PubMed/eutils_sql_save.jl#L73-L94' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.save_efetch_mysql-Union{Tuple{Any,Dict{Symbol,T},Any}, Tuple{Any,Dict{Symbol,T}}, Tuple{T}} where T' href='#BioMedQuery.PubMed.save_efetch_mysql-Union{Tuple{Any,Dict{Symbol,T},Any}, Tuple{Any,Dict{Symbol,T}}, Tuple{T}} where T'>#</a>
 <strong><code>BioMedQuery.PubMed.save_efetch_mysql</code></strong> &mdash; <em>Method</em>.</p>
 <p>save_efetch_mysql(efetch_dict, db_config, verbose)</p>
@@ -909,7 +909,7 @@
 </pre></div>
 
 
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/ae3c2f0cc52f9b9461fcf0bfeb834fbd0247f9df/src/PubMed/eutils_sql_save.jl#L37-L59' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/80dc9fb807087699ea6de217dc04dcb5bd42bbfe/src/PubMed/eutils_sql_save.jl#L37-L59' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.save_efetch_sqlite-Union{Tuple{Any,Dict{Symbol,T},Any}, Tuple{Any,Dict{Symbol,T}}, Tuple{T}} where T' href='#BioMedQuery.PubMed.save_efetch_sqlite-Union{Tuple{Any,Dict{Symbol,T},Any}, Tuple{Any,Dict{Symbol,T}}, Tuple{T}} where T'>#</a>
 <strong><code>BioMedQuery.PubMed.save_efetch_sqlite</code></strong> &mdash; <em>Method</em>.</p>
 <p>save_efetch_sqlite(efetch_dict, db_config, verbose)</p>
@@ -929,7 +929,7 @@
 </pre></div>
 
 
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/ae3c2f0cc52f9b9461fcf0bfeb834fbd0247f9df/src/PubMed/eutils_sql_save.jl#L6-L25' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/80dc9fb807087699ea6de217dc04dcb5bd42bbfe/src/PubMed/eutils_sql_save.jl#L6-L25' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.save_pmid_mysql-Union{Tuple{Array{Int64,1},Dict{Symbol,T},Any}, Tuple{Array{Int64,1},Dict{Symbol,T}}, Tuple{T}} where T' href='#BioMedQuery.PubMed.save_pmid_mysql-Union{Tuple{Array{Int64,1},Dict{Symbol,T},Any}, Tuple{Array{Int64,1},Dict{Symbol,T}}, Tuple{T}} where T'>#</a>
 <strong><code>BioMedQuery.PubMed.save_pmid_mysql</code></strong> &mdash; <em>Method</em>.</p>
 <p>save_pmid_mysql(pmids, db_config, verbose)</p>
@@ -942,7 +942,7 @@
 <ul>
 <li><code>verbose</code>: Boolean to turn on extra print statements</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/ae3c2f0cc52f9b9461fcf0bfeb834fbd0247f9df/src/PubMed/eutils_sql_save.jl#L142-L153' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/80dc9fb807087699ea6de217dc04dcb5bd42bbfe/src/PubMed/eutils_sql_save.jl#L142-L153' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.all_mesh-Tuple{Any}' href='#BioMedQuery.PubMed.all_mesh-Tuple{Any}'>#</a>
 <strong><code>BioMedQuery.PubMed.all_mesh</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>all_mesh(db)
@@ -950,12 +950,12 @@
 
 
 <p>Return all PMIDs stored in the <em>article</em> table of the input database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/ae3c2f0cc52f9b9461fcf0bfeb834fbd0247f9df/src/PubMed/pubmed_sql_utils.jl#L185-L188' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/80dc9fb807087699ea6de217dc04dcb5bd42bbfe/src/PubMed/pubmed_sql_utils.jl#L185-L188' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.pubmed_save_efetch!' href='#BioMedQuery.PubMed.pubmed_save_efetch!'>#</a>
 <strong><code>BioMedQuery.PubMed.pubmed_save_efetch!</code></strong> &mdash; <em>Function</em>.</p>
 <p>pubmed_save_efetch(efetch_dict, db_path)</p>
 <p>Save the results (dictionary) of an entrez-pubmed fetch to the input database.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/ae3c2f0cc52f9b9461fcf0bfeb834fbd0247f9df/src/PubMed/eutils_sql_save.jl#L111-L115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/80dc9fb807087699ea6de217dc04dcb5bd42bbfe/src/PubMed/eutils_sql_save.jl#L111-L115' class='documenter-source'>source</a><br></p>
                 
                   
                 
