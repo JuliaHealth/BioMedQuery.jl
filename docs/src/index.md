@@ -27,7 +27,14 @@ To chekout the current master (development) branch:
 Pkg.checkout("BioMedQuery")
 ```
 
-## Sister Packages
+<!-- ```@contents
+Pages = ["man/eutils.md", "man/umls.md"]
+Depth = 6 -->
+```
 
-- [PubMedMiner](https://github.com/bcbi/PubMedMiner.jl) - Examples of comorbidity studies using PubMed artciles
+## Related Packages
 
+| Function                                | Description                   | 
+| :-------                                | :----------                   |
+|[BioServices.jl](https://github.com/BioJulia/BioServices.jl)| Interface to EUtils and UMLS APIs|
+|[PubMedMiner.jl](https://github.com/bcbi/PubMedMiner.jl) | Examples of comorbidity studies using PubMed artciles|

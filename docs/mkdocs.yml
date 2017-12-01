@@ -26,11 +26,17 @@ markdown_extensions:
 docs_dir: 'build'
 
 pages:
-- Overview: index.md
-- Processes/Workflows: processes.md
-- PubMed: pubmed.md
-- Clinical Trials: ct.md
-- Examples: examples.md
-- Database Utilities: dbutils.md
-- Library: library.md
+- Home: index.md
+- Examples: 
+  - Overview: examples.md
+  - Pubmed Search and Save: example1.md
+  - MeSH/UMLS Map: example2.md
+  - UMLS Semantic Filtering: example3.md
+  - Export to citations: example4.md
+- Manual:
+  - Processes/Workflows: processes.md
+  - PubMed: pubmed.md
+  - Clinical Trials: ct.md
+  - Database Utilities: dbutils.md
+  - Library: library.md
   
