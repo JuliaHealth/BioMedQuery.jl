@@ -43,4 +43,4 @@ Pkg.checkout("BioMedQuery")
 
 ### Note:
 
-This package has recently undergone significant changes. EUtils and UMLs APIs are now part of [BioServices.jl](https://github.com/BioJulia/BioServices.jl) (part of BioJulia) provides the basic interface to some of the APIs, while BioMedQuery helps parse and save results into MySQL, SQLite, DataFrames etcs. The old master is now tag v0.2.3-depracate. 
+This package has recently undergone significant changes. EUtils and UMLs APIs are now part of [BioServices.jl](https://github.com/BioJulia/BioServices.jl). BioMedQuery helps parse and save results into MySQL, SQLite, DataFrames etcs. The old master is now tag v0.2.3-depracate. 
