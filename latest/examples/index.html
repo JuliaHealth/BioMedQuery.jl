@@ -36,7 +36,7 @@
     
     
       
-        <title>Examples - BioMedQuery.jl</title>
+        <title>Overview - BioMedQuery.jl</title>
       
     
     
@@ -94,7 +94,7 @@
                 BioMedQuery.jl
               </span>
               <span class="md-header-nav__topic">
-                Examples
+                Overview
               </span>
             
           
@@ -209,8 +209,8 @@
 
 
   <li class="md-nav__item">
-    <a href=".." title="Overview" class="md-nav__link">
-      Overview
+    <a href=".." title="Home" class="md-nav__link">
+      Home
     </a>
   </li>
 
@@ -219,41 +219,26 @@
       
       
 
+  
 
-  <li class="md-nav__item">
-    <a href="../processes/" title="Processes/Workflows" class="md-nav__link">
-      Processes/Workflows
-    </a>
-  </li>
 
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../pubmed/" title="PubMed" class="md-nav__link">
-      PubMed
-    </a>
-  </li>
-
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
     
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../ct/" title="Clinical Trials" class="md-nav__link">
-      Clinical Trials
-    </a>
-  </li>
-
-    
-      
-      
-      
+    <label class="md-nav__link" for="nav-2">
+      Examples
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Examples
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
 
   
 
@@ -263,48 +248,124 @@
     <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
     
     
-      <label class="md-nav__link md-nav__link--active" for="toc">
-        Examples
-      </label>
-    
-    <a href="./" title="Examples" class="md-nav__link md-nav__link--active">
-      Examples
+    <a href="./" title="Overview" class="md-nav__link md-nav__link--active">
+      Overview
     </a>
     
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-  
-    <label class="md-nav__title" for="toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#running-the-scripts" title="Running the scripts" class="md-nav__link">
-    Running the scripts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuring-local-variables" title="Configuring local variables" class="md-nav__link">
-    Configuring local variables
-  </a>
-  
-</li>
-      
-      
-      
-    </ul>
-  
-</nav>
-    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../example1/" title="Pubmed Search and Save" class="md-nav__link">
+      Pubmed Search and Save
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../example2/" title="MeSH/UMLS Map" class="md-nav__link">
+      MeSH/UMLS Map
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../example3/" title="UMLS Semantic Filtering" class="md-nav__link">
+      UMLS Semantic Filtering
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../example4/" title="Export to citations" class="md-nav__link">
+      Export to citations
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
     
       
       
       
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Manual
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Manual
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../processes/" title="Processes/Workflows" class="md-nav__link">
+      Processes/Workflows
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pubmed/" title="PubMed" class="md-nav__link">
+      PubMed
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ct/" title="Clinical Trials" class="md-nav__link">
+      Clinical Trials
+    </a>
+  </li>
+
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -313,16 +374,21 @@
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
     <a href="../library/" title="Library" class="md-nav__link">
       Library
     </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
     
@@ -333,40 +399,6 @@
               </div>
             
             
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-<nav class="md-nav md-nav--secondary">
-  
-  
-  
-    <label class="md-nav__title" for="toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#running-the-scripts" title="Running the scripts" class="md-nav__link">
-    Running the scripts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuring-local-variables" title="Configuring local variables" class="md-nav__link">
-    Configuring local variables
-  </a>
-  
-</li>
-      
-      
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
@@ -375,24 +407,37 @@
                   <a href="https://github.com/bcbi/BioMedQuery.jl/edit/master/docs/examples.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                  <h1>Examples</h1>
+                  <h1>Overview</h1>
                 
-                <p>The <a href="https://github.com/bcbi/BioMedQuery.jl/tree/master/examples">examples</a> folder contains sample scripts demonstrating how to use BioMedQuery's pre-assembled processes/workflows. The following examples are available:</p>
-<ul>
-<li><a href="">Search&amp;Save PubMed</a>:</li>
-<li><a href="">Build MESH-UMLS map</a>:</li>
-<li><a href="">Occurrence Matrix</a>:</li>
-<li><a href="">Exporting Citations</a>:</li>
-</ul>
-<p><a id='Running-the-scripts-1'></a></p>
-<h2 id="running-the-scripts">Running the scripts</h2>
-<p><a id='Configuring-local-variables-1'></a></p>
-<h2 id="configuring-local-variables">Configuring local variables</h2>
-<p><strong>User Credentials</strong></p>
-<p>Email addresses, passwords or any other type of credentials are expected to be stored in your system as environment variables.</p>
-<p>From a Julia session, you can set an environment variable using</p>
-<p><code>ENV["MY_PSWD"] = "MyPsWd"</code></p>
-<p>However, for this variable to be permanently available, you need to add that line to your <code>~/.juliarc.jl</code> file.</p>
+                <p>The repository contains an <a href="https://github.com/bcbi/BioMedQuery.jl/tree/master/examples">examples folder</a> with jupyter notebooks demonstrating how to use BioMedQuery's pre-assembled high-level processes and workflows.</p>
+<p><strong>Note: </strong> When working with the notebooks, a corresponding julia script is generated automatically on every save. For this feature to work properly, make sure you have <code>nbconvert</code> installed.</p>
+<p>The following examples are available:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Example</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><a href="../example1/">Search and Save PubMed Queries</a></td>
+<td align="left">Search pubmed, parse results and store using MySQL or SQLite backend, or export to a  citation library</td>
+</tr>
+<tr>
+<td align="left"><a href="../example2/">Build MESH-UMLS map</a></td>
+<td align="left">For all MeSH descriptors in a given database, build a table to match them to their UMLS concept</td>
+</tr>
+<tr>
+<td align="left"><a href="../example3/">Occurrence Matrix</a></td>
+<td align="left">Build a occurrence matrix indicating papers associated with MeSH descriptors of a given UMLS concept</td>
+</tr>
+<tr>
+<td align="left"><a href="../example4/">Exporting Citations</a></td>
+<td align="left">Export the citation for one or more PMIDs to a Endnote/Bibtex file</td>
+</tr>
+</tbody>
+</table>
                 
                   
                 
@@ -411,7 +456,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../ct/" title="Clinical Trials" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href=".." title="Home" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -420,19 +465,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Clinical Trials
+                Home
               </span>
             </div>
           </a>
         
         
-          <a href="../dbutils/" title="Database Utilities" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../example1/" title="Pubmed Search and Save" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Database Utilities
+                Pubmed Search and Save
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

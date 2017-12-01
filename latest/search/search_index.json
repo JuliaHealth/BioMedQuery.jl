@@ -2,8 +2,8 @@
     "docs": [
         {
             "location": "/", 
-            "text": "BioMedQuery Julia Package\n\n\nJulia utilities to process and save results from BioMedical databases/APIs. \n\n\nBioServices.jl\n (part of BioJulia) provides the basic interface to some of the APIs, while BioMedQuery helps parse and save results into MySQL, SQLite, DataFrames etcs. \n\n\nSupported APIs include:\n\n\nNational Library of Medicine (NLM)\n\n\n\n\nEntrez Programming Utilities \n(E-Utilities)\n\n\nUnified Medical Language System \n(UMLS)\n\n\nClinical Trials \n(clinicaltrials.gov)\n\n\n\n\n\n\nInstallation\n\n\nBioMedQuery is a registered package. To install the latest \nstable version\n, use the package manager.\n\n\nPkg.add(\nBioMedQuery\n)\n\n\n\n\n\nTo chekout the current master (development) branch:\n\n\nPkg\n.\ncheckout\n(\nBioMedQuery\n)\n\n\n\n\n\n\n\n\nSister Packages\n\n\n\n\nPubMedMiner\n - Examples of comorbidity studies using PubMed artciles", 
-            "title": "Overview"
+            "text": "BioMedQuery Julia Package\n\n\nJulia utilities to process and save results from BioMedical databases/APIs. \n\n\nBioServices.jl\n (part of BioJulia) provides the basic interface to some of the APIs, while BioMedQuery helps parse and save results into MySQL, SQLite, DataFrames etcs. \n\n\nSupported APIs include:\n\n\nNational Library of Medicine (NLM)\n\n\n\n\nEntrez Programming Utilities \n(E-Utilities)\n\n\nUnified Medical Language System \n(UMLS)\n\n\nClinical Trials \n(clinicaltrials.gov)\n\n\n\n\n\n\nInstallation\n\n\nBioMedQuery is a registered package. To install the latest \nstable version\n, use the package manager.\n\n\nPkg.add(\nBioMedQuery\n)\n\n\n\n\n\nTo chekout the current master (development) branch:\n\n\nPkg\n.\ncheckout\n(\nBioMedQuery\n)\n\n\n\n\n\n\n`\n\n\n\n\nRelated Packages\n\n\n\n\n\n\n\n\nFunction\n\n\nDescription\n\n\n\n\n\n\n\n\n\n\nBioServices.jl\n\n\nInterface to EUtils and UMLS APIs\n\n\n\n\n\n\nPubMedMiner.jl\n\n\nExamples of comorbidity studies using PubMed artciles", 
+            "title": "Home"
         }, 
         {
             "location": "/#biomedquery-julia-package", 
@@ -12,13 +12,38 @@
         }, 
         {
             "location": "/#installation", 
-            "text": "BioMedQuery is a registered package. To install the latest  stable version , use the package manager.  Pkg.add( BioMedQuery )  To chekout the current master (development) branch:  Pkg . checkout ( BioMedQuery )", 
+            "text": "BioMedQuery is a registered package. To install the latest  stable version , use the package manager.  Pkg.add( BioMedQuery )  To chekout the current master (development) branch:  Pkg . checkout ( BioMedQuery )   `", 
             "title": "Installation"
         }, 
         {
-            "location": "/#sister-packages", 
-            "text": "PubMedMiner  - Examples of comorbidity studies using PubMed artciles", 
-            "title": "Sister Packages"
+            "location": "/#related-packages", 
+            "text": "Function  Description      BioServices.jl  Interface to EUtils and UMLS APIs    PubMedMiner.jl  Examples of comorbidity studies using PubMed artciles", 
+            "title": "Related Packages"
+        }, 
+        {
+            "location": "/examples/", 
+            "text": "The repository contains an \nexamples folder\n with jupyter notebooks demonstrating how to use BioMedQuery's pre-assembled high-level processes and workflows.\n\n\nNote: \n When working with the notebooks, a corresponding julia script is generated automatically on every save. For this feature to work properly, make sure you have \nnbconvert\n installed.\n\n\nThe following examples are available:\n\n\n\n\n\n\n\n\nExample\n\n\nDescription\n\n\n\n\n\n\n\n\n\n\nSearch and Save PubMed Queries\n\n\nSearch pubmed, parse results and store using MySQL or SQLite backend, or export to a  citation library\n\n\n\n\n\n\nBuild MESH-UMLS map\n\n\nFor all MeSH descriptors in a given database, build a table to match them to their UMLS concept\n\n\n\n\n\n\nOccurrence Matrix\n\n\nBuild a occurrence matrix indicating papers associated with MeSH descriptors of a given UMLS concept\n\n\n\n\n\n\nExporting Citations\n\n\nExport the citation for one or more PMIDs to a Endnote/Bibtex file", 
+            "title": "Overview"
+        }, 
+        {
+            "location": "/example1/", 
+            "text": "", 
+            "title": "Pubmed Search and Save"
+        }, 
+        {
+            "location": "/example2/", 
+            "text": "", 
+            "title": "MeSH/UMLS Map"
+        }, 
+        {
+            "location": "/example3/", 
+            "text": "", 
+            "title": "UMLS Semantic Filtering"
+        }, 
+        {
+            "location": "/example4/", 
+            "text": "", 
+            "title": "Export to citations"
         }, 
         {
             "location": "/processes/", 
@@ -179,21 +204,6 @@
             "location": "/ct/#submit-and-save", 
             "text": "fout=  ./test_CT_search.zip \nstatus = NLM.CT.search_ct(query, fout;)", 
             "title": "Submit and save:"
-        }, 
-        {
-            "location": "/examples/", 
-            "text": "The \nexamples\n folder contains sample scripts demonstrating how to use BioMedQuery's pre-assembled processes/workflows. The following examples are available:\n\n\n\n\nSearch\nSave PubMed\n:\n\n\nBuild MESH-UMLS map\n:\n\n\nOccurrence Matrix\n:\n\n\nExporting Citations\n:\n\n\n\n\n\n\nRunning the scripts\n\n\n\n\nConfiguring local variables\n\n\nUser Credentials\n\n\nEmail addresses, passwords or any other type of credentials are expected to be stored in your system as environment variables.\n\n\nFrom a Julia session, you can set an environment variable using\n\n\nENV[\"MY_PSWD\"] = \"MyPsWd\"\n\n\nHowever, for this variable to be permanently available, you need to add that line to your \n~/.juliarc.jl\n file.", 
-            "title": "Examples"
-        }, 
-        {
-            "location": "/examples/#running-the-scripts", 
-            "text": "", 
-            "title": "Running the scripts"
-        }, 
-        {
-            "location": "/examples/#configuring-local-variables", 
-            "text": "User Credentials  Email addresses, passwords or any other type of credentials are expected to be stored in your system as environment variables.  From a Julia session, you can set an environment variable using  ENV[\"MY_PSWD\"] = \"MyPsWd\"  However, for this variable to be permanently available, you need to add that line to your  ~/.juliarc.jl  file.", 
-            "title": "Configuring local variables"
         }, 
         {
             "location": "/dbutils/", 

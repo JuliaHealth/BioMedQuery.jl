@@ -209,8 +209,8 @@
 
 
   <li class="md-nav__item">
-    <a href=".." title="Overview" class="md-nav__link">
-      Overview
+    <a href=".." title="Home" class="md-nav__link">
+      Home
     </a>
   </li>
 
@@ -218,6 +218,111 @@
       
       
       
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Examples
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Examples
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../examples/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../example1/" title="Pubmed Search and Save" class="md-nav__link">
+      Pubmed Search and Save
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../example2/" title="MeSH/UMLS Map" class="md-nav__link">
+      MeSH/UMLS Map
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../example3/" title="UMLS Semantic Filtering" class="md-nav__link">
+      UMLS Semantic Filtering
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../example4/" title="Export to citations" class="md-nav__link">
+      Export to citations
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      Manual
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Manual
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -226,10 +331,10 @@
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -238,10 +343,10 @@
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -250,22 +355,10 @@
     </a>
   </li>
 
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../examples/" title="Examples" class="md-nav__link">
-      Examples
-    </a>
-  </li>
-
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -274,10 +367,10 @@
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
   
 
@@ -316,6 +409,11 @@
   
 </nav>
     
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
     
@@ -370,12 +468,12 @@
 <li><a href="../dbutils/#BioMedQuery.DBUtils.assemble_cols_and_vals_string-Union{Tuple{Dict{Symbol,T},Any}, Tuple{Dict{Symbol,T}}, Tuple{T}} where T"><code>BioMedQuery.DBUtils.assemble_cols_and_vals_string</code></a></li>
 <li><a href="../dbutils/#BioMedQuery.DBUtils.assemble_vals-Union{Tuple{Dict{Symbol,T},Array{Symbol,1}}, Tuple{T}} where T"><code>BioMedQuery.DBUtils.assemble_vals</code></a></li>
 <li><a href="../dbutils/#BioMedQuery.DBUtils.colname_dict-Tuple{Any}"><code>BioMedQuery.DBUtils.colname_dict</code></a></li>
-<li><a href="../dbutils/#BioMedQuery.DBUtils.db_query-Tuple{SQLite.DB,Any}"><code>BioMedQuery.DBUtils.db_query</code></a></li>
 <li><a href="../dbutils/#BioMedQuery.DBUtils.db_query-Tuple{MySQL.MySQLHandle,Any}"><code>BioMedQuery.DBUtils.db_query</code></a></li>
+<li><a href="../dbutils/#BioMedQuery.DBUtils.db_query-Tuple{SQLite.DB,Any}"><code>BioMedQuery.DBUtils.db_query</code></a></li>
 <li><a href="../dbutils/#BioMedQuery.DBUtils.db_select-Union{Tuple{Any,Any,Any,Dict{Symbol,T}}, Tuple{T}} where T"><code>BioMedQuery.DBUtils.db_select</code></a></li>
 <li><a href="../dbutils/#BioMedQuery.DBUtils.init_mysql_database-Tuple{}"><code>BioMedQuery.DBUtils.init_mysql_database</code></a></li>
-<li><a href="../dbutils/#BioMedQuery.DBUtils.insert_row!-Union{Tuple{MySQL.MySQLHandle,Any,Dict{Symbol,T},Any}, Tuple{MySQL.MySQLHandle,Any,Dict{Symbol,T}}, Tuple{T}} where T"><code>BioMedQuery.DBUtils.insert_row!</code></a></li>
 <li><a href="../dbutils/#BioMedQuery.DBUtils.insert_row!-Union{Tuple{SQLite.DB,Any,Dict{Symbol,T},Any}, Tuple{SQLite.DB,Any,Dict{Symbol,T}}, Tuple{T}} where T"><code>BioMedQuery.DBUtils.insert_row!</code></a></li>
+<li><a href="../dbutils/#BioMedQuery.DBUtils.insert_row!-Union{Tuple{MySQL.MySQLHandle,Any,Dict{Symbol,T},Any}, Tuple{MySQL.MySQLHandle,Any,Dict{Symbol,T}}, Tuple{T}} where T"><code>BioMedQuery.DBUtils.insert_row!</code></a></li>
 <li><a href="../dbutils/#BioMedQuery.DBUtils.select_all_tables-Tuple{SQLite.DB}"><code>BioMedQuery.DBUtils.select_all_tables</code></a></li>
 <li><a href="../dbutils/#BioMedQuery.DBUtils.select_all_tables-Tuple{MySQL.MySQLHandle}"><code>BioMedQuery.DBUtils.select_all_tables</code></a></li>
 <li><a href="../dbutils/#BioMedQuery.DBUtils.select_columns-Tuple{SQLite.DB,Any}"><code>BioMedQuery.DBUtils.select_columns</code></a></li>
@@ -394,8 +492,8 @@
 <li><a href="../pubmed/#BioMedQuery.PubMed.get_article_mesh-Tuple{Any,Integer}"><code>BioMedQuery.PubMed.get_article_mesh</code></a></li>
 <li><a href="../pubmed/#BioMedQuery.PubMed.get_article_mesh_by_concept-Tuple{Any,Integer,Vararg{Any,N} where N}"><code>BioMedQuery.PubMed.get_article_mesh_by_concept</code></a></li>
 <li><a href="../pubmed/#BioMedQuery.PubMed.pubmed_save_efetch!"><code>BioMedQuery.PubMed.pubmed_save_efetch!</code></a></li>
-<li><a href="../pubmed/#BioMedQuery.PubMed.save_efetch_mysql-Union{Tuple{Any,Dict{Symbol,T},Any}, Tuple{Any,Dict{Symbol,T}}, Tuple{T}} where T"><code>BioMedQuery.PubMed.save_efetch_mysql</code></a></li>
 <li><a href="../pubmed/#BioMedQuery.PubMed.save_efetch_mysql"><code>BioMedQuery.PubMed.save_efetch_mysql</code></a></li>
+<li><a href="../pubmed/#BioMedQuery.PubMed.save_efetch_mysql-Union{Tuple{Any,Dict{Symbol,T},Any}, Tuple{Any,Dict{Symbol,T}}, Tuple{T}} where T"><code>BioMedQuery.PubMed.save_efetch_mysql</code></a></li>
 <li><a href="../pubmed/#BioMedQuery.PubMed.save_efetch_sqlite-Union{Tuple{Any,Dict{Symbol,T},Any}, Tuple{Any,Dict{Symbol,T}}, Tuple{T}} where T"><code>BioMedQuery.PubMed.save_efetch_sqlite</code></a></li>
 <li><a href="../pubmed/#BioMedQuery.PubMed.save_pmid_mysql-Union{Tuple{Array{Int64,1},Dict{Symbol,T},Any}, Tuple{Array{Int64,1},Dict{Symbol,T}}, Tuple{T}} where T"><code>BioMedQuery.PubMed.save_pmid_mysql</code></a></li>
 </ul>
