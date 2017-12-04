@@ -1,0 +1,1037 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Julia connection to BioMedial Search APIs">
+      
+      
+      
+        <meta name="author" content="bcbi">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.2.1">
+    
+    
+      
+        <title>PubMed - BioMedQuery.jl</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.41c6761c.css">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+      <link rel="stylesheet" href="../assets/Documenter.css">
+    
+    
+  </head>
+  
+    <body>
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href=".." title="BioMedQuery.jl" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                BioMedQuery.jl
+              </span>
+              <span class="md-header-nav__topic">
+                PubMed
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="search"></label>
+  <div class="md-search__inner">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" required placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
+      <label class="md-icon md-search__icon" for="search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">&#xE5CD;</button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/bcbi/BioMedQuery.jl/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    <span class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </span>
+    BioMedQuery.jl
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/bcbi/BioMedQuery.jl/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Examples
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Examples
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../examples/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../example1/" title="Pubmed Search and Save" class="md-nav__link">
+      Pubmed Search and Save
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../example2/" title="MeSH/UMLS Map" class="md-nav__link">
+      MeSH/UMLS Map
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../example3/" title="UMLS Semantic Filtering" class="md-nav__link">
+      UMLS Semantic Filtering
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../example4/" title="Export to citations" class="md-nav__link">
+      Export to citations
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      Manual
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Manual
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../processes/" title="Processes/Workflows" class="md-nav__link">
+      Processes/Workflows
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        PubMed
+      </label>
+    
+    <a href="./" title="PubMed" class="md-nav__link md-nav__link--active">
+      PubMed
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#import-module" title="Import Module" class="md-nav__link">
+    Import Module
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basics-of-searching-pubmed" title="Basics of searching PubMed" class="md-nav__link">
+    Basics of searching PubMed
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-xml-responses" title="Handling XML responses" class="md-nav__link">
+    Handling XML responses
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#save-eseachefetch-responses" title="Save eseach/efetch responses" class="md-nav__link">
+    Save eseach/efetch responses
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#save-pmids-to-mysql" title="Save PMIDs to MySQL" class="md-nav__link">
+    Save PMIDs to MySQL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export-efetch-response-as-endnote-citation-file" title="Export efetch response as EndNote citation file" class="md-nav__link">
+    Export efetch response as EndNote citation file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#save-efetch-response-to-mysql-database" title="Save efetch response to MySQL database" class="md-nav__link">
+    Save efetch response to MySQL database
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#save-efetch-response-to-sqlite-database" title="Save efetch response to SQLite database" class="md-nav__link">
+    Save efetch response to SQLite database
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exploring-output-databases" title="Exploring output databases" class="md-nav__link">
+    Exploring output databases
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#index" title="Index" class="md-nav__link">
+    Index
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structs-and-functions" title="Structs and Functions" class="md-nav__link">
+    Structs and Functions
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" title="Arguments:" class="md-nav__link">
+    Arguments:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" title="Arguments:" class="md-nav__link">
+    Arguments:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_1" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arguments_2" title="Arguments:" class="md-nav__link">
+    Arguments:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_2" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ct/" title="Clinical Trials" class="md-nav__link">
+      Clinical Trials
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../dbutils/" title="Database Utilities" class="md-nav__link">
+      Database Utilities
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../library/" title="Library" class="md-nav__link">
+      Library
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#import-module" title="Import Module" class="md-nav__link">
+    Import Module
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basics-of-searching-pubmed" title="Basics of searching PubMed" class="md-nav__link">
+    Basics of searching PubMed
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-xml-responses" title="Handling XML responses" class="md-nav__link">
+    Handling XML responses
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#save-eseachefetch-responses" title="Save eseach/efetch responses" class="md-nav__link">
+    Save eseach/efetch responses
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#save-pmids-to-mysql" title="Save PMIDs to MySQL" class="md-nav__link">
+    Save PMIDs to MySQL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export-efetch-response-as-endnote-citation-file" title="Export efetch response as EndNote citation file" class="md-nav__link">
+    Export efetch response as EndNote citation file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#save-efetch-response-to-mysql-database" title="Save efetch response to MySQL database" class="md-nav__link">
+    Save efetch response to MySQL database
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#save-efetch-response-to-sqlite-database" title="Save efetch response to SQLite database" class="md-nav__link">
+    Save efetch response to SQLite database
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exploring-output-databases" title="Exploring output databases" class="md-nav__link">
+    Exploring output databases
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#index" title="Index" class="md-nav__link">
+    Index
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structs-and-functions" title="Structs and Functions" class="md-nav__link">
+    Structs and Functions
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" title="Arguments:" class="md-nav__link">
+    Arguments:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" title="Arguments:" class="md-nav__link">
+    Arguments:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_1" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arguments_2" title="Arguments:" class="md-nav__link">
+    Arguments:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_2" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/bcbi/BioMedQuery.jl/edit/master/docs/pubmed.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                  <h1>PubMed</h1>
+                
+                <p>Utility functions to parse and store PubMed searches via <a href="http://biojulia.net/BioServices.jl/latest/man/eutils">BioServices.EUtils</a></p>
+<p><a id='Import-Module-1'></a></p>
+<h2 id="import-module">Import Module</h2>
+<div class="codehilite"><pre><span></span>using BioMedQuery.PubMed
+</pre></div>
+
+
+<p>This module provides utility functions to parse, store and export queries to PubMed via the NCBI EUtils and its julia interface <a href="http://biojulia.net/BioServices.jl/latest/man/eutils">BioServices.EUtils</a>. For many purposes you may interact with the higher level pipelines in [BioMedQuery.Processes]. Here, some of the lower level functions are discussed in case you need to assemble different pipelines.</p>
+<p><a id='Basics-of-searching-PubMed-1'></a></p>
+<h2 id="basics-of-searching-pubmed">Basics of searching PubMed</h2>
+<p>We are often interseted in searching PubMed for all articles related to a search term, and possibly restricted by other search criteria. To do so we use <a href="http://biojulia.net/BioServices.jl/latest/man/eutils">BioServices.EUtils</a>. A basic example of how we may use the functions <code>esearch</code> and <code>efetch</code> to accomplish such task is illustrated below.</p>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">BioServices</span><span class="o">.</span><span class="n">EUtils</span>
+<span class="k">using</span> <span class="n">XMLDict</span>
+
+<span class="n">search_term</span> <span class="o">=</span> <span class="s">&quot;obstructive sleep apnea[MeSH Major Topic]&quot;</span>
+
+<span class="c">#esearch</span>
+<span class="n">esearch_response</span> <span class="o">=</span> <span class="n">esearch</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s">&quot;pubmed&quot;</span><span class="p">,</span> <span class="n">term</span> <span class="o">=</span> <span class="n">search_term</span><span class="p">,</span>
+<span class="n">retstart</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">retmax</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">tool</span> <span class="o">=</span><span class="s">&quot;BioJulia&quot;</span><span class="p">)</span>
+
+<span class="c">#convert xml to dictionary</span>
+<span class="n">esearch_dict</span> <span class="o">=</span> <span class="n">parse_xml</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="n">esearch_response</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+
+<span class="c">#convert id&#39;s to a array of numbers</span>
+<span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">parse</span><span class="p">(</span><span class="kt">Int64</span><span class="p">,</span> <span class="n">id_node</span><span class="p">)</span> <span class="k">for</span> <span class="n">id_node</span> <span class="kp">in</span> <span class="n">esearch_dict</span><span class="p">[</span><span class="s">&quot;IdList&quot;</span><span class="p">][</span><span class="s">&quot;Id&quot;</span><span class="p">]]</span>
+
+<span class="c">#efetch</span>
+<span class="n">efetch_response</span> <span class="o">=</span> <span class="n">efetch</span><span class="p">(</span><span class="n">db</span> <span class="o">=</span> <span class="s">&quot;pubmed&quot;</span><span class="p">,</span> <span class="n">tool</span> <span class="o">=</span> <span class="s">&quot;BioJulia&quot;</span><span class="p">,</span> <span class="n">retmode</span> <span class="o">=</span> <span class="s">&quot;xml&quot;</span><span class="p">,</span> <span class="n">rettype</span> <span class="o">=</span> <span class="s">&quot;null&quot;</span><span class="p">,</span> <span class="n">id</span> <span class="o">=</span> <span class="n">ids</span><span class="p">)</span>
+
+<span class="c">#convert xml to dictionary</span>
+<span class="n">efetch_dict</span> <span class="o">=</span> <span class="n">parse_xml</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="n">efetch_response</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+</pre></div>
+
+
+<p><a id='Handling-XML-responses-1'></a></p>
+<h2 id="handling-xml-responses">Handling XML responses</h2>
+<p>Many APIs return responses in XML form. </p>
+<p>To parse an XML to a Julia dictionary we can use the XMLDict package</p>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">XMLDict</span>
+<span class="n">dict</span> <span class="o">=</span> <span class="n">parse_xml</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>  
+</pre></div>
+
+
+<p>You can save directly the XML String to file using LightXML</p>
+<div class="codehilite"><pre><span></span><span class="n">xdoc</span> <span class="o">=</span> <span class="n">parse_string</span><span class="p">(</span><span class="n">esearch</span><span class="p">)</span>
+<span class="n">save_file</span><span class="p">(</span><span class="n">xdoc</span><span class="p">,</span> <span class="s">&quot;./file.xml&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<hr />
+<p><a id='Save-eseach/efetch-responses-1'></a></p>
+<h2 id="save-eseachefetch-responses">Save eseach/efetch responses</h2>
+<p><a id='Save-PMIDs-to-MySQL-1'></a></p>
+<h3 id="save-pmids-to-mysql">Save PMIDs to MySQL</h3>
+<p>If we are only interseted in saving a list of PMIDs associated with a query, we can do so as follows</p>
+<div class="codehilite"><pre><span></span><span class="n">dbname</span> <span class="o">=</span> <span class="s">&quot;entrez_test&quot;</span>
+<span class="n">config</span> <span class="o">=</span> <span class="kt">Dict</span><span class="p">(</span><span class="o">:</span><span class="n">host</span><span class="o">=&gt;</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="o">:</span><span class="n">dbname</span><span class="o">=&gt;</span><span class="n">dbname</span><span class="p">,</span> <span class="o">:</span><span class="n">username</span><span class="o">=&gt;</span><span class="s">&quot;root&quot;</span><span class="p">,</span>
+<span class="o">:</span><span class="n">pswd</span><span class="o">=&gt;</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="o">:</span><span class="n">overwrite</span><span class="o">=&gt;</span><span class="kc">true</span><span class="p">)</span>
+<span class="n">con</span> <span class="o">=</span> <span class="n">PubMed</span><span class="o">.</span><span class="n">save_pmid_mysql</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="kc">false</span><span class="p">)</span>
+
+<span class="c"># get array of PMIDS store in database</span>
+<span class="n">all_pmids</span> <span class="o">=</span> <span class="n">BioMedQuery</span><span class="o">.</span><span class="n">PubMed</span><span class="o">.</span><span class="n">all_pmids</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+</pre></div>
+
+
+<p><a id='Export-efetch-response-as-EndNote-citation-file-1'></a></p>
+<h3 id="export-efetch-response-as-endnote-citation-file">Export efetch response as EndNote citation file</h3>
+<p>We can export the information returned by efetch as and EndNote/BibTex library file</p>
+<div class="codehilite"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="kt">Dict</span><span class="p">(</span><span class="o">:</span><span class="k">type</span> <span class="o">=&gt;</span> <span class="s">&quot;endnote&quot;</span><span class="p">,</span> <span class="o">:</span><span class="n">output_file</span> <span class="o">=&gt;</span> <span class="s">&quot;./citations_temp.endnote&quot;</span><span class="p">,</span> <span class="o">:</span><span class="n">overwrite</span><span class="o">=&gt;</span><span class="kc">true</span><span class="p">)</span>
+<span class="n">nsucceses</span> <span class="o">=</span> <span class="n">BioMedQuery</span><span class="o">.</span><span class="n">PubMed</span><span class="o">.</span><span class="n">save_article_citations</span><span class="p">(</span><span class="n">efetch_dict</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+</pre></div>
+
+
+<p><a id='Save-efetch-response-to-MySQL-database-1'></a></p>
+<h3 id="save-efetch-response-to-mysql-database">Save efetch response to MySQL database</h3>
+<p>Save the information returned by efetch to a MySQL database</p>
+<div class="codehilite"><pre><span></span><span class="n">dbname</span> <span class="o">=</span> <span class="s">&quot;entrez_test&quot;</span>
+<span class="n">config</span> <span class="o">=</span> <span class="kt">Dict</span><span class="p">(</span><span class="o">:</span><span class="n">host</span><span class="o">=&gt;</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="o">:</span><span class="n">dbname</span><span class="o">=&gt;</span><span class="n">dbname</span><span class="p">,</span> <span class="o">:</span><span class="n">username</span><span class="o">=&gt;</span><span class="s">&quot;root&quot;</span><span class="p">,</span>
+<span class="o">:</span><span class="n">pswd</span><span class="o">=&gt;</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="o">:</span><span class="n">overwrite</span><span class="o">=&gt;</span><span class="kc">true</span><span class="p">)</span>
+<span class="nd">@time</span> <span class="n">db</span> <span class="o">=</span> <span class="n">BioMedQuery</span><span class="o">.</span><span class="n">PubMed</span><span class="o">.</span><span class="n">save_efetch_mysql</span><span class="p">(</span><span class="n">efetch_dict</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+</pre></div>
+
+
+<p><a id='Save-efetch-response-to-SQLite-database-1'></a></p>
+<h3 id="save-efetch-response-to-sqlite-database">Save efetch response to SQLite database</h3>
+<p>Save the information returned by efetch to a MySQL database</p>
+<div class="codehilite"><pre><span></span><span class="n">verbose</span> <span class="o">=</span> <span class="kc">false</span>
+<span class="n">db_path</span> <span class="o">=</span> <span class="s">&quot;./test_db.db&quot;</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="kt">Dict</span><span class="p">(</span><span class="o">:</span><span class="n">db_path</span><span class="o">=&gt;</span> <span class="n">db_path</span><span class="p">,</span> <span class="o">:</span><span class="n">overwrite</span><span class="o">=&gt;</span><span class="kc">true</span><span class="p">)</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">BioMedQuery</span><span class="o">.</span><span class="n">PubMed</span><span class="o">.</span><span class="n">save_efetch_sqlite</span><span class="p">(</span><span class="n">efetch_dict</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+</pre></div>
+
+
+<p><a id='Exploring-output-databases-1'></a></p>
+<h3 id="exploring-output-databases">Exploring output databases</h3>
+<p>The following schema has been used to store the results. If you are interested in having this module store additional fields, feel free to open an issue        </p>
+<p><img alt="alt" src="../images/save_efetch_schema.jpeg" /></p>
+<p>We can als eexplore the tables using BioMedQuery.DBUtils, e,g</p>
+<div class="codehilite"><pre><span></span><span class="n">tables</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;author&quot;</span><span class="p">,</span> <span class="s">&quot;author2article&quot;</span><span class="p">,</span> <span class="s">&quot;mesh_descriptor&quot;</span><span class="p">,</span>
+<span class="s">&quot;mesh_qualifier&quot;</span><span class="p">,</span> <span class="s">&quot;mesh_heading&quot;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">t</span> <span class="kp">in</span> <span class="n">tables</span>
+    <span class="n">query_str</span> <span class="o">=</span> <span class="s">&quot;SELECT * FROM &quot;</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="s">&quot; LIMIT 10;&quot;</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">BioMedQuery</span><span class="o">.</span><span class="n">DBUtils</span><span class="o">.</span><span class="n">db_query</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">query_str</span><span class="p">)</span>
+    <span class="n">println</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<hr />
+<p><a id='Index-1'></a></p>
+<h2 id="index">Index</h2>
+<ul>
+<li><a href="./#BioMedQuery.PubMed.abstracts-Tuple{Any}"><code>BioMedQuery.PubMed.abstracts</code></a></li>
+<li><a href="./#BioMedQuery.PubMed.abstracts_by_year-Tuple{Any,Any}"><code>BioMedQuery.PubMed.abstracts_by_year</code></a></li>
+<li><a href="./#BioMedQuery.PubMed.all_mesh-Tuple{Any}"><code>BioMedQuery.PubMed.all_mesh</code></a></li>
+<li><a href="./#BioMedQuery.PubMed.all_pmids-Tuple{Any}"><code>BioMedQuery.PubMed.all_pmids</code></a></li>
+<li><a href="./#BioMedQuery.PubMed.get_article_mesh-Tuple{Any,Integer}"><code>BioMedQuery.PubMed.get_article_mesh</code></a></li>
+<li><a href="./#BioMedQuery.PubMed.get_article_mesh_by_concept-Tuple{Any,Integer,Vararg{Any,N} where N}"><code>BioMedQuery.PubMed.get_article_mesh_by_concept</code></a></li>
+<li><a href="./#BioMedQuery.PubMed.pubmed_save_efetch!"><code>BioMedQuery.PubMed.pubmed_save_efetch!</code></a></li>
+<li><a href="./#BioMedQuery.PubMed.save_efetch_mysql-Union{Tuple{Any,Dict{Symbol,T},Any}, Tuple{Any,Dict{Symbol,T}}, Tuple{T}} where T"><code>BioMedQuery.PubMed.save_efetch_mysql</code></a></li>
+<li><a href="./#BioMedQuery.PubMed.save_efetch_mysql"><code>BioMedQuery.PubMed.save_efetch_mysql</code></a></li>
+<li><a href="./#BioMedQuery.PubMed.save_efetch_sqlite-Union{Tuple{Any,Dict{Symbol,T},Any}, Tuple{Any,Dict{Symbol,T}}, Tuple{T}} where T"><code>BioMedQuery.PubMed.save_efetch_sqlite</code></a></li>
+<li><a href="./#BioMedQuery.PubMed.save_pmid_mysql-Union{Tuple{Array{Int64,1},Dict{Symbol,T},Any}, Tuple{Array{Int64,1},Dict{Symbol,T}}, Tuple{T}} where T"><code>BioMedQuery.PubMed.save_pmid_mysql</code></a></li>
+</ul>
+<p><a id='Structs-and-Functions-1'></a></p>
+<h2 id="structs-and-functions">Structs and Functions</h2>
+<p><a id='BioMedQuery.PubMed.abstracts-Tuple{Any}' href='#BioMedQuery.PubMed.abstracts-Tuple{Any}'>#</a>
+<strong><code>BioMedQuery.PubMed.abstracts</code></strong> &mdash; <em>Method</em>.</p>
+<p>abstracts(db; local_medline=false)</p>
+<p>Return all abstracts related to PMIDs in the database. If local_medline flag is set to true, it is assumed that db contains <em>article</em> table with only PMIDs and all other info is available in a (same host) medline database</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b15926c6baaffd96f5c77cd4ec0a9c31d18d12ce/src/PubMed/pubmed_sql_utils.jl#L224-L230' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.abstracts_by_year-Tuple{Any,Any}' href='#BioMedQuery.PubMed.abstracts_by_year-Tuple{Any,Any}'>#</a>
+<strong><code>BioMedQuery.PubMed.abstracts_by_year</code></strong> &mdash; <em>Method</em>.</p>
+<p>abstracts_by_year(db, pub_year; local_medline=false)</p>
+<p>Return all abstracts of article published in the given year. If local_medline flag is set to true, it is assumed that db contains <em>article</em> table with only PMIDs and all other info is available in a (same host) medline database</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b15926c6baaffd96f5c77cd4ec0a9c31d18d12ce/src/PubMed/pubmed_sql_utils.jl#L194-L200' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.all_pmids-Tuple{Any}' href='#BioMedQuery.PubMed.all_pmids-Tuple{Any}'>#</a>
+<strong><code>BioMedQuery.PubMed.all_pmids</code></strong> &mdash; <em>Method</em>.</p>
+<div class="codehilite"><pre><span></span>all_pmids(db)
+</pre></div>
+
+
+<p>Return all PMIDs stored in the <em>article</em> table of the input database</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b15926c6baaffd96f5c77cd4ec0a9c31d18d12ce/src/PubMed/pubmed_sql_utils.jl#L176-L179' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.get_article_mesh-Tuple{Any,Integer}' href='#BioMedQuery.PubMed.get_article_mesh-Tuple{Any,Integer}'>#</a>
+<strong><code>BioMedQuery.PubMed.get_article_mesh</code></strong> &mdash; <em>Method</em>.</p>
+<div class="codehilite"><pre><span></span>get_article_mesh(db, pmid)
+</pre></div>
+
+
+<p>Get the all mesh-descriptors associated with a give article</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b15926c6baaffd96f5c77cd4ec0a9c31d18d12ce/src/PubMed/pubmed_sql_utils.jl#L252-L255' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.get_article_mesh_by_concept-Tuple{Any,Integer,Vararg{Any,N} where N}' href='#BioMedQuery.PubMed.get_article_mesh_by_concept-Tuple{Any,Integer,Vararg{Any,N} where N}'>#</a>
+<strong><code>BioMedQuery.PubMed.get_article_mesh_by_concept</code></strong> &mdash; <em>Method</em>.</p>
+<div class="codehilite"><pre><span></span>get_article_mesh_by_concept(db, pmid, umls_concepts...; local_medline)
+</pre></div>
+
+
+<p>Get the all mesh-descriptors associated with a give article</p>
+<p><strong>Argumets:</strong></p>
+<ul>
+<li>query_string: "" - assumes full set of results were saved by BioMedQuery directly from XML</li>
+</ul>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b15926c6baaffd96f5c77cd4ec0a9c31d18d12ce/src/PubMed/pubmed_sql_utils.jl#L269-L274' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.save_efetch_mysql' href='#BioMedQuery.PubMed.save_efetch_mysql'>#</a>
+<strong><code>BioMedQuery.PubMed.save_efetch_mysql</code></strong> &mdash; <em>Function</em>.</p>
+<p>save_efetch_mysql(efetch_dict, con::MySQL.MySQLHandle, clean_efetch_tables = false, verbose=false)</p>
+<p>Save the results (dictionary) of an entrez fetch to a MySQL database.</p>
+<h3 id="arguments">Arguments:</h3>
+<ul>
+<li><code>efetch_dict</code>: Response dictionary from efetch</li>
+<li><code>con::MySQL.MySQLHandle</code>: Connection to MySQL database</li>
+<li><code>clean_efetch_tables</code>: If true, all tables related to efetch results are dropped</li>
+<li><code>verbose</code>: Boolean to turn on extra print statements</li>
+</ul>
+<h3 id="example">Example</h3>
+<p><code>julia db_config =  Dict(:host=&gt;"localhost", :dbname=&gt;"test", :username=&gt;"root", :pswd=&gt;"", :overwrite=&gt;true) db = save_efetch_mysql(efetch_dict, db_config)</code></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b15926c6baaffd96f5c77cd4ec0a9c31d18d12ce/src/PubMed/eutils_sql_save.jl#L73-L94' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.save_efetch_mysql-Union{Tuple{Any,Dict{Symbol,T},Any}, Tuple{Any,Dict{Symbol,T}}, Tuple{T}} where T' href='#BioMedQuery.PubMed.save_efetch_mysql-Union{Tuple{Any,Dict{Symbol,T},Any}, Tuple{Any,Dict{Symbol,T}}, Tuple{T}} where T'>#</a>
+<strong><code>BioMedQuery.PubMed.save_efetch_mysql</code></strong> &mdash; <em>Method</em>.</p>
+<p>save_efetch_mysql(efetch_dict, db_config, verbose)</p>
+<p>Save the results (dictionary) of an entrez fetch to a MySQL database.</p>
+<h3 id="arguments_1">Arguments:</h3>
+<ul>
+<li><code>efetch_dict</code>: Response dictionary from efetch</li>
+<li><code>db_config::Dict{Symbol, T}</code>: Configuration dictionary for initialitizing SQLite</li>
+</ul>
+<p>database. Must contain symbols <code>:host</code>, <code>:dbname</code>, <code>:username</code>. <code>pswd</code>, and <code>:overwrite</code></p>
+<ul>
+<li><code>verbose</code>: Boolean to turn on extra print statements</li>
+</ul>
+<h3 id="example_1">Example</h3>
+<div class="codehilite"><pre><span></span><span class="n">db_config</span> <span class="o">=</span>  <span class="kt">Dict</span><span class="p">(</span><span class="o">:</span><span class="n">host</span><span class="o">=&gt;</span><span class="s">&quot;localhost&quot;</span><span class="p">,</span> <span class="o">:</span><span class="n">dbname</span><span class="o">=&gt;</span><span class="s">&quot;test&quot;</span><span class="p">,</span> <span class="o">:</span><span class="n">username</span><span class="o">=&gt;</span><span class="s">&quot;root&quot;</span><span class="p">,</span>
+<span class="o">:</span><span class="n">pswd</span><span class="o">=&gt;</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="o">:</span><span class="n">overwrite</span><span class="o">=&gt;</span><span class="kc">true</span><span class="p">)</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">save_efetch_mysql</span><span class="p">(</span><span class="n">efetch_dict</span><span class="p">,</span> <span class="n">db_config</span><span class="p">)</span>
+</pre></div>
+
+
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b15926c6baaffd96f5c77cd4ec0a9c31d18d12ce/src/PubMed/eutils_sql_save.jl#L37-L59' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.save_efetch_sqlite-Union{Tuple{Any,Dict{Symbol,T},Any}, Tuple{Any,Dict{Symbol,T}}, Tuple{T}} where T' href='#BioMedQuery.PubMed.save_efetch_sqlite-Union{Tuple{Any,Dict{Symbol,T},Any}, Tuple{Any,Dict{Symbol,T}}, Tuple{T}} where T'>#</a>
+<strong><code>BioMedQuery.PubMed.save_efetch_sqlite</code></strong> &mdash; <em>Method</em>.</p>
+<p>save_efetch_sqlite(efetch_dict, db_config, verbose)</p>
+<p>Save the results (dictionary) of an entrez fetch to a SQLite database.</p>
+<h3 id="arguments_2">Arguments:</h3>
+<ul>
+<li><code>efetch_dict</code>: Response dictionary from efetch</li>
+<li><code>db_config::Dict{Symbol, T}</code>: Configuration dictionary for initialitizing SQLite</li>
+</ul>
+<p>database. Must contain symbols <code>:db_path</code> and <code>:overwrite</code></p>
+<ul>
+<li><code>verbose</code>: Boolean to turn on extra print statements</li>
+</ul>
+<h3 id="example_2">Example</h3>
+<div class="codehilite"><pre><span></span><span class="n">db_config</span> <span class="o">=</span>  <span class="kt">Dict</span><span class="p">(</span><span class="o">:</span><span class="n">db_path</span><span class="o">=&gt;</span><span class="s">&quot;test_db.slqite&quot;</span><span class="p">,</span> <span class="o">:</span><span class="n">overwrite</span><span class="o">=&gt;</span><span class="kc">true</span><span class="p">)</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">save_efetch_sqlite</span><span class="p">(</span><span class="n">efetch_dict</span><span class="p">,</span> <span class="n">db_config</span><span class="p">)</span>
+</pre></div>
+
+
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b15926c6baaffd96f5c77cd4ec0a9c31d18d12ce/src/PubMed/eutils_sql_save.jl#L6-L25' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.save_pmid_mysql-Union{Tuple{Array{Int64,1},Dict{Symbol,T},Any}, Tuple{Array{Int64,1},Dict{Symbol,T}}, Tuple{T}} where T' href='#BioMedQuery.PubMed.save_pmid_mysql-Union{Tuple{Array{Int64,1},Dict{Symbol,T},Any}, Tuple{Array{Int64,1},Dict{Symbol,T}}, Tuple{T}} where T'>#</a>
+<strong><code>BioMedQuery.PubMed.save_pmid_mysql</code></strong> &mdash; <em>Method</em>.</p>
+<p>save_pmid_mysql(pmids, db_config, verbose)</p>
+<p>Save a list of PMIDS into input database. ###Arguments:</p>
+<ul>
+<li><code>pmids</code>: Array of PMIDs</li>
+<li><code>db_config::Dict{Symbol, T}</code>: Configuration dictionary for initialitizing SQLite</li>
+</ul>
+<p>database. Must contain symbols <code>:host</code>, <code>:dbname</code>, <code>:username</code>. <code>pswd</code>, and <code>:overwrite</code></p>
+<ul>
+<li><code>verbose</code>: Boolean to turn on extra print statements</li>
+</ul>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b15926c6baaffd96f5c77cd4ec0a9c31d18d12ce/src/PubMed/eutils_sql_save.jl#L142-L153' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.all_mesh-Tuple{Any}' href='#BioMedQuery.PubMed.all_mesh-Tuple{Any}'>#</a>
+<strong><code>BioMedQuery.PubMed.all_mesh</code></strong> &mdash; <em>Method</em>.</p>
+<div class="codehilite"><pre><span></span>all_mesh(db)
+</pre></div>
+
+
+<p>Return all PMIDs stored in the <em>article</em> table of the input database</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b15926c6baaffd96f5c77cd4ec0a9c31d18d12ce/src/PubMed/pubmed_sql_utils.jl#L185-L188' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.pubmed_save_efetch!' href='#BioMedQuery.PubMed.pubmed_save_efetch!'>#</a>
+<strong><code>BioMedQuery.PubMed.pubmed_save_efetch!</code></strong> &mdash; <em>Function</em>.</p>
+<p>pubmed_save_efetch(efetch_dict, db_path)</p>
+<p>Save the results (dictionary) of an entrez-pubmed fetch to the input database.</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b15926c6baaffd96f5c77cd4ec0a9c31d18d12ce/src/PubMed/eutils_sql_save.jl#L111-L115' class='documenter-source'>source</a><br></p>
+                
+                  
+                
+              
+              
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../processes/" title="Processes/Workflows" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Processes/Workflows
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../ct/" title="Clinical Trials" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Clinical Trials
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="http://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.6cdc17f0.js"></script>
+      
+      <script>app.initialize({version:"0.17.2",url:{base:".."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>
