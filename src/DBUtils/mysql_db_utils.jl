@@ -84,9 +84,11 @@ end
 
 Execute a mysql command
 """
-function db_query(con::MySQL.MySQLHandle, query_code)
+function db_query(con::MySQLHandle, query_code)
     try
         sel = mysql_execute(con, query_code)
+        print(typeof(sel))
+        display(sel)
         return sel
     catch
         error("There was an error with MySQL")
