@@ -89,7 +89,7 @@ function db_query(con::MySQL.MySQLHandle, query_code)
         sel = mysql_execute(con, query_code)
         return sel
     catch
-        throw(MySQLInternalError(con))
+        throw(MySQL.MySQLInternalError(con))
     end
 end
 
@@ -137,7 +137,7 @@ function insert_row!{T}(con::MySQL.MySQLHandle, tablename, data_values::Dict{Sym
     catch
         if verbose
             println("Warning! Row with values $vals_string not inserted into the table: $tablename")
-            Base.showerror(STDOUT, MySQLInternalError(con))
+            Base.showerror(STDOUT, MySQL.MySQLInternalError(con))
             println("\n")
         end
         # throw(MySQLInternalError(con))
