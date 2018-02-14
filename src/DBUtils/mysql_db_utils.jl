@@ -75,7 +75,7 @@ function select_all_tables(con::MySQL.MySQLHandle)
 end
 
 function print_error(con::MySQL.MySQLHandle)
-    Base.showerror(STDOUT, MySQLInternalError(con))
+    Base.showerror(STDOUT, MySQL.MySQLInternalError(con))
     println("\n")
 end
 
