@@ -89,7 +89,8 @@ function db_query(con::MySQL.MySQLHandle, query_code)
         sel = mysql_execute(con, query_code)
         return sel
     catch
-        throw(MySQL.MySQLInternalError(con))
+        error("There was an error with MySQL")
+        #throw(MySQL.MySQLInternalError(con))
     end
 end
 
