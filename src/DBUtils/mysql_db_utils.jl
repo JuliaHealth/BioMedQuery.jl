@@ -104,8 +104,7 @@ function insert_row!{T}(con::MySQL.MySQLHandle, tablename, data_values::Dict{Sym
     lastid = -1
 
     try
-        MySQL.execute!(con, "INSERT INTO `$tablename` ($cols_string) values $vals_string;
-         SELECT LAST_INSERT_ID();")
+        MySQL.execute!(con, "INSERT INTO `$tablename` ($cols_string) values $vals_string;")
         lastid = MySQL.insertid(con)
     catch e
         # Base.showerror(STDOUT, MySQLInternalError(con))
@@ -133,9 +132,8 @@ function insert_row!{T}(con::MySQL.MySQLHandle, tablename, data_values::Dict{Sym
     cols_string, vals_string = assemble_cols_and_vals(data_values)
     lastid = -1
     try
-        q = db_query(con, "INSERT INTO `$tablename` ($cols_string) values $vals_string;
-        SELECT LAST_INSERT_ID();")
-        lastid = q[2][1,1]
+        MySQL.execute!(con, "INSERT INTO `$tablename` ($cols_string) values $vals_string;")
+        lastid = MySQL.insertid(con)
     catch
         if verbose
             println("Warning! Row with values $vals_string not inserted into the table: $tablename")
