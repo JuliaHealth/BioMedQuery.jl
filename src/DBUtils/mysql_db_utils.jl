@@ -31,12 +31,12 @@ function init_mysql_database(;host = "127.0.0.1", dbname="test",
     if length(q[1])>0
         if overwrite
             println("Set to overwrite MySQL database $dbname")
-            mysql_execute(con, "DROP DATABASE IF EXISTS $dbname;")
-            mysql_execute(con, "CREATE DATABASE $dbname
+            MySQL.query(con, "DROP DATABASE IF EXISTS $dbname;")
+            MySQL.query(con, "CREATE DATABASE $dbname
                 CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
         end
     else
-        mysql_execute(con, "CREATE DATABASE $dbname
+        MySQL.query(con, "CREATE DATABASE $dbname
             CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
     end
 
@@ -44,7 +44,7 @@ function init_mysql_database(;host = "127.0.0.1", dbname="test",
     con = mysql_connect(host, username, pswd, dbname)
 
     if mysql_code != nothing
-        mysql_execute(con, mysql_code)
+        MySQL.query(con, mysql_code)
         println("Database $dbname created and initialized")
     else
         println("Empty Database Created")
@@ -60,7 +60,7 @@ end
 For a MySQL database, return an array of all columns in the given table
 """
 function select_columns(con::MySQL.MySQLHandle, table)
-    cols_query = mysql_execute(con, "SHOW COLUMNS FROM $table;")
+    cols_query = MySQL.query(con, "SHOW COLUMNS FROM $table;")
     cols_query[1]
 end
 
@@ -70,7 +70,7 @@ end
 Return an array of all tables in a given MySQL database
 """
 function select_all_tables(con::MySQL.MySQLHandle)
-    tables_query = mysql_execute(con, "SHOW TABLES;")
+    tables_query = MySQL.query(con, "SHOW TABLES;")
     tables_query[1]
 end
 
@@ -86,7 +86,7 @@ Execute a mysql command
 """
 function db_query(con::MySQLHandle, query_code)
     try
-        sel = mysql_execute(con, query_code)
+        sel = MySQL.query(con, query_code)
         print(typeof(sel))
         display(sel)
         return sel
@@ -106,7 +106,7 @@ function insert_row!{T}(con::MySQL.MySQLHandle, tablename, data_values::Dict{Sym
     lastid = -1
 
     try
-        lastid = mysql_execute(con, "INSERT INTO `$tablename` ($cols_string) values $vals_string;
+        lastid = MySQL.query(con, "INSERT INTO `$tablename` ($cols_string) values $vals_string;
          SELECT LAST_INSERT_ID();")[2][1,1]
     catch e
         # Base.showerror(STDOUT, MySQLInternalError(con))
@@ -154,5 +154,5 @@ function create_server(con::MySQL.MySQLHandle, dbname; linkname = "fedlink", use
                  FOREIGN DATA WRAPPER mysql
                  OPTIONS (USER '$user', PASSWORD '$psswd', HOST '$host', PORT $port, DATABASE '$dbname');"
 
-    mysql_execute(con, query_str)
+    MySQL.query(con, query_str)
 end
