@@ -31,20 +31,20 @@ function init_mysql_database(;host = "127.0.0.1", dbname="test",
     if length(q[1])>0
         if overwrite
             println("Set to overwrite MySQL database $dbname")
-            MySQL.query(con, "DROP DATABASE IF EXISTS $dbname;")
+            MySQL.query(con, "DROP DATABASE IF EXISTS $dbname;", DataFrame)
             MySQL.query(con, "CREATE DATABASE $dbname
-                CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
+                CHARACTER SET utf8 COLLATE utf8_unicode_ci;", DataFrame)
         end
     else
         MySQL.query(con, "CREATE DATABASE $dbname
-            CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
+            CHARACTER SET utf8 COLLATE utf8_unicode_ci;", DataFrame)
     end
 
 
     con = mysql_connect(host, username, pswd, dbname)
 
     if mysql_code != nothing
-        MySQL.query(con, mysql_code)
+        MySQL.query(con, mysql_code, DataFrame)
         println("Database $dbname created and initialized")
     else
         println("Empty Database Created")
@@ -60,7 +60,7 @@ end
 For a MySQL database, return an array of all columns in the given table
 """
 function select_columns(con::MySQL.MySQLHandle, table)
-    cols_query = MySQL.query(con, "SHOW COLUMNS FROM $table;")
+    cols_query = MySQL.query(con, "SHOW COLUMNS FROM $table;", DataFrame)
     cols_query[1]
 end
 
@@ -70,7 +70,7 @@ end
 Return an array of all tables in a given MySQL database
 """
 function select_all_tables(con::MySQL.MySQLHandle)
-    tables_query = MySQL.query(con, "SHOW TABLES;")
+    tables_query = MySQL.query(con, "SHOW TABLES;", DataFrame)
     tables_query[1]
 end
 
@@ -86,9 +86,7 @@ Execute a mysql command
 """
 function db_query(con::MySQLHandle, query_code)
     try
-        sel = MySQL.query(con, query_code)
-        print(typeof(sel))
-        display(sel)
+        sel = MySQL.query(con, query_code, DataFrame)
         return sel
     catch
         error("There was an error with MySQL")
@@ -106,8 +104,9 @@ function insert_row!{T}(con::MySQL.MySQLHandle, tablename, data_values::Dict{Sym
     lastid = -1
 
     try
-        lastid = MySQL.query(con, "INSERT INTO `$tablename` ($cols_string) values $vals_string;
-         SELECT LAST_INSERT_ID();")[2][1,1]
+        MySQL.execute!(con, "INSERT INTO `$tablename` ($cols_string) values $vals_string;
+         SELECT LAST_INSERT_ID();")
+        lastid = MySQL.insertid(con)
     catch e
         # Base.showerror(STDOUT, MySQLInternalError(con))
         println("\n")
@@ -154,5 +153,5 @@ function create_server(con::MySQL.MySQLHandle, dbname; linkname = "fedlink", use
                  FOREIGN DATA WRAPPER mysql
                  OPTIONS (USER '$user', PASSWORD '$psswd', HOST '$host', PORT $port, DATABASE '$dbname');"
 
-    MySQL.query(con, query_str)
+    MySQL.query(con, query_str, DataFrame)
 end
