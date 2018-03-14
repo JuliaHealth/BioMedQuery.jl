@@ -20,7 +20,7 @@ function assemble_cols_and_vals{T}(data_values::Dict{Symbol, T})
         table_cols_backticks[i] = string("`", key, "`")
         if typeof(val) <: Number && !isnan(val)
             vals_single_quotes[i] = val
-        elseif val == nothing
+        elseif val == nothing || isnan(val)
             vals_single_quotes[i] = "NULL"
         elseif isa(val, Date)
             vals_single_quotes[i] = string("'", val, "'")
