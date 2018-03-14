@@ -18,7 +18,7 @@ function assemble_cols_and_vals{T}(data_values::Dict{Symbol, T})
     table_cols_backticks = Array{String}(length(data_values))
     for (i, (key,val)) in enumerate(data_values)
         table_cols_backticks[i] = string("`", key, "`")
-        if typeof(val) <: Number
+        if typeof(val) <: Number && !isnan(val)
             vals_single_quotes[i] = val
         elseif val == nothing
             vals_single_quotes[i] = "NULL"
