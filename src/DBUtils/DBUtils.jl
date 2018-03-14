@@ -73,9 +73,9 @@ function assemble_cols_and_vals_string{T}(data_values::Dict{Symbol, T}, op = "AN
     select_string_array = Array{String}(length(data_values))
     for (i, (key,val)) in enumerate(data_values)
         col_backticks = string("`", key, "`")
-        if typeof(val) <: Number
+        if typeof(val) <: Number && !isnan(val) 
             val_single_quotes=val
-        elseif val == nothing
+        elseif val == nothing || isnan(val)
             val_single_quotes = "NULL"
         elseif isa(val, Date)
             val_single_quotes=string("'", val, "'")
