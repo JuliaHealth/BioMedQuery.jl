@@ -16,7 +16,7 @@ Return an array of all tables in a given MySQL database
 """
 function select_all_tables(db::SQLite.DB)
     tables_query = SQLite.query(db, "SELECT name FROM sqlite_master WHERE type='table'")
-    tables_query[1].values
+    tables_query[1]
 end
 
 """
@@ -56,7 +56,11 @@ function insert_row!{T}(db::SQLite.DB, tablename, data_values::Dict{Symbol, T},
     end
 
     lastid_query = db_query(db, "SELECT last_insert_rowid()")
-    lastid = get(lastid_query[1][1], -1)
+    lastid = lastid_query[1][1]
+
+    if ismissing(lastid)
+        warn("Could not insert values $vals_string into table $tablename")
+    end
     if verbose
         println("Row successfully inserted into table: $tablename")
     end

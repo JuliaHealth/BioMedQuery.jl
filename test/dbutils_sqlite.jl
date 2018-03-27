@@ -20,7 +20,7 @@ using SQLite
     sel = BioMedQuery.DBUtils.db_select(db, ["pmid"], "article", Dict(:title=>"Test Article", :pmid=>1234))
 
     @test length(sel[1]) == 1
-    @test sel[1][1].value == 1234
+    @test sel[1][1] == 1234
 
     if isfile(db_path)
         rm(db_path)

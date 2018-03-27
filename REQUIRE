@@ -8,8 +8,8 @@ HttpCommon
 BaseTestNext 
 SQLite 
 ZipFile
-MySQL 0.2.0
-DataFrames 0.10.1
+MySQL
+DataFrames
 NullableArrays 
 DataStructures 
 BioServices
