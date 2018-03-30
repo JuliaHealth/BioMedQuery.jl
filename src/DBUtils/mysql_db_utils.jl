@@ -17,38 +17,26 @@ Create a MySQL database using the code inside mysql_code
 * `con`: Database connection and table-column names map
 
 """
-function init_mysql_database(;host = "127.0.0.1", dbname="test",
-    username="root", pswd="", mysql_code=nothing, overwrite=false)
+function init_mysql_database(host = "127.0.0.1", 
+    user="root", pwd="", dbname="test", overwrite=false)
 
-    # call shell to ensure the MySQL server is running
-    # run(`mysql.server start`)
+    const con = MySQL.connect(host, user, pwd)
 
-    # Connecting to MySQL, but not to a specific DB,
-    # we then create DB we want
-    con = mysql_connect(host, username, pswd)
-
-    q = mysql_execute(con, "SHOW DATABASES LIKE '$dbname'; ")
+    q = MySQL.query(con, "SHOW DATABASES LIKE '$dbname'; ")
     if length(q[1])>0
         if overwrite
             println("Set to overwrite MySQL database $dbname")
-            MySQL.query(con, "DROP DATABASE IF EXISTS $dbname;", DataFrame)
-            MySQL.query(con, "CREATE DATABASE $dbname
-                CHARACTER SET utf8 COLLATE utf8_unicode_ci;", DataFrame)
+            MySQL.execute!(con, "DROP DATABASE IF EXISTS $dbname;")
+            MySQL.execute!(con, "CREATE DATABASE $dbname
+                CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
         end
     else
-        MySQL.query(con, "CREATE DATABASE $dbname
-            CHARACTER SET utf8 COLLATE utf8_unicode_ci;", DataFrame)
+        MySQL.execute!(con, "CREATE DATABASE $dbname
+            CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
     end
 
 
-    con = mysql_connect(host, username, pswd, dbname)
-
-    if mysql_code != nothing
-        MySQL.query(con, mysql_code, DataFrame)
-        println("Database $dbname created and initialized")
-    else
-        println("Empty Database Created")
-    end
+    MySQL.execute!(con, "USE $dbname;")
 
     return con
 end
@@ -70,6 +58,7 @@ end
 Return an array of all tables in a given MySQL database
 """
 function select_all_tables(con::MySQL.MySQLHandle)
+    println(con)
     tables_query = MySQL.query(con, "SHOW TABLES;", DataFrame)
     tables_query[1]
 end
@@ -152,4 +141,22 @@ function create_server(con::MySQL.MySQLHandle, dbname; linkname = "fedlink", use
                  OPTIONS (USER '$user', PASSWORD '$psswd', HOST '$host', PORT $port, DATABASE '$dbname');"
 
     MySQL.query(con, query_str, DataFrame)
+end
+
+"""
+    disable_foreing_checks(con::MySQL.MySQLHandle)
+Disables foreing checks for MySQL database
+"""
+function disable_foreing_checks(conn::MySQL.MySQLHandle)
+    MySQL.execute!(conn, "SET FOREIGN_KEY_CHECKS = 0")
+
+end
+
+"""
+    enable_foreing_checks(con::MySQL.MySQLHandle)
+Enables foreing checks for MySQL database
+"""
+function enable_foreing_checks(conn::MySQL.MySQLHandle)
+    MySQL.execute!(conn, "SET FOREIGN_KEY_CHECKS = 1")
+
 end

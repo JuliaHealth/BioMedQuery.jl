@@ -67,3 +67,21 @@ function insert_row!{T}(db::SQLite.DB, tablename, data_values::Dict{Symbol, T},
 
     return lastid
 end
+
+"""
+disable_foreing_checks(con::SQLite.DB)
+Disables foreing checks for SQLite database
+"""
+function disable_foreing_checks(conn::SQLite.DB)
+    SQLite.execute!(conn, "PRAGMA foreign_keys = OFF")
+
+end
+
+"""
+    enable_foreing_checks(con::SQLite.DB)
+Enables foreing checks for SQLite database
+"""
+function enable_foreing_checks(conn::SQLite.DB)
+    SQLite.execute!(conn, "PRAGMA foreign_keys = ON")
+
+end
