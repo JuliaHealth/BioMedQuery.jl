@@ -128,7 +128,7 @@ pubmed_save_efetch(efetch_dict, conn)
 
 Save the results (dictionary) of an entrez-pubmed fetch to the input database.
 """
-function save_efetch!(efetch_dict, conn, verbose=false)
+function save_efetch!(conn, efetch_dict, verbose=false)
 
     #Decide type of article based on structrure of efetch
     articles = nothing
@@ -155,22 +155,20 @@ function save_efetch!(efetch_dict, conn, verbose=false)
 end
 
 """
-save_pmid_mysql(pmids, db_config, verbose)
+save_pmids!(conn, pmids::Vector{Int64}, verbose::Bool=false)
 
 Save a list of PMIDS into input database.
 ###Arguments:
 
+* `conn`: Database connection (MySQL or SQLite)
 * `pmids`: Array of PMIDs
-* `db_config::Dict{Symbol, T}`: Configuration dictionary for initialitizing SQLite
-database. Must contain symbols `:host`, `:dbname`, `:username`. `pswd`,
-and `:overwrite`
 * `verbose`: Boolean to turn on extra print statements
 """
-function save_pmids!(pmids::Vector{Int64}, conn, verbose::Bool=false)
+function save_pmids!(conn, pmids::Vector{Int64}, verbose::Bool=false)
        
     for pmid in pmids
         insert_row!(conn,
-                    tablename,
+                    "article",
                     Dict(:pmid=> pmid),
                     verbose )
     end

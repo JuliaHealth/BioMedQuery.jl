@@ -59,11 +59,17 @@ using XMLDict
         host = "127.0.0.1";
         user = "root"
         pwd = ""
-        con = PubMed.save_pmid_sql(ids, host, user, pwd, dbname)
+        
+        const conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
+        PubMed.create_pmid_table!(conn)
+        PubMed.save_pmids!(conn, ids)
 
         #query the article table and make sure the count is correct
-        all_pmids = BioMedQuery.PubMed.all_pmids(con)
+        all_pmids = BioMedQuery.PubMed.all_pmids(conn)
         @test length(all_pmids) == narticles
+
+         #clean-up
+         db_query(conn, "DROP DATABASE IF EXISTS $dbname;")
 
     end
 
@@ -74,7 +80,7 @@ using XMLDict
         # art = BioMedQuery.PubMed.MedlineArticle(articles[1])
         # println(art)
         config = Dict(:type => "endnote", :output_file => "./citations_temp.endnote", :overwrite=>true)
-        nsucceses = BioMedQuery.PubMed.save_article_citations(efetch_dict, config, verbose)
+        nsucceses = PubMed.save_article_citations(efetch_dict, config, verbose)
 
 
         #test that citations are the same as the ones already stored
@@ -101,19 +107,20 @@ using XMLDict
 
         db_path = "./test_db.db"
 
-        config = Dict(:db_path=> db_path, :overwrite=>true)
-        db = BioMedQuery.PubMed.save_efetch_sqlite(efetch_dict, config, verbose)
+        const conn = SQLite.DB(db_path)
+        PubMed.create_tables!(conn)
+        PubMed.save_efetch!(conn, efetch_dict)
 
         #query the article table and make sure the count is correct
-        all_pmids = BioMedQuery.PubMed.all_pmids(db)
+        all_pmids = PubMed.all_pmids(conn)
         @test length(all_pmids) == narticles
 
         #query the article table and make sure the count is correct
-        all_abstracts = BioMedQuery.PubMed.abstracts(db)
+        all_abstracts = PubMed.abstracts(conn)
         @test size(all_abstracts)[1] == narticles
 
         #check we can get the MESH descriptor for an article
-        mesh = BioMedQuery.PubMed.get_article_mesh(db, all_pmids[1])
+        mesh = PubMed.get_article_mesh(conn, all_pmids[1])
         @test length(mesh) > 0
 
         #check that reminder of tables are not empty
@@ -121,9 +128,8 @@ using XMLDict
         "mesh_qualifier", "mesh_heading"]
 
         for t in tables
-            query_str = "SELECT count(*) FROM "*t*";"
-            q = BioMedQuery.DBUtils.db_query(db, query_str)
-            count = get(q[1][1])
+            q = SQLite.query(conn, "SELECT count(*) FROM "*t*";")
+            count = q[1][1]
             @test count > 0
         end
 
@@ -138,21 +144,25 @@ using XMLDict
         println("-----------------------------------------")
         println("       Testing MySQL Saving")
 
-        dbname = "entrez_test"
-        config = Dict(:host=>"127.0.0.1", :dbname=>dbname, :username=>"root",
-        :pswd=>"", :overwrite=>true)
-        @time db = BioMedQuery.PubMed.save_efetch_mysql(efetch_dict, config, verbose)
+        dbname = "efetch_test"
+        host = "127.0.0.1";
+        user = "root"
+        pwd = ""
+
+        const conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
+        PubMed.create_tables!(conn)
+        @time PubMed.save_efetch!(conn, efetch_dict)
 
         #query the article table and make sure the count is correct
-        all_pmids = BioMedQuery.PubMed.all_pmids(db)
+        all_pmids = PubMed.all_pmids(conn)
         @test length(all_pmids) == narticles
 
         #query the article table and make sure the count is correct
-        all_abstracts = BioMedQuery.PubMed.abstracts(db)
+        all_abstracts = PubMed.abstracts(conn)
         @test size(all_abstracts)[1] == narticles
 
         #check we can get the MESH descriptor for an article
-        mesh = BioMedQuery.PubMed.get_article_mesh(db, all_pmids[1])
+        mesh = PubMed.get_article_mesh(conn, all_pmids[1])
         # println(mesh)
         @test length(mesh) > 0
 
@@ -161,17 +171,13 @@ using XMLDict
         "mesh_qualifier", "mesh_heading"]
 
         for t in tables
-            query_str = "SELECT count(*) FROM "*t*";"
-            q = BioMedQuery.DBUtils.db_query(db, query_str)
-            # println(q)
-            # println(q[1])
-            # println(q[1][1])
+            q = MySQL.query(conn, "SELECT count(*) FROM "*t*";")
             count = q[1][1]
             @test count > 0
         end
 
         #clean-up
-        db_query(db, "DROP DATABASE IF EXISTS $dbname;")
+        db_query(conn, "DROP DATABASE IF EXISTS $dbname;")
 
     end
 
