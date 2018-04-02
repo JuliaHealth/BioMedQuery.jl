@@ -56,9 +56,10 @@ using XMLDict
         println("-----------------------------------------")
         println("       Test Save PMID MySQL     ")
         dbname = "entrez_test"
-        config = Dict(:host=>"127.0.0.1", :dbname=>dbname, :username=>"root",
-        :pswd=>"", :overwrite=>true)
-        con = PubMed.save_pmid_mysql(ids, config, false)
+        host = "127.0.0.1";
+        user = "root"
+        pwd = ""
+        con = PubMed.save_pmid_sql(ids, host, user, pwd, dbname)
 
         #query the article table and make sure the count is correct
         all_pmids = BioMedQuery.PubMed.all_pmids(con)

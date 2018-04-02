@@ -9,88 +9,6 @@ get_value(val)= val
 get_value{T}(val_array::Array{T}) = val_array
 get_value{T}(val_array::NullableArray{T, 1}) = val_array.values
 
-# function init_pmid_db_mysql(config)
-
-#     println("Initializing PMID MySQL Database")
-
-#     #intput dictionary must have the following keys
-#     if haskey(config, :host) && haskey(config, :dbname) &&
-#        haskey(config, :username) && haskey(config, :pswd) &&
-#        haskey(config, :overwrite)
-
-#        tablename  = haskey(config, :tablename) ? config[:tablename]:"article"
-
-#        mysql_code="CREATE TABLE IF NOT EXISTS $tablename(
-#                        pmid INTEGER NOT NULL PRIMARY KEY
-#                    );"
-
-#        db = DBUtils.init_mysql_database(host = config[:host], dbname =config[:dbname],
-#        username = config[:username], pswd= config[:pswd],
-#        overwrite = config[:overwrite], mysql_code = mysql_code)
-
-#        return db
-#    end
-# end
-
-
-# function init_pubmed_db_mysql(config)
-
-#     println("Initializing MySQL Database")
-
-#     #intput dictionary must have the following keys
-#     if haskey(config, :host) && haskey(config, :dbname) &&
-#        haskey(config, :username) && haskey(config, :pswd) &&
-#        haskey(config, :overwrite)
-
-#        mysql_code=nothing
-#        try
-#            filename = dirname(@__FILE__) * "/create_pubmed_db.sql"
-#            f = open(filename, "r")
-#            mysql_code = readstring(f)
-#            close(f)
-#        catch
-#            error("Could not read create_pubmed_db.sql")
-#        end
-
-#        db = DBUtils.init_mysql_database(host = config[:host], dbname =config[:dbname],
-#        username = config[:username], pswd= config[:pswd],
-#        overwrite = config[:overwrite], mysql_code = mysql_code)
-
-#        return db
-#    end
-# end
-
-# function init_pubmed_db_mysql!(con::MySQL.MySQLHandle, clean_tables = false)
-
-#     println("Initializing MySQL PubMed Database")
-
-#     mysql_code=""
-#     sql_file = ""
-
-#     if clean_tables
-#        sql_file = dirname(@__FILE__) * "/clean_and_create_pubmed_db.sql"
-#     else
-#        sql_file = dirname(@__FILE__) * "/create_pubmed_db.sql"
-#     end
-
-#     try
-#        f = open(sql_file, "r")
-#        mysql_code = readstring(f)
-#        close(f)
-#     catch
-#        error("Could not read create_entrez_db.sql")
-#     end
-
-#     mysql_code = "DROP TABLE IF EXISTS article;"
-#     if mysql_code != ""
-#        println(mysql_code)
-#        MySQL.execute!(con, mysql_code)
-#     else
-#        println("Empty Database Created")
-#     end
-
-# end
-
 
 """
     init_pubmed_db(host::String, user::String, pwd::String, dbname::String)
@@ -105,7 +23,7 @@ function init_pubmed_db(host::String, user::String, pwd::String, dbname::String)
     
     #Connect and populate
     const conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
-    init_pubmed_db!(conn, sql_engine=MySQL)
+    init_pubmed_db!(conn)
     
     return conn
 end
@@ -122,7 +40,7 @@ function init_pubmed_db(dp_path::String)
     println("Initializing SQLite PubMed Database")
     #Connect and populate
     conn = SQLite.DB(dp_path)
-    init_pubmed_db!(conn, sql_engine=SQLite)
+    init_pubmed_db!(conn)
     return conn
 end
 
@@ -131,8 +49,10 @@ end
 Creates a database, using either MySQL of SQLite, with all necessary tables to store
 Entrez related searches. All tables are empty at this point
 """
-function init_pubmed_db!(conn; sql_engine = MySQL)
+function init_pubmed_db!(conn)
 
+    # Determine engine
+    sql_engine = (typeof(conn)== MySQL.Connection) ? MySQL : SQLite 
     AUTOINCREMENT = (sql_engine == MySQL) ? "AUTO_INCREMENT" : "AUTOINCREMENT" 
 
     #purge related tables
@@ -210,76 +130,61 @@ function init_pubmed_db!(conn; sql_engine = MySQL)
 end
 
 
-# # Creates a database with all necessary tables to store
-# # Entrez related searches. All tables are empty at this point
-# # If a database existis at the given path - an error is ruturned an the user
-# # is asked whether he intended to clean the existing file
-# function init_pubmed_db_sqlite(path::String, overwrite=false)
 
+# """
+#     init_pubmed_db(host::String, user::String, pwd::String, dbname::String)
 
-#     if isfile(path)
-#         if overwrite
-#             rm(path)
-#         else
-#             println("Database found. Returning existing database.")
-#             return SQLite.DB(path)
-#         end
-#     end
-
-#     #Create database file
-#     db = SQLite.DB(path)
-
-#     #Create tables to store
-#     SQLite.query(db, "CREATE TABLE
-#     article(pmid INTEGER NOT NULL PRIMARY KEY,
-#     title TEXT,
-#     pubYear INTEGER,
-#     abstract TEXT)")
-
-
-#     SQLite.query(db, "CREATE TABLE
-#     author(id INTEGER PRIMARY KEY AUTOINCREMENT,
-#     forename TEXT,
-#     lastname TEXT NOT NULL,
-#     CONSTRAINT unq UNIQUE(forename,  lastname) )")
-
-#     SQLite.query(db, "CREATE TABLE
-#     author2article(aid INTEGER, pmid INTEGER,
-#     FOREIGN KEY(aid) REFERENCES author(id),
-#     FOREIGN KEY(pmid) REFERENCES article(pmid),
-#     PRIMARY KEY(aid, pmid) )")
-
-#     #--------------------------
-#     # MeshHeading Tables
-#     #--------------------------
-
-#     #Descriptor
-#     #The id corresponds to the DUI of mesh library
-#     #Adding a "D" at the beginning of the id, allows for
-#     #lookup in the mesh browerser
-#     # https://www.nlm.nih.gov/mesh/MBrowser.html
-#     SQLite.query(db, "CREATE TABLE
-#     mesh_descriptor(id INTEGER NOT NULL PRIMARY KEY ,
-#                     name TEXT UNIQUE )")
-
-#     #Qualifier
-#     SQLite.query(db, "CREATE TABLE
-#     mesh_qualifier(id INTEGER NOT NULL PRIMARY KEY ,
-#                    name TEXT UNIQUE )")
-
-#     #Heading
-#     SQLite.query(db, "CREATE TABLE
-#     mesh_heading(id INTEGER PRIMARY KEY AUTOINCREMENT,
-#                  pmid INTEGER, did INTEGER, qid INTEGER,
-#                  dmjr TEXT, qmjr TEXT,
-#                  FOREIGN KEY(pmid) REFERENCES article(pmid),
-#                  FOREIGN KEY(did) REFERENCES mesh_descriptor(id),
-#                  FOREIGN KEY(qid) REFERENCES mesh_qualifier(id),
-#                  CONSTRAINT unq UNIQUE(pmid, did, qid) )")
-
-#     return db
-
+# Create and initialize tables to save results from an Entrez/PubMed search.
+# Caution, all related tables are dropped if they exist
+# This function connection settings to a MySQL database 
+# """
+# function init_pmid_db(host::String, user::String, pwd::String, dbname::String)
+    
+#     println("Initializing MySQL pmid Database")
+    
+#     #Connect and populate
+#     const conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
+#     init_pmid_db!(conn)
+    
+#     return conn
 # end
+
+# """
+#     init_pmid_db(dp_path::String; overwrite::Bool = False )
+
+# Create and initialize tables to save results from an Entrez/pmid search.
+# Caution, all related tables are dropped if they exist
+# This function takes a path as input and therefore uses SQLite engine 
+# """
+# function init_pmid_db(dp_path::String)
+    
+#     println("Initializing SQLite pmid Database")
+#     #Connect and populate
+#     conn = SQLite.DB(dp_path)
+#     init_pmid_db!(conn)
+#     return conn
+# end
+
+"""
+    init_pmid_db(db; sql_engine = MySQL)
+Creates a database, using either MySQL of SQLite, with all necessary tables to store
+Entrez related searches. All tables are empty at this point
+"""
+function init_pmid_db!(conn; tablename="article")
+
+    # Determine engine
+    sql_engine = (typeof(conn)== MySQL.Connection) ? MySQL : SQLite 
+
+    #purge related tables
+    sql_engine.execute!(conn, "DROP TABLE IF EXISTS article")
+    
+    #Create tables to store
+    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS $tablename(
+                                pmid INTEGER NOT NULL PRIMARY KEY,
+                            );"
+                        )
+end
+
 
 """
     all_pmids(db)

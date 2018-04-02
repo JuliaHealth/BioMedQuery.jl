@@ -26,10 +26,10 @@ MeshHeadingList
 include("PubMed/pubmed_article.jl")
 
 # sql utilities
-export  init_pubmed_db_mysql,
-        init_pubmed_db_mysql!,
-        init_pubmed_db_sqlite,
-        init_pmid_db_mysql,
+export  init_pubmed_db,
+        init_pubmed_db!,
+        init_pmid_db_sql,
+        init_pmid_db_sql!,
         get_value,
         all_pmids,
         abstracts,
@@ -41,7 +41,7 @@ include("PubMed/pubmed_sql_utils.jl")
         
 # eutils -> sql
 export  save_efetch_mysql,
-        save_pmid_mysql,
+        save_pmid_sql,
         save_efetch_sqlite
 include("PubMed/eutils_sql_save.jl")
         

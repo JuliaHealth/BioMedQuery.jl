@@ -13,8 +13,8 @@ using DataStreams
 
 my_tests = [
             # ("dbutils_sqlite.jl",   "       Testing: DBUtils SQLite"),
-            ("dbutils_mysql.jl",    "       Testing: DBUtils MySQL")
-            # ("pubmed.jl",           "       Testing: Eutils/PubMed"),
+            # ("dbutils_mysql.jl",    "       Testing: DBUtils MySQL"),
+            ("pubmed.jl",           "       Testing: Eutils/PubMed")
             # ("pubmed_types.jl",     "       Testing: Entrez Types"),
             # ("ct.jl",               "       Testing: CLINICAL TRIALS"),
             # ("processes_mysql.jl",  "       Testing: Processes MySQL"),
