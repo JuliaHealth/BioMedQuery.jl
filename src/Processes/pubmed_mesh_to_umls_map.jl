@@ -86,25 +86,30 @@ concepts into a new (cleared) TABLE:mesh2umls
 """
 function map_mesh_to_umls_async!(db, user, psswd; timeout = 5, append_results=false, verbose=false)
 
+    # Determine engine
+    sql_engine = (typeof(db)== MySQL.Connection) ? MySQL : SQLite 
+
     #if the mesh2umls relationship table doesn't esxist, create it
-    db_query(db, "CREATE table IF NOT EXISTS mesh2umls (
-    mesh VARCHAR(255),
-    umls VARCHAR(255),
-    FOREIGN KEY(mesh) REFERENCES mesh_descriptor(name),
-    PRIMARY KEY(mesh, umls)
-    )")
+    sql_engine.execute!(db, "CREATE table IF NOT EXISTS mesh2umls (
+                                mesh VARCHAR(255),
+                                umls VARCHAR(255),
+                                FOREIGN KEY(mesh) REFERENCES mesh_descriptor(name),
+                                PRIMARY KEY(mesh, umls)
+                            )")
 
     #clear the relationship table
     if !append_results
-        db_query(db, "DELETE FROM mesh2umls")
+        sql_engine.execute!(db, "DELETE FROM mesh2umls")
     end
 
     #select all mesh descriptors
-    mq = db_query(db,"SELECT name FROM mesh_descriptor;")
+    mq = sql_engine.query(db,"SELECT name FROM mesh_descriptor;")
 
     #get the array of terms
-    mesh_terms =get_value(mq[1])
+    mesh_terms = mq[1]
+    mesh_terms = ["Adaptation, Psychological"]
     println("----------Matching MESH to UMLS-----------")
+    println(mesh_terms)
 
     tgt = get_tgt(username = user, password = psswd)
     errors = 200*ones(length(mesh_terms))

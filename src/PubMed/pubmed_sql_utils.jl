@@ -190,9 +190,10 @@ end
     all_pmids(db)
 Return all PMIDs stored in the *article* table of the input database
 """
-function all_pmids(db)
-    query = db_query(db, "SELECT pmid FROM article;")
-    return get_value(query[1])
+function all_pmids(conn)
+    sql_engine = (typeof(conn)== MySQL.Connection) ? MySQL : SQLite 
+    query = sql_engine.query(conn, "SELECT pmid FROM article;")
+    return query[1]
 end
 
 """

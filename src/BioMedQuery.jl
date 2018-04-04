@@ -40,15 +40,14 @@ export  init_pubmed_db,
 include("PubMed/pubmed_sql_utils.jl")
         
 # eutils -> sql
-export  save_efetch_mysql,
-        save_pmid_sql,
-        save_efetch_sqlite
+export  save_efetch!,
+        save_pmids!
 include("PubMed/eutils_sql_save.jl")
         
 # citation formats
 export  citations_endnote,
-citations_bibtex,
-save_article_citations
+        citations_bibtex,
+        save_article_citations
 include("PubMed/citation_manager.jl")
 
 end
@@ -64,10 +63,9 @@ end
 
 #--------Processes------------
 module Processes
-export pubmed_search_and_save,
-       pubmed_search_and_save_mysql!,
+export pubmed_search_and_save!,
        pubmed_pmid_search,
-       pubmed_pmid_search_and_save,
+       pubmed_pmid_search_and_save!,
        map_mesh_to_umls_async!,
        map_mesh_to_umls!,
        umls_semantic_occurrences,
