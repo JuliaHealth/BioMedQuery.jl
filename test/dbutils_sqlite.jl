@@ -3,20 +3,19 @@ using SQLite
 @testset "SQLite BDUtils" begin
 
     db_path = "test_db.sqlite"
-    db = BioMedQuery.PubMed.init_pubmed_db(db_path)
+    conn = SQLite.DB(db_path)
+    PubMed.create_tables!(conn)
 
     #check collection of tables
-    tables_query = BioMedQuery.DBUtils.select_all_tables(db)
+    tables_query = DBUtils.select_all_tables(conn)
     tables = ["article","author","author2article","mesh_descriptor","mesh_heading","mesh_qualifier", "sqlite_sequence"]
     @test sort(tables) == sort(tables_query)
 
 
     #check minimum insert
-    BioMedQuery.DBUtils.insert_row!(db, "article", Dict(:pmid => 1234,
-    :title=>"Test Article",
-    :pubYear=>nothing))
+    DBUtils.insert_row!(conn, "article", Dict(:pmid => 1234, :title=>"Test Article", :pubYear=>nothing))
 
-    sel = BioMedQuery.DBUtils.db_select(db, ["pmid"], "article", Dict(:title=>"Test Article", :pmid=>1234))
+    sel = DBUtils.db_select(conn, ["pmid"], "article", Dict(:title=>"Test Article", :pmid=>1234))
 
     @test length(sel[1]) == 1
     @test sel[1][1] == 1234
