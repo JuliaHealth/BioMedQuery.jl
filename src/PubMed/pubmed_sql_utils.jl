@@ -10,44 +10,10 @@ get_value{T}(val_array::Array{T}) = val_array
 get_value{T}(val_array::NullableArray{T, 1}) = val_array.values
 
 
-# """
-#     init_pubmed_db(host::String, user::String, pwd::String, dbname::String)
-
-# Create and initialize tables to save results from an Entrez/PubMed search.
-# Caution, all related tables are dropped if they exist
-# This function connection settings to a MySQL database 
-# """
-# function init_pubmed_db(host::String, user::String, pwd::String, dbname::String)
-    
-#     println("Initializing MySQL PubMed Database")
-    
-#     #Connect and populate
-#     const conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
-#     init_pubmed_db!(conn)
-    
-#     return conn
-# end
-
-# """
-#     init_pubmed_db(dp_path::String; overwrite::Bool = False )
-
-# Create and initialize tables to save results from an Entrez/PubMed search.
-# Caution, all related tables are dropped if they exist
-# This function takes a path as input and therefore uses SQLite engine 
-# """
-# function init_pubmed_db(dp_path::String)
-    
-#     println("Initializing SQLite PubMed Database")
-#     #Connect and populate
-#     conn = SQLite.DB(dp_path)
-#     init_pubmed_db!(conn)
-#     return conn
-# end
-
 """
-    init_pubmed_db(db; sql_engine = MySQL)
-Creates a database, using either MySQL of SQLite, with all necessary tables to store
-Entrez related searches. All tables are empty at this point
+    create_tables!(conn)
+Create and initialize tables to save results from an Entrez/PubMed search.
+Caution, all related tables are dropped if they exist
 """
 function create_tables!(conn)
 
@@ -130,40 +96,6 @@ function create_tables!(conn)
 end
 
 
-
-# """
-#     init_pubmed_db(host::String, user::String, pwd::String, dbname::String)
-
-# Create and initialize tables to save results from an Entrez/PubMed search.
-# Caution, all related tables are dropped if they exist
-# This function connection settings to a MySQL database 
-# """
-# function init_pmid_db(host::String, user::String, pwd::String, dbname::String)
-    
-#     println("Initializing MySQL pmid Database")
-    
-#     #Connect and populate
-#     const conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
-#     init_pmid_db!(conn)
-    
-#     return conn
-# end
-
-# """
-#     init_pmid_db(dp_path::String; overwrite::Bool = False )
-
-# Create and initialize tables to save results from an Entrez/pmid search.
-# Caution, all related tables are dropped if they exist
-# This function takes a path as input and therefore uses SQLite engine 
-# """
-# function init_pmid_db(dp_path::String)
-    
-#     println("Initializing SQLite pmid Database")
-#     #Connect and populate
-#     conn = SQLite.DB(dp_path)
-#     init_pmid_db!(conn)
-#     return conn
-# end
 
 """
     init_pmid_db!(conn; tablename="article")
@@ -312,6 +244,10 @@ function get_article_mesh_by_concept(db, pmid::Integer, umls_concepts...; query_
 end
 
 function db_insert!(db, article::PubMedArticle, verbose=false)
+
+    sql_engine = (typeof(db)== MySQL.Connection) ? MySQL : SQLite 
+    
+
     #------- PMID - TITLE - YEAR
     isnull(article.pmid) && error("NULL PMID")
 
@@ -320,25 +256,25 @@ function db_insert!(db, article::PubMedArticle, verbose=false)
                 Dict(:pmid =>article.pmid.value,
                      :title=>get(article.title, ""),
                      :pubYear=>get(article.year, 0),
-                     :abstract=>get(article.abstract_text, "")),
-                verbose)
+                     :abstract=>get(article.abstract_text, "")), verbose)
 
     #------- AUTHORS
     for au in article.authors
+
         if isnull(au[:LastName])
            println("Skipping author, null field: ", au)
            continue
         end
 
-        author_id = insert_row!(db, "author",
-        Dict(:id => nothing,
-             :forename => get(au[:ForeName], "Unknown"),
-             :lastname => get(au[:LastName], nothing)), verbose)
+        forename = get(au[:ForeName], "Unknown")
+        lastname = get(au[:LastName], "NULL")
+
+        author_id = insert_row!(db, "author", Dict(:id => nothing, :forename => forename, :lastname => lastname), verbose)
 
         if author_id < 0
             sel = db_select(db, ["id"], "author",
-            Dict(:forename => get(au[:ForeName], "Unknown"),
-                 :lastname => au[:LastName].value))
+                            Dict(:forename => forename,
+                                 :lastname => lastname))
             if length(sel[1]) > 0
                 author_id = get_value(sel[1][1])
                 if verbose

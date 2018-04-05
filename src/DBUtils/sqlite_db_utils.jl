@@ -45,7 +45,7 @@ function insert_row!{T}(db::SQLite.DB, tablename, data_values::Dict{Symbol, T},
     cols_string, vals_string = assemble_cols_and_vals(data_values)
     lastid = -1
     try
-        q = db_query(db, "INSERT INTO `$tablename` ($cols_string) values $vals_string")
+        q = SQLite.execute!(db, "INSERT INTO `$tablename` ($cols_string) values $vals_string")
     catch e
         if verbose
             Base.showerror(STDOUT, e)
@@ -55,7 +55,7 @@ function insert_row!{T}(db::SQLite.DB, tablename, data_values::Dict{Symbol, T},
         return -1
     end
 
-    lastid_query = db_query(db, "SELECT last_insert_rowid()")
+    lastid_query = SQLite.query(db, "SELECT last_insert_rowid()")
     lastid = lastid_query[1][1]
 
     if ismissing(lastid)

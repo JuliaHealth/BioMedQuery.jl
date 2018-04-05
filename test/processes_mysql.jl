@@ -18,11 +18,13 @@ const dbname="pubmed_processes_test"
 const dbname_pmid ="pmid_processes_test"
 #*****************************************************************************
 
+const conn = DBUtils.init_mysql_database(host, mysql_usr, mysql_pswd, dbname)
+PubMed.create_tables!(conn)  
+
 @testset "Search and Save" begin
     println("-----------------------------------------")
     println("       Testing Search and Save")
-    const conn = DBUtils.init_mysql_database(host, mysql_usr, mysql_pswd, dbname)
-    PubMed.create_tables!(conn)    
+     
     pubmed_search_and_save!(email, search_term, max_articles,
     conn, verbose)
 
@@ -39,7 +41,6 @@ const dbname_pmid ="pmid_processes_test"
     all_pmids = BioMedQuery.PubMed.all_pmids(conn_pmid)
     @test length(all_pmids) == max_articles
 
-    MySQL.disconnect(conn)
     MySQL.disconnect(conn_pmid)
 
 end
@@ -49,42 +50,41 @@ end
     println("       Testing MESH2UMLS")
     append = false
 
-    conn = MySQL.connect(host, mysql_usr, mysql_pswd, db = dbname)
-
     @time begin
         map_mesh_to_umls_async!(conn, umls_user, umls_pswd; append_results=append)
     end
 
-    # all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
-    # all_pairs = all_pairs_query[1]
-    # @test length(all_pairs) > 0
+    all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
+    all_pairs = all_pairs_query[1]
+    @test length(all_pairs) > 0
 
-    # @time begin
-    #     map_mesh_to_umls!(conn, umls_user, umls_pswd; append_results=append)
-    # end
+    @time begin
+        map_mesh_to_umls!(conn, umls_user, umls_pswd; append_results=append)
+    end
 
-    # all_pairs_query = db_query(db, "SELECT mesh FROM mesh2umls;")
-    # all_pairs = all_pairs_query[1]
-    # @test length(all_pairs) > 0
+    all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
+    all_pairs = all_pairs_query[1]
+    @test length(all_pairs) > 0
 
 end
 
-# @testset "Occurrences" begin
-#     println("-----------------------------------------")
-#     println("       Testing Occurrences")
-#     umls_concept = "Disease or Syndrome"
-#     @time begin
-#         labels2ind, occur = umls_semantic_occurrences(db, umls_concept)
-#     end
+@testset "Occurrences" begin
+    println("-----------------------------------------")
+    println("       Testing Occurrences")
+    umls_concept = "Disease or Syndrome"
+    @time begin
+        labels2ind, occur = umls_semantic_occurrences(conn, umls_concept)
+    end
 
-#     @test length(keys(labels2ind)) > 0
-#     @test length(find(x->x=="Obesity", collect(keys(labels2ind)))) ==1
-# end
+    @test length(keys(labels2ind)) > 0
+    @test length(find(x->x=="Obesity", collect(keys(labels2ind)))) ==1
+end
 
+MySQL.disconnect(conn)
 mysql_conn = MySQL.connect(host, mysql_usr, mysql_pswd)
 MySQL.execute!(mysql_conn, "DROP DATABASE IF EXISTS $dbname;")
 MySQL.execute!(mysql_conn, "DROP DATABASE IF EXISTS $dbname_pmid;")
-
+MySQL.disconnect(mysql_conn)
 
 
 println("------------End Test Processes MySQL-----------")

@@ -15,6 +15,7 @@ function save_efetch!(conn, efetch_dict, verbose=false)
         TypeArticle = PubMedArticle
         articles = efetch_dict["PubmedArticle"]
     else
+        println(efetch_dict)
         error("Save efetch is only supported for PubMed searches")
     end
 

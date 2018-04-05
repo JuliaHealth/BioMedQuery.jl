@@ -37,11 +37,10 @@ function map_mesh_to_umls!(db, user, psswd; timeout = Inf, append_results=false,
     mesh_terms =get_value(mq.columns[1])
     println("----------Matching MESH to UMLS-----------")
     tgt = get_tgt(username = user, password = psswd)
-    for (i, mt) in enumerate(mesh_terms)
+    for (i, term) in enumerate(mesh_terms)
         
-        info("Descriptor $i out of ", length(mesh_terms))
+        info("Descriptor $i out of ", length(mesh_terms), ": ", term)
         #submit umls query
-        term = mt
         query = Dict("string"=>term, "searchType"=>"exact" )
         # println("term: ", term)
 
@@ -107,7 +106,6 @@ function map_mesh_to_umls_async!(db, user, psswd; timeout = 5, append_results=fa
 
     #get the array of terms
     mesh_terms = mq[1]
-    mesh_terms = ["Adaptation, Psychological"]
     println("----------Matching MESH to UMLS-----------")
     println(mesh_terms)
 
@@ -130,7 +128,7 @@ function map_mesh_to_umls_async!(db, user, psswd; timeout = 5, append_results=fa
                 for attempt=1:5
                     try
                         all_results= search_umls(tgt, query, timeout=timeout)
-                        info("Descriptor $i out of ", length(mesh_terms))
+                        info("Descriptor $i out of ", length(mesh_terms), ": ", term)
                         if length(all_results) > 0
                             cui = best_match_cui(all_results)
                             if cui == ""
