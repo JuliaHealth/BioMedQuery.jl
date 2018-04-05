@@ -7,7 +7,7 @@ pubmed_save_efetch(efetch_dict, conn)
 
 Save the results (dictionary) of an entrez-pubmed fetch to the input database.
 """
-function save_efetch!(conn, efetch_dict, verbose=false)
+function save_efetch!(conn::Union{MySQL.Connection, SQLite.DB}, efetch_dict, verbose=false)
 
     #Decide type of article based on structrure of efetch
     articles = nothing

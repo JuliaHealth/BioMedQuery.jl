@@ -14,7 +14,7 @@ mysql_usr="root"
 mysql_pswd=""
 dbname="pubmed_obesity_2010_2012"
 
-db_mysql = mysql_connect(host, mysql_usr, mysql_pswd, dbname)
+db_mysql = MySQL.connect(host, mysql_usr, mysql_pswd, db = dbname)
 @time map_mesh_to_umls_async!(db_mysql, umls_user, umls_pswd; append_results=false)
 
 BioMedQuery.DBUtils.db_query(db_mysql, "SELECT * FROM mesh2umls;")
@@ -24,3 +24,5 @@ db_sqlite = SQLite.DB(db_path)
 @time map_mesh_to_umls_async!(db_sqlite, umls_user, umls_pswd; append_results=false)
 
 BioMedQuery.DBUtils.db_query(db_sqlite, "SELECT * FROM mesh2umls;")
+
+

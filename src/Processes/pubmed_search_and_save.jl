@@ -86,7 +86,7 @@ function pubmed_search_and_save!(email, search_term::String, article_max,
         #save the results of an entrez fetch
         println("------Save to database--------")
         
-        db = save_efetch!(conn, efetch_dict, verbose)
+        save_efetch!(conn, efetch_dict, verbose)
 
         article_total+=length(ids)
 

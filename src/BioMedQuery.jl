@@ -45,9 +45,10 @@ export  save_efetch!,
 include("PubMed/eutils_sql_save.jl")
         
 # citation formats
-export  citations_endnote,
+export  CitationOutput,
+        citations_endnote,
         citations_bibtex,
-        save_article_citations
+        save_efetch!
 include("PubMed/citation_manager.jl")
 
 end

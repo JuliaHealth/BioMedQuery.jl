@@ -4,6 +4,26 @@
 #using Requests
 using NullableArrays
 
+mutable struct CitationOutput
+    format::String
+    file::String
+
+    function CitationOutput(format::String, file::String, overwrite::Bool)
+        this = new()
+        this.format = format
+        
+        if overwrite
+            if isfile(file)
+                rm(file)
+            end
+        end
+
+        this.file = file
+
+        return this
+    end
+end
+
 
 function citations_endnote(article::PubMedArticle, verbose=false)
 
@@ -83,21 +103,13 @@ function citations_bibtex(article::PubMedArticle, verbose=false)
     return join(lines, "\n")
 end
 
-function save_article_citations(efetch_dict, config, verbose=false)
-    if !(haskey(config, :type) && haskey(config, :output_file) && haskey(config, :overwrite))
-        error("Saving citations requires correct dictionary configuration")
-    end
-    output_file = config[:output_file]
+function save_efetch!(output::CitationOutput, efetch_dict, verbose=false)
+   
+    output_file = output.file
 
-    if config[:overwrite]
-        if isfile(output_file)
-            rm(output_file)
-        end
-    end
-
-    if config[:type] == "bibtex"
+    if output.format == "bibtex"
         citation_func = citations_bibtex
-    elseif config[:type] == "endnote"
+    elseif output.format == "endnote"
         citation_func = citations_endnote
     else
         error("Reference type not supported")

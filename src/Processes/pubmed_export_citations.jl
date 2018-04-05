@@ -22,8 +22,8 @@ function export_citation(pmid::Int64, citation_type, output_file, overwrite = tr
 
     #convert xml to dictionary
     efetch_dict = parse_xml(String(efetch_response.data))    
-    config = Dict(:type => citation_type, :output_file => output_file, :overwrite=>overwrite)
-    save_article_citations(efetch_dict, config, verbose)
+    citation_output = PubMed.CitationOutput(citation_type, output_file, overwrite)
+    save_efetch!(citation_output, efetch_dict, verbose)
 end
 
 """
@@ -44,6 +44,7 @@ function export_citation(pmids::Vector{Int64}, citation_type, output_file, overw
 
     #convert xml to dictionary
     efetch_dict = parse_xml(String(efetch_response.data))    
-    config = Dict(:type => citation_type, :output_file => output_file, :overwrite=>overwrite)
-    save_article_citations(efetch_dict, config, verbose)
+
+    citation_output = PubMed.CitationOutput(citation_type, output_file, overwrite)
+    save_efetch!(citation_output, efetch_dict, verbose)
 end
