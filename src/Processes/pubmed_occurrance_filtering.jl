@@ -88,7 +88,7 @@ function filter_mesh_by_concept(db, umls_concepts...)
     println("Filter mesh query string : $(query)")
 
     sel  = db_query(db, query)
-    return get_value(sel[1])
+    return sel[1]
 end
 
 

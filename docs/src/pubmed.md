@@ -64,12 +64,27 @@ If we are only interseted in saving a list of PMIDs associated with a query, we 
 
 ```julia        
 dbname = "entrez_test"
-config = Dict(:host=>"127.0.0.1", :dbname=>dbname, :username=>"root",
-:pswd=>"", :overwrite=>true)
-con = PubMed.save_pmid_mysql(ids, config, false)
+host = "127.0.0.1";
+user = "root"
+pwd = ""
 
-# get array of PMIDS store in database
-all_pmids = BioMedQuery.PubMed.all_pmids(con)
+#Collect PMIDs from esearch result
+ids = Array{Int64,1}()
+for id_node in esearch_dict["IdList"]["Id"]
+    push!(ids, parse(Int64, id_node))
+end
+
+# Initialize or connect to database
+const conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
+
+# Create `article` table to store pmids
+PubMed.create_pmid_table!(conn)
+
+#Save pmids
+PubMed.save_pmids!(conn, ids)
+
+#query the article table to explore list of pmids
+all_pmids = BioMedQuery.PubMed.all_pmids(conn)
 ```
 
 
@@ -78,8 +93,8 @@ all_pmids = BioMedQuery.PubMed.all_pmids(con)
 We can export the information returned by efetch as and EndNote/BibTex library file
 
 ```julia
-config = Dict(:type => "endnote", :output_file => "./citations_temp.endnote", :overwrite=>true)
-nsucceses = BioMedQuery.PubMed.save_article_citations(efetch_dict, config, verbose)
+citation = PubMed.CitationOutput("endnote", "./citations_temp.endnote", true)
+nsucceses = PubMed.save_efetch!(citation, efetch_dict, verbose)
 ```
 
 ### Save efetch response to MySQL database
@@ -87,10 +102,15 @@ nsucceses = BioMedQuery.PubMed.save_article_citations(efetch_dict, config, verbo
 Save the information returned by efetch to a MySQL database
 
 ```julia
-dbname = "entrez_test"
-config = Dict(:host=>"127.0.0.1", :dbname=>dbname, :username=>"root",
-:pswd=>"", :overwrite=>true)
-@time db = BioMedQuery.PubMed.save_efetch_mysql(efetch_dict, config, verbose)
+dbname = "efetch_test"
+host = "127.0.0.1";
+user = "root"
+pwd = ""
+
+# Save results of efetch to database
+const conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
+PubMed.create_tables!(conn)
+PubMed.save_efetch!(conn, efetch_dict)
 ```
 
 ### Save efetch response to SQLite database
@@ -98,11 +118,11 @@ config = Dict(:host=>"127.0.0.1", :dbname=>dbname, :username=>"root",
 Save the information returned by efetch to a MySQL database
 
  ```julia
-verbose = false
 db_path = "./test_db.db"
 
-config = Dict(:db_path=> db_path, :overwrite=>true)
-db = BioMedQuery.PubMed.save_efetch_sqlite(efetch_dict, config, verbose)
+const conn = SQLite.DB(db_path)
+PubMed.create_tables!(conn)
+PubMed.save_efetch!(conn, efetch_dict)
 ```
 
 ### Exploring output databases
@@ -119,7 +139,7 @@ tables = ["author", "author2article", "mesh_descriptor",
 
 for t in tables
     query_str = "SELECT * FROM "*t*" LIMIT 10;"
-    q = BioMedQuery.DBUtils.db_query(db, query_str)
+    q = DBUtils.db_query(db, query_str)
     println(q)
 end
 ```

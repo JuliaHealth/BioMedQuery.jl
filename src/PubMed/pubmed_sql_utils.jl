@@ -2,184 +2,124 @@ using ..DBUtils
 using SQLite
 using MySQL
 using DataStreams, DataFrames
-using NullableArrays
-
-get_value{T}(val::Nullable{T}) = get(val)
-get_value(val)= val
-get_value{T}(val_array::Array{T}) = val_array
-get_value{T}(val_array::NullableArray{T, 1}) = val_array.values
-
-function init_pmid_db_mysql(config)
-
-    println("Initializing PMID MySQL Database")
-
-    #intput dictionary must have the following keys
-    if haskey(config, :host) && haskey(config, :dbname) &&
-       haskey(config, :username) && haskey(config, :pswd) &&
-       haskey(config, :overwrite)
-
-       tablename  = haskey(config, :tablename) ? config[:tablename]:"article"
-
-       mysql_code="CREATE TABLE IF NOT EXISTS $tablename(
-                       pmid INTEGER NOT NULL PRIMARY KEY
-                   );"
-
-       db = DBUtils.init_mysql_database(host = config[:host], dbname =config[:dbname],
-       username = config[:username], pswd= config[:pswd],
-       overwrite = config[:overwrite], mysql_code = mysql_code)
-
-       return db
-   end
-end
-
-function init_pubmed_db_mysql(config)
-
-    println("Initializing MySQL Database")
-
-    #intput dictionary must have the following keys
-    if haskey(config, :host) && haskey(config, :dbname) &&
-       haskey(config, :username) && haskey(config, :pswd) &&
-       haskey(config, :overwrite)
-
-       mysql_code=nothing
-       try
-           filename = dirname(@__FILE__) * "/create_pubmed_db.sql"
-           f = open(filename, "r")
-           mysql_code = readstring(f)
-           close(f)
-       catch
-           error("Could not read create_entrez_db.sql")
-       end
-
-       db = DBUtils.init_mysql_database(host = config[:host], dbname =config[:dbname],
-       username = config[:username], pswd= config[:pswd],
-       overwrite = config[:overwrite], mysql_code = mysql_code)
-
-       return db
-   end
-end
-
-function init_pubmed_db_mysql!(con::MySQL.MySQLHandle, clean_tables = false)
-
-    println("Initializing MySQL PubMed Database")
-
-    mysql_code=""
-    sql_file = ""
-
-    if clean_tables
-       sql_file = dirname(@__FILE__) * "/clean_and_create_pubmed_db.sql"
-    else
-       sql_file = dirname(@__FILE__) * "/create_pubmed_db.sql"
-    end
-
-    try
-       f = open(sql_file, "r")
-       mysql_code = readstring(f)
-       close(f)
-    catch
-       error("Could not read create_entrez_db.sql")
-    end
 
 
-    if mysql_code != ""
-       mysql_execute(con, mysql_code)
-    else
-       println("Empty Database Created")
-    end
+"""
+    create_tables!(conn)
+Create and initialize tables to save results from an Entrez/PubMed search.
+Caution, all related tables are dropped if they exist
+"""
+function create_tables!(conn)
 
-end
+    # Determine engine
+    sql_engine = (typeof(conn)== MySQL.Connection) ? MySQL : SQLite 
+    AUTOINCREMENT = (sql_engine == MySQL) ? "AUTO_INCREMENT" : "AUTOINCREMENT" 
 
-function init_pubmed_db_sqlite(config)
-    println("Initializing SQLite Database")
-    if haskey(config, :db_path) && haskey(config, :overwrite)
-        db = init_pubmed_db_sqlite(config[:db_path], config[:overwrite])
-        return db
-    else
-        println("Error with following configuration:")
-        println(config)
-        println("Must contain: db_path")
-        error("Improper configuration for entrez_sqlite:init_database")
-    end
-end
-
-# Creates a database with all necessary tables to store
-# Entrez related searches. All tables are empty at this point
-# If a database existis at the given path - an error is ruturned an the user
-# is asked whether he intended to clean the existing file
-function init_pubmed_db_sqlite(path::String, overwrite=false)
-
-
-    if isfile(path)
-        if overwrite
-            rm(path)
-        else
-            println("Database found. Returning existing database.")
-            return SQLite.DB(path)
-        end
-    end
-
-    #Create database file
-    db = SQLite.DB(path)
+    #purge related tables
+    DBUtils.disable_foreing_checks(conn)
+    sql_engine.execute!(conn, "DROP TABLE IF EXISTS article")
+    sql_engine.execute!(conn, "DROP TABLE IF EXISTS author")
+    sql_engine.execute!(conn, "DROP TABLE IF EXISTS author2article")
+    sql_engine.execute!(conn, "DROP TABLE IF EXISTS mesh_descriptor")
+    sql_engine.execute!(conn, "DROP TABLE IF EXISTS mesh_qualifier")
+    sql_engine.execute!(conn, "DROP TABLE IF EXISTS mesh_heading")
+    DBUtils.enable_foreing_checks(conn)
+    
 
     #Create tables to store
-    SQLite.query(db, "CREATE TABLE
-    article(pmid INTEGER NOT NULL PRIMARY KEY,
-    title TEXT,
-    pubYear INTEGER,
-    abstract TEXT)")
+    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS article(
+                            pmid INTEGER NOT NULL PRIMARY KEY,
+                            title TEXT,
+                            pubYear INTEGER,
+                            abstract TEXT
+                            );"
+                        )
 
-
-    SQLite.query(db, "CREATE TABLE
-    author(id INTEGER PRIMARY KEY AUTOINCREMENT,
-    forename TEXT,
-    lastname TEXT NOT NULL,
-    CONSTRAINT unq UNIQUE(forename,  lastname) )")
-
-    SQLite.query(db, "CREATE TABLE
-    author2article(aid INTEGER, pmid INTEGER,
-    FOREIGN KEY(aid) REFERENCES author(id),
-    FOREIGN KEY(pmid) REFERENCES article(pmid),
-    PRIMARY KEY(aid, pmid) )")
-
-    #--------------------------
-    # MeshHeading Tables
-    #--------------------------
-
-    #Descriptor
-    #The id corresponds to the DUI of mesh library
-    #Adding a "D" at the beginning of the id, allows for
-    #lookup in the mesh browerser
-    # https://www.nlm.nih.gov/mesh/MBrowser.html
-    SQLite.query(db, "CREATE TABLE
-    mesh_descriptor(id INTEGER NOT NULL PRIMARY KEY ,
-                    name TEXT UNIQUE )")
-
-    #Qualifier
-    SQLite.query(db, "CREATE TABLE
-    mesh_qualifier(id INTEGER NOT NULL PRIMARY KEY ,
-                   name TEXT UNIQUE )")
-
-    #Heading
-    SQLite.query(db, "CREATE TABLE
-    mesh_heading(id INTEGER PRIMARY KEY AUTOINCREMENT,
-                 pmid INTEGER, did INTEGER, qid INTEGER,
-                 dmjr TEXT, qmjr TEXT,
-                 FOREIGN KEY(pmid) REFERENCES article(pmid),
-                 FOREIGN KEY(did) REFERENCES mesh_descriptor(id),
-                 FOREIGN KEY(qid) REFERENCES mesh_qualifier(id),
-                 CONSTRAINT unq UNIQUE(pmid, did, qid) )")
-
-    return db
-
+    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS author(
+                            id INTEGER PRIMARY KEY $AUTOINCREMENT,
+                            forename VARCHAR(255),
+                            lastname VARCHAR(255) NOT NULL,
+                            CONSTRAINT unq UNIQUE(forename,  lastname)
+                            );"
+                        )
+                        
+    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS author2article(
+                            aid INTEGER,
+                            pmid INTEGER,
+                            FOREIGN KEY(aid) REFERENCES author(id),
+                            FOREIGN KEY(pmid) REFERENCES article(pmid),
+                            PRIMARY KEY(aid, pmid)
+                            );"
+                        )
+                        
+    # # --------------------------
+    # #  MeshHeading Tables
+    # # --------------------------
+    # # --
+    # # Descriptor
+    # # The id corresponds to the DUI of mesh library
+    # # Adding a "D" at the beginning of the id, allows for
+    # # lookup in the mesh browerser
+    # #  https://www.nlm.nih.gov/mesh/MBrowser.html
+                        
+    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS mesh_descriptor(
+                            id INTEGER NOT NULL PRIMARY KEY,
+                            name VARCHAR(255) UNIQUE
+                            );"
+                        )
+                        
+    # Qualifier
+    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS mesh_qualifier(
+                            id INTEGER NOT NULL PRIMARY KEY,
+                            name VARCHAR(255) UNIQUE
+                            );"
+                        )
+                        
+    # Heading
+    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS mesh_heading(
+                            id INTEGER PRIMARY KEY $AUTOINCREMENT,
+                            pmid INTEGER, did INTEGER, qid INTEGER,
+                            dmjr VARCHAR(1), qmjr VARCHAR(1),
+                            FOREIGN KEY(pmid) REFERENCES article(pmid),
+                            FOREIGN KEY(did) REFERENCES mesh_descriptor(id),
+                            FOREIGN KEY(qid) REFERENCES mesh_qualifier(id),
+                            CONSTRAINT unq UNIQUE(pmid, did, qid)
+                            );"
+                        )
+    
 end
+
+
+
+"""
+    init_pmid_db!(conn; tablename="article")
+Creates a database, using either MySQL of SQLite, with all necessary tables to store
+Entrez related searches. All tables are empty at this point
+"""
+function create_pmid_table!(conn; tablename="article")
+
+    # Determine engine
+    sql_engine = (typeof(conn)== MySQL.Connection) ? MySQL : SQLite 
+
+    #purge related tables
+    # sql_engine.execute!(conn, "DROP TABLE IF EXISTS $tablename")
+    
+    #Create tables to store
+    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS $tablename(
+                                pmid INTEGER NOT NULL PRIMARY KEY
+                                );"
+                        )
+end
+
 
 """
     all_pmids(db)
 Return all PMIDs stored in the *article* table of the input database
 """
-function all_pmids(db)
-    query = db_query(db, "SELECT pmid FROM article;")
-    return get_value(query[1])
+function all_pmids(conn)
+    sql_engine = (typeof(conn)== MySQL.Connection) ? MySQL : SQLite 
+    query = sql_engine.query(conn, "SELECT pmid FROM article;")
+    return query[1]
 end
 
 """
@@ -188,7 +128,7 @@ Return all PMIDs stored in the *article* table of the input database
 """
 function all_mesh(db)
     sel = db_query(db, "SELECT name FROM mesh_descriptor;")
-    return get_value(sel[1])
+    return sel[1]
 end
 
 """
@@ -261,8 +201,9 @@ function get_article_mesh(db, pmid::Integer)
                      WHERE mh.did = md.id
                       AND mh.pmid = $pmid"
     query  = db_query(db, query_string)
+    
     #return data array
-    return get_value(query.columns[1])
+    return query.columns[1]
 
 end
 
@@ -292,52 +233,57 @@ function get_article_mesh_by_concept(db, pmid::Integer, umls_concepts...; query_
     end
 
     query  = db_query(db, query_string)
+    
     #return data array
-    return get_value(query.columns[1])
+    return query.columns[1]
 
 end
 
 function db_insert!(db, article::PubMedArticle, verbose=false)
+
+    sql_engine = (typeof(db)== MySQL.Connection) ? MySQL : SQLite 
+    
+
     #------- PMID - TITLE - YEAR
-    isnull(article.pmid) && error("NULL PMID")
+    ismissing(article.pmid) && error("NULL PMID")
 
     # Save article data
     insert_row!(db, "article",
-                Dict(:pmid =>article.pmid.value,
-                     :title=>get(article.title, ""),
-                     :pubYear=>get(article.year, 0),
-                     :abstract=>get(article.abstract_text, "")),
-                verbose)
+                Dict(:pmid =>article.pmid,
+                     :title=>article.title,
+                     :pubYear=>article.year,
+                     :abstract=>article.abstract_text), verbose)
 
     #------- AUTHORS
     for au in article.authors
-        if isnull(au[:LastName])
+
+        if ismissing(au[:LastName])
            println("Skipping author, null field: ", au)
            continue
         end
 
-        author_id = insert_row!(db, "author",
-        Dict(:id => nothing,
-             :forename => get(au[:ForeName], "Unknown"),
-             :lastname => get(au[:LastName], nothing)), verbose)
+        forename = au[:ForeName]
+        lastname = au[:LastName]
+
+        author_id = insert_row!(db, "author", Dict(:id => missing, :forename => forename, :lastname => lastname), verbose)
 
         if author_id < 0
             sel = db_select(db, ["id"], "author",
-            Dict(:forename => get(au[:ForeName], "Unknown"),
-                 :lastname => au[:LastName].value))
+                            Dict(:forename => forename,
+                                 :lastname => lastname))
             if length(sel[1]) > 0
-                author_id = get_value(sel[1][1])
+                author_id = sel[1][1]
                 if verbose
                     println("Author already in db: ", au)
                 end
                 insert_row!(db, "author2article",
-                Dict(:aid =>author_id, :pmid => article.pmid.value), verbose)
+                Dict(:aid =>author_id, :pmid => article.pmid), verbose)
             else
                 error("Can't save nor find Author: ", au)
             end
         else
           insert_row!(db, "author2article",
-          Dict(:aid =>author_id, :pmid => article.pmid.value), verbose)
+          Dict(:aid =>author_id, :pmid => article.pmid), verbose)
         end
     end
 end
@@ -345,9 +291,9 @@ end
 function db_insert!(db, pmid::Int64, mesh_heading_list::MeshHeadingList, verbose=false)
     
     for heading in mesh_heading_list
-        did_int = heading.descriptor_id.value
-        descriptor_name = heading.descriptor_name.value
-        dmjr = get(heading.descriptor_mjr, nothing)
+        did_int = heading.descriptor_id
+        descriptor_name = heading.descriptor_name
+        dmjr = heading.descriptor_mjr
 
 
         #Save Descriptor
@@ -359,17 +305,17 @@ function db_insert!(db, pmid::Int64, mesh_heading_list::MeshHeadingList, verbose
         if isempty(heading.qualifier_id)
             #Save Headings
             insert_row!(db, "mesh_heading",
-            Dict(:id=>nothing,
+            Dict(:id=>missing,
                  :pmid=> pmid,
                  :did=>did_int,
-                 :qid=>nothing,
-                 :dmjr=>nothing, :qmjr=>nothing), verbose )
+                 :qid=>missing,
+                 :dmjr=>missing, :qmjr=>missing), verbose )
         else
 
             for i=1:length(heading.qualifier_id)
-                qid_int = get(heading.qualifier_id[i], -1)
-                qualifier_name = get(heading.qualifier_name[i], nothing)
-                qmjr = get(heading.qualifier_mjr[i], nothing)
+                qid_int = heading.qualifier_id[i]
+                qualifier_name = heading.qualifier_name[i]
+                qmjr = heading.qualifier_mjr[i]
 
                 #Save Qualifiers`
                 insert_row!(db, "mesh_qualifier",
@@ -379,7 +325,7 @@ function db_insert!(db, pmid::Int64, mesh_heading_list::MeshHeadingList, verbose
 
                 #Save Headings
                 insert_row!(db, "mesh_heading",
-                Dict(:id=>nothing,
+                Dict(:id=>missing,
                      :pmid=> pmid,
                      :did=>did_int,
                      :qid=>qid_int,

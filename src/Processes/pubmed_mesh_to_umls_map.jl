@@ -34,14 +34,13 @@ function map_mesh_to_umls!(db, user, psswd; timeout = Inf, append_results=false,
     mq = db_query(db,"SELECT name FROM mesh_descriptor;")
 
     #get the array of terms
-    mesh_terms =get_value(mq.columns[1])
+    mesh_terms = mq.columns[1]
     println("----------Matching MESH to UMLS-----------")
     tgt = get_tgt(username = user, password = psswd)
-    for (i, mt) in enumerate(mesh_terms)
+    for (i, term) in enumerate(mesh_terms)
         
-        info("Descriptor $i out of ", length(mesh_terms))
+        info("Descriptor $i out of ", length(mesh_terms), ": ", term)
         #submit umls query
-        term = mt
         query = Dict("string"=>term, "searchType"=>"exact" )
         # println("term: ", term)
 
@@ -86,25 +85,29 @@ concepts into a new (cleared) TABLE:mesh2umls
 """
 function map_mesh_to_umls_async!(db, user, psswd; timeout = 5, append_results=false, verbose=false)
 
+    # Determine engine
+    sql_engine = (typeof(db)== MySQL.Connection) ? MySQL : SQLite 
+
     #if the mesh2umls relationship table doesn't esxist, create it
-    db_query(db, "CREATE table IF NOT EXISTS mesh2umls (
-    mesh VARCHAR(255),
-    umls VARCHAR(255),
-    FOREIGN KEY(mesh) REFERENCES mesh_descriptor(name),
-    PRIMARY KEY(mesh, umls)
-    )")
+    sql_engine.execute!(db, "CREATE table IF NOT EXISTS mesh2umls (
+                                mesh VARCHAR(255),
+                                umls VARCHAR(255),
+                                FOREIGN KEY(mesh) REFERENCES mesh_descriptor(name),
+                                PRIMARY KEY(mesh, umls)
+                            )")
 
     #clear the relationship table
     if !append_results
-        db_query(db, "DELETE FROM mesh2umls")
+        sql_engine.execute!(db, "DELETE FROM mesh2umls")
     end
 
     #select all mesh descriptors
-    mq = db_query(db,"SELECT name FROM mesh_descriptor;")
+    mq = sql_engine.query(db,"SELECT name FROM mesh_descriptor;")
 
     #get the array of terms
-    mesh_terms =get_value(mq[1])
+    mesh_terms = mq[1]
     println("----------Matching MESH to UMLS-----------")
+    println(mesh_terms)
 
     tgt = get_tgt(username = user, password = psswd)
     errors = 200*ones(length(mesh_terms))
@@ -125,7 +128,7 @@ function map_mesh_to_umls_async!(db, user, psswd; timeout = 5, append_results=fa
                 for attempt=1:5
                     try
                         all_results= search_umls(tgt, query, timeout=timeout)
-                        info("Descriptor $i out of ", length(mesh_terms))
+                        info("Descriptor $i out of ", length(mesh_terms), ": ", term)
                         if length(all_results) > 0
                             cui = best_match_cui(all_results)
                             if cui == ""

@@ -16,7 +16,7 @@ Return an array of all tables in a given MySQL database
 """
 function select_all_tables(db::SQLite.DB)
     tables_query = SQLite.query(db, "SELECT name FROM sqlite_master WHERE type='table'")
-    tables_query[1].values
+    tables_query[1]
 end
 
 """
@@ -45,7 +45,7 @@ function insert_row!{T}(db::SQLite.DB, tablename, data_values::Dict{Symbol, T},
     cols_string, vals_string = assemble_cols_and_vals(data_values)
     lastid = -1
     try
-        q = db_query(db, "INSERT INTO `$tablename` ($cols_string) values $vals_string")
+        q = SQLite.execute!(db, "INSERT INTO `$tablename` ($cols_string) values $vals_string")
     catch e
         if verbose
             Base.showerror(STDOUT, e)
@@ -55,11 +55,33 @@ function insert_row!{T}(db::SQLite.DB, tablename, data_values::Dict{Symbol, T},
         return -1
     end
 
-    lastid_query = db_query(db, "SELECT last_insert_rowid()")
-    lastid = get(lastid_query[1][1], -1)
+    lastid_query = SQLite.query(db, "SELECT last_insert_rowid()")
+    lastid = lastid_query[1][1]
+
+    if ismissing(lastid)
+        warn("Could not insert values $vals_string into table $tablename")
+    end
     if verbose
         println("Row successfully inserted into table: $tablename")
     end
 
     return lastid
+end
+
+"""
+disable_foreing_checks(con::SQLite.DB)
+Disables foreing checks for SQLite database
+"""
+function disable_foreing_checks(conn::SQLite.DB)
+    SQLite.execute!(conn, "PRAGMA foreign_keys = OFF")
+
+end
+
+"""
+    enable_foreing_checks(con::SQLite.DB)
+Enables foreing checks for SQLite database
+"""
+function enable_foreing_checks(conn::SQLite.DB)
+    SQLite.execute!(conn, "PRAGMA foreign_keys = ON")
+
 end

@@ -12,13 +12,13 @@ mysql_usr="root"
 mysql_pswd=""
 dbname="pubmed_obesity_2010_2012"
 
-db_mysql = mysql_connect(host, mysql_usr, mysql_pswd, dbname)
+db_mysql = MySQL.connect(host, mysql_usr, mysql_pswd, db=dbname)
 
 @time labels2ind, occur = umls_semantic_occurrences(db_mysql, umls_concept)
 
 
 println("-------------------------------------------------------------")
-println("Output Descritor to Index Dictionary")
+println("Descriptor to Index Dictionary")
 println(labels2ind)
 println("-------------------------------------------------------------")
 
@@ -32,7 +32,7 @@ db_sqlite = SQLite.DB(db_path)
 @time labels2ind, occur = umls_semantic_occurrences(db_sqlite, umls_concept)
 
 println("-------------------------------------------------------------")
-println("Output Descritor to Index Dictionary")
+println("Descriptor to Index Dictionary")
 println(labels2ind)
 println("-------------------------------------------------------------")
 

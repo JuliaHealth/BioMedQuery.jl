@@ -1,16 +1,37 @@
-# Extract citation in endnote format for a given PMID
-# 08/31/2016
 
-#using Requests
-using NullableArrays
+"""
+    CitationOutput
+Structure to hold the format and file location to store citations
+"""
+mutable struct CitationOutput
+    format::String
+    file::String
 
+    function CitationOutput(format::String, file::String, overwrite::Bool)
+        this = new()
+        this.format = format
+        
+        if overwrite
+            if isfile(file)
+                rm(file)
+            end
+        end
 
+        this.file = file
+
+        return this
+    end
+end
+
+"""
+    citations_endnote(article::PubMedArticle, verbose=false)
+
+Transforms a PubMedArticle into text corresponding to its endnote citation
+"""
 function citations_endnote(article::PubMedArticle, verbose=false)
 
-    types_idx = find(x->!x, article.types.isnull)
-
     # println("***Types: ", article.types)
-    jrnl_art = find(x->(x=="Journal Article"), article.types.values[types_idx])
+    jrnl_art = find(x->(x=="Journal Article"), skipmissing(article.types))
 
     if length(jrnl_art)!= 1
         error("EndNote can only export Journal Articles")
@@ -18,32 +39,31 @@ function citations_endnote(article::PubMedArticle, verbose=false)
 
     lines::Vector{String} = ["%0 Journal Article"]
     for au in article.authors
-        if isnull(au[:Initials]) && isnull(au[:LastName])
+        if ismissing(au[:Initials]) && ismissing(au[:LastName])
             println("Skipping author, null field: ", au)
             continue
         end
-        author = string(au[:LastName].value, ", ", au[:Initials].value)
+        author = string(au[:LastName], ", ", au[:Initials])
         push!(lines, "%A $author")
     end
 
-    !isnull(article.year) && push!(lines, "%D $(article.year.value)")
-    !isnull(article.title) && push!(lines, "%T $(article.title.value)")
-    !isnull(article.journal) && push!(lines, "%J $(article.journal.value)")
-    !isnull(article.volume) && push!(lines, "%V $(article.volume.value)")
-    !isnull(article.issue) && push!(lines, "%N $(article.issue.value)")
-    !isnull(article.pages) && push!(lines, "%P $(article.pages.value)")
-    !isnull(article.pmid) && push!(lines, "%M $(article.pmid.value)")
-    !isnull(article.url) && push!(lines, "%U $(article.url.value)")
-    !isnull(article.abstract_text) && push!(lines, "%X $(article.abstract_text.value)")
+    !ismissing(article.year) && push!(lines, "%D $(article.year)")
+    !ismissing(article.title) && push!(lines, "%T $(article.title)")
+    !ismissing(article.journal) && push!(lines, "%J $(article.journal)")
+    !ismissing(article.volume) && push!(lines, "%V $(article.volume)")
+    !ismissing(article.issue) && push!(lines, "%N $(article.issue)")
+    !ismissing(article.pages) && push!(lines, "%P $(article.pages)")
+    !ismissing(article.pmid) && push!(lines, "%M $(article.pmid)")
+    !ismissing(article.url) && push!(lines, "%U $(article.url)")
+    !ismissing(article.abstract_text) && push!(lines, "%X $(article.abstract_text)")
 
 
     for term in article.mesh
-        !isnull(term) && push!(lines, "%K $(term.value)")
+        !ismissing(term) && push!(lines, "%K $(term)")
     end
 
     if !isempty(article.affiliations)
-        idx = find(x->!x, article.affiliations.isnull)
-        affiliations_str = join(article.affiliations.values[idx], ", ")
+        affiliations_str = join(skipmissing(article.affiliations), ", ")
         push!(lines, "%+ $affiliations_str")
     end
     # for m in mesh_terms
@@ -52,52 +72,54 @@ function citations_endnote(article::PubMedArticle, verbose=false)
     return join(lines, "\n")
 end
 
+"""
+    citations_bibtex(article::PubMedArticle, verbose=false)
+
+Transforms a PubMedArticle into text corresponding to its bibtex citation
+"""
 function citations_bibtex(article::PubMedArticle, verbose=false)
-    types_idx = find(x->!x, article.types.isnull)
-    jrnl_art = find(x->(x=="Journal Article"), article.types.values[types_idx])
+    jrnl_art = find(x->(x=="Journal Article"), skipmissing(article.types))
 
     if length(jrnl_art)!= 1
         error("EndNote can only export Journal Articles")
     end
 
-    lines::Vector{String} = ["@article {PMID:$(article.pmid.value),"]
+    lines::Vector{String} = ["@article {PMID:$(article.pmid),"]
     authors_str = []
     for au in article.authors
-        if isnull(au[:Initials]) && isnull(au[:LastName])
+        if ismissing(au[:Initials]) && ismissing(au[:LastName])
             println("Skipping author, null field: ", au)
             continue
         end
-        author = string(au[:LastName].value, ", ", au[:Initials].value)
+        author = string(au[:LastName], ", ", au[:Initials])
         push!(authors_str, "$author")
     end
     all_authors_str = join(authors_str, " and ")
     push!(lines, "  author  = {$all_authors_str},")
-    !isnull(article.title)   && push!(lines, "  title   = {$(article.title.value)},")
-    !isnull(article.journal) && push!(lines, "  journal = {$(article.journal.value)},")
-    !isnull(article.year)    && push!(lines, "  year    = {$(article.year.value)},")
-    !isnull(article.volume)  && push!(lines, "  volume  = {$(article.volume.value)},")
-    !isnull(article.issue)   && push!(lines, "  number  = {$(article.issue.value)},")
-    !isnull(article.pages)   && push!(lines, "  pages   = {$(article.pages.value)},")
-    !isnull(article.url)     && push!(lines, "  url     = {$(article.url.value)},")
+    !ismissing(article.title)   && push!(lines, "  title   = {$(article.title)},")
+    !ismissing(article.journal) && push!(lines, "  journal = {$(article.journal)},")
+    !ismissing(article.year)    && push!(lines, "  year    = {$(article.year)},")
+    !ismissing(article.volume)  && push!(lines, "  volume  = {$(article.volume)},")
+    !ismissing(article.issue)   && push!(lines, "  number  = {$(article.issue)},")
+    !ismissing(article.pages)   && push!(lines, "  pages   = {$(article.pages)},")
+    !ismissing(article.url)     && push!(lines, "  url     = {$(article.url)},")
     push!(lines, "}\n")
     return join(lines, "\n")
 end
 
-function save_article_citations(efetch_dict, config, verbose=false)
-    if !(haskey(config, :type) && haskey(config, :output_file) && haskey(config, :overwrite))
-        error("Saving citations requires correct dictionary configuration")
-    end
-    output_file = config[:output_file]
+"""
+    save_efetch!(output::CitationOutput, efetch_dict, verbose=false)
 
-    if config[:overwrite]
-        if isfile(output_file)
-            rm(output_file)
-        end
-    end
+Save the results of a Entrez efetch to a bibliography file, with format and 
+file path given by `output::CitationOutput`
+"""
+function save_efetch!(output::CitationOutput, efetch_dict, verbose=false)
+   
+    output_file = output.file
 
-    if config[:type] == "bibtex"
+    if output.format == "bibtex"
         citation_func = citations_bibtex
-    elseif config[:type] == "endnote"
+    elseif output.format == "endnote"
         citation_func = citations_endnote
     else
         error("Reference type not supported")

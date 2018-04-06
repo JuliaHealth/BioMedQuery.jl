@@ -15,18 +15,18 @@ end
 for (i, xml_article) in enumerate(articles)
 
     article = PubMedArticle(xml_article)
-    @test !isnull(article.pmid)
+    @test !ismissing(article.pmid)
     mesh_heading_list = MeshHeadingList(xml_article)
 
     for heading in mesh_heading_list
-        @test !isnull(heading.descriptor_name)
+        @test !ismissing(heading.descriptor_name)
     end
 
     if i==1
-        @test article.title.value == "Five Tips to Building a Successful Sleep Practice."
-        @test article.pmid.value == 27483622
-        @test article.authors[1][:LastName].value == "Poss"
-        @test mesh_heading_list[1].descriptor_name.value == "Bruxism"
+        @test article.title == "Five Tips to Building a Successful Sleep Practice."
+        @test article.pmid == 27483622
+        @test article.authors[1][:LastName] == "Poss"
+        @test mesh_heading_list[1].descriptor_name == "Bruxism"
         @test length(mesh_heading_list)== 6
     end
 end

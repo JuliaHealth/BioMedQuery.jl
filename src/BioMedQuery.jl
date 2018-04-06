@@ -26,11 +26,8 @@ MeshHeadingList
 include("PubMed/pubmed_article.jl")
 
 # sql utilities
-export  init_pubmed_db_mysql,
-        init_pubmed_db_mysql!,
-        init_pubmed_db_sqlite,
-        init_pmid_db_mysql,
-        get_value,
+export  create_tables!,
+        create_pmid_table!,
         all_pmids,
         abstracts,
         get_article_mesh,
@@ -40,15 +37,15 @@ export  init_pubmed_db_mysql,
 include("PubMed/pubmed_sql_utils.jl")
         
 # eutils -> sql
-export  save_efetch_mysql,
-        save_pmid_mysql,
-        save_efetch_sqlite
+export  save_efetch!,
+        save_pmids!
 include("PubMed/eutils_sql_save.jl")
         
 # citation formats
-export  citations_endnote,
-citations_bibtex,
-save_article_citations
+export  CitationOutput,
+        citations_endnote,
+        citations_bibtex,
+        save_efetch!
 include("PubMed/citation_manager.jl")
 
 end
@@ -64,10 +61,9 @@ end
 
 #--------Processes------------
 module Processes
-export pubmed_search_and_save,
-       pubmed_search_and_save_mysql!,
+export pubmed_search_and_save!,
        pubmed_pmid_search,
-       pubmed_pmid_search_and_save,
+       pubmed_pmid_search_and_save!,
        map_mesh_to_umls_async!,
        map_mesh_to_umls!,
        umls_semantic_occurrences,
