@@ -5,11 +5,11 @@ using BioMedQuery.PubMed
 using BioMedQuery.Processes
 using DataFrames
 
-const email= "" #Only needed if you want to contact NCBI with inqueries
-const search_term="(obesity[MeSH Major Topic]) AND (\"2010\"[Date - Publication] : \"2012\"[Date - Publication])"
-const max_articles = 5
-const results_dir = "./results"
-const verbose = false;
+email= "" #Only needed if you want to contact NCBI with inqueries
+search_term="(obesity[MeSH Major Topic]) AND (\"2010\"[Date - Publication] : \"2012\"[Date - Publication])" 
+max_articles = 5
+results_dir = "./results"
+verbose = false;
 
 # Initialize database, if it exists it connects to it, otherwise it creates it
 const mysql_conn = DBUtils.init_mysql_database("127.0.0.1", "root", "", "pubmed_obesity_2010_2012")
@@ -59,7 +59,7 @@ for t in tables
 end
 
 enw_file = "$(results_dir)/pubmed_obesity_2010_2012.enw"
-endnote_citation = PubMed.CitationOuput("endnote", enw_file, true)
+endnote_citation = PubMed.CitationOutput("endnote", enw_file, true)
 Processes.pubmed_search_and_save!(email, search_term, max_articles, endnote_citation, verbose);
 
 println(readstring(enw_file))

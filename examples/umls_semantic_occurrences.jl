@@ -4,8 +4,8 @@ using BioMedQuery.PubMed
 using MySQL
 using SQLite
 
-const results_dir = "./results"
-const umls_concept = "Disease or Syndrome";
+results_dir = "./results"
+umls_concept = "Disease or Syndrome";
 
 host="127.0.0.1" 
 mysql_usr="root"
@@ -40,5 +40,3 @@ println("-------------------------------------------------------------")
 println("Output Data Matrix")
 println(full(occur))
 println("-------------------------------------------------------------")
-
-
