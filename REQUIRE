@@ -9,8 +9,7 @@ BaseTestNext
 SQLite 
 ZipFile
 MySQL
-DataFrames
-NullableArrays 
+DataFrames 
 DataStructures 
 BioServices
 XMLDict

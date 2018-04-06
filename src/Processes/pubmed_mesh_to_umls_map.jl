@@ -34,7 +34,7 @@ function map_mesh_to_umls!(db, user, psswd; timeout = Inf, append_results=false,
     mq = db_query(db,"SELECT name FROM mesh_descriptor;")
 
     #get the array of terms
-    mesh_terms =get_value(mq.columns[1])
+    mesh_terms = mq.columns[1]
     println("----------Matching MESH to UMLS-----------")
     tgt = get_tgt(username = user, password = psswd)
     for (i, term) in enumerate(mesh_terms)

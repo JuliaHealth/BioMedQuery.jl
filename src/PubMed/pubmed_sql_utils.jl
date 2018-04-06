@@ -2,12 +2,6 @@ using ..DBUtils
 using SQLite
 using MySQL
 using DataStreams, DataFrames
-using NullableArrays
-
-get_value{T}(val::Nullable{T}) = get(val)
-get_value(val)= val
-get_value{T}(val_array::Array{T}) = val_array
-get_value{T}(val_array::NullableArray{T, 1}) = val_array.values
 
 
 """
@@ -134,7 +128,7 @@ Return all PMIDs stored in the *article* table of the input database
 """
 function all_mesh(db)
     sel = db_query(db, "SELECT name FROM mesh_descriptor;")
-    return get_value(sel[1])
+    return sel[1]
 end
 
 """
@@ -207,8 +201,9 @@ function get_article_mesh(db, pmid::Integer)
                      WHERE mh.did = md.id
                       AND mh.pmid = $pmid"
     query  = db_query(db, query_string)
+    
     #return data array
-    return get_value(query.columns[1])
+    return query.columns[1]
 
 end
 
@@ -238,8 +233,9 @@ function get_article_mesh_by_concept(db, pmid::Integer, umls_concepts...; query_
     end
 
     query  = db_query(db, query_string)
+    
     #return data array
-    return get_value(query.columns[1])
+    return query.columns[1]
 
 end
 
@@ -249,45 +245,45 @@ function db_insert!(db, article::PubMedArticle, verbose=false)
     
 
     #------- PMID - TITLE - YEAR
-    isnull(article.pmid) && error("NULL PMID")
+    ismissing(article.pmid) && error("NULL PMID")
 
     # Save article data
     insert_row!(db, "article",
-                Dict(:pmid =>article.pmid.value,
-                     :title=>get(article.title, ""),
-                     :pubYear=>get(article.year, 0),
-                     :abstract=>get(article.abstract_text, "")), verbose)
+                Dict(:pmid =>article.pmid,
+                     :title=>article.title,
+                     :pubYear=>article.year,
+                     :abstract=>article.abstract_text), verbose)
 
     #------- AUTHORS
     for au in article.authors
 
-        if isnull(au[:LastName])
+        if ismissing(au[:LastName])
            println("Skipping author, null field: ", au)
            continue
         end
 
-        forename = get(au[:ForeName], "Unknown")
-        lastname = get(au[:LastName], "NULL")
+        forename = au[:ForeName]
+        lastname = au[:LastName]
 
-        author_id = insert_row!(db, "author", Dict(:id => nothing, :forename => forename, :lastname => lastname), verbose)
+        author_id = insert_row!(db, "author", Dict(:id => missing, :forename => forename, :lastname => lastname), verbose)
 
         if author_id < 0
             sel = db_select(db, ["id"], "author",
                             Dict(:forename => forename,
                                  :lastname => lastname))
             if length(sel[1]) > 0
-                author_id = get_value(sel[1][1])
+                author_id = sel[1][1]
                 if verbose
                     println("Author already in db: ", au)
                 end
                 insert_row!(db, "author2article",
-                Dict(:aid =>author_id, :pmid => article.pmid.value), verbose)
+                Dict(:aid =>author_id, :pmid => article.pmid), verbose)
             else
                 error("Can't save nor find Author: ", au)
             end
         else
           insert_row!(db, "author2article",
-          Dict(:aid =>author_id, :pmid => article.pmid.value), verbose)
+          Dict(:aid =>author_id, :pmid => article.pmid), verbose)
         end
     end
 end
@@ -295,9 +291,9 @@ end
 function db_insert!(db, pmid::Int64, mesh_heading_list::MeshHeadingList, verbose=false)
     
     for heading in mesh_heading_list
-        did_int = heading.descriptor_id.value
-        descriptor_name = heading.descriptor_name.value
-        dmjr = get(heading.descriptor_mjr, nothing)
+        did_int = heading.descriptor_id
+        descriptor_name = heading.descriptor_name
+        dmjr = heading.descriptor_mjr
 
 
         #Save Descriptor
@@ -309,17 +305,17 @@ function db_insert!(db, pmid::Int64, mesh_heading_list::MeshHeadingList, verbose
         if isempty(heading.qualifier_id)
             #Save Headings
             insert_row!(db, "mesh_heading",
-            Dict(:id=>nothing,
+            Dict(:id=>missing,
                  :pmid=> pmid,
                  :did=>did_int,
-                 :qid=>nothing,
-                 :dmjr=>nothing, :qmjr=>nothing), verbose )
+                 :qid=>missing,
+                 :dmjr=>missing, :qmjr=>missing), verbose )
         else
 
             for i=1:length(heading.qualifier_id)
-                qid_int = get(heading.qualifier_id[i], -1)
-                qualifier_name = get(heading.qualifier_name[i], nothing)
-                qmjr = get(heading.qualifier_mjr[i], nothing)
+                qid_int = heading.qualifier_id[i]
+                qualifier_name = heading.qualifier_name[i]
+                qmjr = heading.qualifier_mjr[i]
 
                 #Save Qualifiers`
                 insert_row!(db, "mesh_qualifier",
@@ -329,7 +325,7 @@ function db_insert!(db, pmid::Int64, mesh_heading_list::MeshHeadingList, verbose
 
                 #Save Headings
                 insert_row!(db, "mesh_heading",
-                Dict(:id=>nothing,
+                Dict(:id=>missing,
                      :pmid=> pmid,
                      :did=>did_int,
                      :qid=>qid_int,

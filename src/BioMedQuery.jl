@@ -26,11 +26,8 @@ MeshHeadingList
 include("PubMed/pubmed_article.jl")
 
 # sql utilities
-export  init_pubmed_db,
-        init_pubmed_db!,
-        init_pmid_db_sql,
-        init_pmid_db_sql!,
-        get_value,
+export  create_tables!,
+        create_pmid_table!,
         all_pmids,
         abstracts,
         get_article_mesh,

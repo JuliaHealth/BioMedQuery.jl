@@ -28,7 +28,7 @@ function save_efetch!(conn::Union{MySQL.Connection, SQLite.DB}, efetch_dict, ver
 
         #-------MeshHeadingList
         mesh_heading_list = MeshHeadingList(xml_article)
-        db_insert!(conn, article.pmid.value, mesh_heading_list, verbose)
+        db_insert!(conn, article.pmid, mesh_heading_list, verbose)
     end
 
     conn

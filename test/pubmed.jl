@@ -79,8 +79,8 @@ using XMLDict
         #parse 1st article
         # art = BioMedQuery.PubMed.MedlineArticle(articles[1])
         # println(art)
-        config = Dict(:type => "endnote", :output_file => "./citations_temp.endnote", :overwrite=>true)
-        nsucceses = PubMed.save_article_citations(efetch_dict, config, verbose)
+        citation = PubMed.CitationOutput("endnote", "./citations_temp.endnote", true)
+        nsucceses = PubMed.save_efetch!(citation, efetch_dict, verbose)
 
 
         #test that citations are the same as the ones already stored
