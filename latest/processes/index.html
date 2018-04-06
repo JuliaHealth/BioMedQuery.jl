@@ -23,6 +23,10 @@
       
         <meta name="lang:search.language" content="en">
       
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
         <meta name="lang:search.result.none" content="No matching documents">
       
         <meta name="lang:search.result.one" content="1 matching document">
@@ -32,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.2.1">
+      <meta name="generator" content="mkdocs-0.17.3, mkdocs-material-2.7.1">
     
     
       
@@ -40,13 +44,14 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.41c6761c.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.78aab2dc.css">
       
     
     
       <script src="../assets/javascripts/modernizr.1aa3b519.js"></script>
     
     
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
       
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
@@ -59,19 +64,41 @@
     
   </head>
   
-    <body>
+    <body dir="ltr">
   
     <svg class="md-svg">
       <defs>
         
         
-          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
         
       </defs>
     </svg>
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <a href="#import" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid">
@@ -107,11 +134,13 @@
             
 <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="search"></label>
-  <div class="md-search__inner">
+  <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" required placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
       <label class="md-icon md-search__icon" for="search"></label>
-      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">&#xE5CD;</button>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
@@ -392,13 +421,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#arguments_3" title="Arguments" class="md-nav__link">
-    Arguments
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#output" title="Output" class="md-nav__link">
     Output
   </a>
@@ -409,6 +431,8 @@
     </nav>
   
 </li>
+      
+      
       
       
       
@@ -534,13 +558,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#arguments_3" title="Arguments" class="md-nav__link">
-    Arguments
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#output" title="Output" class="md-nav__link">
     Output
   </a>
@@ -551,6 +568,8 @@
     </nav>
   
 </li>
+      
+      
       
       
       
@@ -584,8 +603,7 @@
 <li><a href="./#BioMedQuery.Processes.export_citation"><code>BioMedQuery.Processes.export_citation</code></a></li>
 <li><a href="./#BioMedQuery.Processes.map_mesh_to_umls!-Tuple{Any,Any,Any}"><code>BioMedQuery.Processes.map_mesh_to_umls!</code></a></li>
 <li><a href="./#BioMedQuery.Processes.map_mesh_to_umls_async!-Tuple{Any,Any,Any}"><code>BioMedQuery.Processes.map_mesh_to_umls_async!</code></a></li>
-<li><a href="./#BioMedQuery.Processes.pubmed_search_and_save"><code>BioMedQuery.Processes.pubmed_search_and_save</code></a></li>
-<li><a href="./#BioMedQuery.Processes.pubmed_search_and_save_mysql!"><code>BioMedQuery.Processes.pubmed_search_and_save_mysql!</code></a></li>
+<li><a href="./#BioMedQuery.Processes.pubmed_search_and_save!"><code>BioMedQuery.Processes.pubmed_search_and_save!</code></a></li>
 <li><a href="./#BioMedQuery.Processes.umls_semantic_occurrences-Tuple{Any,Vararg{Any,N} where N}"><code>BioMedQuery.Processes.umls_semantic_occurrences</code></a></li>
 </ul>
 <p><a id='Functions-1'></a></p>
@@ -601,7 +619,7 @@
 <ul>
 <li><code>citation_type::String</code>: At the moment supported types include: "endnote"</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b15926c6baaffd96f5c77cd4ec0a9c31d18d12ce/src/Processes/pubmed_export_citations.jl#L6-L13' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5c1363aae0953e104d7a371bb162778ff7335eb7/src/Processes/pubmed_export_citations.jl#L6-L13' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.export_citation' href='#BioMedQuery.Processes.export_citation'>#</a>
 <strong><code>BioMedQuery.Processes.export_citation</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>export_citation(pmids::Vector{Int64}, citation_type, output_file,verbose)
@@ -613,7 +631,7 @@
 <ul>
 <li><code>citation_type::String</code>: At the moment supported types include: "endnote"</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b15926c6baaffd96f5c77cd4ec0a9c31d18d12ce/src/Processes/pubmed_export_citations.jl#L29-L36' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5c1363aae0953e104d7a371bb162778ff7335eb7/src/Processes/pubmed_export_citations.jl#L29-L36' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.map_mesh_to_umls!-Tuple{Any,Any,Any}' href='#BioMedQuery.Processes.map_mesh_to_umls!-Tuple{Any,Any,Any}'>#</a>
 <strong><code>BioMedQuery.Processes.map_mesh_to_umls!</code></strong> &mdash; <em>Method</em>.</p>
 <p>map_mesh_to_umls!(db, c::Credentials)</p>
@@ -626,7 +644,7 @@
 <ul>
 <li><code>c::Credentials</code>: UMLS username and password</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b15926c6baaffd96f5c77cd4ec0a9c31d18d12ce/src/Processes/pubmed_mesh_to_umls_map.jl#L5-L17' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5c1363aae0953e104d7a371bb162778ff7335eb7/src/Processes/pubmed_mesh_to_umls_map.jl#L5-L17' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.map_mesh_to_umls_async!-Tuple{Any,Any,Any}' href='#BioMedQuery.Processes.map_mesh_to_umls_async!-Tuple{Any,Any,Any}'>#</a>
 <strong><code>BioMedQuery.Processes.map_mesh_to_umls_async!</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span><span class="nt">map_mesh_to_umls_async</span><span class="o">!(</span><span class="nt">db</span><span class="o">,</span> <span class="nt">c</span><span class="p">::</span><span class="nd">Credentials</span><span class="o">;</span> <span class="nt">timeout</span><span class="o">,</span> <span class="nt">append_results</span><span class="o">,</span> <span class="nt">verbose</span><span class="o">)</span>
@@ -645,38 +663,27 @@
 <li><code>c::Credentials</code>: UMLS username and password</li>
 <li><code>append_results::Bool</code> : If false a NEW and EMPTY mesh2umls database table in creted</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b15926c6baaffd96f5c77cd4ec0a9c31d18d12ce/src/Processes/pubmed_mesh_to_umls_map.jl#L72-L86' class='documenter-source'>source</a><br></p>
-<p><a id='BioMedQuery.Processes.pubmed_search_and_save' href='#BioMedQuery.Processes.pubmed_search_and_save'>#</a>
-<strong><code>BioMedQuery.Processes.pubmed_search_and_save</code></strong> &mdash; <em>Function</em>.</p>
-<p>pubmed_search_and_save(email, search_term, article_max::Int64, db_path, verbose=false)</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5c1363aae0953e104d7a371bb162778ff7335eb7/src/Processes/pubmed_mesh_to_umls_map.jl#L71-L85' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.Processes.pubmed_search_and_save!' href='#BioMedQuery.Processes.pubmed_search_and_save!'>#</a>
+<strong><code>BioMedQuery.Processes.pubmed_search_and_save!</code></strong> &mdash; <em>Function</em>.</p>
+<div class="codehilite"><pre><span></span>pubmed_search_and_save!(email, search_term::String, article_max,
+conn, verbose=false)
+</pre></div>
+
+
+<p>Search pubmed and save the results into a database connection. The database is expected to exist and  have the appriate pubmed related tables. You can create such tables using  <code>PubMed.create_tables(conn)</code>    </p>
 <h3 id="arguments_2">Arguments</h3>
 <ul>
-<li>email: valid email address (otherwise pubmed will block you)</li>
+<li>email: valid email address (otherwise pubmed may block you)</li>
 <li>search_term : search string to submit to PubMed</li>
 </ul>
 <p>e.g (asthma[MeSH Terms]) AND ("2001/01/29"[Date - Publication] : "2010"[Date - Publication]) see http://www.ncbi.nlm.nih.gov/pubmed/advanced for help constructing the string</p>
 <ul>
 <li>article_max : maximum number of articles to return</li>
-<li>db_path: path to output database</li>
+<li>conn: database connection</li>
 <li>verbose: if true, the NCBI xml response files are saved to current directory</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b15926c6baaffd96f5c77cd4ec0a9c31d18d12ce/src/Processes/pubmed_search_and_save.jl#L8-L21' class='documenter-source'>source</a><br></p>
-<p><a id='BioMedQuery.Processes.pubmed_search_and_save_mysql!' href='#BioMedQuery.Processes.pubmed_search_and_save_mysql!'>#</a>
-<strong><code>BioMedQuery.Processes.pubmed_search_and_save_mysql!</code></strong> &mdash; <em>Function</em>.</p>
-<p>pubmed_search_and_save_mysql!(email, search_term::String, article_max,      con::MySQL.MySQLHandle, clean_efetch_tables = false, verbose=false)</p>
-<h3 id="arguments_3">Arguments</h3>
-<ul>
-<li><code>email</code>: valid email address (otherwise pubmed will block you)</li>
-<li><code>search_term</code> : search string to submit to PubMed</li>
-</ul>
-<p>e.g (asthma[MeSH Terms]) AND ("2001/01/29"[Date - Publication] : "2010"[Date - Publication]) see http://www.ncbi.nlm.nih.gov/pubmed/advanced for help constructing the string</p>
-<ul>
-<li><code>article_max</code> : maximum number of articles to return. Defaults to 600,000</li>
-<li><code>con</code>: MySQL connection</li>
-<li><code>clean_efetch_tables</code>: If true the pubmed/efetch related tables are cleaned/overwritten</li>
-<li><code>verbose</code>: if true, the NCBI xml response files are saved to current directory</li>
-</ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b15926c6baaffd96f5c77cd4ec0a9c31d18d12ce/src/Processes/pubmed_search_and_save.jl#L101-L115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5c1363aae0953e104d7a371bb162778ff7335eb7/src/Processes/pubmed_search_and_save.jl#L10-L27' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.umls_semantic_occurrences-Tuple{Any,Vararg{Any,N} where N}' href='#BioMedQuery.Processes.umls_semantic_occurrences-Tuple{Any,Vararg{Any,N} where N}'>#</a>
 <strong><code>BioMedQuery.Processes.umls_semantic_occurrences</code></strong> &mdash; <em>Method</em>.</p>
 <p>umls_semantic_occurrences(db, umls_semantic_type)</p>
@@ -687,13 +694,15 @@
 <li><code>disease_occurances</code> : Sparse matrix. The columns correspond to a feature</li>
 </ul>
 <p>vector, where each row is a MESH descriptor. There are as many columns as articles. The occurance/abscense of a descriptor is labeled as 1/0</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b15926c6baaffd96f5c77cd4ec0a9c31d18d12ce/src/Processes/pubmed_occurrance_filtering.jl#L10-L22' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5c1363aae0953e104d7a371bb162778ff7335eb7/src/Processes/pubmed_occurrance_filtering.jl#L10-L22' class='documenter-source'>source</a><br></p>
                 
                   
                 
               
               
                 
+
+
               
             </article>
           </div>
@@ -757,9 +766,9 @@
       
     </div>
     
-      <script src="../assets/javascripts/application.6cdc17f0.js"></script>
+      <script src="../assets/javascripts/application.8eb9be28.js"></script>
       
-      <script>app.initialize({version:"0.17.2",url:{base:".."}})</script>
+      <script>app.initialize({version:"0.17.3",url:{base:".."}})</script>
       
     
     
