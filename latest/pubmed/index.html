@@ -800,12 +800,12 @@
 <strong><code>BioMedQuery.PubMed.abstracts</code></strong> &mdash; <em>Method</em>.</p>
 <p>abstracts(db; local_medline=false)</p>
 <p>Return all abstracts related to PMIDs in the database. If local_medline flag is set to true, it is assumed that db contains <em>article</em> table with only PMIDs and all other info is available in a (same host) medline database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5c1363aae0953e104d7a371bb162778ff7335eb7/src/PubMed/pubmed_sql_utils.jl#L164-L170' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/pubmed_sql_utils.jl#L164-L170' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.abstracts_by_year-Tuple{Any,Any}' href='#BioMedQuery.PubMed.abstracts_by_year-Tuple{Any,Any}'>#</a>
 <strong><code>BioMedQuery.PubMed.abstracts_by_year</code></strong> &mdash; <em>Method</em>.</p>
 <p>abstracts_by_year(db, pub_year; local_medline=false)</p>
 <p>Return all abstracts of article published in the given year. If local_medline flag is set to true, it is assumed that db contains <em>article</em> table with only PMIDs and all other info is available in a (same host) medline database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5c1363aae0953e104d7a371bb162778ff7335eb7/src/PubMed/pubmed_sql_utils.jl#L134-L140' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/pubmed_sql_utils.jl#L134-L140' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.all_pmids-Tuple{Any}' href='#BioMedQuery.PubMed.all_pmids-Tuple{Any}'>#</a>
 <strong><code>BioMedQuery.PubMed.all_pmids</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>all_pmids(db)
@@ -813,7 +813,7 @@
 
 
 <p>Return all PMIDs stored in the <em>article</em> table of the input database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5c1363aae0953e104d7a371bb162778ff7335eb7/src/PubMed/pubmed_sql_utils.jl#L115-L118' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/pubmed_sql_utils.jl#L115-L118' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.citations_bibtex' href='#BioMedQuery.PubMed.citations_bibtex'>#</a>
 <strong><code>BioMedQuery.PubMed.citations_bibtex</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>citations_bibtex(article::PubMedArticle, verbose=false)
@@ -821,7 +821,7 @@
 
 
 <p>Transforms a PubMedArticle into text corresponding to its bibtex citation</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5c1363aae0953e104d7a371bb162778ff7335eb7/src/PubMed/citation_manager.jl#L75-L79' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/citation_manager.jl#L75-L79' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.citations_endnote' href='#BioMedQuery.PubMed.citations_endnote'>#</a>
 <strong><code>BioMedQuery.PubMed.citations_endnote</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>citations_endnote(article::PubMedArticle, verbose=false)
@@ -829,7 +829,7 @@
 
 
 <p>Transforms a PubMedArticle into text corresponding to its endnote citation</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5c1363aae0953e104d7a371bb162778ff7335eb7/src/PubMed/citation_manager.jl#L26-L30' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/citation_manager.jl#L26-L30' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.create_pmid_table!-Tuple{Any}' href='#BioMedQuery.PubMed.create_pmid_table!-Tuple{Any}'>#</a>
 <strong><code>BioMedQuery.PubMed.create_pmid_table!</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>init_pmid_db!(conn; tablename=&quot;article&quot;)
@@ -837,7 +837,7 @@
 
 
 <p>Creates a database, using either MySQL of SQLite, with all necessary tables to store Entrez related searches. All tables are empty at this point</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5c1363aae0953e104d7a371bb162778ff7335eb7/src/PubMed/pubmed_sql_utils.jl#L94-L98' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/pubmed_sql_utils.jl#L94-L98' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.create_tables!-Tuple{Any}' href='#BioMedQuery.PubMed.create_tables!-Tuple{Any}'>#</a>
 <strong><code>BioMedQuery.PubMed.create_tables!</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>create_tables!(conn)
@@ -845,7 +845,7 @@
 
 
 <p>Create and initialize tables to save results from an Entrez/PubMed search. Caution, all related tables are dropped if they exist</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5c1363aae0953e104d7a371bb162778ff7335eb7/src/PubMed/pubmed_sql_utils.jl#L7-L11' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/pubmed_sql_utils.jl#L7-L11' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.get_article_mesh-Tuple{Any,Integer}' href='#BioMedQuery.PubMed.get_article_mesh-Tuple{Any,Integer}'>#</a>
 <strong><code>BioMedQuery.PubMed.get_article_mesh</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>get_article_mesh(db, pmid)
@@ -853,7 +853,7 @@
 
 
 <p>Get the all mesh-descriptors associated with a give article</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5c1363aae0953e104d7a371bb162778ff7335eb7/src/PubMed/pubmed_sql_utils.jl#L192-L195' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/pubmed_sql_utils.jl#L192-L195' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.get_article_mesh_by_concept-Tuple{Any,Integer,Vararg{Any,N} where N}' href='#BioMedQuery.PubMed.get_article_mesh_by_concept-Tuple{Any,Integer,Vararg{Any,N} where N}'>#</a>
 <strong><code>BioMedQuery.PubMed.get_article_mesh_by_concept</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>get_article_mesh_by_concept(db, pmid, umls_concepts...; local_medline)
@@ -865,12 +865,7 @@
 <ul>
 <li>query_string: "" - assumes full set of results were saved by BioMedQuery directly from XML</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5c1363aae0953e104d7a371bb162778ff7335eb7/src/PubMed/pubmed_sql_utils.jl#L210-L215' class='documenter-source'>source</a><br></p>
-<p><a id='BioMedQuery.PubMed.save_efetch!' href='#BioMedQuery.PubMed.save_efetch!'>#</a>
-<strong><code>BioMedQuery.PubMed.save_efetch!</code></strong> &mdash; <em>Function</em>.</p>
-<p>pubmed_save_efetch(efetch_dict, conn)</p>
-<p>Save the results (dictionary) of an entrez-pubmed fetch to the input database.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5c1363aae0953e104d7a371bb162778ff7335eb7/src/PubMed/eutils_sql_save.jl#L5-L9' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/pubmed_sql_utils.jl#L210-L215' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.save_efetch!' href='#BioMedQuery.PubMed.save_efetch!'>#</a>
 <strong><code>BioMedQuery.PubMed.save_efetch!</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>save_efetch!(output::CitationOutput, efetch_dict, verbose=false)
@@ -878,7 +873,12 @@
 
 
 <p>Save the results of a Entrez efetch to a bibliography file, with format and  file path given by <code>output::CitationOutput</code></p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5c1363aae0953e104d7a371bb162778ff7335eb7/src/PubMed/citation_manager.jl#L110-L115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/citation_manager.jl#L110-L115' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.save_efetch!' href='#BioMedQuery.PubMed.save_efetch!'>#</a>
+<strong><code>BioMedQuery.PubMed.save_efetch!</code></strong> &mdash; <em>Function</em>.</p>
+<p>pubmed_save_efetch(efetch_dict, conn)</p>
+<p>Save the results (dictionary) of an entrez-pubmed fetch to the input database.</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/eutils_sql_save.jl#L5-L9' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.save_pmids!' href='#BioMedQuery.PubMed.save_pmids!'>#</a>
 <strong><code>BioMedQuery.PubMed.save_pmids!</code></strong> &mdash; <em>Function</em>.</p>
 <p>save_pmids!(conn, pmids::Vector{Int64}, verbose::Bool=false)</p>
@@ -888,7 +888,7 @@
 <li><code>pmids</code>: Array of PMIDs</li>
 <li><code>verbose</code>: Boolean to turn on extra print statements</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5c1363aae0953e104d7a371bb162778ff7335eb7/src/PubMed/eutils_sql_save.jl#L37-L46' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/eutils_sql_save.jl#L37-L46' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.all_mesh-Tuple{Any}' href='#BioMedQuery.PubMed.all_mesh-Tuple{Any}'>#</a>
 <strong><code>BioMedQuery.PubMed.all_mesh</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>all_mesh(db)
@@ -896,7 +896,7 @@
 
 
 <p>Return all PMIDs stored in the <em>article</em> table of the input database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5c1363aae0953e104d7a371bb162778ff7335eb7/src/PubMed/pubmed_sql_utils.jl#L125-L128' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/pubmed_sql_utils.jl#L125-L128' class='documenter-source'>source</a><br></p>
                 
                   
                 
