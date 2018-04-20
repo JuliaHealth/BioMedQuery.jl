@@ -9,6 +9,94 @@ function get_if_exists(dict, k)
     return haskey(dict, k) ? dict[k] : missing
 end
 
+
+"""
+    parse_MedlineDate(ml_dt::String)
+Parses the contents of the MedlineDate element and returns a tuple of the year and month.
+"""
+function parse_MedlineDate(ml_dt::String)
+    year = ""
+    month = ""
+    matches = split(ml_dt, " ", limit = 2) # WORKING ON GETTING THIS TO WORK WHEN NO MONTH PRESENT
+    try
+        year = matches[1]
+        month = matches[2]
+    catch
+        println("Couldn't fully parse date: ", ml_dt)
+    end
+
+    return year, month
+end
+
+"""
+    parse_year(yr::String)
+Parses the string year and returns an integer with the first year in range.
+"""
+function parse_year(yr::AbstractString)
+    try
+        parse(Int, yr[1:4])
+    catch
+        missing
+    end
+
+end
+
+"""
+    parse_month(mon::String)
+Parses the string month (month or season) and returns an integer with the first month in range.
+"""
+function parse_month(mon::AbstractString)
+    try
+        trim_mon = lowercase(mon[1:3])
+
+        if trim_mon == "jan" || trim_mon == "win"
+            1
+        elseif trim_mon == "feb"
+            2
+        elseif trim_mon == "mar"
+            3
+        elseif trim_mon == "apr" || trim_mon == "spr"
+            4
+        elseif trim_mon == "may"
+            5
+        elseif trim_mon == "jun"
+            6
+        elseif trim_mon == "jul" || trim_mon == "sum"
+            7
+        elseif trim_mon == "aug"
+            8
+        elseif trim_mon == "sep"
+            9
+        elseif trim_mon == "oct" || trim_mon == "fal"
+            10
+        elseif trim_mon == "nov"
+            11
+        elseif trim_mon == "dec"
+            12
+        else
+            missing
+        end
+
+    catch
+        missing
+    end
+
+end
+
+"""
+    parse_orcid(raw_orc::String)
+Takes a string containing an ORC ID (url, 16 digit string) and returns a formatted ID (0000-1111-2222-3333).
+"""
+function parse_orcid(raw_orc::String)
+    if ismatch(r"^[0-9]{16}$", raw_orc)
+        return "$(raw_orc[1:4])-$(raw_orc[5:8])-$(raw_orc[9:12])-$(raw_orc[13:16])"
+    else
+        reg = match(r"^.*([0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}).*$", raw_orc)
+
+        return reg.match == nothing ? "PARSE_ERROR" : reg.captures[1]
+    end
+end
+
 # Note: If needed it could be further refactored to to that author, journal is a type
 """
     PubMedArticle
@@ -19,15 +107,17 @@ mutable struct PubMedArticle
     pmid::Union{Missing, Int64}
     url::Union{Missing, String}
     title::Union{Missing, String}
-    authors::Vector{Dict{Symbol,Union{Missing, String}}}
-    year::Union{Missing, Int64}
-    journal::Union{Missing, String}
+    authors::Vector{Author}
+    date::MedlineDate
+    journal_title::Union{Missing, String}
+    journal_iso_abbrv::Union{Missing, String}
+    journal_issn::Union{Missing, String}
     volume::Union{Missing, String}
     issue::Union{Missing, String}
-    abstract_text::Union{Missing, String}
+    abstract_full::Union{Missing, String}
+    abstract_structured::Union{Missing, Vector{StructuredAbstract}}
     pages::Union{Missing, String}
-    mesh::Vector{Union{String, Missing}}
-    affiliations::Vector{Union{String, Missing}}
+    mesh::Vector{Union{MeshHeading, Missing}}
 
     #Constructor from XML article element
     function PubMedArticle(NCBIXMLarticle)
@@ -73,50 +163,42 @@ mutable struct PubMedArticle
             this.title = get_if_exists(medline_article, "ArticleTitle")
 
             if haskey(medline_article, "Journal")
-                this.journal = get_if_exists(medline_article["Journal"], "ISOAbbreviation")
+                this.journal_iso_abbrv = get_if_exists(medline_article["Journal"], "ISOAbbreviation")
+                this.journal_title = get_if_exists(medline_article["Journal"], "Title")
+                this.journal_issn = get_if_exists(medline_article["Journal"], "ISSN")
                 if haskey(medline_article["Journal"], "JournalIssue")
                     this.volume = get_if_exists(medline_article["Journal"]["JournalIssue"], "Volume")
                     this.issue = get_if_exists(medline_article["Journal"]["JournalIssue"], "Issue")
+                    this.date = MedlineDate(medline_article["Journal"]["JournalIssue"]["PubDate"])
                 end
             end
 
 
             if haskey(medline_article,"Pagination")
-                this.pages = get_if_exists(medline_article["Pagination"], "MedlinePgn")
-            end
-
-            this.year = missing
-
-            if haskey(medline_article, "ArticleDate")
-                this.year = parse(Int64, medline_article["ArticleDate"]["Year"])
-            else  #series of attempts to pull a publication year from alternative xml elements
-                try
-                    this.year  = parse(Int64, medline_article["Journal"]["JournalIssue"]["PubDate"]["Year"])
-                catch
-                    try
-                        year = medline_article["Journal"]["JournalIssue"]["PubDate"]["MedlineDate"]
-                        this.year = parse(Int64, year[1:4])
-
-                    catch
-                        println("Warning: No Date found, PMID: ", this.pmid)
-                    end
+                if haskey(medline_article["Pagination"], "MedlinePgn")
+                    this.pages = get_if_exists(medline_article["Pagination"], "MedlinePgn")
+                else
+                    this.pages = medline_article["Pagination"]["StartPage"]
+                    end_pg = get_if_exists(medline_article["Pagination"], "EndPage")
+                    !ismissing(end_pg) ? this.pages = this.pages * "-" * end_pg : nothing
                 end
             end
 
-            this.abstract_text = missing
+
+
+            this.abstract_full = missing
+            this.abstract_structured = missing
             if haskey(medline_article, "Abstract")
                 try
-                    this.abstract_text = get_if_exists(medline_article["Abstract"], "AbstractText" )
+                    this.abstract_full = get_if_exists(medline_article["Abstract"], "AbstractText" )
                 catch
                     text = ""
                     for abs in medline_article["Abstract"]["AbstractText"]
-                        try
-                           text = string(text, abs[:Label], ": ", abs[""], " ")
-                        catch
-                            println("Warning: No Abstract Text: ", abs, " - PMID: ", this.pmid)
-                        end
+                        struct_abs = StructuredAbstract(abs)
+                        push!(abstract_structured, struct_abs)
+                        text = text * (ismissing(struct_abs.label) ? "NO LABEL" : sturct_abs.label) * ": " * struct_abs.text * " "
                     end
-                    this.abstract_text = text
+                    this.abstract_full = text[1:end-1]
                     # println(this.abstract_text)
                 end
             else
@@ -130,88 +212,174 @@ mutable struct PubMedArticle
                 authors_list = medline_article["AuthorList"]["Author"]
                 if typeof(authors_list) <: Array
                     for author in authors_list
-                        if author[:ValidYN] == "N"
-                            println("Skipping Author Valid:N: ", author)
-                            continue
-                        end
-                        forname = get_if_exists(author, "ForeName")
-                        initials = get_if_exists(author, "Initials")
-                        lastname = get_if_exists(author, "LastName")
-                        
-                        if haskey(author, "AffiliationInfo")
-                            if typeof(author["AffiliationInfo"]) <: Array
-                                for aff in author["AffiliationInfo"]
-                                    push!(this.affiliations, aff["Affiliation"])
-                                end
-                            else
-                                push!(this.affiliations, get_if_exists(author["AffiliationInfo"], "Affiliation"))
-                            end
-                        end
-
-                        if ismissing(lastname)
+                        if author[:ValidYN] == "Y"
+                            push!(this.authors, Author(author)))
+                        else
                             println("Skipping Author: ", author)
-                            continue
                         end
-
-                        push!(this.authors, Dict(:ForeName=> forname, :LastName=> lastname, :Initials=> initials))
                     end
-                else           
+                else
                     author = authors_list
-                    if author[:ValidYN] == "Y"                       
-                        forname = author["ForeName"]
-                        initials = get_if_exists(author, "Initials")
-                        lastname = author["LastName"]
-                        
-                        if haskey(author, "AffiliationInfo")
-                            if typeof(author["AffiliationInfo"]) <: Array
-                                for aff in author["AffiliationInfo"]
-                                    push!(this.affiliations, aff["Affiliation"])
-                                end
-                            else
-                                push!(this.affiliations, get_if_exists(author["AffiliationInfo"], "Affiliation"))
-                            end
-                        end
-                        push!(this.authors, Dict(:ForeName=> forname, :LastName=> lastname, :Initials=> initials))
-    
+                    if author[:ValidYN] == "Y"
+                        push!(this.authors, Author(author))
                     else
-                        println("Skipping Author: ", author)                        
+                        println("Skipping Author: ", author)
                     end
                 end
             end
-            
+
         end
 
 
         # Get MESH Descriptors
-        this.mesh = Vector{Union{Missing, String}}(0)
+        this.mesh = Vector{Union{Missing, MeshHeading}}(0)
         if haskey(medline_citation, "MeshHeadingList")
             if haskey(medline_citation["MeshHeadingList"], "MeshHeading")
                 mesh_headings = medline_citation["MeshHeadingList"]["MeshHeading"]
                 for heading in mesh_headings
-                    if !haskey(heading,"DescriptorName")
-                        error("MeshHeading must have DescriptorName")
-                    end
-                    #save descriptor
-                    descriptor_name = heading["DescriptorName"][""]
-                    # descriptor_name = normalize_string(descriptor_name, casefold=true)
-                    push!(this.mesh, descriptor_name)
+                    push!(this.mesh, MeshHeading(heading))
                 end
             end
         end
-        
+
         return this
-    
+
     end
 
 end #struct
 
+mutable struct Author
+    last_name::Union{Missing, String}
+    first_name::Union{Missing, String}
+    initials::Union{Missing, String}
+    suffix::Union{Missing, String}
+    orc_id::Union{Missing, String}
+    collective::Union{Missing, String}
+    affiliations::Vector{Union{Missing, String}}
+
+    # Constructor from XML heading element
+    function Author(NCBIXMLheading)
+
+        this = new()
+
+        if NCBIXMLheading[:ValidYN] == "N"
+            println("Skipping Author Valid:N: ", NCBIXMLheading)
+            continue
+        end
+        this.first_name = get_if_exists(NCBIXMLheading, "ForeName")
+        this.initials = get_if_exists(NCBIXMLheading, "Initials")
+        this.last_name = get_if_exists(NCBIXMLheading, "LastName")
+        this.suffix = get_if_exists(NCBIXMLheading, "Suffix")
+
+        this.orc_id = Missing
+        if haskey(NCBIXMLheading, "Identifier")
+            if NCBIXMLheading["Identifier"][:Source]=="ORCID"
+                this.orc_id = parse_orcid(NCBIXMLheading["Identifier"])
+            end
+        end
+
+        this.collective = get_if_exists(NCBIXMLheading, "Collective")
+
+        if haskey(NCBIXMLheading, "AffiliationInfo")
+            if typeof(NCBIXMLheading["AffiliationInfo"]) <: Array
+                for aff in NCBIXMLheading["AffiliationInfo"]
+                    push!(this.affiliations, aff["Affiliation"])
+                end
+            else
+                push!(this.affiliations, get_if_exists(NCBIXMLheading["AffiliationInfo"], "Affiliation"))
+            end
+        end
+
+        return this
+    end
+end
+
+mutable struct MedlineDate
+    year::Union{Int, Missing}
+    month::Union{Int, Missing}
+    desc::Union{String, Missing}
+
+    # Constructor from XML heading element
+    function MedlineDate(NCBIXMLheading)
+
+        this = new()
+
+        if haskey(NCBIXMLheading, "MedlineDate")
+            ystr, mstr = parse_MedlineDate(NCBIXMLheading["MedlineDate"])
+        else
+            ystr = parse_year(NCBIXMLheading["Year"])
+            if haskey(NCBIXMLheading["Month"])
+                mstr = NCBIXMLheading["Month"]
+            elseif haskey(NCBIXMLheading["Season"])
+                mstr = NCBIXMLheading["Season"]
+            else
+                mstr = ""
+            end
+        end
+
+        this.year = parse_year(ystr)
+        this.month = parse_month(mstr)
+        this.desc = ystr * (mstr == "" ? "" : " " * mstr)
+
+        return this
+    end
+end
+
+mutable struct StructuredAbstract
+    nlm_category::Union{String, Missing}
+    label::Union{String, Missing}
+    text::Union{String, Missing}
+
+    # Constructor from XML heading element
+    function StructuredAbstract(NCBIXMLheading)
+
+        this = new()
+
+        this.nlm_category = get_if_exists(NCBIXMLheading, :NlmCategory)
+        this.label = get_if_exists(NCBIXMLheading, :Label)
+        this.text = get_if_exists(NCBIXMLheading, "")
+
+        return this
+    end
+end
+
+mutable struct MeshQualifier
+    uid::Union{Missing, Int}
+    name::Union{Missing, String}
+
+    function MeshQualifier(NCBIXMLheading)
+
+        this = new()
+
+        this.name = NCBIXMLheading[""]
+        ui = NCBIXMLheading[:UI]
+        this.uid = parse(Int64, ui[2:end])
+
+        return this
+    end
+end
+
+mutable struct MeshDescriptor
+    uid::Union{Missing, Int}
+    name::Union{Missing, String}
+
+    function MeshDescriptor(NCBIXMLheading)
+
+        this = new()
+
+        this.name = NCBIXMLheading[""]
+        ui = NCBIXMLheading[:UI]
+        this.uid = parse(Int64, ui[2:end])
+
+        return this
+    end
+
+end
 
 mutable struct MeshHeading
-    descriptor_name::Union{Missing, String}
-    descriptor_id::Union{Missing, Int64}
+    descriptor::Union{Missing, MeshDescriptor}
     descriptor_mjr::Union{Missing, String}
-    qualifier_name::Vector{Union{Missing, String}}
-    qualifier_id::Vector{Union{Missing, Int64}}
+    qualifier::Vector{Union{Missing, MeshQualifier}}
     qualifier_mjr::Vector{Union{Missing, String}}
 
     #Constructor from XML heading element
@@ -225,48 +393,32 @@ mutable struct MeshHeading
         this = new()
 
         #Descriptor
-        this.descriptor_name = NCBIXMLheading["DescriptorName"][""]
-
-
-        # if !ismissing(descriptor_name)
-        #     this.descriptor_name = normalize_string(descriptor_name, casefold=true)
-        # end
-
-        did = NCBIXMLheading["DescriptorName"][:UI]
-        this.descriptor_id = parse(Int64, did[2:end])  #remove preceding D
+        this.descriptor = MeshDescriptor(NCBIXMLheading["DescriptorName"])
         this.descriptor_mjr = NCBIXMLheading["DescriptorName"][:MajorTopicYN]
 
 
         #Qualifier
-        this.qualifier_name = Vector{Union{Missing, String}}()
-        this.qualifier_id = Vector{Union{Missing, Int64}}()
+        this.qualifier = Vector{Union{Missing, MeshQualifier}}()
         this.qualifier_mjr = Vector{Union{Missing, String}}()
         if haskey(NCBIXMLheading,"QualifierName")
             qualifiers = NCBIXMLheading["QualifierName"]
             if typeof(qualifiers) <: Array
                 for qual in qualifiers
-                    qname = qual[""]
-                    # qname = normalize_string(qname, casefold=true)
-                    push!(this.qualifier_name, qname)
-                    qid = qual[:UI]
-                    qid = parse(Int64, qid[2:end])  #remove preceding Q
-                    push!(this.qualifier_id, qid)
+                    q = MeshQualifier(qual)
+                    push!(this.qualifier, q)
+
                     qmjr = qual[:MajorTopicYN]
-                    push!(this.qualifier_mjr, qmjr)                   
+                    push!(this.qualifier_mjr, qmjr)
                 end
             else
-                qual = NCBIXMLheading["QualifierName"]
-                qname = qual[""]
-                push!(this.qualifier_name, qname)
-                
-                qid = qual[:UI]
-                qid = parse(Int64, qid[2:end])  #remove preceding Q
-                push!(this.qualifier_id, qid)
+                qual = MeshQualifier(qualifiers)
+                push!(this.qualifier, qual)
 
-                qmjr = qual[:MajorTopicYN]
+                qmjr = qualifiers[:MajorTopicYN]
                 push!(this.qualifier_mjr, qmjr)
             end
         end
+
         return this
     end
 end
@@ -277,7 +429,7 @@ const MeshHeadingList =  Vector{MeshHeading}
 
 #Constructor-Like method from XML article element
 function MeshHeadingList(NCBIXMLarticle::T) where T <: Associative
-    
+
     if !haskey(NCBIXMLarticle,"MedlineCitation")
         error("MedlineCitation not found")
     end
