@@ -107,7 +107,7 @@ mutable struct PubMedArticle
     pmid::Union{Missing, Int64}
     url::Union{Missing, String}
     title::Union{Missing, String}
-    authors::Vector{Author}
+    authors::Vector{Union{Author, Missing}}
     date::MedlineDate
     journal_title::Union{Missing, String}
     journal_iso_abbrv::Union{Missing, String}
@@ -115,7 +115,7 @@ mutable struct PubMedArticle
     volume::Union{Missing, String}
     issue::Union{Missing, String}
     abstract_full::Union{Missing, String}
-    abstract_structured::Union{Missing, Vector{StructuredAbstract}}
+    abstract_structured::Vector{Union{Missing, StructuredAbstract}}
     pages::Union{Missing, String}
     mesh::Vector{Union{MeshHeading, Missing}}
 
@@ -206,8 +206,7 @@ mutable struct PubMedArticle
             end
 
             # Get authors
-            this.authors = Vector{Dict{Symbol,Union{Missing,String}}}()
-            this.affiliations = Vector{Union{Missing, String}}(0)
+            this.authors = Vector{Union{Author, Missing}}()
             if haskey(medline_article, "AuthorList")
                 authors_list = medline_article["AuthorList"]["Author"]
                 if typeof(authors_list) <: Array
@@ -231,7 +230,7 @@ mutable struct PubMedArticle
         end
 
 
-        # Get MESH Descriptors
+        # Get MESH Headings (descriptors, qualifiers, major status)
         this.mesh = Vector{Union{Missing, MeshHeading}}(0)
         if haskey(medline_citation, "MeshHeadingList")
             if haskey(medline_citation["MeshHeadingList"], "MeshHeading")
