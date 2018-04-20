@@ -34,7 +34,7 @@ Parses the string year and returns an integer with the first year in range.
 """
 function parse_year(yr::AbstractString)
     try
-        parse(Int, yr[1:4])
+        parse(Int64, yr[1:4])
     catch
         missing
     end
@@ -107,8 +107,9 @@ mutable struct PubMedArticle
     pmid::Union{Missing, Int64}
     url::Union{Missing, String}
     title::Union{Missing, String}
+    auth_cite::Union{Missing, String}
     authors::Vector{Union{Author, Missing}}
-    date::MedlineDate
+    date::Union{Missing, MedlineDate}
     journal_title::Union{Missing, String}
     journal_iso_abbrv::Union{Missing, String}
     journal_issn::Union{Missing, String}
@@ -196,7 +197,7 @@ mutable struct PubMedArticle
                     for abs in medline_article["Abstract"]["AbstractText"]
                         struct_abs = StructuredAbstract(abs)
                         push!(abstract_structured, struct_abs)
-                        text = text * (ismissing(struct_abs.label) ? "NO LABEL" : sturct_abs.label) * ": " * struct_abs.text * " "
+                        text *= (ismissing(struct_abs.label) ? "NO LABEL" : sturct_abs.label) * ": " * struct_abs.text * " "
                     end
                     this.abstract_full = text[1:end-1]
                     # println(this.abstract_text)
@@ -207,12 +208,16 @@ mutable struct PubMedArticle
 
             # Get authors
             this.authors = Vector{Union{Author, Missing}}()
+            this.auth_cite = missing
             if haskey(medline_article, "AuthorList")
                 authors_list = medline_article["AuthorList"]["Author"]
+                auth_cite = ""
                 if typeof(authors_list) <: Array
                     for author in authors_list
                         if author[:ValidYN] == "Y"
-                            push!(this.authors, Author(author)))
+                            auth = Author(author)
+                            push!(this.authors, auth))
+                            auth_cite *= (!ismissing(auth.first_name) ? "$(auth.last_name), $(auth.first_name); " : (!ismissing(auth.last_name) ? "$(auth.last_name); " : ""))
                         else
                             println("Skipping Author: ", author)
                         end
@@ -220,11 +225,14 @@ mutable struct PubMedArticle
                 else
                     author = authors_list
                     if author[:ValidYN] == "Y"
-                        push!(this.authors, Author(author))
+                        auth = Author(author)
+                        push!(this.authors, auth))
+                        auth_cite *= (!ismissing(auth.first_name) ? "$(auth.last_name), $(auth.first_name); " : (!ismissing(auth.last_name) ? "$(auth.last_name); " : ""))
                     else
                         println("Skipping Author: ", author)
                     end
                 end
+                this.auth_cite = length(auth_cite) == 0 ? missing : auth_cite[1:end-2]
             end
 
         end
@@ -247,6 +255,10 @@ mutable struct PubMedArticle
 
 end #struct
 
+"""
+    Author
+Type that matches the NCBI-XML contents for an Author
+"""
 mutable struct Author
     last_name::Union{Missing, String}
     first_name::Union{Missing, String}
@@ -261,16 +273,12 @@ mutable struct Author
 
         this = new()
 
-        if NCBIXMLheading[:ValidYN] == "N"
-            println("Skipping Author Valid:N: ", NCBIXMLheading)
-            continue
-        end
         this.first_name = get_if_exists(NCBIXMLheading, "ForeName")
         this.initials = get_if_exists(NCBIXMLheading, "Initials")
         this.last_name = get_if_exists(NCBIXMLheading, "LastName")
         this.suffix = get_if_exists(NCBIXMLheading, "Suffix")
 
-        this.orc_id = Missing
+        this.orc_id = missing
         if haskey(NCBIXMLheading, "Identifier")
             if NCBIXMLheading["Identifier"][:Source]=="ORCID"
                 this.orc_id = parse_orcid(NCBIXMLheading["Identifier"])
@@ -279,6 +287,7 @@ mutable struct Author
 
         this.collective = get_if_exists(NCBIXMLheading, "Collective")
 
+        this.affiliations = Vector{Union{Missing, String}}(0)
         if haskey(NCBIXMLheading, "AffiliationInfo")
             if typeof(NCBIXMLheading["AffiliationInfo"]) <: Array
                 for aff in NCBIXMLheading["AffiliationInfo"]
@@ -293,9 +302,13 @@ mutable struct Author
     end
 end
 
+"""
+    MedlineDate
+Type that matches the NCBI-XML contents for a PubDate
+"""
 mutable struct MedlineDate
-    year::Union{Int, Missing}
-    month::Union{Int, Missing}
+    year::Union{Int64, Missing}
+    month::Union{Int64, Missing}
     desc::Union{String, Missing}
 
     # Constructor from XML heading element
@@ -324,6 +337,10 @@ mutable struct MedlineDate
     end
 end
 
+"""
+    StructuredAbstract
+Type that matches the NCBI-XML contents for a structured abstract (abstract that has label or nlm category)
+"""
 mutable struct StructuredAbstract
     nlm_category::Union{String, Missing}
     label::Union{String, Missing}
@@ -342,8 +359,12 @@ mutable struct StructuredAbstract
     end
 end
 
+"""
+    MeshQualifier
+Type that matches the NCBI-XML contents for a MeSH Qualifier
+"""
 mutable struct MeshQualifier
-    uid::Union{Missing, Int}
+    uid::Union{Missing, Int64}
     name::Union{Missing, String}
 
     function MeshQualifier(NCBIXMLheading)
@@ -358,8 +379,12 @@ mutable struct MeshQualifier
     end
 end
 
+"""
+    MeshDescriptor
+Type that matches the NCBI-XML contents for a MeSH Descriptor
+"""
 mutable struct MeshDescriptor
-    uid::Union{Missing, Int}
+    uid::Union{Missing, Int64}
     name::Union{Missing, String}
 
     function MeshDescriptor(NCBIXMLheading)
@@ -375,6 +400,10 @@ mutable struct MeshDescriptor
 
 end
 
+"""
+    MeshHeading
+Type that matches the NCBI-XML contents for a MeshHeading
+"""
 mutable struct MeshHeading
     descriptor::Union{Missing, MeshDescriptor}
     descriptor_mjr::Union{Missing, String}
@@ -454,4 +483,27 @@ function MeshHeadingList(NCBIXMLarticle::T) where T <: Associative
     end
 
     return this
+end
+
+"""
+    toDataFrames(articles)
+Function that takes a vector of PubMedArticle objects and returns a vector of DataFrames
+"""
+function toDataFrames(articles::Vector{PubMedArticle})
+    dfs = Vector{DataFrame}()
+
+
+    for cols in fieldnames(PubMedArticle)
+
+        if typeof(cols) <: Vector
+
+        else
+
+        end
+    end
+
+end
+
+function toDataFrames(object::Vector{t})
+
 end
