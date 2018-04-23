@@ -487,23 +487,23 @@ end
 
 """
     toDataFrames(articles)
-Function that takes a vector of PubMedArticle objects and returns a vector of DataFrames
+Function that takes a vector of objects objects and returns a vector of DataFrames with the field names as column names
 """
-function toDataFrames(articles::Vector{PubMedArticle})
+function toDataFrames(objects::Vector{<:Any})
     dfs = Vector{DataFrame}()
 
-
-    for cols in fieldnames(PubMedArticle)
-
-        if typeof(cols) <: Vector
-
+    col_pairs = Dict{Symbol,Any}()
+    for cols in fieldnames(typeof(objects)) # HOW TO GET TYPE CORRECTLY
+        println(cols)
+        println(objects.cols)
+        if typeof(objects.cols) <: Vector
+            push!(dfs,toDataFrames(objects.cols))
         else
-
+            col_pairs[cols] = articles.cols
         end
     end
+    push!(dfs,DataFrame(col_pairs))
 
-end
-
-function toDataFrames(object::Vector{t})
+    return dfs
 
 end
