@@ -362,7 +362,8 @@ mutable struct PubMedArticle
             if haskey(medline_article, "Journal")
                 this.journal_iso_abbrv = get_if_exists(medline_article["Journal"], "ISOAbbreviation")
                 this.journal_title = get_if_exists(medline_article["Journal"], "Title")
-                this.journal_issn = get_if_exists(medline_article["Journal"], "ISSN")
+                if haskey(medline_article["Journal"], "ISSN")
+                    this.journal_issn = medline_article["Journal"]["ISSN"][""]
                 if haskey(medline_article["Journal"], "JournalIssue")
                     this.volume = get_if_exists(medline_article["Journal"]["JournalIssue"], "Volume")
                     this.issue = get_if_exists(medline_article["Journal"]["JournalIssue"], "Issue")
