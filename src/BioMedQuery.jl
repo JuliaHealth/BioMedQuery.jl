@@ -23,13 +23,13 @@ module PubMed
 
 #types
 export  PubMedArticle,
-Author,
-StructuredAbstract,
-MeshQualifier,
-MeshDescriptor,
-MedlineDate,
-MeshHeading,
-MeshHeadingList
+        Author,
+        StructuredAbstract,
+        MeshQualifier,
+        MeshDescriptor,
+        MedlineDate,
+        MeshHeading,
+        MeshHeadingList
 include("PubMed/pubmed_article.jl")
 
 # sql utilities
@@ -84,7 +84,6 @@ include("Processes/pubmed_export_citations.jl")
 include("Processes/medline_load.jl")
 
 end
-
 #-----------------------------------
 
 end #BioMedQuery
