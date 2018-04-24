@@ -388,7 +388,7 @@ mutable struct PubMedArticle
 
 
             this.abstract_full = missing
-            this.abstract_structured = missing
+            this.abstract_structured = Vector{Union{Missing,StructuredAbstract}}()
             if haskey(medline_article, "Abstract")
                 try
                     this.abstract_full = get_if_exists(medline_article["Abstract"], "AbstractText" )
