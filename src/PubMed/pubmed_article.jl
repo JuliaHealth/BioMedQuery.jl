@@ -397,7 +397,7 @@ mutable struct PubMedArticle
                     for abs in medline_article["Abstract"]["AbstractText"]
                         struct_abs = StructuredAbstract(abs)
                         push!(this.abstract_structured, struct_abs)
-                        text *= (ismissing(struct_abs.label) ? "NO LABEL" : sturct_abs.label) * ": " * struct_abs.text * " "
+                        text *= (ismissing(struct_abs.label) ? "NO LABEL" : struct_abs.label) * ": " * struct_abs.text * " "
                     end
                     this.abstract_full = text[1:end-1]
                     # println(this.abstract_text)
