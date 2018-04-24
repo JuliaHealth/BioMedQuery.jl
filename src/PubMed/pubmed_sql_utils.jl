@@ -261,13 +261,13 @@ function db_insert!(db, article::PubMedArticle, verbose=false)
     #------- AUTHORS
     for au in article.authors
 
-        if ismissing(au[:LastName])
+        if ismissing(au.last_name)
            println("Skipping author, null field: ", au)
            continue
         end
 
-        forename = au[:ForeName]
-        lastname = au[:LastName]
+        forename = au.first_name
+        lastname = au.last_name
 
         author_id = insert_row!(db, "author", Dict(:id => missing, :forename => forename, :lastname => lastname), verbose)
 
@@ -295,8 +295,8 @@ end
 function db_insert!(db, pmid::Int64, mesh_heading_list::MeshHeadingList, verbose=false)
 
     for heading in mesh_heading_list
-        did_int = heading.descriptor_id
-        descriptor_name = heading.descriptor_name
+        did_int = heading.descriptor.uid
+        descriptor_name = heading.descriptor.name
         dmjr = heading.descriptor_mjr
 
 
@@ -316,9 +316,9 @@ function db_insert!(db, pmid::Int64, mesh_heading_list::MeshHeadingList, verbose
                  :dmjr=>missing, :qmjr=>missing), verbose )
         else
 
-            for i=1:length(heading.qualifier_id)
-                qid_int = heading.qualifier_id[i]
-                qualifier_name = heading.qualifier_name[i]
+            for i=1:length(heading.qualifier)
+                qid_int = heading.qualifier[i].uid
+                qualifier_name = heading.qualifier[i].name
                 qmjr = heading.qualifier_mjr[i]
 
                 #Save Qualifiers`
