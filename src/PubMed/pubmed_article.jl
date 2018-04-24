@@ -486,23 +486,80 @@ function MeshHeadingList(NCBIXMLarticle::T) where T <: Associative
 end
 
 """
-    toDataFrames(articles)
-Function that takes a vector of objects objects and returns a vector of DataFrames with the field names as column names
+    toDataFrames(articles, [id_col])
+Takes a vector of article (or any) objects and returns a dictionary of DataFrames with the field names as column names
+and the key names as the lowercase type. Optionally, a column can be marked as the identifier that should propogate to any child tables (e.g. :pmid).
 """
-function toDataFrames(objects::Vector{<:Any})
-    dfs = Vector{DataFrame}()
+function toDataFrames(objects::Vector{T}, id_col::Symbol) where T <: Any
+    dfs = Dict{Symbol, DataFrame}()
 
     col_pairs = Dict{Symbol,Any}()
-    for cols in fieldnames(typeof(objects)) # HOW TO GET TYPE CORRECTLY
-        println(cols)
-        println(objects.cols)
-        if typeof(objects.cols) <: Vector
-            push!(dfs,toDataFrames(objects.cols))
+    for cols in fieldnames(T)
+        vals = getfield.(objects, cols)
+        if eltype(vals) <: Vector
+            push!(dfs, toDataFrames(vals, getfield.(objects, id_col), id_col)...)
         else
-            col_pairs[cols] = articles.cols
+            col_pairs[cols] = vals
         end
     end
-    push!(dfs,DataFrame(col_pairs))
+    dfs[Symbol(lowercase(string(T)))] = DataFrame(col_pairs)
+
+    return dfs
+
+end
+
+function toDataFrames(objects::Vector{T}) where T <: Any
+    dfs = Dict{Symbol, DataFrame}()
+
+    col_pairs = Dict{Symbol,Any}()
+    for cols in fieldnames(T)
+        vals = getfield.(objects, cols)
+        if eltype(vals) <: Vector
+            push!(dfs, toDataFrames(vals)...)
+        else
+            col_pairs[cols] = vals
+        end
+    end
+    dfs[Symbol(lowercase(string(T)))] = DataFrame(col_pairs)
+
+    return dfs
+
+end
+
+function toDataFrames(objects::Vector{Vector{T}}, ids::Vector{U}, id_col::Symbol) where T <: Any where U <: Any
+    dfs = Dict{Symbol, DataFrame}()
+
+    col_pairs = Dict{Symbol,Any}()
+
+    for cols in fieldnames(T)
+        vals = mapfoldl(x -> getfield.(x, cols), append!, Vector{Any}(), objects)
+        if eltype(vals) <: Vector
+            push!(dfs, toDataFrames(vals)...)
+        else
+            col_pairs[cols] = vals
+        end
+    end
+    col_pairs[id_col] = foldl(append!, Vector{Any}(), map((x,y) -> fill(y, length(x)), objects, ids))
+
+    dfs[Symbol(lowercase(string(T)))] = DataFrame(col_pairs)
+
+    return dfs
+
+end
+
+function toDataFrames(objects::Vector{Vector{T}}) where T <: Any
+    dfs = Dict{Symbol, DataFrame}()
+
+    col_pairs = Dict{Symbol,Any}()
+    for cols in fieldnames(T)
+        vals = mapfoldl(x -> getfield.(x, cols), append!, Vector{Any}(), objects)
+        if eltype(vals) <: Vector
+            push!(dfs, toDataFrames(vals)...)
+        else
+            col_pairs[cols] = vals
+        end
+    end
+    dfs[Symbol(lowercase(string(T)))] = DataFrame(col_pairs)
 
     return dfs
 
