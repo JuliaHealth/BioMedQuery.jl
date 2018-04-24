@@ -5,88 +5,92 @@ using DataStreams, DataFrames
 
 
 """
-    create_tables!(conn)
-Create and initialize tables to save results from an Entrez/PubMed search.
+    create_tables!(conn, medline_load=false)
+Create and initialize tables to save results from an Entrez/PubMed search or a medline file load.
 Caution, all related tables are dropped if they exist
 """
-function create_tables!(conn)
+function create_tables!(conn, medline_load::Bool=false)
 
     # Determine engine
-    sql_engine = (typeof(conn)== MySQL.Connection) ? MySQL : SQLite 
-    AUTOINCREMENT = (sql_engine == MySQL) ? "AUTO_INCREMENT" : "AUTOINCREMENT" 
+    sql_engine = (typeof(conn)== MySQL.Connection) ? MySQL : SQLite
+    AUTOINCREMENT = (sql_engine == MySQL) ? "AUTO_INCREMENT" : "AUTOINCREMENT"
 
-    #purge related tables
-    DBUtils.disable_foreing_checks(conn)
-    sql_engine.execute!(conn, "DROP TABLE IF EXISTS article")
-    sql_engine.execute!(conn, "DROP TABLE IF EXISTS author")
-    sql_engine.execute!(conn, "DROP TABLE IF EXISTS author2article")
-    sql_engine.execute!(conn, "DROP TABLE IF EXISTS mesh_descriptor")
-    sql_engine.execute!(conn, "DROP TABLE IF EXISTS mesh_qualifier")
-    sql_engine.execute!(conn, "DROP TABLE IF EXISTS mesh_heading")
-    DBUtils.enable_foreing_checks(conn)
-    
+    if !medline_load
+        #purge related tables
+        DBUtils.disable_foreign_checks(conn)
+        sql_engine.execute!(conn, "DROP TABLE IF EXISTS article")
+        sql_engine.execute!(conn, "DROP TABLE IF EXISTS author")
+        sql_engine.execute!(conn, "DROP TABLE IF EXISTS author2article")
+        sql_engine.execute!(conn, "DROP TABLE IF EXISTS mesh_descriptor")
+        sql_engine.execute!(conn, "DROP TABLE IF EXISTS mesh_qualifier")
+        sql_engine.execute!(conn, "DROP TABLE IF EXISTS mesh_heading")
+        DBUtils.enable_foreign_checks(conn)
 
-    #Create tables to store
-    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS article(
-                            pmid INTEGER NOT NULL PRIMARY KEY,
-                            title TEXT,
-                            pubYear INTEGER,
-                            abstract TEXT
-                            );"
-                        )
 
-    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS author(
-                            id INTEGER PRIMARY KEY $AUTOINCREMENT,
-                            forename VARCHAR(255),
-                            lastname VARCHAR(255) NOT NULL,
-                            CONSTRAINT unq UNIQUE(forename,  lastname)
-                            );"
-                        )
-                        
-    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS author2article(
-                            aid INTEGER,
-                            pmid INTEGER,
-                            FOREIGN KEY(aid) REFERENCES author(id),
-                            FOREIGN KEY(pmid) REFERENCES article(pmid),
-                            PRIMARY KEY(aid, pmid)
-                            );"
-                        )
-                        
-    # # --------------------------
-    # #  MeshHeading Tables
-    # # --------------------------
-    # # --
-    # # Descriptor
-    # # The id corresponds to the DUI of mesh library
-    # # Adding a "D" at the beginning of the id, allows for
-    # # lookup in the mesh browerser
-    # #  https://www.nlm.nih.gov/mesh/MBrowser.html
-                        
-    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS mesh_descriptor(
-                            id INTEGER NOT NULL PRIMARY KEY,
-                            name VARCHAR(255) UNIQUE
-                            );"
-                        )
-                        
-    # Qualifier
-    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS mesh_qualifier(
-                            id INTEGER NOT NULL PRIMARY KEY,
-                            name VARCHAR(255) UNIQUE
-                            );"
-                        )
-                        
-    # Heading
-    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS mesh_heading(
-                            id INTEGER PRIMARY KEY $AUTOINCREMENT,
-                            pmid INTEGER, did INTEGER, qid INTEGER,
-                            dmjr VARCHAR(1), qmjr VARCHAR(1),
-                            FOREIGN KEY(pmid) REFERENCES article(pmid),
-                            FOREIGN KEY(did) REFERENCES mesh_descriptor(id),
-                            FOREIGN KEY(qid) REFERENCES mesh_qualifier(id),
-                            CONSTRAINT unq UNIQUE(pmid, did, qid)
-                            );"
-                        )
-    
+        #Create tables to store
+        sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS article(
+                pmid INTEGER NOT NULL PRIMARY KEY,
+                title TEXT,
+                pubYear INTEGER,
+                abstract TEXT
+                );"
+            )
+
+        sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS author(
+                id INTEGER PRIMARY KEY $AUTOINCREMENT,
+                forename VARCHAR(255),
+                lastname VARCHAR(255) NOT NULL,
+                CONSTRAINT unq UNIQUE(forename,  lastname)
+                );"
+            )
+
+        sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS author2article(
+                aid INTEGER,
+                pmid INTEGER,
+                FOREIGN KEY(aid) REFERENCES author(id),
+                FOREIGN KEY(pmid) REFERENCES article(pmid),
+                PRIMARY KEY(aid, pmid)
+                );"
+            )
+
+        # # --------------------------
+        # #  MeshHeading Tables
+        # # --------------------------
+        # # --
+        # # Descriptor
+        # # The id corresponds to the DUI of mesh library
+        # # Adding a "D" at the beginning of the id, allows for
+        # # lookup in the mesh browerser
+        # #  https://www.nlm.nih.gov/mesh/MBrowser.html
+
+        sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS mesh_descriptor(
+                id INTEGER NOT NULL PRIMARY KEY,
+                name VARCHAR(255) UNIQUE
+                );"
+            )
+
+        # Qualifier
+        sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS mesh_qualifier(
+                id INTEGER NOT NULL PRIMARY KEY,
+                name VARCHAR(255) UNIQUE
+                );"
+            )
+
+        # Heading
+        sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS mesh_heading(
+                id INTEGER PRIMARY KEY $AUTOINCREMENT,
+                pmid INTEGER, did INTEGER, qid INTEGER,
+                dmjr VARCHAR(1), qmjr VARCHAR(1),
+                FOREIGN KEY(pmid) REFERENCES article(pmid),
+                FOREIGN KEY(did) REFERENCES mesh_descriptor(id),
+                FOREIGN KEY(qid) REFERENCES mesh_qualifier(id),
+                CONSTRAINT unq UNIQUE(pmid, did, qid)
+                );"
+            )
+   else
+
+   end
+
 end
 
 
@@ -99,11 +103,11 @@ Entrez related searches. All tables are empty at this point
 function create_pmid_table!(conn; tablename="article")
 
     # Determine engine
-    sql_engine = (typeof(conn)== MySQL.Connection) ? MySQL : SQLite 
+    sql_engine = (typeof(conn)== MySQL.Connection) ? MySQL : SQLite
 
     #purge related tables
     # sql_engine.execute!(conn, "DROP TABLE IF EXISTS $tablename")
-    
+
     #Create tables to store
     sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS $tablename(
                                 pmid INTEGER NOT NULL PRIMARY KEY
@@ -117,7 +121,7 @@ end
 Return all PMIDs stored in the *article* table of the input database
 """
 function all_pmids(conn)
-    sql_engine = (typeof(conn)== MySQL.Connection) ? MySQL : SQLite 
+    sql_engine = (typeof(conn)== MySQL.Connection) ? MySQL : SQLite
     query = sql_engine.query(conn, "SELECT pmid FROM article;")
     return query[1]
 end
@@ -201,7 +205,7 @@ function get_article_mesh(db, pmid::Integer)
                      WHERE mh.did = md.id
                       AND mh.pmid = $pmid"
     query  = db_query(db, query_string)
-    
+
     #return data array
     return query.columns[1]
 
@@ -220,8 +224,8 @@ function get_article_mesh_by_concept(db, pmid::Integer, umls_concepts...; query_
     for i=2:length(umls_concepts)
         concept_set_str = """$(concept_set_str), "$(umls_concepts[i])" """
     end
-    
-    concept_set_str = "$(concept_set_str))"   
+
+    concept_set_str = "$(concept_set_str))"
 
     if query_string == ""
         query_string = "SELECT DISTINCT(md.name), m2u.umls
@@ -233,7 +237,7 @@ function get_article_mesh_by_concept(db, pmid::Integer, umls_concepts...; query_
     end
 
     query  = db_query(db, query_string)
-    
+
     #return data array
     return query.columns[1]
 
@@ -241,8 +245,8 @@ end
 
 function db_insert!(db, article::PubMedArticle, verbose=false)
 
-    sql_engine = (typeof(db)== MySQL.Connection) ? MySQL : SQLite 
-    
+    sql_engine = (typeof(db)== MySQL.Connection) ? MySQL : SQLite
+
 
     #------- PMID - TITLE - YEAR
     ismissing(article.pmid) && error("NULL PMID")
@@ -289,7 +293,7 @@ function db_insert!(db, article::PubMedArticle, verbose=false)
 end
 
 function db_insert!(db, pmid::Int64, mesh_heading_list::MeshHeadingList, verbose=false)
-    
+
     for heading in mesh_heading_list
         did_int = heading.descriptor_id
         descriptor_name = heading.descriptor_name

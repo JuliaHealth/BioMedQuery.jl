@@ -2,6 +2,7 @@ using Missings
 
 include("mysql_db_utils.jl")
 include("sqlite_db_utils.jl")
+include("dataframe_db_utils.jl")
 
 # This function takes a single quote and replaces it with
 # two single quotes. This is what MySQL requires
@@ -77,7 +78,7 @@ function assemble_cols_and_vals_string{T}(data_values::Dict{Symbol, T}, op = "AN
     select_string_array = Array{String}(length(data_values))
     for (i, (key,val)) in enumerate(data_values)
         col_backticks = string("`", key, "`")
-        if typeof(val) <: Number && !ismissing(val) 
+        if typeof(val) <: Number && !ismissing(val)
             val_single_quotes=val
         elseif val == nothing || ismissing(val)
             val_single_quotes = "NULL"

@@ -17,7 +17,7 @@ Create a MySQL database using the code inside mysql_code
 * `con`: Database connection and table-column names map
 
 """
-function init_mysql_database(host = "127.0.0.1", 
+function init_mysql_database(host = "127.0.0.1",
     user="root", pwd="", dbname="test", overwrite=false)
 
     const con = MySQL.connect(host, user, pwd)
@@ -144,19 +144,19 @@ function create_server(con::MySQL.MySQLHandle, dbname; linkname = "fedlink", use
 end
 
 """
-    disable_foreing_checks(con::MySQL.MySQLHandle)
-Disables foreing checks for MySQL database
+    disable_foreign_checks(con::MySQL.MySQLHandle)
+Disables foreign checks for MySQL database
 """
-function disable_foreing_checks(conn::MySQL.MySQLHandle)
+function disable_foreign_checks(conn::MySQL.MySQLHandle)
     MySQL.execute!(conn, "SET FOREIGN_KEY_CHECKS = 0")
 
 end
 
 """
-    enable_foreing_checks(con::MySQL.MySQLHandle)
-Enables foreing checks for MySQL database
+    enable_foreign_checks(con::MySQL.MySQLHandle)
+Enables foreign checks for MySQL database
 """
-function enable_foreing_checks(conn::MySQL.MySQLHandle)
+function enable_foreign_checks(conn::MySQL.MySQLHandle)
     MySQL.execute!(conn, "SET FOREIGN_KEY_CHECKS = 1")
 
 end

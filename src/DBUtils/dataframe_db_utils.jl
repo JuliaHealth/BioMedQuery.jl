@@ -1,5 +1,6 @@
 
 using DataFrames
+using CSV
 
 
 """
@@ -83,4 +84,13 @@ function toDataFrames(objects::Vector{Vector{T}}) where T <: Any
 
     return dfs
 
+end
+
+"""
+    dfs_to_csv(dfs::Dict, path::String, [file_prefix::String])
+Takes output of toDataFrames and writes to CSV files at the provided path and with the file prefix.
+"""
+function dfs_to_csv(dfs::Dict{Symbol,DataFrame}, path::String, file_prefix::String="")
+    [CSV.write(joinpath(path,"$file_prefix$k.csv"),v) for (k, v) in dfs]
+    return nothing
 end
