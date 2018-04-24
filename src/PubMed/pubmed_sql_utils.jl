@@ -255,8 +255,8 @@ function db_insert!(db, article::PubMedArticle, verbose=false)
     insert_row!(db, "article",
                 Dict(:pmid =>article.pmid,
                      :title=>article.title,
-                     :pubYear=>article.year,
-                     :abstract=>article.abstract_text), verbose)
+                     :pubYear=>article.date.year,
+                     :abstract=>article.abstract_full), verbose)
 
     #------- AUTHORS
     for au in article.authors
