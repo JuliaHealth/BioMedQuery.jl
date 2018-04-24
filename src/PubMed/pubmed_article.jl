@@ -226,7 +226,7 @@ mutable struct PubMedArticle
                     author = authors_list
                     if author[:ValidYN] == "Y"
                         auth = Author(author)
-                        push!(this.authors, auth))
+                        push!(this.authors, auth)
                         auth_cite *= (!ismissing(auth.first_name) ? "$(auth.last_name), $(auth.first_name); " : (!ismissing(auth.last_name) ? "$(auth.last_name); " : ""))
                     else
                         println("Skipping Author: ", author)
