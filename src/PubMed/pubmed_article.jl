@@ -97,164 +97,6 @@ function parse_orcid(raw_orc::String)
     end
 end
 
-# Note: If needed it could be further refactored to to that author, journal is a type
-"""
-    PubMedArticle
-Type that matches the NCBI-XML contents for a PubMedArticle
-"""
-mutable struct PubMedArticle
-    types::Vector{Union{String, Missing}}
-    pmid::Union{Missing, Int64}
-    url::Union{Missing, String}
-    title::Union{Missing, String}
-    auth_cite::Union{Missing, String}
-    authors::Vector{Union{Author, Missing}}
-    date::Union{Missing, MedlineDate}
-    journal_title::Union{Missing, String}
-    journal_iso_abbrv::Union{Missing, String}
-    journal_issn::Union{Missing, String}
-    volume::Union{Missing, String}
-    issue::Union{Missing, String}
-    abstract_full::Union{Missing, String}
-    abstract_structured::Vector{Union{Missing, StructuredAbstract}}
-    pages::Union{Missing, String}
-    mesh::Vector{Union{MeshHeading, Missing}}
-
-    #Constructor from XML article element
-    function PubMedArticle(NCBIXMLarticle)
-
-        if !haskey(NCBIXMLarticle,"MedlineCitation")
-            error("MedlineCitation not found")
-        end
-
-        this = new()
-
-        medline_citation = NCBIXMLarticle["MedlineCitation"]
-
-        if haskey(medline_citation,"PMID")
-            this.pmid = parse(Int64, medline_citation["PMID"][""])
-        end
-
-        if ismissing(this.pmid)
-            error("PMID not found")
-        end
-
-        this.url = string("http://www.ncbi.nlm.nih.gov/pubmed/", this.pmid)
-
-        status = haskey(medline_citation,:Status) ? medline_citation[:Status]:""
-
-        if status != "MEDLINE"
-            println("Warning: Article with PMID: ", this.pmid, " may have missing fields. MEDLINE status: ", status)
-        end
-
-        # Retrieve basic article info
-        if haskey(medline_citation,"Article")
-            medline_article = medline_citation["Article"]
-            this.types = Vector{Union{Missing, String}}(0)
-            if haskey(medline_article, "PublicationTypeList")
-                    if typeof(medline_article["PublicationTypeList"]["PublicationType"]) <: Array
-                        for pub_type_xml in medline_article["PublicationTypeList"]["PublicationType"]
-                            push!(this.types, pub_type_xml[""])
-                        end
-                    else
-                        push!(this.types, medline_article["PublicationTypeList"]["PublicationType"][""])
-                    end
-            end
-
-            this.title = get_if_exists(medline_article, "ArticleTitle")
-
-            if haskey(medline_article, "Journal")
-                this.journal_iso_abbrv = get_if_exists(medline_article["Journal"], "ISOAbbreviation")
-                this.journal_title = get_if_exists(medline_article["Journal"], "Title")
-                this.journal_issn = get_if_exists(medline_article["Journal"], "ISSN")
-                if haskey(medline_article["Journal"], "JournalIssue")
-                    this.volume = get_if_exists(medline_article["Journal"]["JournalIssue"], "Volume")
-                    this.issue = get_if_exists(medline_article["Journal"]["JournalIssue"], "Issue")
-                    this.date = MedlineDate(medline_article["Journal"]["JournalIssue"]["PubDate"])
-                end
-            end
-
-
-            if haskey(medline_article,"Pagination")
-                if haskey(medline_article["Pagination"], "MedlinePgn")
-                    this.pages = get_if_exists(medline_article["Pagination"], "MedlinePgn")
-                else
-                    this.pages = medline_article["Pagination"]["StartPage"]
-                    end_pg = get_if_exists(medline_article["Pagination"], "EndPage")
-                    !ismissing(end_pg) ? this.pages = this.pages * "-" * end_pg : nothing
-                end
-            end
-
-
-
-            this.abstract_full = missing
-            this.abstract_structured = missing
-            if haskey(medline_article, "Abstract")
-                try
-                    this.abstract_full = get_if_exists(medline_article["Abstract"], "AbstractText" )
-                catch
-                    text = ""
-                    for abs in medline_article["Abstract"]["AbstractText"]
-                        struct_abs = StructuredAbstract(abs)
-                        push!(abstract_structured, struct_abs)
-                        text *= (ismissing(struct_abs.label) ? "NO LABEL" : sturct_abs.label) * ": " * struct_abs.text * " "
-                    end
-                    this.abstract_full = text[1:end-1]
-                    # println(this.abstract_text)
-                end
-            else
-                println("Warning: No Abstract Text found, PMID: ", this.pmid)
-            end
-
-            # Get authors
-            this.authors = Vector{Union{Author, Missing}}()
-            this.auth_cite = missing
-            if haskey(medline_article, "AuthorList")
-                authors_list = medline_article["AuthorList"]["Author"]
-                auth_cite = ""
-                if typeof(authors_list) <: Array
-                    for author in authors_list
-                        if author[:ValidYN] == "Y"
-                            auth = Author(author)
-                            push!(this.authors, auth)
-                            auth_cite *= (!ismissing(auth.first_name) ? "$(auth.last_name), $(auth.first_name); " : (!ismissing(auth.last_name) ? "$(auth.last_name); " : ""))
-                        else
-                            println("Skipping Author: ", author)
-                        end
-                    end
-                else
-                    author = authors_list
-                    if author[:ValidYN] == "Y"
-                        auth = Author(author)
-                        push!(this.authors, auth)
-                        auth_cite *= (!ismissing(auth.first_name) ? "$(auth.last_name), $(auth.first_name); " : (!ismissing(auth.last_name) ? "$(auth.last_name); " : ""))
-                    else
-                        println("Skipping Author: ", author)
-                    end
-                end
-                this.auth_cite = length(auth_cite) == 0 ? missing : auth_cite[1:end-2]
-            end
-
-        end
-
-
-        # Get MESH Headings (descriptors, qualifiers, major status)
-        this.mesh = Vector{Union{Missing, MeshHeading}}(0)
-        if haskey(medline_citation, "MeshHeadingList")
-            if haskey(medline_citation["MeshHeadingList"], "MeshHeading")
-                mesh_headings = medline_citation["MeshHeadingList"]["MeshHeading"]
-                for heading in mesh_headings
-                    push!(this.mesh, MeshHeading(heading))
-                end
-            end
-        end
-
-        return this
-
-    end
-
-end #struct
-
 """
     Author
 Type that matches the NCBI-XML contents for an Author
@@ -450,6 +292,164 @@ mutable struct MeshHeading
         return this
     end
 end
+
+# Note: If needed it could be further refactored to to that author, journal is a type
+"""
+    PubMedArticle
+Type that matches the NCBI-XML contents for a PubMedArticle
+"""
+mutable struct PubMedArticle
+    types::Vector{Union{String, Missing}}
+    pmid::Union{Missing, Int64}
+    url::Union{Missing, String}
+    title::Union{Missing, String}
+    auth_cite::Union{Missing, String}
+    authors::Vector{Union{Author, Missing}}
+    date::Union{Missing, MedlineDate}
+    journal_title::Union{Missing, String}
+    journal_iso_abbrv::Union{Missing, String}
+    journal_issn::Union{Missing, String}
+    volume::Union{Missing, String}
+    issue::Union{Missing, String}
+    abstract_full::Union{Missing, String}
+    abstract_structured::Vector{Union{Missing, StructuredAbstract}}
+    pages::Union{Missing, String}
+    mesh::Vector{Union{MeshHeading, Missing}}
+
+    #Constructor from XML article element
+    function PubMedArticle(NCBIXMLarticle)
+
+        if !haskey(NCBIXMLarticle,"MedlineCitation")
+            error("MedlineCitation not found")
+        end
+
+        this = new()
+
+        medline_citation = NCBIXMLarticle["MedlineCitation"]
+
+        if haskey(medline_citation,"PMID")
+            this.pmid = parse(Int64, medline_citation["PMID"][""])
+        end
+
+        if ismissing(this.pmid)
+            error("PMID not found")
+        end
+
+        this.url = string("http://www.ncbi.nlm.nih.gov/pubmed/", this.pmid)
+
+        status = haskey(medline_citation,:Status) ? medline_citation[:Status]:""
+
+        if status != "MEDLINE"
+            println("Warning: Article with PMID: ", this.pmid, " may have missing fields. MEDLINE status: ", status)
+        end
+
+        # Retrieve basic article info
+        if haskey(medline_citation,"Article")
+            medline_article = medline_citation["Article"]
+            this.types = Vector{Union{Missing, String}}(0)
+            if haskey(medline_article, "PublicationTypeList")
+                    if typeof(medline_article["PublicationTypeList"]["PublicationType"]) <: Array
+                        for pub_type_xml in medline_article["PublicationTypeList"]["PublicationType"]
+                            push!(this.types, pub_type_xml[""])
+                        end
+                    else
+                        push!(this.types, medline_article["PublicationTypeList"]["PublicationType"][""])
+                    end
+            end
+
+            this.title = get_if_exists(medline_article, "ArticleTitle")
+
+            if haskey(medline_article, "Journal")
+                this.journal_iso_abbrv = get_if_exists(medline_article["Journal"], "ISOAbbreviation")
+                this.journal_title = get_if_exists(medline_article["Journal"], "Title")
+                this.journal_issn = get_if_exists(medline_article["Journal"], "ISSN")
+                if haskey(medline_article["Journal"], "JournalIssue")
+                    this.volume = get_if_exists(medline_article["Journal"]["JournalIssue"], "Volume")
+                    this.issue = get_if_exists(medline_article["Journal"]["JournalIssue"], "Issue")
+                    this.date = MedlineDate(medline_article["Journal"]["JournalIssue"]["PubDate"])
+                end
+            end
+
+
+            if haskey(medline_article,"Pagination")
+                if haskey(medline_article["Pagination"], "MedlinePgn")
+                    this.pages = get_if_exists(medline_article["Pagination"], "MedlinePgn")
+                else
+                    this.pages = medline_article["Pagination"]["StartPage"]
+                    end_pg = get_if_exists(medline_article["Pagination"], "EndPage")
+                    !ismissing(end_pg) ? this.pages = this.pages * "-" * end_pg : nothing
+                end
+            end
+
+
+
+            this.abstract_full = missing
+            this.abstract_structured = missing
+            if haskey(medline_article, "Abstract")
+                try
+                    this.abstract_full = get_if_exists(medline_article["Abstract"], "AbstractText" )
+                catch
+                    text = ""
+                    for abs in medline_article["Abstract"]["AbstractText"]
+                        struct_abs = StructuredAbstract(abs)
+                        push!(abstract_structured, struct_abs)
+                        text *= (ismissing(struct_abs.label) ? "NO LABEL" : sturct_abs.label) * ": " * struct_abs.text * " "
+                    end
+                    this.abstract_full = text[1:end-1]
+                    # println(this.abstract_text)
+                end
+            else
+                println("Warning: No Abstract Text found, PMID: ", this.pmid)
+            end
+
+            # Get authors
+            this.authors = Vector{Union{Author, Missing}}()
+            this.auth_cite = missing
+            if haskey(medline_article, "AuthorList")
+                authors_list = medline_article["AuthorList"]["Author"]
+                auth_cite = ""
+                if typeof(authors_list) <: Array
+                    for author in authors_list
+                        if author[:ValidYN] == "Y"
+                            auth = Author(author)
+                            push!(this.authors, auth)
+                            auth_cite *= (!ismissing(auth.first_name) ? "$(auth.last_name), $(auth.first_name); " : (!ismissing(auth.last_name) ? "$(auth.last_name); " : ""))
+                        else
+                            println("Skipping Author: ", author)
+                        end
+                    end
+                else
+                    author = authors_list
+                    if author[:ValidYN] == "Y"
+                        auth = Author(author)
+                        push!(this.authors, auth)
+                        auth_cite *= (!ismissing(auth.first_name) ? "$(auth.last_name), $(auth.first_name); " : (!ismissing(auth.last_name) ? "$(auth.last_name); " : ""))
+                    else
+                        println("Skipping Author: ", author)
+                    end
+                end
+                this.auth_cite = length(auth_cite) == 0 ? missing : auth_cite[1:end-2]
+            end
+
+        end
+
+
+        # Get MESH Headings (descriptors, qualifiers, major status)
+        this.mesh = Vector{Union{Missing, MeshHeading}}(0)
+        if haskey(medline_citation, "MeshHeadingList")
+            if haskey(medline_citation["MeshHeadingList"], "MeshHeading")
+                mesh_headings = medline_citation["MeshHeadingList"]["MeshHeading"]
+                for heading in mesh_headings
+                    push!(this.mesh, MeshHeading(heading))
+                end
+            end
+        end
+
+        return this
+
+    end
+
+end #struct
 
 
 # Typealias for natural iteration
