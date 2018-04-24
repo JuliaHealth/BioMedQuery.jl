@@ -161,7 +161,7 @@ mutable struct MedlineDate
         if haskey(NCBIXMLheading, "MedlineDate")
             ystr, mstr = parse_MedlineDate(NCBIXMLheading["MedlineDate"])
         else
-            ystr = parse_year(NCBIXMLheading["Year"])
+            ystr = NCBIXMLheading["Year"]
             if haskey(NCBIXMLheading, "Month")
                 mstr = NCBIXMLheading["Month"]
             elseif haskey(NCBIXMLheading, "Season")
