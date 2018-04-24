@@ -306,7 +306,7 @@ function db_insert!(db, pmid::Int64, mesh_heading_list::MeshHeadingList, verbose
              :name=>descriptor_name),
              verbose)
 
-        if isempty(heading.qualifier_id)
+        if isempty(heading.qualifier)
             #Save Headings
             insert_row!(db, "mesh_heading",
             Dict(:id=>missing,
