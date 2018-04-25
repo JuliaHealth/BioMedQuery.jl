@@ -49,7 +49,7 @@ function citations_endnote(article::PubMedArticle, verbose=false)
 
     !ismissing(article.date.year) && push!(lines, "%D $(article.date.year)")
     !ismissing(article.title) && push!(lines, "%T $(article.title)")
-    !ismissing(article.journal) && push!(lines, "%J $(article.journal)") # Does this need to be ISO abbreviation?
+    !ismissing(article.journal) && push!(lines, "%J $(article.journal_iso_abbrv)") # Does this need to be ISO abbreviation?
     !ismissing(article.volume) && push!(lines, "%V $(article.volume)")
     !ismissing(article.issue) && push!(lines, "%N $(article.issue)")
     !ismissing(article.pages) && push!(lines, "%P $(article.pages)")
@@ -97,7 +97,7 @@ function citations_bibtex(article::PubMedArticle, verbose=false)
     all_authors_str = join(authors_str, " and ")
     push!(lines, "  author  = {$all_authors_str},")
     !ismissing(article.title)   && push!(lines, "  title   = {$(article.title)},")
-    !ismissing(article.journal) && push!(lines, "  journal = {$(article.journal)},") # DOES THIS NOW NEED TO BE ISO ABBREVIATION?
+    !ismissing(article.journal) && push!(lines, "  journal = {$(article.journal_iso_abbrv)},") # DOES THIS NOW NEED TO BE ISO ABBREVIATION?
     !ismissing(article.date.year)    && push!(lines, "  year    = {$(article.date.year)},")
     !ismissing(article.volume)  && push!(lines, "  volume  = {$(article.volume)},")
     !ismissing(article.issue)   && push!(lines, "  number  = {$(article.issue)},")
