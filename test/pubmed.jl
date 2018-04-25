@@ -46,7 +46,7 @@ using XMLDict
         # println("----------Efetch Dict---------------")
         # println(efetch_dict)
         # println("--------------------------")
-        
+
         #articles should be an array of narticles
         @test length(articles) == narticles
 
@@ -59,7 +59,7 @@ using XMLDict
         host = "127.0.0.1";
         user = "root"
         pwd = ""
-        
+
         const conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
         PubMed.create_pmid_table!(conn)
         PubMed.save_pmids!(conn, ids)
@@ -98,6 +98,21 @@ using XMLDict
 
         @test nlines == nsucceses
         rm("./citations_temp.endnote")
+    end
+
+    @testset "Test Save Article DataFrames" begin
+        println("-----------------------------------------")
+        println("       Test Save Article DataFrames     ")
+
+        raw_articles = efetch_dict["PubmedArticle"]
+
+        parsed_articles = map(x -> PubmedArticle(x), raw_articles)
+
+        dfs = DBUtils.toDataFrames(parsed_articles)
+        println(dfs)
+
+        @test length(dfs["pubmedarticle"]) == narticles
+
     end
 
     # save the results of an entrez fetch to a sqlite database
