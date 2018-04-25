@@ -104,9 +104,9 @@ using XMLDict
         println("-----------------------------------------")
         println("       Test Save Article DataFrames     ")
 
-        raw_articles = efetch_dict["PubmedArticle"]
+        raw_articles = efetch_dict["PubMedArticle"]
 
-        parsed_articles = map(x -> PubmedArticle(x), raw_articles)
+        parsed_articles = map(x -> PubMedArticle(x), raw_articles)
 
         dfs = DBUtils.toDataFrames(parsed_articles)
         println(dfs)
