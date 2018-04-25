@@ -10,7 +10,7 @@ mutable struct CitationOutput
     function CitationOutput(format::String, file::String, overwrite::Bool)
         this = new()
         this.format = format
-        
+
         if overwrite
             if isfile(file)
                 rm(file)
@@ -39,27 +39,27 @@ function citations_endnote(article::PubMedArticle, verbose=false)
 
     lines::Vector{String} = ["%0 Journal Article"]
     for au in article.authors
-        if ismissing(au[:Initials]) && ismissing(au[:LastName])
+        if ismissing(au.initials) && ismissing(au.last_name)
             println("Skipping author, null field: ", au)
             continue
         end
-        author = string(au[:LastName], ", ", au[:Initials])
+        author = string(au.last_name, ", ", au.initials)
         push!(lines, "%A $author")
     end
 
     !ismissing(article.year) && push!(lines, "%D $(article.year)")
     !ismissing(article.title) && push!(lines, "%T $(article.title)")
-    !ismissing(article.journal) && push!(lines, "%J $(article.journal)")
+    !ismissing(article.journal) && push!(lines, "%J $(article.journal)") # Does this need to be ISO abbreviation?
     !ismissing(article.volume) && push!(lines, "%V $(article.volume)")
     !ismissing(article.issue) && push!(lines, "%N $(article.issue)")
     !ismissing(article.pages) && push!(lines, "%P $(article.pages)")
     !ismissing(article.pmid) && push!(lines, "%M $(article.pmid)")
     !ismissing(article.url) && push!(lines, "%U $(article.url)")
-    !ismissing(article.abstract_text) && push!(lines, "%X $(article.abstract_text)")
+    !ismissing(article.abstract_full) && push!(lines, "%X $(article.abstract_full)")
 
 
     for term in article.mesh
-        !ismissing(term) && push!(lines, "%K $(term)")
+        !ismissing(term.descriptor.name) && push!(lines, "%K $(term.descriptor.name)")
     end
 
     if !isempty(article.affiliations)
@@ -87,17 +87,17 @@ function citations_bibtex(article::PubMedArticle, verbose=false)
     lines::Vector{String} = ["@article {PMID:$(article.pmid),"]
     authors_str = []
     for au in article.authors
-        if ismissing(au[:Initials]) && ismissing(au[:LastName])
+        if ismissing(au.initials) && ismissing(au.last_name)
             println("Skipping author, null field: ", au)
             continue
         end
-        author = string(au[:LastName], ", ", au[:Initials])
+        author = string(au.last_name, ", ", au.initials)
         push!(authors_str, "$author")
     end
     all_authors_str = join(authors_str, " and ")
     push!(lines, "  author  = {$all_authors_str},")
     !ismissing(article.title)   && push!(lines, "  title   = {$(article.title)},")
-    !ismissing(article.journal) && push!(lines, "  journal = {$(article.journal)},")
+    !ismissing(article.journal) && push!(lines, "  journal = {$(article.journal)},") # DOES THIS NOW NEED TO BE ISO ABBREVIATION?
     !ismissing(article.year)    && push!(lines, "  year    = {$(article.year)},")
     !ismissing(article.volume)  && push!(lines, "  volume  = {$(article.volume)},")
     !ismissing(article.issue)   && push!(lines, "  number  = {$(article.issue)},")
@@ -110,11 +110,11 @@ end
 """
     save_efetch!(output::CitationOutput, efetch_dict, verbose=false)
 
-Save the results of a Entrez efetch to a bibliography file, with format and 
+Save the results of a Entrez efetch to a bibliography file, with format and
 file path given by `output::CitationOutput`
 """
 function save_efetch!(output::CitationOutput, efetch_dict, verbose=false)
-   
+
     output_file = output.file
 
     if output.format == "bibtex"
