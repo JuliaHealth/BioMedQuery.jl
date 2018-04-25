@@ -104,7 +104,7 @@ using XMLDict
         println("-----------------------------------------")
         println("       Test Save Article DataFrames     ")
 
-        raw_articles = efetch_dict["PubMedArticle"]
+        raw_articles = efetch_dict["PubmedArticle"]
 
         parsed_articles = map(x -> PubMedArticle(x), raw_articles)
 
