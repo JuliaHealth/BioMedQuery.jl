@@ -19,14 +19,15 @@ for (i, xml_article) in enumerate(articles)
     mesh_heading_list = MeshHeadingList(xml_article)
 
     for heading in mesh_heading_list
-        @test !ismissing(heading.descriptor_name)
+        @test !ismissing(heading.descriptor.name)
     end
 
+    # HAD TO UPDATE THIS FOR NEW DATA STRUCTURES - IS THAT OKAY?
     if i==1
         @test article.title == "Five Tips to Building a Successful Sleep Practice."
         @test article.pmid == 27483622
-        @test article.authors[1][:LastName] == "Poss"
-        @test mesh_heading_list[1].descriptor_name == "Bruxism"
+        @test article.authors[1].last_name == "Poss"
+        @test mesh_heading_list[1].descriptor.name == "Bruxism"
         @test length(mesh_heading_list)== 6
     end
 end
