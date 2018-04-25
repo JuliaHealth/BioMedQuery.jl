@@ -38,6 +38,7 @@ function citations_endnote(article::PubMedArticle, verbose=false)
     end
 
     lines::Vector{String} = ["%0 Journal Article"]
+    affiliations_str = ""
     for au in article.authors
         if ismissing(au.initials) && ismissing(au.last_name)
             println("Skipping author, null field: ", au)
@@ -45,7 +46,12 @@ function citations_endnote(article::PubMedArticle, verbose=false)
         end
         author = string(au.last_name, ", ", au.initials)
         push!(lines, "%A $author")
+
+        if !isempty(au.affiliations) # How were affiliations originally handled? START HERE
+            affiliations_str *= join(skipmissing(au.affiliations), ", ") * ", "
+        end
     end
+
 
     !ismissing(article.date.year) && push!(lines, "%D $(article.date.year)")
     !ismissing(article.title) && push!(lines, "%T $(article.title)")
@@ -62,10 +68,8 @@ function citations_endnote(article::PubMedArticle, verbose=false)
         !ismissing(term.descriptor.name) && push!(lines, "%K $(term.descriptor.name)")
     end
 
-    if !isempty(article.affiliations)
-        affiliations_str = join(skipmissing(article.affiliations), ", ")
-        push!(lines, "%+ $affiliations_str")
-    end
+    !(affiliations_str == "") && push!(lines, "%+ $(affiliations_str[1:end-1])")
+
     # for m in mesh_terms
     #     push!(lines, "%K $m")
     # end
