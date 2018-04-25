@@ -123,7 +123,7 @@ mutable struct Author
         this.orc_id = missing
         if haskey(NCBIXMLheading, "Identifier")
             if NCBIXMLheading["Identifier"][:Source]=="ORCID"
-                this.orc_id = parse_orcid(NCBIXMLheading["Identifier"])
+                this.orc_id = parse_orcid(NCBIXMLheading["Identifier"][""])
             end
         end
 
