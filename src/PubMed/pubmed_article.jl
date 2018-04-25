@@ -195,7 +195,7 @@ mutable struct StructuredAbstract
 
         this.nlm_category = get_if_exists(NCBIXMLheading, :NlmCategory)
         this.label = get_if_exists(NCBIXMLheading, :Label)
-        this.text = get_if_exists(NCBIXMLheading, "")
+        this.text = NCBIXMLheading[""]
 
         return this
     end
@@ -396,7 +396,6 @@ mutable struct PubMedArticle
                     text = ""
                     for abs in medline_article["Abstract"]["AbstractText"]
                         struct_abs = StructuredAbstract(abs)
-                        println(struct_abs)
                         push!(this.abstract_structured, struct_abs)
                         text *= (ismissing(struct_abs.label) ? "NO LABEL" : struct_abs.label) * ": " * struct_abs.text * " "
                     end
