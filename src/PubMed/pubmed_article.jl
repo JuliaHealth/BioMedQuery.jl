@@ -396,11 +396,11 @@ mutable struct PubMedArticle
                     text = ""
                     for abs in medline_article["Abstract"]["AbstractText"]
                         struct_abs = StructuredAbstract(abs)
+                        println(struct_abs)
                         push!(this.abstract_structured, struct_abs)
                         text *= (ismissing(struct_abs.label) ? "NO LABEL" : struct_abs.label) * ": " * struct_abs.text * " "
                     end
                     this.abstract_full = text[1:end-1]
-                    # println(this.abstract_text)
                 end
             else
                 println("Warning: No Abstract Text found, PMID: ", this.pmid)
