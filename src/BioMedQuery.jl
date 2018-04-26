@@ -85,11 +85,6 @@ include("Processes/pubmed_export_citations.jl")
 include("Processes/medline_load.jl")
 
 end
-#-----------------------------------
-
-using .DBUtils
-using .PubMed
-using .CT
-using .Processes
+#----------------------------------- d
 
 end #BioMedQuery
