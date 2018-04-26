@@ -4,9 +4,9 @@
 using Base.Test
 
 using XMLDict
-using BioMedQuery.Processes
-using BioMedQuery.PubMed
-using BioMedQuery.DBUtils
+# using BioMedQuery.Processes
+# using BioMedQuery.PubMed
+# using BioMedQuery.DBUtils
 using MySQL
 using SQLite
 using DataStreams

@@ -29,7 +29,8 @@ export  PubMedArticle,
         MeshDescriptor,
         MedlineDate,
         MeshHeading,
-        MeshHeadingList
+        MeshHeadingList,
+        PubType
 include("PubMed/pubmed_article.jl")
 
 # sql utilities
@@ -85,5 +86,10 @@ include("Processes/medline_load.jl")
 
 end
 #-----------------------------------
+
+using .DBUtils
+using .PubMed
+using .CT
+using .Processes
 
 end #BioMedQuery

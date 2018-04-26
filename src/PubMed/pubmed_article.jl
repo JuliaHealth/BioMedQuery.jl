@@ -202,6 +202,27 @@ mutable struct StructuredAbstract
 end
 
 """
+    PubType
+Type that matches the NCBI-XML contents for a Publication Type
+"""
+mutable struct PubType
+    uid::Union{Missing, Int64}
+    name::Union{Missing, String}
+
+    function PubType(NCBIXMLheading)
+
+        this = new()
+
+        this.name = NCBIXMLheading[""]
+        ui = NCBIXMLheading[:UI]
+        this.uid = parse(Int64, ui[2:end])
+
+        return this
+    end
+
+end
+
+"""
     MeshQualifier
 Type that matches the NCBI-XML contents for a MeSH Qualifier
 """
@@ -248,9 +269,9 @@ Type that matches the NCBI-XML contents for a MeshHeading
 """
 mutable struct MeshHeading
     descriptor::Union{Missing, MeshDescriptor}
-    descriptor_mjr::Union{Missing, String}
+    descriptor_mjr::Union{Missing, Int64}
     qualifier::Vector{Union{Missing, MeshQualifier}}
-    qualifier_mjr::Vector{Union{Missing, String}}
+    qualifier_mjr::Vector{Union{Missing, Int64}}
 
     #Constructor from XML heading element
     function MeshHeading(NCBIXMLheading)
@@ -264,7 +285,7 @@ mutable struct MeshHeading
 
         #Descriptor
         this.descriptor = MeshDescriptor(NCBIXMLheading["DescriptorName"])
-        this.descriptor_mjr = NCBIXMLheading["DescriptorName"][:MajorTopicYN]
+        this.descriptor_mjr = NCBIXMLheading["DescriptorName"][:MajorTopicYN] == "Y" ? 1 : 0
 
 
         #Qualifier
@@ -277,7 +298,7 @@ mutable struct MeshHeading
                     q = MeshQualifier(qual)
                     push!(this.qualifier, q)
 
-                    qmjr = qual[:MajorTopicYN]
+                    qmjr = qual[:MajorTopicYN] == "Y" ? 1 : 0
                     push!(this.qualifier_mjr, qmjr)
                 end
             else
@@ -299,7 +320,7 @@ end
 Type that matches the NCBI-XML contents for a PubMedArticle
 """
 mutable struct PubMedArticle
-    types::Vector{Union{String, Missing}}
+    types::Vector{Union{PubType, Missing}}
     pmid::Union{Missing, Int64}
     url::Union{Missing, String}
     title::Union{Missing, String}
@@ -346,14 +367,14 @@ mutable struct PubMedArticle
         # Retrieve basic article info
         if haskey(medline_citation,"Article")
             medline_article = medline_citation["Article"]
-            this.types = Vector{Union{Missing, String}}(0)
+            this.types = Vector{Union{Missing, PubType}}(0)
             if haskey(medline_article, "PublicationTypeList")
                     if typeof(medline_article["PublicationTypeList"]["PublicationType"]) <: Array
                         for pub_type_xml in medline_article["PublicationTypeList"]["PublicationType"]
-                            push!(this.types, pub_type_xml[""])
+                            push!(this.types, PubType(pub_type_xml))
                         end
                     else
-                        push!(this.types, medline_article["PublicationTypeList"]["PublicationType"][""])
+                        push!(this.types, PubType(medline_article["PublicationTypeList"]["PublicationType"]))
                     end
             end
 
