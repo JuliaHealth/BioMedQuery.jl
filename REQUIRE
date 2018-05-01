@@ -1,15 +1,16 @@
 julia 0.6
-ArgParse 
-DataStreams 
-Gumbo 
-Requests 
-LightXML 
-HttpCommon 
-BaseTestNext 
-SQLite 
+ArgParse
+DataStreams
+Gumbo
+Requests
+LightXML
+HttpCommon
+BaseTestNext
+SQLite
 ZipFile
 MySQL
-DataFrames 
+DataFrames
 DataStructures 
 BioServices
 XMLDict
+CSV

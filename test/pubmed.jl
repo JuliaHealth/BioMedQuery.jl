@@ -109,7 +109,13 @@ using XMLDict
         parsed_articles = map(x -> PubMedArticle(x), raw_articles)
 
         dfs = PubMed.toDataFrames(parsed_articles)
-        println(dfs)
+
+        file_prefix = "ABSURDPREFIX123%^_"
+        dfs_to_csv(dfs, pwd(), file_prefix)
+
+        @test isfile(file_prefix * "pubmedarticle.csv")
+
+        [rm("$file_prefix$k.csv") for (k, v) in dfs]
 
         @test size(dfs[:pubmedarticle],1) == narticles
 

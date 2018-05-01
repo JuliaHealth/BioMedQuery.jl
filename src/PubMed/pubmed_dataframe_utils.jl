@@ -104,7 +104,7 @@ function toDataFrames(objects::Vector{T}) where T <: PubMedArticle
             if eltype(vals) <: Vector
                 push!(dfs, toDataFrames(vals, getfield.(objects, :pmid), :pmid)...)
             else
-                for child_cols in fieldnames_unionmissing(typeof(vals))
+                for child_cols in fieldnames_unionmissing(eltype(vals))
                     child_vals = getfield.(vals, child_cols)
                     col_pairs[child_cols] = child_vals
                 end
@@ -117,6 +117,11 @@ function toDataFrames(objects::Vector{T}) where T <: PubMedArticle
             end
         end
     end
+
+    dfs[:abstractfull] = DataFrame(pmid = col_pairs[:pmid], abstract_text = col_pairs[:abstract_full])
+
+    delete!(col_pairs,:abstract_full)
+
     dfs[typename_unionmissing(T)] = DataFrame(col_pairs)
 
     return dfs
@@ -199,33 +204,6 @@ function toDataFrames(objects::Vector{Vector{T}}, ids::Vector{U}, id_col::Symbol
     return dfs
 
 end
-
-# # Multiple dispatch, creates child tables without parent IDs
-# function toDataFrames(objects::Vector{Vector{T}}) where T <: Any
-#     dfs = Dict{Symbol, DataFrame}()
-#     col_pairs = Dict{Symbol,Any}()
-#
-#     for cols in fieldnames_unionmissing(T)
-#         vals = mapfoldl(x -> getfield.(x, cols), append!, Vector{Any}(), objects)
-#         cols == :uid && return toDataFrames(objects, vals, :uid)
-#         if hasfields(vals)
-#             if eltype(vals) <: Vector
-#                 push!(dfs, toDataFrames(vals)...)
-#             else
-#                 for child_cols in fieldnames_unionmissing(eltype(vals))
-#                     child_vals = getfield.(vals, child_cols)
-#                     col_pairs[child_cols] = child_vals
-#                 end
-#             end
-#         else
-#             col_pairs[cols] = vals
-#         end
-#     end
-#     dfs[typename_unionmissing(T)] = DataFrame(col_pairs)
-#
-#     return dfs
-#
-# end
 
 """
     dfs_to_csv(dfs::Dict, path::String, [file_prefix::String])

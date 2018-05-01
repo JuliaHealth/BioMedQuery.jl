@@ -151,7 +151,7 @@ Type that matches the NCBI-XML contents for a PubDate
 mutable struct MedlineDate
     year::Union{Int64, Missing}
     month::Union{Int64, Missing}
-    desc::Union{String, Missing}
+    date_desc::Union{String, Missing}
 
     # Constructor from XML heading element
     function MedlineDate(NCBIXMLheading)
@@ -173,7 +173,7 @@ mutable struct MedlineDate
 
         this.year = parse_year(ystr)
         this.month = parse_month(mstr)
-        this.desc = ystr * (mstr == "" ? "" : " " * mstr)
+        this.date_desc = ystr * (mstr == "" ? "" : " " * mstr)
 
         return this
     end

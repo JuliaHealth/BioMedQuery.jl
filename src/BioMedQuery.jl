@@ -50,7 +50,8 @@ export  save_efetch!,
 include("PubMed/eutils_sql_save.jl")
 
 # eutils -> df
-export toDataFrames
+export toDataFrames,
+        dfs_to_csv
 include("PubMed/pubmed_dataframe_utils.jl")
 
 # citation formats
