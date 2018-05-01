@@ -268,10 +268,10 @@ end
 Type that matches the NCBI-XML contents for a MeshHeading
 """
 mutable struct MeshHeading
-    descriptor::Union{Missing, MeshDescriptor}
-    descriptor_mjr::Union{Missing, Int64}
-    qualifier::Vector{Union{Missing, MeshQualifier}}
-    qualifier_mjr::Vector{Union{Missing, Int64}}
+    descriptor::MeshDescriptor
+    descriptor_mjr::Int64
+    qualifier::Vector{MeshQualifier}
+    qualifier_mjr::Vector{Int64}
 
     #Constructor from XML heading element
     function MeshHeading(NCBIXMLheading)
@@ -289,8 +289,8 @@ mutable struct MeshHeading
 
 
         #Qualifier
-        this.qualifier = Vector{Union{Missing, MeshQualifier}}()
-        this.qualifier_mjr = Vector{Union{Missing, String}}()
+        this.qualifier = Vector{MeshQualifier}()
+        this.qualifier_mjr = Vector{Int64}()
         if haskey(NCBIXMLheading,"QualifierName")
             qualifiers = NCBIXMLheading["QualifierName"]
             if typeof(qualifiers) <: Array
@@ -305,7 +305,7 @@ mutable struct MeshHeading
                 qual = MeshQualifier(qualifiers)
                 push!(this.qualifier, qual)
 
-                qmjr = qualifiers[:MajorTopicYN]
+                qmjr = qualifiers[:MajorTopicYN] == "Y" ? 1 : 0
                 push!(this.qualifier_mjr, qmjr)
             end
         end

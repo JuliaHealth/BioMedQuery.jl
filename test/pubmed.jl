@@ -108,7 +108,7 @@ using XMLDict
 
         parsed_articles = map(x -> PubMedArticle(x), raw_articles)
 
-        dfs = DBUtils.toDataFrames(parsed_articles, :pmid)
+        dfs = PubMed.toDataFrames(parsed_articles)
         println(dfs)
 
         @test size(dfs[:pubmedarticle],1) == narticles

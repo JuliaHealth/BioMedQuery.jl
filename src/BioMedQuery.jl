@@ -49,6 +49,10 @@ export  save_efetch!,
         save_pmids!
 include("PubMed/eutils_sql_save.jl")
 
+# eutils -> df
+export toDataFrames
+include("PubMed/pubmed_dataframe_utils.jl")
+
 # citation formats
 export  CitationOutput,
         citations_endnote,

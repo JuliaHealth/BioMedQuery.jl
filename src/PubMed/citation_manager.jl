@@ -31,7 +31,7 @@ Transforms a PubMedArticle into text corresponding to its endnote citation
 function citations_endnote(article::PubMedArticle, verbose=false)
 
     # println("***Types: ", article.types)
-    jrnl_art = find(x->(x=="Journal Article"), skipmissing(article.types))
+    jrnl_art = find(x->(x.name=="Journal Article"), skipmissing(article.types))
 
     if length(jrnl_art)!= 1
         error("EndNote can only export Journal Articles")

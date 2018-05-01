@@ -2,7 +2,6 @@ using Missings
 
 include("mysql_db_utils.jl")
 include("sqlite_db_utils.jl")
-include("dataframe_db_utils.jl")
 
 # This function takes a single quote and replaces it with
 # two single quotes. This is what MySQL requires
