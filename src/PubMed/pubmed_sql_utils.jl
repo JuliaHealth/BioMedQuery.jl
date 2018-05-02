@@ -87,7 +87,163 @@ function create_tables!(conn, medline_load::Bool=false)
                 CONSTRAINT unq UNIQUE(pmid, did, qid)
                 );"
             )
-   else
+   else #MEDLINE LOAD = TRUE
+       #purge related tables
+       DBUtils.disable_foreign_checks(conn)
+       sql_engine.execute!(conn, "DROP TABLE IF EXISTS basic")
+       sql_engine.execute!(conn, "DROP TABLE IF EXISTS author")
+       sql_engine.execute!(conn, "DROP TABLE IF EXISTS author_ref")
+       sql_engine.execute!(conn, "DROP TABLE IF EXISTS pub_type")
+       sql_engine.execute!(conn, "DROP TABLE IF EXISTS abstract_full")
+       sql_engine.execute!(conn, "DROP TABLE IF EXISTS abstract_structured")
+       sql_engine.execute!(conn, "DROP TABLE IF EXISTS mesh_heading")
+       sql_engine.execute!(conn, "DROP TABLE IF EXISTS mesh_desc")
+       sql_engine.execute!(conn, "DROP TABLE IF EXISTS mesh_qual")
+       sql_engine.execute!(conn, "DROP TABLE IF EXISTS file_meta")
+       DBUtils.enable_foreign_checks(conn)
+
+
+       #Create tables to store
+       sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `basic` (
+             `pmid` int(9) NOT NULL,
+             `pub_year` smallint(4) DEFAULT NULL,
+             `pub_month` tinyint(2) DEFAULT NULL,
+             `pub_dt_desc` varchar(50) DEFAULT NULL,
+             `title` text DEFAULT NULL,
+             `authors` text DEFAULT NULL,
+             `journal_title` varchar(500) DEFAULT NULL,
+             `journal_ISSN` varchar(9) DEFAULT NULL,
+             `journal_volume` varchar(30) DEFAULT NULL,
+             `journal_issue` varchar(30) DEFAULT NULL,
+             `journal_pages` varchar(50) DEFAULT NULL,
+             `journal_iso_abbreviation` varchar(255) DEFAULT NULL,
+             `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+             PRIMARY KEY (`pmid`),
+             KEY `pub_year` (`pub_year`),
+             KEY `pub_month` (`pub_month`),
+             KEY `pub_year_month` (`pub_year`,`pub_month`),
+             KEY `journal_title` (`journal_title`),
+             KEY `journal_ISSN` (`journal_ISSN`)
+           ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+           )
+
+
+       sql_engine.execute!(conn, "CREATE TABLE `author_ref` (
+             `author_id` int(10) NOT NULL,
+             `last_name` varchar(60) DEFAULT NULL,
+             `first_name` varchar(60) DEFAULT NULL,
+             `initials` varchar(10) DEFAULT NULL,
+             `suffix` varchar(10) DEFAULT NULL,
+             `orcid` varchar(19) DEFAULT NULL,
+             `collective` varchar(200) DEFAULT NULL,
+             `affiliation` varchar(255) DEFAULT NULL,
+             `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+             PRIMARY KEY (`author_id`),
+             KEY `last_name` (`last_name`),
+             KEY `last_first_name` (`last_name`, `first_name`),
+             KEY `collective` (`collective`)
+           ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+           )
+
+       sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `author` (
+             `pmid` int(9) NOT NULL,
+             `author_id` int(10) NOT NULL,
+             `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+             PRIMARY KEY (`pmid`, `author_id`),
+             FOREIGN KEY(`pmid`) REFERENCE basic(`pmid`),
+             FORIEGN KEY(`author_id` REFERENCE author_ref(`author_id`)
+           ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+           )
+
+       sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `pub_type` (
+             `pmid` int(9) NOT NULL,
+             `pub_type` varchar(100) NOT NULL,
+             `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+             PRIMARY KEY (`pmid`,`pub_type`),
+             KEY `pub_type` (`pub_type`),
+             FOREIGN KEY(`pmid`) REFERENCE basic(`pmid`)
+           ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+           )
+
+
+       sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `abstract_full` (
+             `pmid` int(9) NOT NULL,
+             `abstract_text` text DEFAULT NULL,
+             `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+             PRIMARY KEY (`pmid`),
+             FOREIGN KEY(`pmid`) REFERENCES basic(`pmid`)
+           ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+           )
+
+
+       sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `abstract_structured` (
+             `abstracts_structured_id` int(12) NOT NULL AUTO_INCREMENT,
+             `pmid` int(9) NOT NULL,
+             `nlm_category` varchar(20) DEFAULT NULL,
+             `label` varchar(40) DEFAULT NULL,
+             `abstract_text` text DEFAULT NULL,
+             `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+             PRIMARY KEY (`abstracts_structured_id`, `PMID`),
+             KEY `PMID` (`PMID`),
+             KEY `label` (`label`),
+             KEY `nlm_category` (`nlm_category`)
+           ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+           )
+
+       sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `file_meta` (
+             `file_name` varchar(30) NOT NULL,
+             `ins_start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+             `ins_end_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+             PRIMARY KEY (`file_name`)
+           ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+           )
+
+
+       # # --------------------------
+       # #  MeshHeading Tables
+       # # --------------------------
+       # # --
+       # # Descriptor
+       # # The id corresponds to the DUI of mesh library
+       # # Adding a "D" at the beginning of the id, allows for
+       # # lookup in the mesh browerser
+       # #  https://www.nlm.nih.gov/mesh/MBrowser.html
+
+       # Qualifier
+       sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `mesh_desc` (
+             `uid` int(6) NOT NULL,
+             `desc` varchar(100) NOT NULL,
+             `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+             PRIMARY KEY (`desc_UID`),
+             KEY `desc_name` (`desc_name`)
+           ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+           )
+
+       # Heading
+       sql_engine.execute!(conn, "CREATE TABLE `mesh_qual` (
+             `uid` int(6) NOT NULL,
+             `desc` varchar(100) NOT NULL,
+             `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+             PRIMARY KEY (`qual_UID`),
+             KEY `qual_name` (`qual_name`)
+           ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+           )
+
+       sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `mesh_heading` (
+             `pmid` int(9) NOT NULL,
+             `desc_uid` int(6) NOT NULL,
+             `desc_maj_status` boolean DEFAULT NULL,
+             `qual_uid` int(6) DEFAULT -1,
+             `qual_maj_status` boolean DEFAULT NULL,
+             `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+             PRIMARY KEY (`pmid`, `desc_UID`, `qual_UID`),
+             FOREIGN KEY(`pmid`) REFERENCES basic(`pmid`),
+             FOREIGN KEY(`desc_uid`) REFERENCES mesh_desc(`uid`),
+             KEY `desc_uid_maj` (`desc_uid`,`desc_maj_status`),
+             FOREIGN KEY(`qual_UID`) REFERENCES mesh_qual(`uid`),
+             KEY `qual_UID_maj` (`qual_UID`,`qual_maj_status`)
+           ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+           )
 
    end
 
