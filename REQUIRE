@@ -10,7 +10,8 @@ SQLite
 ZipFile
 MySQL
 DataFrames
-DataStructures 
+DataStructures
 BioServices
 XMLDict
 CSV
+FTPClient
