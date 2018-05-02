@@ -82,10 +82,10 @@ end
 Transforms a PubMedArticle into text corresponding to its bibtex citation
 """
 function citations_bibtex(article::PubMedArticle, verbose=false)
-    jrnl_art = find(x->(x=="Journal Article"), skipmissing(article.types))
+    jrnl_art = find(x->(x.name=="Journal Article"), skipmissing(article.types))
 
     if length(jrnl_art)!= 1
-        error("EndNote can only export Journal Articles")
+        error("BibTex can only export Journal Articles")
     end
 
     lines::Vector{String} = ["@article {PMID:$(article.pmid),"]
