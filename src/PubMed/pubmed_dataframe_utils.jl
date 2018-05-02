@@ -32,43 +32,14 @@ end
 Checks if the innter type of a Vector has fields to iterate through
 """
 function hasfields(v::Vector{T}) where T <: Any
-    try
-        num_fields = length(fieldnames_unionmissing(T))
-        return num_fields > 1 ? true : false
-    catch
-        return false
-    end
+    num_fields = length(fieldnames_unionmissing(T))
+    return num_fields > 1 ? true : false
 end
 
 function hasfields(v::Vector{Vector{T}}) where T <: Any
-    try
-        num_fields = length(fieldnames_unionmissing(T))
-        return num_fields > 1 ? true : false
-    catch
-        return false
-    end
+    num_fields = length(fieldnames_unionmissing(T))
+    return num_fields > 1 ? true : false
 end
-
-"""
-    toDistinctDataFrame(objects)
-Takes a vector of mesh descriptors or qualifiers and returns a data frame with the unique pairs.
-"""
-function toDistinctDataFrame(objects::Vector{T}) where T <: Union{MeshDescriptor,MeshQualifier}
-    # use dictionary to create unique key/value pairs
-    unique_vals = Dict{Int,String}()
-    map(x -> unique_vals[x.uid] = x.name, objects)
-
-    keys = []
-    vals = []
-    for (key,val) in unique_vals
-        push!(keys, key)
-        push!(vals, val)
-    end
-
-    return DataFrame(Dict(:uid => keys, :desc => vals))
-
-end
-
 
 """
     mh_dict_transpose(dict::Dict)
@@ -110,11 +81,7 @@ function toDataFrames(objects::Vector{T}) where T <: PubMedArticle
                 end
             end
         else
-            if eltype(vals) <: Vector
-                col_pairs[cols] = join(vals, "; ")
-            else
-                col_pairs[cols] = vals
-            end
+            col_pairs[cols] = vals
         end
     end
 
@@ -180,22 +147,7 @@ function toDataFrames(objects::Vector{Vector{T}}, ids::Vector{U}, id_col::Symbol
 
     for cols in fieldnames_unionmissing(T)
         vals = mapfoldl(x -> getfield.(x, cols), append!, Vector{Any}(), objects)
-        if hasfields(vals)
-            if eltype(vals) <: Vector
-                push!(dfs, toDataFrames(vals)...)
-            else
-                for child_cols in fieldnames_unionmissing(typeof(vals))
-                    child_vals = getfield.(vals, child_cols)
-                    col_pairs[child_cols] = child_vals
-                end
-            end
-        else
-            if eltype(vals) <: Vector
-                col_pairs[cols] = join(vals, "; ")
-            else
-                col_pairs[cols] = vals
-            end
-        end
+        col_pairs[cols] = vals
     end
     col_pairs[id_col] = foldl(append!, Vector{Any}(), map((x,y) -> fill(y, length(x)), objects, ids))
 
