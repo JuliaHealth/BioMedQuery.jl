@@ -134,8 +134,8 @@ function toDataFrames(objects::Vector{Vector{T}}, ids::Vector{U}, id_col::Symbol
     desc_keys, desc_vals = mh_dict_transpose(mesh_descs)
     qual_keys, qual_vals = mh_dict_transpose(mesh_quals)
 
-    dfs[:meshdescriptor] = DataFrame(uid = desc_keys, description = desc_vals)
-    dfs[:meshqualifier] = DataFrame(uid = qual_keys, description = qual_vals)
+    dfs[:meshdescriptor] = DataFrame(uid = desc_keys, desc = desc_vals)
+    dfs[:meshqualifier] = DataFrame(uid = qual_keys, desc = qual_vals)
 
     return dfs
 end

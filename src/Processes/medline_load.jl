@@ -4,15 +4,16 @@ using XMLDict
 using CSV
 using LightXML
 using BioMedQuery.PubMed
+using EzXML
 
 """
-    load_medline(mysql_host, mysql_user, mysql_pwd, mysql_db, start_file = 1, [end_file])
+    load_medline(mysql_host, mysql_user, mysql_pwd, mysql_db, start_file = 1, [end_file], create_tables = true)
 
 Given MySQL connection info and optionally the start and end files, fetches the medline files, parses the xml, and loads into a MySQL DB (assumes tables already exist).
 """
-function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String, mysql_db::String, start_file::Int = 1, end_file::Int = 90000)
+function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String, mysql_db::String; start_file::Int = 1, end_file::Int = 90000, create_tables::Bool=true, year::Int=2018)
 
-    db_con, ftp_con = init_medline(mysql_host, mysql_user, mysql_pwd, mysql_db)
+    db_con, ftp_con = init_medline(mysql_host, mysql_user, mysql_pwd, mysql_db, create_tables)
 
 
     # Set start file number
@@ -22,7 +23,7 @@ function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
     while file_exists && n <= end_file
 
         info("======Processing medline file #", n, "======")
-        fname = get_file_name(n)
+        fname = get_file_name(n, year)
 
         try
             fileresp = get_ml_file(fname, ftp_con)
@@ -39,17 +40,27 @@ function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
         end
 
         println("Parsing ",fname)
+        println("Parsing xmldict")
+        tic()
         file_dict = xml_dict(parse_file(joinpath("medline/raw_files",fname)))
 
-        articles = map(x -> PubMedArticle(x), file_dict["PubmedArticleSet"]["PubmedArticle"])
+        raw_articles = file_dict["PubmedArticleSet"]["PubmedArticle"]
+        toc()
+        println("parsing ezxml")
+        tic()
+            doc = EzXML.readxml(joinpath("medline/raw_files",fname))
 
-        # println("Loading ", fname, " into ", mysql_db)
-        #
-        # try
-        #     load_ml_file(fname, db_con)
-        # catch e
-        #     warn("MySQL ERROR: ", e)
-        # end
+            publist = EzXML.root(doc)
+        toc()
+        n_articles = length(raw_articles)
+        parsed_articles = Vector{PubMedArticle}()
+
+        @sync @parallel for article in raw_articles
+            push!(parsed_articles, PubMedArticle(article))
+        end
+
+        df_articles = toDataFrames(parsed_articles)
+        dfs_to_csv(df_articles,pwd(),"$(fname[1:end-7])_")
 
         n += 1
     end
@@ -62,7 +73,7 @@ function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
     # Close MySQL Connection
     MySQL.disconnect(db_con)
 
-    return articles
+    return df_articles
 end
 
 """
@@ -70,19 +81,19 @@ end
 
 Sets up environment (folders), and connects to MySQL DB and FTP Server returns these connections.
 """
-function init_medline(mysql_host::String, mysql_user::String, mysql_pwd::String, mysql_db::String)
+function init_medline(mysql_host::String, mysql_user::String, mysql_pwd::String, mysql_db::String, create_tables::Bool)
     ## SET UP ENVIRONMENT
     info("======Setting up folders and creating FTP, DB Connections======")
 
     try
-        run(`mkdir medline`)
+        mkdir(joinpath(pwd(),"medline"))
     catch
         println("medline directory already exists")
     end
 
     try
-        run(`mkdir medline/raw_files`)
-        run(`mkdir medline/parsed_files`)
+        mkdir(joinpath("pwd","medline","raw_files"))
+        mkdir(joinpath("pwd","medline","parsed_files"))
     catch
         println("files directories already exists")
     end
@@ -96,6 +107,10 @@ function init_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
 
     # Get MySQL Connection
     db_con = MySQL.connect(mysql_host, mysql_user, mysql_pwd, db = mysql_db)
+
+    if create_tables
+        PubMed.create_tables!(db_con, true)
+    end
 
     return db_con, ctxt
 end
@@ -121,7 +136,7 @@ end
     get_file_name(fnum::Int, year::Int = 2018)
 Returns the medline file name given the file number.
 """
-function get_file_name(fnum::Int, year::Int = 2018)
+function get_file_name(fnum::Int, year::Int)
     nstr = lpad(fnum,4,0) # pad iterator with leading zeros so total length is 4
     y2 = string(year)[3:4]
     return "pubmed$(y2)n$nstr.xml.gz"

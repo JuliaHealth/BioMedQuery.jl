@@ -150,8 +150,8 @@ function create_tables!(conn, medline_load::Bool=false)
              `author_id` int(10) NOT NULL,
              `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
              PRIMARY KEY (`pmid`, `author_id`),
-             FOREIGN KEY(`pmid`) REFERENCE basic(`pmid`),
-             FORIEGN KEY(`author_id` REFERENCE author_ref(`author_id`)
+             FOREIGN KEY(`pmid`) REFERENCES basic(`pmid`),
+             FOREIGN KEY(`author_id`) REFERENCES author_ref(`author_id`)
            ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
            )
 
@@ -161,7 +161,7 @@ function create_tables!(conn, medline_load::Bool=false)
              `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
              PRIMARY KEY (`pmid`,`pub_type`),
              KEY `pub_type` (`pub_type`),
-             FOREIGN KEY(`pmid`) REFERENCE basic(`pmid`)
+             FOREIGN KEY(`pmid`) REFERENCES basic(`pmid`)
            ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
            )
 
@@ -183,8 +183,8 @@ function create_tables!(conn, medline_load::Bool=false)
              `label` varchar(40) DEFAULT NULL,
              `abstract_text` text DEFAULT NULL,
              `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
-             PRIMARY KEY (`abstracts_structured_id`, `PMID`),
-             KEY `PMID` (`PMID`),
+             PRIMARY KEY (`abstracts_structured_id`, `pmid`),
+             FOREIGN KEY(`pmid`) REFERENCES basic(`pmid`),
              KEY `label` (`label`),
              KEY `nlm_category` (`nlm_category`)
            ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
@@ -193,7 +193,7 @@ function create_tables!(conn, medline_load::Bool=false)
        sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `file_meta` (
              `file_name` varchar(30) NOT NULL,
              `ins_start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-             `ins_end_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+             `ins_end_time` timestamp NULL,
              PRIMARY KEY (`file_name`)
            ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
            )
@@ -212,20 +212,20 @@ function create_tables!(conn, medline_load::Bool=false)
        # Qualifier
        sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `mesh_desc` (
              `uid` int(6) NOT NULL,
-             `desc` varchar(100) NOT NULL,
+             `name` varchar(100) NOT NULL,
              `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
-             PRIMARY KEY (`desc_UID`),
-             KEY `desc_name` (`desc_name`)
+             PRIMARY KEY (`uid`),
+             KEY `name` (`name`)
            ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
            )
 
        # Heading
        sql_engine.execute!(conn, "CREATE TABLE `mesh_qual` (
              `uid` int(6) NOT NULL,
-             `desc` varchar(100) NOT NULL,
+             `name` varchar(100) NOT NULL,
              `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
-             PRIMARY KEY (`qual_UID`),
-             KEY `qual_name` (`qual_name`)
+             PRIMARY KEY (`uid`),
+             KEY `name` (`name`)
            ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
            )
 
@@ -236,11 +236,11 @@ function create_tables!(conn, medline_load::Bool=false)
              `qual_uid` int(6) DEFAULT -1,
              `qual_maj_status` boolean DEFAULT NULL,
              `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
-             PRIMARY KEY (`pmid`, `desc_UID`, `qual_UID`),
+             PRIMARY KEY (`pmid`, `desc_uid`, `qual_uid`),
              FOREIGN KEY(`pmid`) REFERENCES basic(`pmid`),
              FOREIGN KEY(`desc_uid`) REFERENCES mesh_desc(`uid`),
              KEY `desc_uid_maj` (`desc_uid`,`desc_maj_status`),
-             FOREIGN KEY(`qual_UID`) REFERENCES mesh_qual(`uid`),
+             FOREIGN KEY(`qual_uid`) REFERENCES mesh_qual(`uid`),
              KEY `qual_UID_maj` (`qual_UID`,`qual_maj_status`)
            ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
            )
