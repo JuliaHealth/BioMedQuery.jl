@@ -618,7 +618,6 @@ mutable struct PubMedArticle
         if ismissing(this.pmid)
             error("PMID not found")
         end
-        println("PMID: ",this.pmid)
 
         this.url = string("http://www.ncbi.nlm.nih.gov/pubmed/", this.pmid)
 

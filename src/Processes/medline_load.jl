@@ -10,7 +10,7 @@ using EzXML
 
 Given MySQL connection info and optionally the start and end files, fetches the medline files, parses the xml, and loads into a MySQL DB (assumes tables already exist).
 """
-function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String, mysql_db::String; start_file::Int = 1, end_file::Int = 90000, create_tables::Bool=true, year::Int=2018)
+function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String, mysql_db::String; start_file::Int = 1, end_file::Int = 90000, create_tables::Bool=true, year::Int=2018, xmlParser::String = "EzXML")
 
     db_con, ftp_con = init_medline(mysql_host, mysql_user, mysql_pwd, mysql_db, create_tables)
 
@@ -18,6 +18,8 @@ function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
     # Set start file number
     n = start_file
     file_exists = true
+
+    df_articles = Dict{Symbol,DataFrame}
 
     while file_exists && n <= end_file
 
@@ -37,22 +39,47 @@ function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
             end
             break
         end
+        tic()
+        if xmlParser == "EzXML"
+            doc = EzXML.readxml(joinpath("medline/raw_files",fname))
 
-        doc = EzXML.readxml(joinpath("medline/raw_files",fname))
-        raw_articles = EzXML.root(doc)
+            raw_articles = EzXML.root(doc)
 
-        parsed_articles = Vector{PubMedArticle}()
+            n_articles = countelements(raw_articles)
+            parsed_articles = Vector{PubMedArticle}(n_articles)
 
-        @sync @parallel for article in raw_articles
-            push!(parsed_articles, PubMedArticle(article))
+            i = 0
+            for article in EzXML.eachelement(raw_articles)
+                i += 1
+                parsed_articles[i] = PubMedArticle(article)
+            end
+        elseif xmlParser == "LightXML"
+            doc = LightXML.parse_file(joinpath("medline/raw_files",fname))
+
+            raw_articles = LightXML.root(doc)
+
+            parsed_articles = Vector{PubMedArticle}()
+
+            for article in LightXML.child_elements(raw_articles)
+                push!(parsed_articles, PubMedArticle(article))
+            end
+        else
+            file_dict = xml_dict(parse_file(joinpath("medline/raw_files",fname)))
+
+            raw_articles = file_dict["PubmedArticleSet"]["PubmedArticle"]
+
+            parsed_articles = Vector{PubMedArticle}()
+
+            for article in raw_articles
+                push!(parsed_articles, PubMedArticle(article))
+            end
         end
-
         df_articles = toDataFrames(parsed_articles)
         dfs_to_csv(df_articles,pwd(),"$(fname[1:end-7])_")
 
         n += 1
     end
-
+    toc()
     info("All files processed - closing connections")
     # Close FTP Connection
     ftp_close_connection(ftp_con)
