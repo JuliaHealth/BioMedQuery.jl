@@ -1,13 +1,12 @@
 using MySQL
 using FTPClient
-using XMLDict
 using CSV
 using LightXML
 using BioMedQuery.PubMed
 using EzXML
 
 """
-    load_medline(mysql_host, mysql_user, mysql_pwd, mysql_db, start_file = 1, [end_file], create_tables = true)
+    load_medline(mysql_host, mysql_user, mysql_pwd, mysql_db; start_file = 1, [end_file], create_tables = true, year=2018)
 
 Given MySQL connection info and optionally the start and end files, fetches the medline files, parses the xml, and loads into a MySQL DB (assumes tables already exist).
 """
@@ -39,20 +38,9 @@ function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
             break
         end
 
-        println("Parsing ",fname)
-        println("Parsing xmldict")
-        tic()
-        file_dict = xml_dict(parse_file(joinpath("medline/raw_files",fname)))
+        doc = EzXML.readxml(joinpath("medline/raw_files",fname))
+        raw_articles = EzXML.root(doc)
 
-        raw_articles = file_dict["PubmedArticleSet"]["PubmedArticle"]
-        toc()
-        println("parsing ezxml")
-        tic()
-            doc = EzXML.readxml(joinpath("medline/raw_files",fname))
-
-            publist = EzXML.root(doc)
-        toc()
-        n_articles = length(raw_articles)
         parsed_articles = Vector{PubMedArticle}()
 
         @sync @parallel for article in raw_articles

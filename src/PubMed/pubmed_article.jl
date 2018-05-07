@@ -760,6 +760,7 @@ mutable struct PubMedArticle
                     if el_name == "PMID"
                         this.pmid = parse(Int, nodecontent(el))
                         this.url = string("http://www.ncbi.nlm.nih.gov/pubmed/", this.pmid)
+
                     elseif el_name == "Article"
 
                         # initialize vars to be collected in this loop
