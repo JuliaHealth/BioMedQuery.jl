@@ -91,7 +91,7 @@ function create_tables!(conn, medline_load::Bool=false)
        #purge related tables
        DBUtils.disable_foreign_checks(conn)
        sql_engine.execute!(conn, "DROP TABLE IF EXISTS basic")
-       sql_engine.execute!(conn, "DROP TABLE IF EXISTS author")
+       sql_engine.execute!(conn, "DROP TABLE IF EXISTS author2article")
        sql_engine.execute!(conn, "DROP TABLE IF EXISTS author_ref")
        sql_engine.execute!(conn, "DROP TABLE IF EXISTS pub_type")
        sql_engine.execute!(conn, "DROP TABLE IF EXISTS abstract_full")
@@ -145,7 +145,7 @@ function create_tables!(conn, medline_load::Bool=false)
            ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
            )
 
-       sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `author` (
+       sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `author2article` (
              `pmid` int(9) NOT NULL,
              `author_id` int(10) NOT NULL,
              `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -157,10 +157,11 @@ function create_tables!(conn, medline_load::Bool=false)
 
        sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `pub_type` (
              `pmid` int(9) NOT NULL,
-             `pub_type` varchar(100) NOT NULL,
+             `uid` int(6) NOT NULL,
+             `name` varchar(100) NOT NULL,
              `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
-             PRIMARY KEY (`pmid`,`pub_type`),
-             KEY `pub_type` (`pub_type`),
+             PRIMARY KEY (`pmid`,`uid`),
+             KEY `name` (`name`),
              FOREIGN KEY(`pmid`) REFERENCES basic(`pmid`)
            ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
            )

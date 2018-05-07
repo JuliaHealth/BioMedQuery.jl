@@ -54,6 +54,10 @@ export toDataFrames,
         dfs_to_csv
 include("PubMed/pubmed_dataframe_utils.jl")
 
+# eutils -> csv
+export pubmed_to_csv
+include("PubMed/pubmed_to_csv.jl")
+
 # citation formats
 export  CitationOutput,
         citations_endnote,

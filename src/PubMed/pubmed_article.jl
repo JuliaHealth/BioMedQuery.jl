@@ -2,6 +2,7 @@ using DataStructures
 using Missings
 using EzXML
 using LightXML
+using CSV
 
 
 # Given a multidict and a key, this function returns either the
@@ -875,7 +876,7 @@ mutable struct PubMedArticle
     end
 
     #Constructor from EzXML article element
-    function PubMedArticle(xml::LightXML.XMLElement)
+    function PubMedArticle(xml::LightXML.XMLElement, io::Union{IOStream,Missing}=missing,first_article::Bool=true)
 
         this = new()
 
@@ -1000,6 +1001,26 @@ mutable struct PubMedArticle
                         end
                     end
                 end
+            end
+        end
+
+        if !ismissing(io)
+            df = DataFrame(pmid = this.pmid,
+                pub_year = this.date.year,
+                pub_month = this.date.month,
+                pub_dt_desc = this.date.date_desc,
+                title = this.title,
+                authors = this.auth_cite,
+                journal_title = this.journal_title,
+                journal_ISSN = this.journal_issn,
+                journal_volume = this.volume,
+                journal_issue = this.issue,
+                journal_pages = this.pages,
+                jouranl_iso_abbreviation = this.journal_iso_abbrv)
+            if first_article
+                CSV.write(io, df)
+            else
+                CSV.write(io, df, append=true)
             end
         end
 
