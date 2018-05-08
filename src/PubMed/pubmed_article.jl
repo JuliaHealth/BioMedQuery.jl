@@ -162,17 +162,17 @@ mutable struct Author
         for names in eachelement(xml)
             names_name = nodename(names)
             if names_name == "LastName"
-                lname = nodecontent(xml)
+                this.last_name = nodecontent(xml)
             elseif names_name == "ForeName"
-                fname = nodecontent(names)
+                this.first_name = nodecontent(names)
             elseif names_name == "Initials"
-                inits = nodecontent(names)
+                this.initials = nodecontent(names)
             elseif names_name == "Suffix"
-                suffix = nodecontent(names)
+                this.suffix = nodecontent(names)
             elseif names_name == "Identifer" && names["Source"] == "ORCID"
-                orcid = parse_orcid(nodecontent(names))
+                this.orc_id = parse_orcid(nodecontent(names))
             elseif names_name == "CollectiveName"
-                collective = nodecontent(names)
+                this.collective = nodecontent(names)
             elseif names_name == "AffiliationInfo"
                 for affiliates in eachelement(names)
                     if nodename(affiliates) == "Affiliation"
@@ -201,17 +201,17 @@ mutable struct Author
         for names in child_elements(xml)
             names_name = name(names)
             if names_name == "LastName"
-                lname = content(xml)
+                this.last_name = content(xml)
             elseif names_name == "ForeName"
-                fname = content(names)
+                this.first_name = content(names)
             elseif names_name == "Initials"
-                inits = content(names)
+                this.initialss = content(names)
             elseif names_name == "Suffix"
-                suffix = content(names)
+                this.suffix = content(names)
             elseif names_name == "Identifer" && names["Source"] == "ORCID"
-                orcid = parse_orcid(content(names))
+                this.orc_id = parse_orcid(content(names))
             elseif names_name == "CollectiveName"
-                collective = content(names)
+                this.collective = content(names)
             elseif names_name == "AffiliationInfo"
                 for affiliates in child_elements(names)
                     if name(affiliates) == "Affiliation"
