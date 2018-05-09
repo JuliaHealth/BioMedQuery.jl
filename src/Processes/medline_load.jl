@@ -7,38 +7,47 @@ using EzXML
 using DataFrames
 
 """
-    load_medline(mysql_host, mysql_user, mysql_pwd, mysql_db; start_file = 1, [end_file], create_tables = true, year=2018)
+    load_medline(mysql_host, mysql_user, mysql_pwd, mysql_db; start_file = 1, [end_file], overwrite = true, year=2018)
 
 Given MySQL connection info and optionally the start and end files, fetches the medline files, parses the xml, and loads into a MySQL DB (assumes tables already exist).
 """
 function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String, mysql_db::String; start_file::Int = 1, end_file::Int = 928, overwrite::Bool=true, year::Int=2018)
 
-    init_medline(mysql_host, mysql_user, mysql_pwd, mysql_db, overwrite)
-
-    @everywhere db_con = MySQL.connect(mysql_host, mysql_user, mysql_pwd, mysql_db)
+    db_con, ftp_con = init_medline(mysql_host, mysql_user, mysql_pwd, mysql_db, overwrite)
 
     set_innodb_checks(db_con,0,0,0)
 
+
     info("Getting files from Medline")
-    pmap(x -> get_ml_file(get_file_name(x, year)), start_file:end_file)
+    tic()
+    @sync for n = start_file:end_file
+        @async get_ml_file(get_file_name(n, year), ftp_con)
+    end
+
+    # pmap(x -> get_ml_file(get_file_name(x, year)), start_file:end_file)
+    toc()
 
     info("Parsing files into CSV")
+    tic()
     pmap(x -> parse_ml_file(get_file_name(x, year)), start_file:end_file)
+    toc()
 
     info("Loading CSVs into MySQL")
-    @sync @parallel for n = start_file:end_file
+    tic()
+    @sync for n = start_file:end_file
         println("Loading file ", n)
 
         fname = get_file_name(n, year)
         csv_prefix = "$(fname[1:end-7])_"
         csv_path = "medline/parsed_files"
 
-        db_insert!(db_con, csv_path, csv_prefix)
+        @async db_insert!(db_con, csv_path, csv_prefix)
     end
+    toc()
 
     set_innodb_checks(db_con)
     info("All files processed - closing connections")
-    close_cons(db_con)
+    close_cons(db_con, ftp_con)
 
     return nothing
 end
@@ -71,11 +80,11 @@ function init_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
     # Get MySQL Connection
     db_con = init_mysql_database(mysql_host, mysql_user, mysql_pwd, mysql_db, overwrite)
 
+    ftp_con = get_ftp_con()
+
     overwrite && PubMed.create_tables!(db_con)
 
-    MySQL.disconnect(db_con)
-
-    return nothing
+    return db_con, ftp_con
 end
 
 
@@ -95,15 +104,15 @@ end
 
 Retrieves the file with fname /files.  Returns the HTTP response.
 """
-function get_ml_file(fname::String)
-
+function get_ml_file(fname::String, conn::ConnContext)
+    println("Getting file: ", fname)
     # get file
     if isfile("medline/raw_files/"*fname)
         resp = "File already exists, using local file"
     else
-        conn = get_ftp_con()
+        # conn = get_ftp_con()
         resp = ftp_get(conn, fname, "medline/raw_files/"*fname)
-        ftp_close_connection(conn)
+        # ftp_close_connection(conn)
     end
 
     return resp
@@ -126,6 +135,7 @@ end
 Parses the medline xml file into a dictionary of dataframes
 """
 function parse_ml_file(fname::String)
+    println("Parsing file: ", fname)
     doc = EzXML.readxml(joinpath("medline/raw_files",fname))
     raw_articles = EzXML.root(doc)
 
@@ -140,8 +150,9 @@ end
     close_cons(db_con, ftp_con)
 closes connections and cleans up
 """
-function close_cons(db_con::MySQL.Connection)
+function close_cons(db_con::MySQL.Connection, ftp_con::ConnContext)
     # Close FTP Connection
+    ftp_close_connection(ftp_con)
     ftp_cleanup()
 
     # Close MySQL Connection

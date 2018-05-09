@@ -209,8 +209,7 @@ function pubmed_to_dfs(xml::EzXML.Node)
     mh_qmaj = Vector{Union{Int8,Missing}}()
 
 
-    i = 1 #initialize element couner
-    for article in eachelement(xml)
+    for (i, article) in enumerate(eachelement(xml))
 
         # Initialize optional 1:1 article attributes
         this_issn = missing
@@ -428,7 +427,6 @@ function pubmed_to_dfs(xml::EzXML.Node)
         @inbounds journal_iso_abbrv[i] = this_iso_abbrv
         @inbounds pages[i] = this_pages
 
-        i += 1
     end # Document For
 
     dfs = Dict{String,DataFrame}()
