@@ -99,6 +99,18 @@ function assemble_cols_and_vals_select{T}(data_values::Dict{Symbol, T}, op = "AN
     assemble_cols_and_vals_string(data_values, "AND")
 end
 
+"""
+    assemble_cols(data_values::DataFrame)
+Given a DataFrame, returns a column name string formatted for an insert/load statement
+"""
+function assemble_cols(data_values::DataFrame)
+    col_str = ""
+    for col in data_values.colindex.names
+        col_str *= string(col) * ","
+    end
+    return col_str[1:end-1]
+end
+
 #*****************
 # colname_dict
 #*****************
