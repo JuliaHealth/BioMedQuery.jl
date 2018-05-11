@@ -10,9 +10,9 @@ using DataFrames
 
 Given MySQL connection info and optionally the start and end files, fetches the medline files, parses the xml, and loads into a MySQL DB (assumes tables already exist).
 """
-function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String, mysql_db::String; start_file::Int = 1, end_file::Int = 928, overwrite::Bool=true, year::Int=2018)
+function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String, mysql_db::String, output_dir::String; start_file::Int = 1, end_file::Int = 928, overwrite::Bool=true, year::Int=2018)
 
-    db_con, ftp_con = init_medline(mysql_host, mysql_user, mysql_pwd, mysql_db, overwrite)
+    db_con, ftp_con = init_medline(mysql_host, mysql_user, mysql_pwd, mysql_db, output_dir, overwrite)
 
     set_innodb_checks!(db_con,0,0,0)
     drop_mysql_keys!(db_con)
@@ -20,12 +20,12 @@ function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
 
     info("Getting files from Medline")
     @sync for n = start_file:end_file
-        @async get_ml_file(get_file_name(n, year), ftp_con)
-        println(joinpath(pwd(),"medline","raw_files",get_file_name(n,year)))
+        @async get_ml_file(get_file_name(n, year), ftp_con, output_dir)
+        println(joinpath(output_dir,"medline","raw_files",get_file_name(n,year)))
     end
 
     info("Parsing files into CSV")
-    pmap(x -> parse_ml_file(get_file_name(x, year)), start_file:end_file)
+    pmap(x -> parse_ml_file(get_file_name(x, year), output_dir), start_file:end_file)
 
     info("Loading CSVs into MySQL")
     @sync for n = start_file:end_file
@@ -33,7 +33,7 @@ function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
 
         fname = get_file_name(n, year) ::String
         csv_prefix = "$(fname[1:end-7])_"
-        csv_path = "medline/parsed_files"
+        csv_path = joinpath(output_dir,"medline","parsed_files")
 
         @async db_insert!(db_con, csv_path, csv_prefix)
     end
@@ -51,19 +51,19 @@ end
 
 Sets up environment (folders), and connects to MySQL DB and FTP Server returns these connections.
 """
-function init_medline(mysql_host::String, mysql_user::String, mysql_pwd::String, mysql_db::String, overwrite::Bool)
+function init_medline(mysql_host::String, mysql_user::String, mysql_pwd::String, mysql_db::String, output_dir::String, overwrite::Bool)
     ## SET UP ENVIRONMENT
     info("======Setting up folders and creating FTP, DB Connections======")
 
     try
-        mkdir(joinpath(pwd(),"medline"))
+        mkdir(joinpath(output_dir,"medline"))
     catch
         println("medline directory already exists")
     end
 
     try
-        mkdir(joinpath(pwd(),"medline","raw_files"))
-        mkdir(joinpath(pwd(),"medline","parsed_files"))
+        mkdir(joinpath(output_dir,"medline","raw_files"))
+        mkdir(joinpath(output_dir,"medline","parsed_files"))
     catch
         println("files directories already exists")
     end
@@ -98,10 +98,10 @@ end
 
 Retrieves the file with fname /files.  Returns the HTTP response.
 """
-function get_ml_file(fname::String, conn::ConnContext)
+function get_ml_file(fname::String, conn::ConnContext, output_dir::String)
     println("Getting file: ", fname)
     # get file
-    path = joinpath(pwd(),"medline","raw_files",fname)
+    path = joinpath(output_dir,"medline","raw_files",fname)
     if isfile(path)
         resp = "File already exists, using local file"
     else
@@ -129,14 +129,14 @@ end
 
 Parses the medline xml file into a dictionary of dataframes
 """
-function parse_ml_file(fname::String)
+function parse_ml_file(fname::String, output_dir::String)
     println("Parsing file: ", fname)
-    doc = EzXML.readxml(joinpath(pwd(),"medline","raw_files",fname))
+    doc = EzXML.readxml(joinpath(output_dir,"medline","raw_files",fname))
     raw_articles = EzXML.root(doc)
 
     dfs = pubmed_to_dfs(raw_articles)
 
-    dfs_to_csv(dfs, joinpath(pwd(),"medline","parsed_files"), "$(fname[1:end-7])_")
+    dfs_to_csv(dfs, joinpath(output_dir,"medline","parsed_files"), "$(fname[1:end-7])_")
 
     return nothing
 end
