@@ -33,7 +33,7 @@ ids = [parse(Int64, id_node) for id_node in esearch_dict["IdList"]["Id"]]
 #efetch
 efetch_response = efetch(db = "pubmed", tool = "BioJulia", retmode = "xml", rettype = "null", id = ids)
 
-#convert xml to xml document
+#convert xml to xml node tree
 efetch_doc = root(parsexml(String(efetch_response.data)))
 ```
 
@@ -49,7 +49,7 @@ using XMLDict
 dict = parse_xml(String(response.data))  
 ```
 
-You can save directly the XML String to file using LightXML
+You can save directly the XML String to file
 
 ```julia
 xdoc = parse_string(esearch)
@@ -108,10 +108,10 @@ host = "127.0.0.1";
 user = "root"
 pwd = ""
 
-# Save results of efetch to database
+# Save results of efetch to database and cleanup intermediate CSV files
 const conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
 PubMed.create_tables!(conn)
-PubMed.save_efetch!(conn, efetch_dict)
+PubMed.save_efetch!(conn, efetch_doc, false, true) # verbose = false, cleanup = true
 ```
 
 ### Save efetch response to SQLite database
@@ -123,7 +123,7 @@ db_path = "./test_db.db"
 
 const conn = SQLite.DB(db_path)
 PubMed.create_tables!(conn)
-PubMed.save_efetch!(conn, efetch_dict)
+PubMed.save_efetch!(conn, efetch_doc)
 ```
 
 ### Exploring output databases
@@ -135,8 +135,8 @@ The following schema has been used to store the results. If you are interested i
 We can als eexplore the tables using BioMedQuery.DBUtils, e,g
 
 ```julia
-tables = ["author", "author2article", "mesh_descriptor",
-"mesh_qualifier", "mesh_heading"]
+tables = ["author_ref", "mesh_desc",
+"mesh_qual", "mesh_heading"]
 
 for t in tables
     query_str = "SELECT * FROM "*t*" LIMIT 10;"

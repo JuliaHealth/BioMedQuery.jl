@@ -62,7 +62,8 @@ function create_tables!(conn)
          `orcid` varchar(19) DEFAULT NULL,
          `collective` varchar(200) DEFAULT NULL,
          `affiliation` varchar(255) DEFAULT NULL,
-         `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP
+         `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+         FOREIGN KEY(`pmid`) REFERENCES basic(`pmid`)
        ) $engine_info;"
        )
 
