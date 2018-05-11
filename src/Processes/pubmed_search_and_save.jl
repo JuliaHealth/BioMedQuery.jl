@@ -3,7 +3,7 @@ using BioServices.EUtils
 using SQLite
 using MySQL
 using XMLDict
-using LightXML
+using EzXML
 
 
 
@@ -11,9 +11,9 @@ using LightXML
     pubmed_search_and_save!(email, search_term::String, article_max,
     conn, verbose=false)
 
-Search pubmed and save the results into a database connection. The database is expected to exist and 
-have the appriate pubmed related tables. You can create such tables using 
-`PubMed.create_tables(conn)`    
+Search pubmed and save the results into a database connection. The database is expected to exist and
+have the appriate pubmed related tables. You can create such tables using
+`PubMed.create_tables(conn)`
 
 ###Arguments
 
@@ -61,7 +61,7 @@ function pubmed_search_and_save!(email, search_term::String, article_max,
 
         #convert xml to dictionary
         esearch_dict = parse_xml(String(esearch_response.data))
-        
+
         if !haskey(esearch_dict, "IdList")
             println("Error with esearch_dict:")
             println(esearch_dict)
@@ -69,7 +69,7 @@ function pubmed_search_and_save!(email, search_term::String, article_max,
         end
 
         println("------EFetch--------")
-        
+
         #get the list of ids and perfom a fetch
         ids = [parse(Int64, id_node) for id_node in esearch_dict["IdList"]["Id"]]
 
@@ -81,12 +81,12 @@ function pubmed_search_and_save!(email, search_term::String, article_max,
         # end
 
         #convert xml to dictionary
-        efetch_dict = parse_xml(String(efetch_response.data))
+        efetch_doc = root(parsexml(String(efetch_response.data)))
 
         #save the results of an entrez fetch
         println("------Save to database--------")
-        
-        save_efetch!(conn, efetch_dict, verbose)
+
+        save_efetch!(conn, efetch_doc, verbose, true)
 
         article_total+=length(ids)
 
@@ -122,7 +122,7 @@ function pubmed_pmid_search(email, search_term::String, article_max, verbose=fal
         end
 
         println("Getting ", retmax, " articles, starting at index ", rs)
-        
+
         println("------ESearch--------")
 
         esearch_response = esearch(db = "pubmed", term = search_term,
@@ -130,7 +130,7 @@ function pubmed_pmid_search(email, search_term::String, article_max, verbose=fal
         email = email)
 
         if verbose
-            xdoc = parse_string(esearch_response)
+            xdoc = parsexml(esearch_response)
             save_file(xdoc, "./esearch.xml")
         end
 
@@ -145,7 +145,7 @@ function pubmed_pmid_search(email, search_term::String, article_max, verbose=fal
 
         #get the list of ids and perfom a fetch
         ids = [parse(Int64, id_node) for id_node in esearch_dict["IdList"]["Id"]]
-         
+
         append!(all_pmids, ids)
 
         article_total+=length(ids)
@@ -172,4 +172,3 @@ function pubmed_pmid_search_and_save!(email, search_term::String, article_max,
 
     return nothing
 end
-

@@ -1,33 +1,25 @@
-#convert to a dictionary
+#convert to an xml doc
 efetch_sample = readstring("efetch_sample.xml")
-efetch_dict = parse_xml(efetch_sample)
+efetch_doc = parsexml(efetch_sample)
 
-articles = []
+articles = root(efetch_doc)
 
 # Decide type of article based on structrure of efetch
-if haskey(efetch_dict, "PubmedArticle")
-    articles = efetch_dict["PubmedArticle"]
-else
+if nodename(articles) != "PubmedArticleSet"
     error("Not a PubMed search")
 end
 
 
-for (i, xml_article) in enumerate(articles)
+parsed = pubmed_to_dfs(articles)
 
-    article = PubMedArticle(xml_article)
-    @test !ismissing(article.pmid)
-    mesh_heading_list = MeshHeadingList(xml_article)
+@test !ismissing(parsed["basic"][1,:pmid])
 
-    for heading in mesh_heading_list
-        @test !ismissing(heading.descriptor.name)
-    end
-
-    # HAD TO UPDATE THIS FOR NEW DATA STRUCTURES - IS THAT OKAY?
-    if i==1
-        @test article.title == "Five Tips to Building a Successful Sleep Practice."
-        @test article.pmid == 27483622
-        @test article.authors[1].last_name == "Poss"
-        @test mesh_heading_list[1].descriptor.name == "Bruxism"
-        @test length(mesh_heading_list)== 6
-    end
+for heading in parsed["mesh_heading"][:desc_uid]
+    @test !ismissing(parsed["mesh_desc"][find(parsed["mesh_desc"][:uid] .== heading),:name][1])
 end
+
+@test parsed["basic"][1,:title] == "Five Tips to Building a Successful Sleep Practice."
+@test parsed["basic"][1,:pmid] == 27483622
+@test parsed["author_ref"][1,:last_name] == "Poss"
+@test parsed["mesh_desc"][find(parsed["mesh_heading"][1,:desc_uid] .== parsed["mesh_desc"][:uid]), :name][1] == "Bruxism"
+@test size(parsed["mesh_heading"][find(parsed["mesh_heading"][:pmid] .== parsed["basic"][1,:pmid]), :])[1]== 6

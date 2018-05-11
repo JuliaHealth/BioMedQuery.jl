@@ -15,14 +15,14 @@ function export_citation(pmid::Int64, citation_type, output_file, overwrite = tr
     efetch_response = efetch(db = "pubmed", tool = "BioJulia", retmode = "xml", rettype = "null", id = [pmid])
 
     if verbose
-        xdoc = parse_string(efetch_response)
+        xdoc = parsexml(efetch_response)
         save_file(xdoc, "./efetch.xml")
     end
 
-    #convert xml to dictionary
-    efetch_dict = parse_xml(String(efetch_response.data))
+    #convert xml to ezxml doc
+    efetch_doc = root(parsexml(String(efetch_response.data)))
     citation_output = PubMed.CitationOutput(citation_type, output_file, overwrite)
-    save_efetch!(citation_output, efetch_dict, verbose)
+    save_efetch!(citation_output, efetch_doc, verbose)
 end
 
 """
@@ -37,13 +37,13 @@ function export_citation(pmids::Vector{Int64}, citation_type, output_file, overw
     efetch_response = efetch(db = "pubmed", tool = "BioJulia", retmode = "xml", rettype = "null", id = pmids)
 
     if verbose
-        xdoc = parse_string(efetch_response)
+        xdoc = parsestring(efetch_response)
         save_file(xdoc, "./efetch.xml")
     end
 
-    #convert xml to dictionary
-    efetch_dict = parse_xml(String(efetch_response.data))
+    #convert xml to ezxml doc
+    efetch_doc = root(parsexml(String(efetch_response.data)))
 
     citation_output = PubMed.CitationOutput(citation_type, output_file, overwrite)
-    save_efetch!(citation_output, efetch_dict, verbose)
+    save_efetch!(citation_output, efetch_doc, verbose)
 end

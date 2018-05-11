@@ -2,13 +2,14 @@ using DataFrames
 using MySQL
 using BioServices.EUtils
 using XMLDict
+using EzXML
 
 #------------------ BioMedQuery -------------------
     @testset "Testing Eutils/PubMed" begin
     #testset "globals"
     narticles = 10
     ids = Array{Int64,1}()
-    efetch_dict = Dict()
+    efetch_doc = EzXML.ElementNode("")
     verbose = false
     articles = []
 
@@ -37,18 +38,12 @@ using XMLDict
         efetch_response = efetch(db = "pubmed", tool = "BioJulia", retmode = "xml", rettype = "null", id = ids)
 
         #convert xml to dictionary
-        efetch_dict = parse_xml(String(efetch_response.data))
+        efetch_doc = root(parsexml(String(efetch_response.data)))
 
-        @test haskey(efetch_dict, "PubmedArticle")
-
-        articles = efetch_dict["PubmedArticle"]
-
-        # println("----------Efetch Dict---------------")
-        # println(efetch_dict)
-        # println("--------------------------")
+        @test nodename(efetch_doc) == "PubmedArticleSet"
 
         #articles should be an array of narticles
-        @test length(articles) == narticles
+        @test narticles == countelements(efetch_doc)
 
     end
 
@@ -65,7 +60,7 @@ using XMLDict
         PubMed.save_pmids!(conn, ids)
 
         #query the article table and make sure the count is correct
-        all_pmids = BioMedQuery.PubMed.all_pmids(conn)
+        all_pmids = PubMed.all_pmids(conn)
         @test length(all_pmids) == narticles
 
          #clean-up
@@ -80,7 +75,7 @@ using XMLDict
         # art = BioMedQuery.PubMed.MedlineArticle(articles[1])
         # println(art)
         citation = PubMed.CitationOutput("endnote", "./citations_temp.endnote", true)
-        nsucceses = PubMed.save_efetch!(citation, efetch_dict, verbose)
+        nsucceses = PubMed.save_efetch!(citation, efetch_doc, verbose)
 
 
         #test that citations are the same as the ones already stored
@@ -100,27 +95,6 @@ using XMLDict
         rm("./citations_temp.endnote")
     end
 
-    @testset "Test Save Article DataFrames" begin
-        println("-----------------------------------------")
-        println("       Test Save Article DataFrames     ")
-
-        raw_articles = efetch_dict["PubmedArticle"]
-
-        parsed_articles = map(x -> PubMedArticle(x), raw_articles)
-
-        dfs = PubMed.toDataFrames(parsed_articles)
-
-        file_prefix = "ABSURDPREFIX123%^_"
-        dfs_to_csv(dfs, pwd(), file_prefix)
-
-        @test isfile(file_prefix * "pubmedarticle.csv")
-
-        [rm("$file_prefix$k.csv") for (k, v) in dfs]
-
-        @test size(dfs[:pubmedarticle],1) == narticles
-
-    end
-
     # save the results of an entrez fetch to a sqlite database
     @testset "Testing SQLite Saving" begin
         println("-----------------------------------------")
@@ -130,7 +104,7 @@ using XMLDict
 
         const conn = SQLite.DB(db_path)
         PubMed.create_tables!(conn)
-        PubMed.save_efetch!(conn, efetch_dict)
+        PubMed.save_efetch!(conn, efetch_doc,false, true)
 
         #query the article table and make sure the count is correct
         all_pmids = PubMed.all_pmids(conn)
@@ -144,9 +118,9 @@ using XMLDict
         mesh = PubMed.get_article_mesh(conn, all_pmids[1])
         @test length(mesh) > 0
 
-        #check that reminder of tables are not empty
-        tables = ["author", "author2article", "mesh_descriptor",
-        "mesh_qualifier", "mesh_heading"]
+        #check that remainder of tables are not empty
+        tables = ["author_ref", "mesh_desc",
+        "mesh_qual", "mesh_heading", "pub_type", "abstract_structured"]
 
         for t in tables
             q = SQLite.query(conn, "SELECT count(*) FROM "*t*";")
@@ -172,7 +146,7 @@ using XMLDict
 
         const conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
         PubMed.create_tables!(conn)
-        @time PubMed.save_efetch!(conn, efetch_dict)
+        @time PubMed.save_efetch!(conn, efetch_doc, false, true)
 
         #query the article table and make sure the count is correct
         all_pmids = PubMed.all_pmids(conn)
@@ -188,8 +162,8 @@ using XMLDict
         @test length(mesh) > 0
 
         #check that reminder of tables are not empty
-        tables = ["author", "author2article", "mesh_descriptor",
-        "mesh_qualifier", "mesh_heading"]
+        tables = ["author_ref", "mesh_desc",
+        "mesh_qual", "mesh_heading", "pub_type", "abstract_structured"]
 
         for t in tables
             q = MySQL.query(conn, "SELECT count(*) FROM "*t*";")

@@ -1,13 +1,12 @@
 using MySQL
 using FTPClient
-using CSV
 using BioMedQuery.PubMed
 using BioMedQuery.DBUtils
 using EzXML
 using DataFrames
 
 """
-    load_medline(mysql_host, mysql_user, mysql_pwd, mysql_db; start_file = 1, [end_file], overwrite = true, year=2018)
+    load_medline(mysql_host, mysql_user, mysql_pwd, mysql_db; start_file = 1, end_file = 928, overwrite = true, year=2018)
 
 Given MySQL connection info and optionally the start and end files, fetches the medline files, parses the xml, and loads into a MySQL DB (assumes tables already exist).
 """
@@ -15,7 +14,8 @@ function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
 
     db_con, ftp_con = init_medline(mysql_host, mysql_user, mysql_pwd, mysql_db, overwrite)
 
-    set_innodb_checks(db_con,0,0,0)
+    set_innodb_checks!(db_con,0,0,0)
+    drop_mysql_keys!(db_con)
 
 
     info("Getting files from Medline")
@@ -37,7 +37,7 @@ function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
     @sync for n = start_file:end_file
         println("Loading file ", n)
 
-        fname = get_file_name(n, year)
+        fname = get_file_name(n, year) ::String
         csv_prefix = "$(fname[1:end-7])_"
         csv_path = "medline/parsed_files"
 
@@ -45,7 +45,8 @@ function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
     end
     toc()
 
-    set_innodb_checks(db_con)
+    set_innodb_checks!(db_con)
+    add_mysql_keys!(db_con)
     info("All files processed - closing connections")
     close_cons(db_con, ftp_con)
 

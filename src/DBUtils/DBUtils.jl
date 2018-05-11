@@ -148,3 +148,29 @@ function db_select{T}(con, colnames, tablename, data_values::Dict{Symbol, T})
     sel = db_query(con, "SELECT $select_cols_string FROM `$tablename` WHERE $select_string;")
     sel
 end
+
+
+"""
+    col_match(con, tablename, data_values)
+Checks if each column in the dataframe has a matching column in the table
+"""
+function col_match(con, tablename::String, data_values::DataFrame)
+    all_match = true
+
+    table_cols = select_columns(con, tablename)
+    for col in data_values.colindex.names
+        this_match = false
+        for tc in table_cols
+            if tc == string(col)
+                this_match = true
+                break
+            end
+        end
+        if this_match == false
+            all_match = false
+            break
+        end
+    end
+
+    return all_match
+end

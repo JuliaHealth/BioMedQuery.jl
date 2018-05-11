@@ -4,9 +4,9 @@ using SQLite
     select_columns(db, table)
 Return an array with names of columns in the given table
 """
-function select_columns(db::SQLite.DB, table)
-    cols_query = SQLite.query(db, "SHOW COLUMNS FROM $table;")
-    cols_query[2]
+function select_columns(db::SQLite.DB, table::AbstractString)
+    cols_query = SQLite.columns(db, table)
+    cols_query[:name]
 end
 
 """

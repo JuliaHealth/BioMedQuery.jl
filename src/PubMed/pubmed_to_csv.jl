@@ -114,12 +114,12 @@ Takes xml for author, and returns parsed elements
 """
 function parse_author(xml::EzXML.Node)
 
-    first_name = missing
-    initials = missing
-    last_name = missing
-    suffix = missing
-    orcid = missing
-    collective = missing
+    first_name = missing :: Union{Missing,String}
+    initials = missing :: Union{Missing,String}
+    last_name = missing :: Union{Missing,String}
+    suffix = missing :: Union{Missing,String}
+    orcid = missing :: Union{Missing,String}
+    collective = missing :: Union{Missing,String}
     affs = ""
 
     for names in eachelement(xml)
@@ -160,7 +160,7 @@ function pubmed_to_dfs(xml::EzXML.Node)
 
     #basic
     pmid= Vector{Int64}(n_articles)
-    # url::Union{Missing, String}
+    url=Vector{Union{Missing, String}}(n_articles)
     title=Vector{String}(n_articles)
     auth_cite=Vector{Union{Missing, String}}(n_articles)
     pub_year=Vector{Union{Missing, Int64}}(n_articles)
@@ -188,7 +188,7 @@ function pubmed_to_dfs(xml::EzXML.Node)
 
     #pub_type
     pt_pmid = Vector{Int64}()
-    pt_uid = Vector{Union{Int64,Missing}}()
+    pt_uid = Vector{Int64}()
     pt_name = Vector{String}()
 
     #abstract_full
@@ -205,19 +205,19 @@ function pubmed_to_dfs(xml::EzXML.Node)
     mh_pmid = Vector{Int64}()
     mh_did = Vector{Int64}()
     mh_dmaj = Vector{Int8}()
-    mh_qid = Vector{Union{Int64,Missing}}()
-    mh_qmaj = Vector{Union{Int8,Missing}}()
+    mh_qid = Vector{Int64}()
+    mh_qmaj = Vector{Int8}()
 
-
-    for (i, article) in enumerate(eachelement(xml))
+    i = 1 ::Int64
+    for article in eachelement(xml)
 
         # Initialize optional 1:1 article attributes
-        this_issn = missing
-        this_volume = missing
-        this_issue = missing
-        this_journal_title = missing
-        this_iso_abbrv = missing
-        this_pages = missing
+        this_issn = missing :: Union{Missing,String}
+        this_volume = missing :: Union{Missing,String}
+        this_issue = missing :: Union{Missing,String}
+        this_journal_title = missing :: Union{Missing,String}
+        this_iso_abbrv = missing :: Union{Missing,String}
+        this_pages = missing :: Union{Missing,String}
         @inbounds auth_cite[i] = missing
 
         this_pmid = 0
@@ -226,7 +226,8 @@ function pubmed_to_dfs(xml::EzXML.Node)
             if nodename(tdat) == "MedlineCitation"
                 for mc in eachelement(tdat)
                     if nodename(mc) == "PMID"
-                        this_pmid = parse(Int64, nodecontent(mc))
+                        this_pmid = parse(Int64, nodecontent(mc)) ::Int64
+                        @inbounds url[i] = string("http://www.ncbi.nlm.nih.gov/pubmed/", this_pmid)
                         @inbounds pmid[i] = this_pmid
                     elseif nodename(mc) == "Article"
                         for a_info in eachelement(mc)
@@ -253,8 +254,8 @@ function pubmed_to_dfs(xml::EzXML.Node)
 
                                             # PubDate
                                             elseif nodename(j_issue) == "PubDate"
-                                                ystr = ""
-                                                mstr = ""
+                                                ystr = "" :: String
+                                                mstr = "" :: String
                                                 for j_pub_dt in eachelement(j_issue)
                                                     if nodename(j_pub_dt) == "MedlineDate"
                                                         ystr, mstr = parse_MedlineDate(nodecontent(j_pub_dt))
@@ -286,9 +287,9 @@ function pubmed_to_dfs(xml::EzXML.Node)
 
                             # Pagination?
                             elseif nodename(a_info) == "Pagination"
-                                ml_pgn = missing
-                                start_page = missing
-                                end_page = missing
+                                ml_pgn = missing :: Union{Missing,String}
+                                start_page = missing :: Union{Missing,String}
+                                end_page = missing :: Union{Missing,String}
                                 for p_info in eachelement(a_info)
                                     if nodename(p_info) == "MedlinePgn"
                                         ml_pgn = nodecontent(p_info)
@@ -309,8 +310,8 @@ function pubmed_to_dfs(xml::EzXML.Node)
                             elseif nodename(a_info) == "Abstract"
                                 # AbstractText+
                                 # parse_abstracts!(a_info, abstract_structured, abstract_full, this_pmid)
-                                abstract_full_text = ""
-                                abs_is_struct = false
+                                abstract_full_text = "" :: String
+                                abs_is_struct = false :: Bool
                                 for abs in eachelement(a_info)
                                     if nodename(abs) == "AbstractText"
                                         if !abs_is_struct && countattributes(abs) > 0
@@ -318,10 +319,8 @@ function pubmed_to_dfs(xml::EzXML.Node)
                                         end
 
                                         if abs_is_struct
-                                            label = haskey(abs, "Label")
-                                            label = label ? abs["Label"] : missing
-                                            nlm_category = haskey(abs, "NlmCategory")
-                                            nlm_category = nlm_category ? abs["NlmCategory"] : missing
+                                            label = haskey(abs, "Label") ? abs["Label"] : missing :: Union{Missing,String}
+                                            nlm_category = haskey(abs, "NlmCategory") ? abs["NlmCategory"] : missing :: Union{Missing,String}
                                             abs_text = nodecontent(abs)
                                             push!(as_pmid, this_pmid)
                                             push!(as_nlm, nlm_category)
@@ -340,7 +339,7 @@ function pubmed_to_dfs(xml::EzXML.Node)
                             # AuthorList?
                             elseif nodename(a_info) == "AuthorList"
                                 # parse_authors!(a_info, authors, auth_cite, i, this_pmid)
-                                this_auth_cite = ""
+                                this_auth_cite = "" :: String
 
                                 for author in eachelement(a_info)
                                     last_name, first_name, initials, suffix, orcid, collective, affs = parse_author(author)
@@ -364,9 +363,9 @@ function pubmed_to_dfs(xml::EzXML.Node)
                                 #Publication Type+
                                 # parse_pubtypes!(a_info, pub_type, this_pmid)
                                 for pt in eachelement(a_info)
-                                    desc = nodecontent(pt)
-                                    ui = pt["UI"]
-                                    uid = length(ui) > 1 ? parse(Int64, ui[2:end]) : missing
+                                    desc = nodecontent(pt) :: String
+                                    ui = pt["UI"] :: String
+                                    uid = length(ui) > 1 ? parse(Int64, ui[2:end]) : -1
                                     push!(pt_pmid, this_pmid)
                                     push!(pt_uid, uid)
                                     push!(pt_name, desc)
@@ -380,19 +379,19 @@ function pubmed_to_dfs(xml::EzXML.Node)
                         # parse_meshheadings!(mc, mesh_heading, mesh_desc, mesh_qual, this_pmid)
                             desc_uid = -1
                             desc_maj = -1
-                            qual = missing
+                            qual = missing :: Union{Missing,String}
 
                             for header in eachelement(heading)
-                                header_name = nodename(header)
+                                header_name = nodename(header) :: String
                                 if header_name == "DescriptorName"
-                                    desc = nodecontent(header)
+                                    desc = nodecontent(header) :: String
                                     desc_maj = header["MajorTopicYN"] == "Y" ? 1 : 0
                                     desc_uid = parse(Int, header["UI"][2:end])
                                     mesh_desc[desc_uid] = desc
                                 elseif header_name == "QualifierName"
                                     qual = nodecontent(header)
-                                    qual_maj = header["MajorTopicYN"] == "Y" ? 1 : 0
-                                    qual_uid = parse(Int, header["UI"][2:end])
+                                    qual_maj = header["MajorTopicYN"] == "Y" ? 1 : 0 :: Int
+                                    qual_uid = parse(Int, header["UI"][2:end]) :: Int
 
                                     mesh_qual[qual_uid] = qual
 
@@ -405,8 +404,8 @@ function pubmed_to_dfs(xml::EzXML.Node)
                             end
 
                             if ismissing(qual)
-                                qual_uid = missing
-                                qual_maj = missing
+                                qual_uid = -1
+                                qual_maj = -1
 
                                 push!(mh_pmid, this_pmid)
                                 push!(mh_did, desc_uid)
@@ -427,6 +426,7 @@ function pubmed_to_dfs(xml::EzXML.Node)
         @inbounds journal_iso_abbrv[i] = this_iso_abbrv
         @inbounds pages[i] = this_pages
 
+        i += 1
     end # Document For
 
     dfs = Dict{String,DataFrame}()
@@ -442,7 +442,8 @@ function pubmed_to_dfs(xml::EzXML.Node)
         journal_volume = volume,
         journal_issue = issue,
         journal_pages = pages,
-        journal_iso_abbreviation = journal_iso_abbrv)
+        journal_iso_abbreviation = journal_iso_abbrv,
+        url = url)
 
     dfs["abstract_full"] = DataFrame(pmid = af_pmid,
         abstract_text = af_text)
@@ -488,5 +489,23 @@ Takes output of toDataFrames and writes to CSV files at the provided path and wi
 """
 function dfs_to_csv(dfs::Dict{String,DataFrame}, path::String, file_prefix::String="")
     [CSV.write(joinpath(path,"$file_prefix$k.csv"),v, missingstring = "NULL") for (k, v) in dfs]
+    return nothing
+end
+
+"""
+    remove_csvs(dfs, path, file_prefix)
+Removes all of the CSV files associated with a dictionary of dataframes
+"""
+function remove_csvs(dfs::Dict{String,DataFrame}, path::String, file_prefix::String="")
+    [rm(joinpath(path,"$(file_prefix)$k.csv"), force=true) for (k,v) in dfs]
+    return nothing
+end
+
+"""
+    remove_csvs(paths::Vector)
+Removes all of the CSV files associated with an array of paths
+"""
+function remove_csvs(paths::Vector{String})
+    [rm(path, force=true) for path in paths]
     return nothing
 end

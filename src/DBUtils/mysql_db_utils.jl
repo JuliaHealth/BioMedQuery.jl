@@ -43,6 +43,27 @@ function init_mysql_database(host="127.0.0.1",
     return con
 end
 
+function init_mysql_database(con::MySQL.Connection, dbname="test", overwrite=false)
+
+    q = MySQL.query(con, "SHOW DATABASES LIKE '$dbname'; ")
+    if length(q[1])>0
+        if overwrite
+            println("Set to overwrite MySQL database $dbname")
+            MySQL.execute!(con, "DROP DATABASE IF EXISTS $dbname;")
+            MySQL.execute!(con, "CREATE DATABASE $dbname
+                CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
+        end
+    else
+        MySQL.execute!(con, "CREATE DATABASE $dbname
+            CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
+    end
+
+
+    MySQL.execute!(con, "USE $dbname;")
+
+    return con
+end
+
 
 """
     select_columns_mysql(con, table)
@@ -165,35 +186,9 @@ end
 """
     set_innodb_checks(conn, autocommit = 1, foreign_keys = 1, unique = 1)
 """
-function set_innodb_checks(conn::MySQL.Connection, autocommit::Int = 1, foreign_keys::Int = 1, unique::Int = 1)
+function set_innodb_checks!(conn::MySQL.Connection, autocommit::Int = 1, foreign_keys::Int = 1, unique::Int = 1)
     MySQL.execute!(conn, "SET FOREIGN_KEY_CHECKS = $foreign_keys")
     MySQL.execute!(conn, "SET AUTOCOMMIT = $autocommit")
     MySQL.execute!(conn, "SET UNIQUE_CHECKS = $unique")
     return nothing
-end
-
-
-"""
-    col_match(con::MySQL.Connection, tablename, data_values)
-Checks if each column in the dataframe has a matching column in the table
-"""
-function col_match(con::MySQL.Connection, tablename::String, data_values::DataFrame)
-    all_match = true
-
-    table_cols = select_columns(con, tablename)
-    for col in data_values.colindex.names
-        this_match = false
-        for tc in table_cols
-            if tc == string(col)
-                this_match = true
-                break
-            end
-        end
-        if this_match == false
-            all_match = false
-            break
-        end
-    end
-
-    return all_match
 end

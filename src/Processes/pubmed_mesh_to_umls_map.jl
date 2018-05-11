@@ -21,7 +21,7 @@ function map_mesh_to_umls!(db, user, psswd; timeout = Inf, append_results=false,
     db_query(db, "CREATE table IF NOT EXISTS mesh2umls (
     mesh VARCHAR(255),
     umls VARCHAR(255),
-    FOREIGN KEY(mesh) REFERENCES mesh_descriptor(name),
+    FOREIGN KEY(mesh) REFERENCES mesh_desc(name),
     PRIMARY KEY(mesh, umls)
     )")
 
@@ -31,14 +31,14 @@ function map_mesh_to_umls!(db, user, psswd; timeout = Inf, append_results=false,
     end
 
     #select all mesh descriptors
-    mq = db_query(db,"SELECT name FROM mesh_descriptor;")
+    mq = db_query(db,"SELECT name FROM mesh_desc;")
 
     #get the array of terms
     mesh_terms = mq.columns[1]
     println("----------Matching MESH to UMLS-----------")
     tgt = get_tgt(username = user, password = psswd)
     for (i, term) in enumerate(mesh_terms)
-        
+
         info("Descriptor $i out of ", length(mesh_terms), ": ", term)
         #submit umls query
         query = Dict("string"=>term, "searchType"=>"exact" )
@@ -86,15 +86,14 @@ concepts into a new (cleared) TABLE:mesh2umls
 function map_mesh_to_umls_async!(db, user, psswd; timeout = 5, append_results=false, verbose=false)
 
     # Determine engine
-    sql_engine = (typeof(db)== MySQL.Connection) ? MySQL : SQLite 
+    sql_engine = (typeof(db)== MySQL.Connection) ? MySQL : SQLite
 
     #if the mesh2umls relationship table doesn't esxist, create it
     sql_engine.execute!(db, "CREATE table IF NOT EXISTS mesh2umls (
                                 mesh VARCHAR(255),
                                 umls VARCHAR(255),
-                                FOREIGN KEY(mesh) REFERENCES mesh_descriptor(name),
                                 PRIMARY KEY(mesh, umls)
-                            )")
+                            );")
 
     #clear the relationship table
     if !append_results
@@ -102,7 +101,7 @@ function map_mesh_to_umls_async!(db, user, psswd; timeout = 5, append_results=fa
     end
 
     #select all mesh descriptors
-    mq = sql_engine.query(db,"SELECT name FROM mesh_descriptor;")
+    mq = sql_engine.query(db,"SELECT name FROM mesh_desc;")
 
     #get the array of terms
     mesh_terms = mq[1]

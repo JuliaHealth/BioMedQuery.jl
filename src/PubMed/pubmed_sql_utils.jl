@@ -14,6 +14,7 @@ function create_tables!(conn)
     # Determine engine
     sql_engine = (typeof(conn)== MySQL.Connection) ? MySQL : SQLite
     AUTOINCREMENT = (sql_engine == MySQL) ? "AUTO_INCREMENT" : "AUTOINCREMENT"
+    engine_info = (sql_engine == MySQL) ? "ENGINE=InnoDB DEFAULT CHARSET=latin1" : ""
 
    #purge related tables
    DBUtils.disable_foreign_checks(conn)
@@ -27,6 +28,7 @@ function create_tables!(conn)
    sql_engine.execute!(conn, "DROP TABLE IF EXISTS mesh_desc")
    sql_engine.execute!(conn, "DROP TABLE IF EXISTS mesh_qual")
    sql_engine.execute!(conn, "DROP TABLE IF EXISTS file_meta")
+   sql_engine.execute!(conn, "DROP TABLE IF EXISTS mesh2umls")
    DBUtils.enable_foreign_checks(conn)
 
 
@@ -44,14 +46,10 @@ function create_tables!(conn)
          `journal_issue` varchar(30) DEFAULT NULL,
          `journal_pages` varchar(50) DEFAULT NULL,
          `journal_iso_abbreviation` varchar(255) DEFAULT NULL,
+         `url` varchar(100) DEFAULT NULL,
          `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
-         PRIMARY KEY (`pmid`),
-         KEY `pub_year` (`pub_year`),
-         KEY `pub_month` (`pub_month`),
-         KEY `pub_year_month` (`pub_year`,`pub_month`),
-         KEY `journal_title` (`journal_title`),
-         KEY `journal_ISSN` (`journal_ISSN`)
-       ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+         PRIMARY KEY (`pmid`)
+       ) $engine_info;"
        )
 
 
@@ -64,11 +62,8 @@ function create_tables!(conn)
          `orcid` varchar(19) DEFAULT NULL,
          `collective` varchar(200) DEFAULT NULL,
          `affiliation` varchar(255) DEFAULT NULL,
-         `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
-         KEY `last_name` (`last_name`),
-         KEY `last_first_name` (`last_name`, `first_name`),
-         KEY `collective` (`collective`)
-       ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+         `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP
+       ) $engine_info;"
        )
 
    # sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `author2article` (
@@ -87,9 +82,8 @@ function create_tables!(conn)
          `name` varchar(100) NOT NULL,
          `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
          PRIMARY KEY (`pmid`,`uid`),
-         KEY `name` (`name`),
          FOREIGN KEY(`pmid`) REFERENCES basic(`pmid`)
-       ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+       ) $engine_info;"
        )
 
 
@@ -99,22 +93,19 @@ function create_tables!(conn)
          `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
          PRIMARY KEY (`pmid`),
          FOREIGN KEY(`pmid`) REFERENCES basic(`pmid`)
-       ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+       ) $engine_info;"
        )
 
 
    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `abstract_structured` (
-         `abstracts_structured_id` int(12) NOT NULL AUTO_INCREMENT,
+         `abstracts_structured_id` INTEGER PRIMARY KEY $AUTOINCREMENT,
          `pmid` int(9) NOT NULL,
          `nlm_category` varchar(20) DEFAULT NULL,
          `label` varchar(40) DEFAULT NULL,
          `abstract_text` text DEFAULT NULL,
          `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
-         PRIMARY KEY (`abstracts_structured_id`, `pmid`),
-         FOREIGN KEY(`pmid`) REFERENCES basic(`pmid`),
-         KEY `label` (`label`),
-         KEY `nlm_category` (`nlm_category`)
-       ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+         FOREIGN KEY(`pmid`) REFERENCES basic(`pmid`)
+       ) $engine_info;"
        )
 
    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `file_meta` (
@@ -122,7 +113,7 @@ function create_tables!(conn)
          `ins_start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
          `ins_end_time` timestamp NULL,
          PRIMARY KEY (`file_name`)
-       ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+       ) $engine_info;"
        )
 
 
@@ -139,21 +130,19 @@ function create_tables!(conn)
    # Qualifier
    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `mesh_desc` (
          `uid` int(6) NOT NULL,
-         `name` varchar(100) NOT NULL,
+         `name` varchar(255) NOT NULL,
          `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
-         PRIMARY KEY (`uid`),
-         KEY `name` (`name`)
-       ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+         PRIMARY KEY (`uid`)
+       ) $engine_info;"
        )
 
    # Heading
    sql_engine.execute!(conn, "CREATE TABLE `mesh_qual` (
          `uid` int(6) NOT NULL,
-         `name` varchar(100) NOT NULL,
+         `name` varchar(255) NOT NULL,
          `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
-         PRIMARY KEY (`uid`),
-         KEY `name` (`name`)
-       ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+         PRIMARY KEY (`uid`)
+       ) $engine_info;"
        )
 
    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `mesh_heading` (
@@ -161,27 +150,122 @@ function create_tables!(conn)
          `desc_uid` int(6) NOT NULL,
          `desc_maj_status` boolean DEFAULT NULL,
          `qual_uid` int(6) DEFAULT -1,
-         `qual_maj_status` boolean DEFAULT NULL,
+         `qual_maj_status` boolean DEFAULT -1,
          `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
          PRIMARY KEY (`pmid`, `desc_uid`, `qual_uid`),
          FOREIGN KEY(`pmid`) REFERENCES basic(`pmid`),
          FOREIGN KEY(`desc_uid`) REFERENCES mesh_desc(`uid`),
-         KEY `desc_uid_maj` (`desc_uid`,`desc_maj_status`),
-         FOREIGN KEY(`qual_uid`) REFERENCES mesh_qual(`uid`),
-         KEY `qual_UID_maj` (`qual_UID`,`qual_maj_status`)
-       ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+         FOREIGN KEY(`qual_uid`) REFERENCES mesh_qual(`uid`)
+       ) $engine_info"
        )
 
 end
 
+function add_mysql_keys!(conn::MySQL.Connection)
+
+    res = db_query(conn, "SHOW INDEX FROM basic WHERE key_name = 'pub_year'")
+    size(res)[1] == 1 && return nothing
+
+    MySQL.execute!(conn, "ALTER TABLE `basic`
+          ADD KEY `pub_year` (`pub_year`),
+          ADD KEY `pub_month` (`pub_month`),
+          ADD KEY `pub_year_month` (`pub_year`,`pub_month`),
+          ADD KEY `journal_title` (`journal_title`),
+          ADD KEY `journal_ISSN` (`journal_ISSN`)
+        ;"
+        )
+
+    MySQL.execute!(conn, "ALTER TABLE `author_ref`
+          ADD KEY `last_name` (`last_name`),
+          ADD KEY `last_first_name` (`last_name`, `first_name`),
+          ADD KEY `collective` (`collective`)
+        ;"
+        )
+
+    MySQL.execute!(conn, "ALTER TABLE `pub_type`
+          ADD KEY `name` (`name`)
+        ;"
+        )
+
+    MySQL.execute!(conn, "ALTER TABLE `abstract_structured`
+          ADD KEY `label` (`label`),
+          ADD KEY `nlm_category` (`nlm_category`)
+        ;"
+        )
+
+    MySQL.execute!(conn, "ALTER TABLE `mesh_desc`
+          ADD KEY `name` (`name`)
+        ;"
+        )
+
+    MySQL.execute!(conn, "ALTER TABLE `mesh_qual`
+          ADD KEY `name` (`name`)
+        ;"
+        )
+
+    MySQL.execute!(conn, "ALTER TABLE `mesh_heading`
+          ADD KEY `desc_uid_maj` (`desc_uid`,`desc_maj_status`),
+          ADD KEY `qual_UID_maj` (`qual_UID`,`qual_maj_status`)
+        ;"
+        )
+end
+
+function drop_mysql_keys!(conn::MySQL.Connection)
+
+    res = db_query(conn, "SHOW INDEX FROM basic WHERE key_name = 'pub_year'")
+    size(res)[1] == 0 && return nothing
+
+    MySQL.execute!(conn, "ALTER TABLE `basic`
+          DROP KEY `pub_year`,
+          DROP KEY `pub_month`,
+          DROP KEY `pub_year_month`,
+          DROP KEY `journal_title`,
+          DROP KEY `journal_ISSN`
+        ;"
+        )
+
+    MySQL.execute!(conn, "ALTER TABLE `author_ref`
+          DROP KEY `last_name`,
+          DROP KEY `last_first_name`,
+          DROP KEY `collective`
+        ;"
+        )
+
+    MySQL.execute!(conn, "ALTER TABLE `pub_type`
+          DROP KEY `name`
+        ;"
+        )
+
+    MySQL.execute!(conn, "ALTER TABLE `abstract_structured`
+          DROP KEY `label`,
+          DROP KEY `nlm_category`
+        ;"
+        )
+
+    MySQL.execute!(conn, "ALTER TABLE `mesh_desc`
+          DROP KEY `name`
+        ;"
+        )
+
+    MySQL.execute!(conn, "ALTER TABLE `mesh_qual`
+          DROP KEY `name`
+        ;"
+        )
+
+    MySQL.execute!(conn, "ALTER TABLE `mesh_heading`
+          DROP KEY `desc_uid_maj`,
+          DROP KEY `qual_UID_maj`
+        ;"
+        )
+end
 
 
 """
-    init_pmid_db!(conn; tablename="article")
-Creates a database, using either MySQL of SQLite, with all necessary tables to store
+    create_pmid_table!(conn; tablename="article")
+Creates a table, using either MySQL of SQLite, to store PMIDs from
 Entrez related searches. All tables are empty at this point
 """
-function create_pmid_table!(conn; tablename="article")
+function create_pmid_table!(conn)
 
     # Determine engine
     sql_engine = (typeof(conn)== MySQL.Connection) ? MySQL : SQLite
@@ -190,7 +274,7 @@ function create_pmid_table!(conn; tablename="article")
     # sql_engine.execute!(conn, "DROP TABLE IF EXISTS $tablename")
 
     #Create tables to store
-    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS $tablename(
+    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS basic (
                                 pmid INTEGER NOT NULL PRIMARY KEY
                                 );"
                         )
@@ -203,7 +287,7 @@ Return all PMIDs stored in the *article* table of the input database
 """
 function all_pmids(conn)
     sql_engine = (typeof(conn)== MySQL.Connection) ? MySQL : SQLite
-    query = sql_engine.query(conn, "SELECT pmid FROM article;")
+    query = sql_engine.query(conn, "SELECT pmid FROM basic;")
     return query[1]
 end
 
@@ -252,7 +336,7 @@ end
 abstracts(db; local_medline=false)
 
 Return all abstracts related to PMIDs in the database.
-If local_medline flag is set to true, it is assumed that db contains *article*
+If local_medline flag is set to true, it is assumed that db contains *basic*
 table with only PMIDs and all other info is available in a (same host) medline database
 """
 function abstracts(db; local_medline=false)
@@ -260,14 +344,14 @@ function abstracts(db; local_medline=false)
     #get all abstracts UNIQUE pairs
     query_code = ""
     if local_medline
-        query_code = "SELECT article.pmid as pmid,
+        query_code = "SELECT basic.pmid as pmid,
                              medline.abstract_full.abstract_text as abstract_text
-                        FROM article
-                  INNER JOIN medline.abstract_full ON medline.abstract_full.pmid = article.pmid"
+                        FROM basic
+                  INNER JOIN medline.abstract_full ON medline.abstract_full.pmid = basic.pmid"
     else
         query_code = "SELECT ar.pmid as pmid,
                              ar.abstract_text as abstract_text
-                        FROM abstract_text as ar "
+                        FROM abstract_full as ar "
     end
 
     sel = db_query(db, query_code)
@@ -326,9 +410,7 @@ function get_article_mesh_by_concept(db, pmid::Integer, umls_concepts...; query_
 
 end
 
-function db_insert!(db, articles::Dict{String,DataFrame}, csv_path::String, csv_prefix::String, verbose=false)
-
-    sql_engine = (typeof(db)== MySQL.Connection) ? MySQL : SQLite
+function db_insert!(db::MySQL.Connection, articles::Dict{String,DataFrame}, csv_path::String = pwd(), csv_prefix::String = "$(Date(now()))_PubMed_"; verbose=false, cleanup=false)
 
     dfs_to_csv(articles, csv_path, csv_prefix)
 
@@ -348,19 +430,22 @@ function db_insert!(db, articles::Dict{String,DataFrame}, csv_path::String, csv_
 
         # Save article data (MySQL.stream from df)
         ins_sql = """LOAD DATA LOCAL INFILE '$path' INTO TABLE $table CHARACTER SET latin1 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' IGNORE 1 LINES ($cols_string)"""
-        nrows = MySQL.execute!(db, ins_sql)
+        MySQL.execute!(db, ins_sql)
     end
 
     meta_sql = """UPDATE file_meta SET ins_end_time = CURRENT_TIMESTAMP WHERE file_name = '$csv_prefix'"""
     MySQL.execute!(db, meta_sql)
 
+    if cleanup
+        remove_csvs(articles, csv_path, csv_prefix)
+    end
+
     return nothing
 
 end
 
-function db_insert!(db, csv_path::String, csv_prefix::String, verbose=false)
-
-    sql_engine = (typeof(db)== MySQL.Connection) ? MySQL : SQLite
+function db_insert!(db::MySQL.Connection, csv_path::String = pwd(), csv_prefix::String = "$(Date(now()))_PubMed_"; verbose=false, cleanup=false)
+    paths = Vector{String}()
 
     #Insert csv prefix into files_meta talbe
     meta_sql = """INSERT INTO file_meta (file_name,ins_start_time) VALUES ('$csv_prefix',CURRENT_TIMESTAMP)"""
@@ -370,6 +455,7 @@ function db_insert!(db, csv_path::String, csv_prefix::String, verbose=false)
         # for all non-file_meta tables
         if table != "file_meta"
             path = joinpath(csv_path, "$(csv_prefix)$(table).csv")
+            cleanup && push!(paths,path)
 
             headers = CSV.read(path, rows = 1, datarow=1)
             # return headers
@@ -389,63 +475,68 @@ function db_insert!(db, csv_path::String, csv_prefix::String, verbose=false)
     meta_sql = """UPDATE file_meta SET ins_end_time = CURRENT_TIMESTAMP WHERE file_name = '$csv_prefix'"""
     MySQL.execute!(db, meta_sql)
 
+    if cleanup
+        remove_csvs(paths)
+    end
+
     return nothing
 
 end
 
-function db_insert!(db, pmid::Int64, articles::Dict{String,DataFrame}, verbose=false)
+function db_insert!(db::MySQL.Connection, pmid::Int64, articles::Dict{String,DataFrame}, csv_path::String = pwd(), csv_prefix::String = "$(Date(now()))_PubMed_"; verbose=false, cleanup=false)
 
-    for heading in mesh_heading_list
-        did_int = heading.descriptor.uid
-        descriptor_name = heading.descriptor.name
-        dmjr = heading.descriptor_mjr
+    dfs_to_csv(articles, csv_path, csv_prefix)
 
-
-        #Save Descriptor
-        insert_row!(db, "mesh_descriptor",
-        Dict(:id=>did_int,
-             :name=>descriptor_name),
-             verbose)
-
-        if isempty(heading.qualifier)
-            #Save Headings
-            insert_row!(db, "mesh_heading",
-            Dict(:id=>missing,
-                 :pmid=> pmid,
-                 :did=>did_int,
-                 :qid=>missing,
-                 :dmjr=>missing, :qmjr=>missing), verbose )
-        else
-
-            for i=1:length(heading.qualifier)
-                qid_int = heading.qualifier[i].uid
-                qualifier_name = heading.qualifier[i].name
-                qmjr = heading.qualifier_mjr[i]
-
-                #Save Qualifiers`
-                insert_row!(db, "mesh_qualifier",
-                Dict(:id=>qid_int,
-                     :name=>qualifier_name),
-                     verbose )
-
-                #Save Headings
-                insert_row!(db, "mesh_heading",
-                Dict(:id=>missing,
-                     :pmid=> pmid,
-                     :did=>did_int,
-                     :qid=>qid_int,
-                     :dmjr=>dmjr, :qmjr=>qmjr), verbose )
+    for (table, df) in articles
+        if ismatch(r"$mesh*", table)
+            # check if column names all exist in mysql table
+            if !col_match(db, table, df)
+                error("each DataFrame column must match the name of a table column")
             end
+
+            path = joinpath(csv_path, "$(csv_prefix)$(table).csv")
+            cols_string = assemble_cols(df)
+
+            # Save article data (MySQL.stream from df)
+            ins_sql = """LOAD DATA LOCAL INFILE '$path' INTO TABLE $table CHARACTER SET latin1 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' IGNORE 1 LINES ($cols_string)"""
+            MySQL.execute!(db, ins_sql)
+        end
+    end
+
+    if cleanup
+        remove_csvs(articles, csv_path, csv_prefix)
+    end
+
+    return nothing
+
+end
+
+function db_insert!(db::SQLite.DB, articles::Dict{String,DataFrame}, csv_path::String = pwd(), csv_prefix::String = "$(Date(now()))_PubMed_"; verbose=false, cleanup=false)
+
+    #Insert csv prefix into files_meta talbe
+    meta_sql = """INSERT INTO file_meta (file_name,ins_start_time) VALUES ('$csv_prefix',CURRENT_TIMESTAMP)"""
+    SQLite.execute!(db, meta_sql)
+
+    for (table, df) in articles
+
+        # check if column names all exist in mysql table
+        if !col_match(db, table, df)
+            error("each DataFrame column must match the name of a table column")
+        end
+
+        for i = 1:size(df)[1]
+            col_dict = Dict{Symbol,Any}()
+            for col in df.colindex.names
+                col_dict[col] = df[i,col]
+            end
+            insert_row!(db, table, col_dict)
         end
 
     end
-end
 
-function db_insert!(db, pmid::Int64, fname::AbstractString, verbose=false)
+    meta_sql = """UPDATE file_meta SET ins_end_time = CURRENT_TIMESTAMP WHERE file_name = '$csv_prefix'"""
+    SQLite.execute!(db, meta_sql)
 
-    sql_engine = (typeof(db)== MySQL.Connection) ? MySQL : SQLite
-
-
-    # Save mesh data for pmid (load data infile from df)
+    return nothing
 
 end
