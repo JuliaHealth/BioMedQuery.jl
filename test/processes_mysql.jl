@@ -48,55 +48,55 @@ PubMed.create_tables!(conn)
 
 end
 
-@testset "MESH2UMLS" begin
-    println("-----------------------------------------")
-    println("       Testing MESH2UMLS")
-    append = false
-
-    @time begin
-        map_mesh_to_umls_async!(conn, umls_user, umls_pswd; append_results=append)
-    end
-
-    all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
-    all_pairs = all_pairs_query[1]
-    @test length(all_pairs) > 0
-
-    @time begin
-        map_mesh_to_umls!(conn, umls_user, umls_pswd; append_results=append)
-    end
-
-    all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
-    all_pairs = all_pairs_query[1]
-    @test length(all_pairs) > 0
-
-end
-
-@testset "Occurrences" begin
-    println("-----------------------------------------")
-    println("       Testing Occurrences")
-    umls_concept = "Disease or Syndrome"
-    @time begin
-        labels2ind, occur = umls_semantic_occurrences(conn, umls_concept)
-    end
-
-    @test length(keys(labels2ind)) > 0
-    @test length(find(x->x=="Obesity", collect(keys(labels2ind)))) ==1
-end
+# @testset "MESH2UMLS" begin
+#     println("-----------------------------------------")
+#     println("       Testing MESH2UMLS")
+#     append = false
+#
+#     @time begin
+#         map_mesh_to_umls_async!(conn, umls_user, umls_pswd; append_results=append)
+#     end
+#
+#     all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
+#     all_pairs = all_pairs_query[1]
+#     @test length(all_pairs) > 0
+# 
+#     @time begin
+#         map_mesh_to_umls!(conn, umls_user, umls_pswd; append_results=append)
+#     end
+#
+#     all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
+#     all_pairs = all_pairs_query[1]
+#     @test length(all_pairs) > 0
+#
+# end
+#
+# @testset "Occurrences" begin
+#     println("-----------------------------------------")
+#     println("       Testing Occurrences")
+#     umls_concept = "Disease or Syndrome"
+#     @time begin
+#         labels2ind, occur = umls_semantic_occurrences(conn, umls_concept)
+#     end
+#
+#     @test length(keys(labels2ind)) > 0
+#     @test length(find(x->x=="Obesity", collect(keys(labels2ind)))) ==1
+# end
 
 @testset "Medline Load" begin
 println("-----------------------------------------")
 println("       Testing Medline Loader")
 
     load_medline(host, mysql_usr, mysql_pswd, dbname, dirname(@__FILE__), start_file=medline_file, end_file=medline_file, year=medline_year)
-    println(isfile(joinpath(dirname(@__FILE__),"medline","raw_files",Processes.get_file_name(medline_file,medline_year))))
-    # doc = EzXML.readxml(joinpath(dirname(@__FILE__),"medline","raw_files",Processes.get_file_name(medline_file,medline_year)))
+
+    doc = EzXML.readxml(joinpath(dirname(@__FILE__),"medline","raw_files",Processes.get_file_name(medline_file,medline_year)))
     # println(typeof(doc))
     # raw_articles = EzXML.root(doc)
     # println(typeof(raw_articles))
     # all_pmids = PubMed.all_pmids(conn)
     # @test length(all_pmids) == countelements(raw_articles)
-
-    rm(joinpath(dirname(@__FILE__),"medline"), recursive=true)
+    #
+    # rm(joinpath(dirname(@__FILE__),"medline"), recursive=true)
 
 end
 
