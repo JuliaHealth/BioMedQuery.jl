@@ -87,7 +87,7 @@ println("-----------------------------------------")
 println("       Testing Medline Loader")
 
     load_medline(host, mysql_usr, mysql_pswd, dbname, start_file=medline_file, end_file=medline_file, year=medline_year)
-    println("exiting load_medline?")
+    println(joinpath(pwd(),"medline","raw_files",Processes.get_file_name(medline_file,medline_year)))
     doc = EzXML.readxml(joinpath(pwd(),"medline","raw_files",Processes.get_file_name(medline_file,medline_year)))
     println(typeof(doc))
     raw_articles = EzXML.root(doc)
