@@ -60,7 +60,7 @@ end
 #     all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
 #     all_pairs = all_pairs_query[1]
 #     @test length(all_pairs) > 0
-# 
+#
 #     @time begin
 #         map_mesh_to_umls!(conn, umls_user, umls_pswd; append_results=append)
 #     end
@@ -89,7 +89,11 @@ println("       Testing Medline Loader")
 
     load_medline(host, mysql_usr, mysql_pswd, dbname, dirname(@__FILE__), start_file=medline_file, end_file=medline_file, year=medline_year)
 
-    doc = EzXML.readxml(joinpath(dirname(@__FILE__),"medline","raw_files",Processes.get_file_name(medline_file,medline_year)))
+    try
+        doc = EzXML.readxml(joinpath(dirname(@__FILE__),"medline","raw_files",Processes.get_file_name(medline_file,medline_year)))
+    catch
+        println(catch_stacktrace())
+    end
     # println(typeof(doc))
     # raw_articles = EzXML.root(doc)
     # println(typeof(raw_articles))
