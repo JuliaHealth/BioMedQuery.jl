@@ -173,6 +173,21 @@ function pubmed_pmid_search_and_save!(email, search_term::String, article_max,
     return nothing
 end
 
+"""
+    pubmed_search_and_save!(email, search_term::String, article_max, verbose=false)
+
+Search pubmed and parse the results into a dictionary of DataFrames.  The dataframes have the same names
+and fields as the pubmed database schema. (e.g. df_dict["basic"] returns a dataframe with the basic article info)
+
+###Arguments
+
+* email: valid email address (otherwise pubmed may block you)
+* search_term : search string to submit to PubMed
+e.g (asthma[MeSH Terms]) AND ("2001/01/29"[Date - Publication] : "2010"[Date - Publication])
+see http://www.ncbi.nlm.nih.gov/pubmed/advanced for help constructing the string
+* article_max : maximum number of articles to return
+* verbose: if true, the NCBI xml response files are saved to current directory
+"""
 function pubmed_search_and_parse(email, search_term::String, article_max, verbose=false)
 
     retstart = 0

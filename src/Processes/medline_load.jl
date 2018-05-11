@@ -19,22 +19,15 @@ function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
 
 
     info("Getting files from Medline")
-    tic()
     @sync for n = start_file:end_file
         @async get_ml_file(get_file_name(n, year), ftp_con)
         println(joinpath(pwd(),"medline","raw_files",get_file_name(n,year)))
     end
 
-    # pmap(x -> get_ml_file(get_file_name(x, year)), start_file:end_file)
-    toc()
-
     info("Parsing files into CSV")
-    tic()
     pmap(x -> parse_ml_file(get_file_name(x, year)), start_file:end_file)
-    toc()
 
     info("Loading CSVs into MySQL")
-    tic()
     @sync for n = start_file:end_file
         println("Loading file ", n)
 
@@ -44,7 +37,6 @@ function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
 
         @async db_insert!(db_con, csv_path, csv_prefix)
     end
-    toc()
 
     set_innodb_checks!(db_con)
     add_mysql_keys!(db_con)

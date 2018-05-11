@@ -126,6 +126,18 @@ PubMed.create_tables!(conn)
 PubMed.save_efetch!(conn, efetch_doc)
 ```
 
+### Return efetch response as a dictionary of DataFrames
+
+The information returned by efetch can also be returned as dataframes. The dataframes match the
+format of the tables that are created for the sql saving functions (schema image below). These dataframes can also
+easily be saved to csv files.
+
+```julia
+    dfs = PubMed.pubmed_to_dfs(efetch_doc)
+
+    PubMed.dfs_to_csv(dfs, "my/path", "my_file_prefix_")
+```
+
 ### Exploring output databases
 
 The following schema has been used to store the results. If you are interested in having this module store additional fields, feel free to open an issue		
