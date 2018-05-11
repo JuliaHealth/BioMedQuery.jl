@@ -22,6 +22,7 @@ function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
     tic()
     @sync for n = start_file:end_file
         @async get_ml_file(get_file_name(n, year), ftp_con)
+        println(joinpath(pwd(),"medline","raw_files",et_file_name(n,year)))
     end
 
     # pmap(x -> get_ml_file(get_file_name(x, year)), start_file:end_file)
