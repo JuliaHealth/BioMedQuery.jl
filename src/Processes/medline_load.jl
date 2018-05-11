@@ -21,7 +21,6 @@ function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
     info("Getting files from Medline")
     @sync for n = start_file:end_file
         @async get_ml_file(get_file_name(n, year), ftp_con, output_dir)
-        println(joinpath(output_dir,"medline","raw_files",get_file_name(n,year)))
     end
 
     info("Parsing files into CSV")
