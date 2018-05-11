@@ -130,9 +130,9 @@ PubMed.save_efetch!(conn, efetch_doc)
 
 The following schema has been used to store the results. If you are interested in having this module store additional fields, feel free to open an issue		
 
-![alt](images/save_efetch_schema.jpeg)
+![alt](images/pubmed_schema.jpg)
 
-We can als eexplore the tables using BioMedQuery.DBUtils, e,g
+We can also explore the tables using BioMedQuery.DBUtils, e,g
 
 ```julia
 tables = ["author_ref", "mesh_desc",

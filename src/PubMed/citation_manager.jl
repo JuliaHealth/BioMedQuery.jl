@@ -123,7 +123,7 @@ end
 Save the results of a Entrez efetch to a bibliography file, with format and
 file path given by `output::CitationOutput`
 """
-function save_efetch!(output::CitationOutput, articles::EzXML.Node, verbose=false)
+function save_efetch!(output::CitationOutput, articles::EzXML.Node, verbose=false, cleanup = false)
 
     output_file = output.file
 
