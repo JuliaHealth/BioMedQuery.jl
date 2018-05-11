@@ -22,7 +22,7 @@ function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
     tic()
     @sync for n = start_file:end_file
         @async get_ml_file(get_file_name(n, year), ftp_con)
-        println(joinpath(pwd(),"medline","raw_files",et_file_name(n,year)))
+        println(joinpath(pwd(),"medline","raw_files",get_file_name(n,year)))
     end
 
     # pmap(x -> get_ml_file(get_file_name(x, year)), start_file:end_file)
@@ -109,11 +109,12 @@ Retrieves the file with fname /files.  Returns the HTTP response.
 function get_ml_file(fname::String, conn::ConnContext)
     println("Getting file: ", fname)
     # get file
-    if isfile("medline/raw_files/"*fname)
+    path = joinpath(pwd(),"medline","raw_files",fname)
+    if isfile(path)
         resp = "File already exists, using local file"
     else
         # conn = get_ftp_con()
-        resp = ftp_get(conn, fname, "medline/raw_files/"*fname)
+        resp = ftp_get(conn, fname, path)
         # ftp_close_connection(conn)
     end
 
@@ -138,12 +139,12 @@ Parses the medline xml file into a dictionary of dataframes
 """
 function parse_ml_file(fname::String)
     println("Parsing file: ", fname)
-    doc = EzXML.readxml(joinpath("medline/raw_files",fname))
+    doc = EzXML.readxml(joinpath(pwd(),"medline","raw_files",fname))
     raw_articles = EzXML.root(doc)
 
     dfs = pubmed_to_dfs(raw_articles)
 
-    dfs_to_csv(dfs, "medline/parsed_files", "$(fname[1:end-7])_")
+    dfs_to_csv(dfs, joinpath(pwd(),"medline","parsed_files"), "$(fname[1:end-7])_")
 
     return nothing
 end
