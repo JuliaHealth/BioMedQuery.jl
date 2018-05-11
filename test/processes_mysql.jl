@@ -89,9 +89,11 @@ println("       Testing Medline Loader")
     load_medline(host, mysql_usr, mysql_pswd, dbname, start_file=medline_file, end_file=medline_file, year=medline_year)
 
     doc = EzXML.readxml(joinpath("medline/raw_files",Processes.get_file_name(medline_file,medline_year)))
+    println(typeof(doc))
     raw_articles = EzXML.root(doc)
-
+    println(typeof(raw_articles))
     all_pmids = PubMed.all_pmids(conn)
+    println(all_pmids)
     @test length(all_pmids) == countelements(raw_articles)
 
     rm("medline", recursive=true)
