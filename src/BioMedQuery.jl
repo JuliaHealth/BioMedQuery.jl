@@ -70,6 +70,7 @@ module Processes
 export pubmed_search_and_save!,
        pubmed_pmid_search,
        pubmed_pmid_search_and_save!,
+       pubmed_search_and_parse,
        map_mesh_to_umls_async!,
        map_mesh_to_umls!,
        umls_semantic_occurrences,

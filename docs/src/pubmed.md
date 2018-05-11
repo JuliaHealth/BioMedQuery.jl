@@ -16,6 +16,7 @@ We are often interseted in searching PubMed for all articles related to a search
 ```julia
 using BioServices.EUtils
 using XMLDict
+using EzXML
 
 search_term = "obstructive sleep apnea[MeSH Major Topic]"
 
@@ -32,14 +33,14 @@ ids = [parse(Int64, id_node) for id_node in esearch_dict["IdList"]["Id"]]
 #efetch
 efetch_response = efetch(db = "pubmed", tool = "BioJulia", retmode = "xml", rettype = "null", id = ids)
 
-#convert xml to dictionary
-efetch_dict = parse_xml(String(efetch_response.data))
+#convert xml to xml document
+efetch_doc = root(parsexml(String(efetch_response.data)))
 ```
 
 
 ## Handling XML responses
 
-Many APIs return responses in XML form. 
+Many APIs return responses in XML form.
 
 To parse an XML to a Julia dictionary we can use the XMLDict package
 
@@ -56,7 +57,7 @@ save_file(xdoc, "./file.xml")
 ```
 ---
 
-## Save eseach/efetch responses 
+## Save eseach/efetch responses
 
 ### Save PMIDs to MySQL
 
@@ -94,7 +95,7 @@ We can export the information returned by efetch as and EndNote/BibTex library f
 
 ```julia
 citation = PubMed.CitationOutput("endnote", "./citations_temp.endnote", true)
-nsucceses = PubMed.save_efetch!(citation, efetch_dict, verbose)
+nsucceses = PubMed.save_efetch!(citation, efetch_doc, verbose)
 ```
 
 ### Save efetch response to MySQL database
@@ -128,7 +129,7 @@ PubMed.save_efetch!(conn, efetch_dict)
 ### Exploring output databases
 
 The following schema has been used to store the results. If you are interested in having this module store additional fields, feel free to open an issue		
-	
+
 ![alt](images/save_efetch_schema.jpeg)
 
 We can als eexplore the tables using BioMedQuery.DBUtils, e,g
