@@ -488,6 +488,7 @@ end
 Takes output of toDataFrames and writes to CSV files at the provided path and with the file prefix.
 """
 function dfs_to_csv(dfs::Dict{String,DataFrame}, path::String, file_prefix::String="")
+    println(joinpath(path,"$file_prefix.csv"))
     [CSV.write(joinpath(path,"$file_prefix$k.csv"),v, missingstring = "NULL") for (k, v) in dfs]
     return nothing
 end

@@ -10,9 +10,9 @@ using DataFrames
 
 Given MySQL connection info and optionally the start and end files, fetches the medline files, parses the xml, and loads into a MySQL DB (assumes tables already exist).
 """
-function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String, mysql_db::String, output_dir::String; start_file::Int = 1, end_file::Int = 928, overwrite::Bool=true, year::Int=2018, test = false)
+function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String, mysql_db::String, output_dir::String; start_file::Int = 1, end_file::Int = 928, overwrite::Bool=true, year::Int=2018, test::Bool = false)
 
-    db_con, ftp_con = init_medline(mysql_host, mysql_user, mysql_pwd, mysql_db, output_dir, overwrite)
+    db_con, ftp_con = init_medline(mysql_host, mysql_user, mysql_pwd, mysql_db, output_dir, overwrite, test)
 
     set_innodb_checks!(db_con,0,0,0)
     drop_mysql_keys!(db_con)
@@ -20,17 +20,18 @@ function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
 
     info("Getting files from Medline")
     @sync for n = start_file:end_file
-        @async get_ml_file(get_file_name(n, year,test), ftp_con, output_dir)
+        @async get_ml_file(get_file_name(n, year, test), ftp_con, output_dir)
     end
 
     info("Parsing files into CSV")
-    pmap(x -> parse_ml_file(get_file_name(x, year,test), output_dir), start_file:end_file)
+    pmap(x -> parse_ml_file(get_file_name(x, year, test), output_dir), start_file:end_file)
 
     info("Loading CSVs into MySQL")
     @sync for n = start_file:end_file
-        println("Loading file ", n)
 
-        fname = get_file_name(n, year) ::String
+        fname = get_file_name(n, year, test) ::String
+        println("Loading file: ", fname)
+
         csv_prefix = "$(fname[1:end-7])_"
         csv_path = joinpath(output_dir,"medline","parsed_files")
 
@@ -100,7 +101,7 @@ end
 
 Retrieves the file with fname /files.  Returns the HTTP response.
 """
-function get_ml_file(fname::String, conn::ConnContext, output_dir::String, test::Bool)
+function get_ml_file(fname::String, conn::ConnContext, output_dir::String)
     println("Getting file: ", fname)
     # get file
     path = joinpath(output_dir,"medline","raw_files",fname)
@@ -121,7 +122,11 @@ end
 Get an FTP connection
 """
 function get_ftp_con(test::Bool = false)
-    options = test? RequestOptions(url="ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline-2018-sample/"): RequestOptions(url="ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/")
+    if test
+        options = RequestOptions(url="ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline-2018-sample/")
+    else
+        options = RequestOptions(url="ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/")
+    end
     conn = ftp_connect(options) # returns connection and response
     return conn[1]# get ConnContext object
 end
@@ -133,7 +138,9 @@ Parses the medline xml file into a dictionary of dataframes
 """
 function parse_ml_file(fname::String, output_dir::String)
     println("Parsing file: ", fname)
-    doc = EzXML.readxml(joinpath(output_dir,"medline","raw_files",fname))
+
+    path = joinpath(output_dir,"medline","raw_files",fname)
+    doc = EzXML.readxml(path)
     raw_articles = EzXML.root(doc)
 
     dfs = pubmed_to_dfs(raw_articles)
