@@ -48,40 +48,40 @@ PubMed.create_tables!(conn)
 
 end
 
-# @testset "MESH2UMLS" begin
-#     println("-----------------------------------------")
-#     println("       Testing MESH2UMLS")
-#     append = false
-#
-#     @time begin
-#         map_mesh_to_umls_async!(conn, umls_user, umls_pswd; append_results=append)
-#     end
-#
-#     all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
-#     all_pairs = all_pairs_query[1]
-#     @test length(all_pairs) > 0
-#
-#     @time begin
-#         map_mesh_to_umls!(conn, umls_user, umls_pswd; append_results=append)
-#     end
-#
-#     all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
-#     all_pairs = all_pairs_query[1]
-#     @test length(all_pairs) > 0
-#
-# end
-#
-# @testset "Occurrences" begin
-#     println("-----------------------------------------")
-#     println("       Testing Occurrences")
-#     umls_concept = "Disease or Syndrome"
-#     @time begin
-#         labels2ind, occur = umls_semantic_occurrences(conn, umls_concept)
-#     end
-#
-#     @test length(keys(labels2ind)) > 0
-#     @test length(find(x->x=="Obesity", collect(keys(labels2ind)))) ==1
-# end
+@testset "MESH2UMLS" begin
+    println("-----------------------------------------")
+    println("       Testing MESH2UMLS")
+    append = false
+
+    @time begin
+        map_mesh_to_umls_async!(conn, umls_user, umls_pswd; append_results=append)
+    end
+
+    all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
+    all_pairs = all_pairs_query[1]
+    @test length(all_pairs) > 0
+
+    @time begin
+        map_mesh_to_umls!(conn, umls_user, umls_pswd; append_results=append)
+    end
+
+    all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
+    all_pairs = all_pairs_query[1]
+    @test length(all_pairs) > 0
+
+end
+
+@testset "Occurrences" begin
+    println("-----------------------------------------")
+    println("       Testing Occurrences")
+    umls_concept = "Disease or Syndrome"
+    @time begin
+        labels2ind, occur = umls_semantic_occurrences(conn, umls_concept)
+    end
+
+    @test length(keys(labels2ind)) > 0
+    @test length(find(x->x=="Obesity", collect(keys(labels2ind)))) ==1
+end
 
 @testset "Medline Load" begin
 println("-----------------------------------------")
