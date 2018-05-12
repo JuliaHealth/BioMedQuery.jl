@@ -96,6 +96,8 @@ println("       Testing Medline Loader")
 
     all_pmids = PubMed.all_pmids(conn)
     @test length(all_pmids) == countelements(raw_articles)
+    res = db_query(conn, "SELECT DISTINCT orcid FROM author_ref;")
+    @test length(res) > 0
 
     rm(joinpath(dirname(@__FILE__),"medline"), recursive=true)
 

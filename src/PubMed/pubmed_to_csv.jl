@@ -132,7 +132,7 @@ function parse_author(xml::EzXML.Node)
             initials = nodecontent(names)
         elseif names_name == "Suffix"
             suffix = nodecontent(names)
-        elseif names_name == "Identifer" && atribute(names, "Source") == "ORCID"
+        elseif names_name == "Identifer" && names["Source"] == "ORCID"
             orcid = parse_orcid(nodecontent(names))
         elseif names_name == "CollectiveName"
             collective = nodecontent(names)
