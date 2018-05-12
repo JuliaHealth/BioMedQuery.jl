@@ -24,23 +24,7 @@ function init_mysql_database(host="127.0.0.1",
 
     const con = MySQL.connect(host, user, pwd)
 
-    q = MySQL.query(con, "SHOW DATABASES LIKE '$dbname'; ")
-    if length(q[1])>0
-        if overwrite
-            println("Set to overwrite MySQL database $dbname")
-            MySQL.execute!(con, "DROP DATABASE IF EXISTS $dbname;")
-            MySQL.execute!(con, "CREATE DATABASE $dbname
-                CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
-        end
-    else
-        MySQL.execute!(con, "CREATE DATABASE $dbname
-            CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
-    end
-
-
-    MySQL.execute!(con, "USE $dbname;")
-
-    return con
+    init_mysql_database(con, dbname, overwrite)
 end
 
 function init_mysql_database(con::MySQL.Connection, dbname="test", overwrite=false)

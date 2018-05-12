@@ -174,7 +174,7 @@ function pubmed_pmid_search_and_save!(email, search_term::String, article_max,
 end
 
 """
-    pubmed_search_and_save!(email, search_term::String, article_max, verbose=false)
+    pubmed_search_and_parse(email, search_term::String, article_max, verbose=false)
 
 Search pubmed and parse the results into a dictionary of DataFrames.  The dataframes have the same names
 and fields as the pubmed database schema. (e.g. df_dict["basic"] returns a dataframe with the basic article info)
