@@ -423,7 +423,7 @@ function db_insert!(db::MySQL.Connection, articles::Dict{String,DataFrame}, csv_
 
         # check if column names all exist in mysql table
         if !col_match(db, table, df)
-            error("each DataFrame column must match the name of a table column")
+            error("Each DataFrame column must match the name of a table column. $table had mismatches.")
         end
 
         path = joinpath(csv_path, "$(csv_prefix)$(table).csv")
@@ -458,14 +458,15 @@ function db_insert!(db::MySQL.Connection, csv_path::String = pwd(), csv_prefix::
             path = joinpath(csv_path, "$(csv_prefix)$(table).csv")
             drop_csv && push!(paths,path)
 
-            headers = CSV.read(path, rows = 1, datarow=1)
+            headers = CSV.read(path, rows = 2)
             # return headers
 
-            cols_string = ""
-            for i = 1:length(headers)
-                cols_string *= headers[1,i]*","
+            cols = String.(headers.colindex.names)
+            if !col_match(db, table, cols)
+                error("Each CSV column must match the name of a table column. $table had mismatches.")
             end
-            cols_string = cols_string[1:end-1]
+
+            cols_string = join(cols, ",")
 
             # Save article data (MySQL.stream from df)
             ins_sql = """LOAD DATA LOCAL INFILE '$path' INTO TABLE $table CHARACTER SET latin1 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' IGNORE 1 LINES ($cols_string)"""
@@ -492,7 +493,7 @@ function db_insert!(db::MySQL.Connection, pmid::Int64, articles::Dict{String,Dat
         if ismatch(r"$mesh*", table)
             # check if column names all exist in mysql table
             if !col_match(db, table, df)
-                error("each DataFrame column must match the name of a table column")
+                error("Each DataFrame column must match the name of a table column. $table had mismatches.")
             end
 
             path = joinpath(csv_path, "$(csv_prefix)$(table).csv")
@@ -522,7 +523,7 @@ function db_insert!(db::SQLite.DB, articles::Dict{String,DataFrame}, csv_path::S
 
         # check if column names all exist in mysql table
         if !col_match(db, table, df)
-            error("each DataFrame column must match the name of a table column")
+            error("Each DataFrame column must match the name of a table column. $table had mismatches.")
         end
 
         for i = 1:size(df)[1]
