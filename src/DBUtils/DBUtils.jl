@@ -152,13 +152,24 @@ end
 
 """
     col_match(con, tablename, data_values)
-Checks if each column in the dataframe has a matching column in the table
+Checks if each column in the dataframe has a matching column in the table.
 """
 function col_match(con, tablename::String, data_values::DataFrame)
+    cols = String.(data_values.colindex.names)
+    col_match(con, tablename, cols)
+end
+
+"""
+    col_match(con, tablename, col_names)
+Checks if each column in the csv/data frame has a matching column in the table.
+"""
+
+function col_match(con, tablename::String, col_names::Vector{String})
     all_match = true
 
     table_cols = select_columns(con, tablename)
-    for col in data_values.colindex.names
+
+    for col in col_names
         this_match = false
         for tc in table_cols
             if tc == string(col)
