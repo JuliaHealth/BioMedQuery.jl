@@ -87,7 +87,9 @@ end
 println("-----------------------------------------")
 println("       Testing Medline Loader")
 
-    load_medline(host, mysql_usr, mysql_pswd, dbname, dirname(@__FILE__), start_file=medline_file, end_file=medline_file, year=medline_year, test=true)
+    PubMed.create_tables!(conn) #drop and re-create pubmed article tables
+
+    load_medline(conn, dirname(@__FILE__), start_file=medline_file, end_file=medline_file, year=medline_year, test=true)
 
     path = joinpath(dirname(@__FILE__),"medline","raw_files",Processes.get_file_name(medline_file, medline_year, true))
     doc = EzXML.readxml(path)
@@ -96,8 +98,8 @@ println("       Testing Medline Loader")
 
     all_pmids = PubMed.all_pmids(conn)
     @test length(all_pmids) == countelements(raw_articles)
-    res = db_query(conn, "SELECT DISTINCT orcid FROM author_ref;")
-    @test length(res) > 0
+    res = MySQL.query(conn, "SELECT DISTINCT orcid FROM author_ref;", DataFrame)
+    @test size(res)[1] > 2
 
     rm(joinpath(dirname(@__FILE__),"medline"), recursive=true)
 

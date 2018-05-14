@@ -43,7 +43,7 @@ export  save_efetch!,
 include("PubMed/eutils_sql_save.jl")
 
 # eutils -> dfs -> csv
-export pubmed_to_dfs,
+export parse,
         dfs_to_csv
 include("PubMed/pubmed_to_csv.jl")
 

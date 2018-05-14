@@ -164,7 +164,7 @@ end
 
 function add_mysql_keys!(conn::MySQL.Connection)
 
-    res = db_query(conn, "SHOW INDEX FROM basic WHERE key_name = 'pub_year'")
+    res = MySQL.query(conn, "SHOW INDEX FROM basic WHERE key_name = 'pub_year'", DataFrame)
     size(res)[1] == 1 && return nothing
 
     MySQL.execute!(conn, "ALTER TABLE `basic`
@@ -213,7 +213,7 @@ end
 
 function drop_mysql_keys!(conn::MySQL.Connection)
 
-    res = db_query(conn, "SHOW INDEX FROM basic WHERE key_name = 'pub_year'")
+    res = MySQL.query(conn, "SHOW INDEX FROM basic WHERE key_name = 'pub_year'", DataFrame)
     size(res)[1] == 0 && return nothing
 
     MySQL.execute!(conn, "ALTER TABLE `basic`
@@ -411,7 +411,7 @@ function get_article_mesh_by_concept(db, pmid::Integer, umls_concepts...; query_
 
 end
 
-function db_insert!(db::MySQL.Connection, articles::Dict{String,DataFrame}, csv_path::String = pwd(), csv_prefix::String = "$(Date(now()))_PubMed_"; verbose=false, cleanup=false)
+function db_insert!(db::MySQL.Connection, articles::Dict{String,DataFrame}, csv_path::String = pwd(), csv_prefix::String = "$(Date(now()))_PubMed_"; verbose=false, drop_csv=false)
 
     dfs_to_csv(articles, csv_path, csv_prefix)
 
@@ -437,7 +437,7 @@ function db_insert!(db::MySQL.Connection, articles::Dict{String,DataFrame}, csv_
     meta_sql = """UPDATE file_meta SET ins_end_time = CURRENT_TIMESTAMP WHERE file_name = '$csv_prefix'"""
     MySQL.execute!(db, meta_sql)
 
-    if cleanup
+    if drop_csv
         remove_csvs(articles, csv_path, csv_prefix)
     end
 
@@ -445,7 +445,7 @@ function db_insert!(db::MySQL.Connection, articles::Dict{String,DataFrame}, csv_
 
 end
 
-function db_insert!(db::MySQL.Connection, csv_path::String = pwd(), csv_prefix::String = "$(Date(now()))_PubMed_"; verbose=false, cleanup=false)
+function db_insert!(db::MySQL.Connection, csv_path::String = pwd(), csv_prefix::String = "$(Date(now()))_PubMed_"; verbose=false, drop_csv=false)
     paths = Vector{String}()
 
     #Insert csv prefix into files_meta talbe
@@ -456,7 +456,7 @@ function db_insert!(db::MySQL.Connection, csv_path::String = pwd(), csv_prefix::
         # for all non-file_meta tables
         if table != "file_meta"
             path = joinpath(csv_path, "$(csv_prefix)$(table).csv")
-            cleanup && push!(paths,path)
+            drop_csv && push!(paths,path)
 
             headers = CSV.read(path, rows = 1, datarow=1)
             # return headers
@@ -476,7 +476,7 @@ function db_insert!(db::MySQL.Connection, csv_path::String = pwd(), csv_prefix::
     meta_sql = """UPDATE file_meta SET ins_end_time = CURRENT_TIMESTAMP WHERE file_name = '$csv_prefix'"""
     MySQL.execute!(db, meta_sql)
 
-    if cleanup
+    if drop_csv
         remove_csvs(paths)
     end
 
@@ -484,7 +484,7 @@ function db_insert!(db::MySQL.Connection, csv_path::String = pwd(), csv_prefix::
 
 end
 
-function db_insert!(db::MySQL.Connection, pmid::Int64, articles::Dict{String,DataFrame}, csv_path::String = pwd(), csv_prefix::String = "$(Date(now()))_PubMed_"; verbose=false, cleanup=false)
+function db_insert!(db::MySQL.Connection, pmid::Int64, articles::Dict{String,DataFrame}, csv_path::String = pwd(), csv_prefix::String = "$(Date(now()))_PubMed_"; verbose=false, drop_csv=false)
 
     dfs_to_csv(articles, csv_path, csv_prefix)
 
@@ -504,7 +504,7 @@ function db_insert!(db::MySQL.Connection, pmid::Int64, articles::Dict{String,Dat
         end
     end
 
-    if cleanup
+    if drop_csv
         remove_csvs(articles, csv_path, csv_prefix)
     end
 
@@ -512,7 +512,7 @@ function db_insert!(db::MySQL.Connection, pmid::Int64, articles::Dict{String,Dat
 
 end
 
-function db_insert!(db::SQLite.DB, articles::Dict{String,DataFrame}, csv_path::String = pwd(), csv_prefix::String = "$(Date(now()))_PubMed_"; verbose=false, cleanup=false)
+function db_insert!(db::SQLite.DB, articles::Dict{String,DataFrame}, csv_path::String = pwd(), csv_prefix::String = "$(Date(now()))_PubMed_"; verbose=false, drop_csv=false)
 
     #Insert csv prefix into files_meta talbe
     meta_sql = """INSERT INTO file_meta (file_name,ins_start_time) VALUES ('$csv_prefix',CURRENT_TIMESTAMP)"""

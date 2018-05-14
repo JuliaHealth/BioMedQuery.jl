@@ -10,7 +10,7 @@ if nodename(articles) != "PubmedArticleSet"
 end
 
 
-parsed = pubmed_to_dfs(articles)
+parsed = PubMed.parse(articles)
 
 @test !ismissing(parsed["basic"][1,:pmid])
 

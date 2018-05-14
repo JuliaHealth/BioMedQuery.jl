@@ -148,7 +148,7 @@ function save_efetch!(output::CitationOutput, articles::EzXML.Node, verbose=fals
     fout = open(output_file, "a")
     nsuccess=0
 
-    articles_df = pubmed_to_dfs(articles)
+    articles_df = PubMed.parse(articles)
 
     for i = 1:n_articles
         try

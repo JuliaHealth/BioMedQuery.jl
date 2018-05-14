@@ -41,7 +41,3 @@ To checkout the current master (development) branch:
 ```julia
 Pkg.checkout("BioMedQuery")
 ```
-
-### Note:
-
-This package has recently undergone significant changes. EUtils and UMLs APIs are now part of [BioServices.jl](https://github.com/BioJulia/BioServices.jl). BioMedQuery helps parse and save results into MySQL, SQLite, DataFrames, CSV etc. The old master is now tag v0.2.3-depracate.

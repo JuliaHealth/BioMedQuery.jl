@@ -2,6 +2,7 @@ using Missings
 using EzXML
 using CSV
 using DataFrames
+import Base.parse
 
 """
     dict_to_array(dict::Dict)
@@ -45,7 +46,7 @@ Parses the string year and returns an integer with the first year in range.
 """
 function parse_year(yr::AbstractString)
     try
-        parse(Int64, yr[1:4])
+        Base.parse(Int64, yr[1:4])
     catch
         missing
     end
@@ -132,7 +133,7 @@ function parse_author(xml::EzXML.Node)
             initials = nodecontent(names)
         elseif names_name == "Suffix"
             suffix = nodecontent(names)
-        elseif names_name == "Identifer" && names["Source"] == "ORCID"
+        elseif names_name == "Identifier" && names["Source"] == "ORCID"
             orcid = parse_orcid(nodecontent(names))
         elseif names_name == "CollectiveName"
             collective = nodecontent(names)
@@ -154,7 +155,7 @@ end
 Type that matches the NCBI-XML contents for a PubMedArticle
 """
 #Constructor from EzXML article element
-function pubmed_to_dfs(xml::EzXML.Node)
+function parse(xml::EzXML.Node)
 
     n_articles = countelements(xml)
 
@@ -226,7 +227,7 @@ function pubmed_to_dfs(xml::EzXML.Node)
             if nodename(tdat) == "MedlineCitation"
                 for mc in eachelement(tdat)
                     if nodename(mc) == "PMID"
-                        this_pmid = parse(Int64, nodecontent(mc)) ::Int64
+                        this_pmid = Base.parse(Int64, nodecontent(mc)) ::Int64
                         @inbounds url[i] = string("http://www.ncbi.nlm.nih.gov/pubmed/", this_pmid)
                         @inbounds pmid[i] = this_pmid
                     elseif nodename(mc) == "Article"
@@ -365,7 +366,7 @@ function pubmed_to_dfs(xml::EzXML.Node)
                                 for pt in eachelement(a_info)
                                     desc = nodecontent(pt) :: String
                                     ui = pt["UI"] :: String
-                                    uid = length(ui) > 1 ? parse(Int64, ui[2:end]) : -1
+                                    uid = length(ui) > 1 ? Base.parse(Int64, ui[2:end]) : -1
                                     push!(pt_pmid, this_pmid)
                                     push!(pt_uid, uid)
                                     push!(pt_name, desc)
@@ -386,12 +387,12 @@ function pubmed_to_dfs(xml::EzXML.Node)
                                 if header_name == "DescriptorName"
                                     desc = nodecontent(header) :: String
                                     desc_maj = header["MajorTopicYN"] == "Y" ? 1 : 0
-                                    desc_uid = parse(Int, header["UI"][2:end])
+                                    desc_uid = Base.parse(Int, header["UI"][2:end])
                                     mesh_desc[desc_uid] = desc
                                 elseif header_name == "QualifierName"
                                     qual = nodecontent(header)
                                     qual_maj = header["MajorTopicYN"] == "Y" ? 1 : 0 :: Int
-                                    qual_uid = parse(Int, header["UI"][2:end]) :: Int
+                                    qual_uid = Base.parse(Int, header["UI"][2:end]) :: Int
 
                                     mesh_qual[qual_uid] = qual
 

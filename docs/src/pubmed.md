@@ -11,7 +11,7 @@ This module provides utility functions to parse, store and export queries to Pub
 
 ## Basics of searching PubMed
 
-We are often interseted in searching PubMed for all articles related to a search term, and possibly restricted by other search criteria. To do so we use [BioServices.EUtils](http://biojulia.net/BioServices.jl/latest/man/eutils). A basic example of how we may use the functions `esearch` and `efetch` to accomplish such task is illustrated below.
+We are often interested in searching PubMed for all articles related to a search term, and possibly restricted by other search criteria. To do so we use [BioServices.EUtils](http://biojulia.net/BioServices.jl/latest/man/eutils). A basic example of how we may use the functions `esearch` and `efetch` to accomplish such task is illustrated below.
 
 ```julia
 using BioServices.EUtils
@@ -111,7 +111,7 @@ pwd = ""
 # Save results of efetch to database and cleanup intermediate CSV files
 const conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
 PubMed.create_tables!(conn)
-PubMed.save_efetch!(conn, efetch_doc, false, true) # verbose = false, cleanup = true
+PubMed.save_efetch!(conn, efetch_doc, false, true) # verbose = false, drop_csv = true
 ```
 
 ### Save efetch response to SQLite database
@@ -133,7 +133,7 @@ format of the tables that are created for the sql saving functions (schema image
 easily be saved to csv files.
 
 ```julia
-    dfs = PubMed.pubmed_to_dfs(efetch_doc)
+    dfs = PubMed.parse(efetch_doc)
 
     PubMed.dfs_to_csv(dfs, "my/path", "my_file_prefix_")
 ```

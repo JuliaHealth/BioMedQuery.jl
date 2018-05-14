@@ -9,7 +9,7 @@ pubmed_save_efetch(efetch_dict, conn)
 
 Save the results (dictionary) of an entrez-pubmed fetch to the input database.
 """
-function save_efetch!(conn::Union{MySQL.Connection, SQLite.DB}, articles::EzXML.Node, verbose=false, cleanup=false)
+function save_efetch!(conn::Union{MySQL.Connection, SQLite.DB}, articles::EzXML.Node, verbose=false, drop_csv=true)
 
     #Decide type of article based on structrure of efetch
 
@@ -20,9 +20,9 @@ function save_efetch!(conn::Union{MySQL.Connection, SQLite.DB}, articles::EzXML.
 
     println("Saving " , countelements(articles) ,  " articles to database")
 
-    parsed = pubmed_to_dfs(articles)
+    parsed = PubMed.parse(articles)
 
-    db_insert!(conn, parsed, cleanup=true)
+    db_insert!(conn, parsed, drop_csv=drop_csv)
 
 end
 

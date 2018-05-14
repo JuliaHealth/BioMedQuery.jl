@@ -6,13 +6,13 @@ using EzXML
 using DataFrames
 
 """
-    load_medline(mysql_host, mysql_user, mysql_pwd, mysql_db; start_file = 1, end_file = 928, overwrite = true, year=2018)
+    load_medline(db_con, output_dir; start_file = 1, end_file = 928, year=2018, test=false)
 
-Given MySQL connection info and optionally the start and end files, fetches the medline files, parses the xml, and loads into a MySQL DB (assumes tables already exist).
+Given a MySQL connection and optionally the start and end files, fetches the medline files, parses the xml, and loads into a MySQL DB (assumes tables already exist). The raw (xml.gz) and parsed (csv) files will be stored in the output_dir.
 """
-function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String, mysql_db::String, output_dir::String; start_file::Int = 1, end_file::Int = 928, overwrite::Bool=true, year::Int=2018, test::Bool = false)
+function load_medline(db_con::MySQL.Connection, output_dir::String; start_file::Int = 1, end_file::Int = 928, year::Int=2018, test::Bool = false)
 
-    db_con, ftp_con = init_medline(mysql_host, mysql_user, mysql_pwd, mysql_db, output_dir, overwrite, test)
+    ftp_con = init_medline(output_dir, test)
 
     set_innodb_checks!(db_con,0,0,0)
     drop_mysql_keys!(db_con)
@@ -41,7 +41,7 @@ function load_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
     set_innodb_checks!(db_con)
     add_mysql_keys!(db_con)
     info("All files processed - closing connections")
-    close_cons(db_con, ftp_con)
+    close_cons(ftp_con)
 
     return nothing
 end
@@ -51,9 +51,9 @@ end
 
 Sets up environment (folders), and connects to MySQL DB and FTP Server returns these connections.
 """
-function init_medline(mysql_host::String, mysql_user::String, mysql_pwd::String, mysql_db::String, output_dir::String, overwrite::Bool, test::Bool=false)
+function init_medline(output_dir::String, test::Bool=false)
     ## SET UP ENVIRONMENT
-    info("======Setting up folders and creating FTP, DB Connections======")
+    info("======Setting up folders and creating FTP Connection======")
 
     try
         mkdir(joinpath(output_dir,"medline"))
@@ -71,14 +71,9 @@ function init_medline(mysql_host::String, mysql_user::String, mysql_pwd::String,
     # Initialize FTP
     ftp_init()
 
-    # Get MySQL Connection
-    db_con = init_mysql_database(mysql_host, mysql_user, mysql_pwd, mysql_db, overwrite)
-
     ftp_con = get_ftp_con(test)
 
-    overwrite && PubMed.create_tables!(db_con)
-
-    return db_con, ftp_con
+    return ftp_con
 end
 
 
@@ -143,7 +138,7 @@ function parse_ml_file(fname::String, output_dir::String)
     doc = EzXML.readxml(path)
     raw_articles = EzXML.root(doc)
 
-    dfs = pubmed_to_dfs(raw_articles)
+    dfs = PubMed.parse(raw_articles)
 
     dfs_to_csv(dfs, joinpath(output_dir,"medline","parsed_files"), "$(fname[1:end-7])_")
 
@@ -151,16 +146,13 @@ function parse_ml_file(fname::String, output_dir::String)
 end
 
 """
-    close_cons(db_con, ftp_con)
-closes connections and cleans up
+    close_cons(ftp_con)
+closes connection and cleans up
 """
-function close_cons(db_con::MySQL.Connection, ftp_con::ConnContext)
+function close_cons(ftp_con::ConnContext)
     # Close FTP Connection
     ftp_close_connection(ftp_con)
     ftp_cleanup()
-
-    # Close MySQL Connection
-    MySQL.disconnect(db_con)
 
     return nothing
 end

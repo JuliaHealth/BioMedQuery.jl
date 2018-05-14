@@ -3,6 +3,7 @@ using MySQL
 using BioServices.EUtils
 using XMLDict
 using EzXML
+import Base.parse
 
 #------------------ BioMedQuery -------------------
     @testset "Testing Eutils/PubMed" begin
@@ -29,7 +30,7 @@ using EzXML
         @test haskey(esearch_dict, "IdList")
 
         for id_node in esearch_dict["IdList"]["Id"]
-            push!(ids, parse(Int64, id_node))
+            push!(ids, Base.parse(Int64, id_node))
         end
 
         @test length(ids)==narticles
