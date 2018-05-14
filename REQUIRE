@@ -5,10 +5,9 @@ DataFrames
 DataStreams
 EzXML
 FTPClient
-HttpCommon
 Missings
 MySQL
-Requests
 SQLite
 XMLDict
 ZipFile
+HTTP
