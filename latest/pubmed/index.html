@@ -447,6 +447,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#return-efetch-response-as-a-dictionary-of-dataframes" title="Return efetch response as a dictionary of DataFrames" class="md-nav__link">
+    Return efetch response as a dictionary of DataFrames
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#exploring-output-databases" title="Exploring output databases" class="md-nav__link">
     Exploring output databases
   </a>
@@ -600,6 +607,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#return-efetch-response-as-a-dictionary-of-dataframes" title="Return efetch response as a dictionary of DataFrames" class="md-nav__link">
+    Return efetch response as a dictionary of DataFrames
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#exploring-output-databases" title="Exploring output databases" class="md-nav__link">
     Exploring output databases
   </a>
@@ -656,9 +670,10 @@
 <p>This module provides utility functions to parse, store and export queries to PubMed via the NCBI EUtils and its julia interface <a href="http://biojulia.net/BioServices.jl/latest/man/eutils">BioServices.EUtils</a>. For many purposes you may interact with the higher level pipelines in [BioMedQuery.Processes]. Here, some of the lower level functions are discussed in case you need to assemble different pipelines.</p>
 <p><a id='Basics-of-searching-PubMed-1'></a></p>
 <h2 id="basics-of-searching-pubmed">Basics of searching PubMed</h2>
-<p>We are often interseted in searching PubMed for all articles related to a search term, and possibly restricted by other search criteria. To do so we use <a href="http://biojulia.net/BioServices.jl/latest/man/eutils">BioServices.EUtils</a>. A basic example of how we may use the functions <code>esearch</code> and <code>efetch</code> to accomplish such task is illustrated below.</p>
+<p>We are often interested in searching PubMed for all articles related to a search term, and possibly restricted by other search criteria. To do so we use <a href="http://biojulia.net/BioServices.jl/latest/man/eutils">BioServices.EUtils</a>. A basic example of how we may use the functions <code>esearch</code> and <code>efetch</code> to accomplish such task is illustrated below.</p>
 <div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">BioServices</span><span class="o">.</span><span class="n">EUtils</span>
 <span class="k">using</span> <span class="n">XMLDict</span>
+<span class="k">using</span> <span class="n">EzXML</span>
 
 <span class="n">search_term</span> <span class="o">=</span> <span class="s">&quot;obstructive sleep apnea[MeSH Major Topic]&quot;</span>
 
@@ -675,21 +690,21 @@
 <span class="c">#efetch</span>
 <span class="n">efetch_response</span> <span class="o">=</span> <span class="n">efetch</span><span class="p">(</span><span class="n">db</span> <span class="o">=</span> <span class="s">&quot;pubmed&quot;</span><span class="p">,</span> <span class="n">tool</span> <span class="o">=</span> <span class="s">&quot;BioJulia&quot;</span><span class="p">,</span> <span class="n">retmode</span> <span class="o">=</span> <span class="s">&quot;xml&quot;</span><span class="p">,</span> <span class="n">rettype</span> <span class="o">=</span> <span class="s">&quot;null&quot;</span><span class="p">,</span> <span class="n">id</span> <span class="o">=</span> <span class="n">ids</span><span class="p">)</span>
 
-<span class="c">#convert xml to dictionary</span>
-<span class="n">efetch_dict</span> <span class="o">=</span> <span class="n">parse_xml</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="n">efetch_response</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+<span class="c">#convert xml to xml node tree</span>
+<span class="n">efetch_doc</span> <span class="o">=</span> <span class="n">root</span><span class="p">(</span><span class="n">parsexml</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="n">efetch_response</span><span class="o">.</span><span class="n">data</span><span class="p">)))</span>
 </pre></div>
 
 
 <p><a id='Handling-XML-responses-1'></a></p>
 <h2 id="handling-xml-responses">Handling XML responses</h2>
-<p>Many APIs return responses in XML form. </p>
+<p>Many APIs return responses in XML form.</p>
 <p>To parse an XML to a Julia dictionary we can use the XMLDict package</p>
 <div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">XMLDict</span>
 <span class="n">dict</span> <span class="o">=</span> <span class="n">parse_xml</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>  
 </pre></div>
 
 
-<p>You can save directly the XML String to file using LightXML</p>
+<p>You can save directly the XML String to file</p>
 <div class="codehilite"><pre><span></span><span class="n">xdoc</span> <span class="o">=</span> <span class="n">parse_string</span><span class="p">(</span><span class="n">esearch</span><span class="p">)</span>
 <span class="n">save_file</span><span class="p">(</span><span class="n">xdoc</span><span class="p">,</span> <span class="s">&quot;./file.xml&quot;</span><span class="p">)</span>
 </pre></div>
@@ -730,7 +745,7 @@
 <h3 id="export-efetch-response-as-endnote-citation-file">Export efetch response as EndNote citation file</h3>
 <p>We can export the information returned by efetch as and EndNote/BibTex library file</p>
 <div class="codehilite"><pre><span></span><span class="n">citation</span> <span class="o">=</span> <span class="n">PubMed</span><span class="o">.</span><span class="n">CitationOutput</span><span class="p">(</span><span class="s">&quot;endnote&quot;</span><span class="p">,</span> <span class="s">&quot;./citations_temp.endnote&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
-<span class="n">nsucceses</span> <span class="o">=</span> <span class="n">PubMed</span><span class="o">.</span><span class="n">save_efetch!</span><span class="p">(</span><span class="n">citation</span><span class="p">,</span> <span class="n">efetch_dict</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+<span class="n">nsucceses</span> <span class="o">=</span> <span class="n">PubMed</span><span class="o">.</span><span class="n">save_efetch!</span><span class="p">(</span><span class="n">citation</span><span class="p">,</span> <span class="n">efetch_doc</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
 </pre></div>
 
 
@@ -742,10 +757,10 @@
 <span class="n">user</span> <span class="o">=</span> <span class="s">&quot;root&quot;</span>
 <span class="n">pwd</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
 
-<span class="c"># Save results of efetch to database</span>
+<span class="c"># Save results of efetch to database and cleanup intermediate CSV files</span>
 <span class="kd">const</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">DBUtils</span><span class="o">.</span><span class="n">init_mysql_database</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span> <span class="n">dbname</span><span class="p">)</span>
 <span class="n">PubMed</span><span class="o">.</span><span class="n">create_tables!</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
-<span class="n">PubMed</span><span class="o">.</span><span class="n">save_efetch!</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">efetch_dict</span><span class="p">)</span>
+<span class="n">PubMed</span><span class="o">.</span><span class="n">save_efetch!</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">efetch_doc</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span> <span class="c"># verbose = false, drop_csv = true</span>
 </pre></div>
 
 
@@ -756,17 +771,26 @@
 
 <span class="kd">const</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">SQLite</span><span class="o">.</span><span class="n">DB</span><span class="p">(</span><span class="n">db_path</span><span class="p">)</span>
 <span class="n">PubMed</span><span class="o">.</span><span class="n">create_tables!</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
-<span class="n">PubMed</span><span class="o">.</span><span class="n">save_efetch!</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">efetch_dict</span><span class="p">)</span>
+<span class="n">PubMed</span><span class="o">.</span><span class="n">save_efetch!</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">efetch_doc</span><span class="p">)</span>
+</pre></div>
+
+
+<p><a id='Return-efetch-response-as-a-dictionary-of-DataFrames-1'></a></p>
+<h3 id="return-efetch-response-as-a-dictionary-of-dataframes">Return efetch response as a dictionary of DataFrames</h3>
+<p>The information returned by efetch can also be returned as dataframes. The dataframes match the format of the tables that are created for the sql saving functions (schema image below). These dataframes can also easily be saved to csv files.</p>
+<div class="codehilite"><pre><span></span>    <span class="n">dfs</span> <span class="o">=</span> <span class="n">PubMed</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">efetch_doc</span><span class="p">)</span>
+
+    <span class="n">PubMed</span><span class="o">.</span><span class="n">dfs_to_csv</span><span class="p">(</span><span class="n">dfs</span><span class="p">,</span> <span class="s">&quot;my/path&quot;</span><span class="p">,</span> <span class="s">&quot;my_file_prefix_&quot;</span><span class="p">)</span>
 </pre></div>
 
 
 <p><a id='Exploring-output-databases-1'></a></p>
 <h3 id="exploring-output-databases">Exploring output databases</h3>
 <p>The following schema has been used to store the results. If you are interested in having this module store additional fields, feel free to open an issue        </p>
-<p><img alt="alt" src="../images/save_efetch_schema.jpeg" /></p>
-<p>We can als eexplore the tables using BioMedQuery.DBUtils, e,g</p>
-<div class="codehilite"><pre><span></span><span class="n">tables</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;author&quot;</span><span class="p">,</span> <span class="s">&quot;author2article&quot;</span><span class="p">,</span> <span class="s">&quot;mesh_descriptor&quot;</span><span class="p">,</span>
-<span class="s">&quot;mesh_qualifier&quot;</span><span class="p">,</span> <span class="s">&quot;mesh_heading&quot;</span><span class="p">]</span>
+<p><img alt="alt" src="../images/pubmed_schema.jpg" /></p>
+<p>We can also explore the tables using BioMedQuery.DBUtils, e,g</p>
+<div class="codehilite"><pre><span></span><span class="n">tables</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;author_ref&quot;</span><span class="p">,</span> <span class="s">&quot;mesh_desc&quot;</span><span class="p">,</span>
+<span class="s">&quot;mesh_qual&quot;</span><span class="p">,</span> <span class="s">&quot;mesh_heading&quot;</span><span class="p">]</span>
 
 <span class="k">for</span> <span class="n">t</span> <span class="kp">in</span> <span class="n">tables</span>
     <span class="n">query_str</span> <span class="o">=</span> <span class="s">&quot;SELECT * FROM &quot;</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="s">&quot; LIMIT 10;&quot;</span>
@@ -788,24 +812,41 @@
 <li><a href="./#BioMedQuery.PubMed.citations_endnote"><code>BioMedQuery.PubMed.citations_endnote</code></a></li>
 <li><a href="./#BioMedQuery.PubMed.create_pmid_table!-Tuple{Any}"><code>BioMedQuery.PubMed.create_pmid_table!</code></a></li>
 <li><a href="./#BioMedQuery.PubMed.create_tables!-Tuple{Any}"><code>BioMedQuery.PubMed.create_tables!</code></a></li>
+<li><a href="./#BioMedQuery.PubMed.dfs_to_csv"><code>BioMedQuery.PubMed.dfs_to_csv</code></a></li>
+<li><a href="./#BioMedQuery.PubMed.dict_to_array-Tuple{Dict}"><code>BioMedQuery.PubMed.dict_to_array</code></a></li>
 <li><a href="./#BioMedQuery.PubMed.get_article_mesh-Tuple{Any,Integer}"><code>BioMedQuery.PubMed.get_article_mesh</code></a></li>
 <li><a href="./#BioMedQuery.PubMed.get_article_mesh_by_concept-Tuple{Any,Integer,Vararg{Any,N} where N}"><code>BioMedQuery.PubMed.get_article_mesh_by_concept</code></a></li>
+<li><a href="./#BioMedQuery.PubMed.parse_MedlineDate-Tuple{String}"><code>BioMedQuery.PubMed.parse_MedlineDate</code></a></li>
+<li><a href="./#BioMedQuery.PubMed.parse_author-Tuple{EzXML.Node}"><code>BioMedQuery.PubMed.parse_author</code></a></li>
+<li><a href="./#BioMedQuery.PubMed.parse_month-Tuple{AbstractString}"><code>BioMedQuery.PubMed.parse_month</code></a></li>
+<li><a href="./#BioMedQuery.PubMed.parse_orcid-Tuple{String}"><code>BioMedQuery.PubMed.parse_orcid</code></a></li>
+<li><a href="./#BioMedQuery.PubMed.parse_year-Tuple{AbstractString}"><code>BioMedQuery.PubMed.parse_year</code></a></li>
+<li><a href="./#BioMedQuery.PubMed.remove_csvs-Tuple{Array{String,1}}"><code>BioMedQuery.PubMed.remove_csvs</code></a></li>
+<li><a href="./#BioMedQuery.PubMed.remove_csvs"><code>BioMedQuery.PubMed.remove_csvs</code></a></li>
 <li><a href="./#BioMedQuery.PubMed.save_efetch!"><code>BioMedQuery.PubMed.save_efetch!</code></a></li>
 <li><a href="./#BioMedQuery.PubMed.save_efetch!"><code>BioMedQuery.PubMed.save_efetch!</code></a></li>
 <li><a href="./#BioMedQuery.PubMed.save_pmids!"><code>BioMedQuery.PubMed.save_pmids!</code></a></li>
 </ul>
 <p><a id='Structs-and-Functions-1'></a></p>
 <h2 id="structs-and-functions">Structs and Functions</h2>
+<p><a id='Base.parse-Tuple{EzXML.Node}' href='#Base.parse-Tuple{EzXML.Node}'>#</a>
+<strong><code>Base.parse</code></strong> &mdash; <em>Method</em>.</p>
+<div class="codehilite"><pre><span></span>parse(xml::EzXML.Node)
+</pre></div>
+
+
+<p>Parses a PubMedArticleSet that matches the NCBI-XML format</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/pubmed_to_csv.jl#L153-L156' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.abstracts-Tuple{Any}' href='#BioMedQuery.PubMed.abstracts-Tuple{Any}'>#</a>
 <strong><code>BioMedQuery.PubMed.abstracts</code></strong> &mdash; <em>Method</em>.</p>
 <p>abstracts(db; local_medline=false)</p>
-<p>Return all abstracts related to PMIDs in the database. If local_medline flag is set to true, it is assumed that db contains <em>article</em> table with only PMIDs and all other info is available in a (same host) medline database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/pubmed_sql_utils.jl#L164-L170' class='documenter-source'>source</a><br></p>
+<p>Return all abstracts related to PMIDs in the database. If local_medline flag is set to true, it is assumed that db contains <em>basic</em> table with only PMIDs and all other info is available in a (same host) medline database</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/pubmed_sql_utils.jl#L336-L342' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.abstracts_by_year-Tuple{Any,Any}' href='#BioMedQuery.PubMed.abstracts_by_year-Tuple{Any,Any}'>#</a>
 <strong><code>BioMedQuery.PubMed.abstracts_by_year</code></strong> &mdash; <em>Method</em>.</p>
 <p>abstracts_by_year(db, pub_year; local_medline=false)</p>
 <p>Return all abstracts of article published in the given year. If local_medline flag is set to true, it is assumed that db contains <em>article</em> table with only PMIDs and all other info is available in a (same host) medline database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/pubmed_sql_utils.jl#L134-L140' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/pubmed_sql_utils.jl#L304-L310' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.all_pmids-Tuple{Any}' href='#BioMedQuery.PubMed.all_pmids-Tuple{Any}'>#</a>
 <strong><code>BioMedQuery.PubMed.all_pmids</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>all_pmids(db)
@@ -813,39 +854,47 @@
 
 
 <p>Return all PMIDs stored in the <em>article</em> table of the input database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/pubmed_sql_utils.jl#L115-L118' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/pubmed_sql_utils.jl#L285-L288' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.citations_bibtex' href='#BioMedQuery.PubMed.citations_bibtex'>#</a>
 <strong><code>BioMedQuery.PubMed.citations_bibtex</code></strong> &mdash; <em>Function</em>.</p>
-<div class="codehilite"><pre><span></span>citations_bibtex(article::PubMedArticle, verbose=false)
+<div class="codehilite"><pre><span></span>citations_bibtex(article::Dict{String,DataFrame}, verbose=false)
 </pre></div>
 
 
-<p>Transforms a PubMedArticle into text corresponding to its bibtex citation</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/citation_manager.jl#L75-L79' class='documenter-source'>source</a><br></p>
+<p>Transforms a Dictionary of pubmed dataframes into text corresponding to its bibtex citation</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/citation_manager.jl#L83-L87' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.citations_endnote' href='#BioMedQuery.PubMed.citations_endnote'>#</a>
 <strong><code>BioMedQuery.PubMed.citations_endnote</code></strong> &mdash; <em>Function</em>.</p>
-<div class="codehilite"><pre><span></span>citations_endnote(article::PubMedArticle, verbose=false)
+<div class="codehilite"><pre><span></span>citations_endnote(article::Dict{String,DataFrame}, verbose=false)
 </pre></div>
 
 
-<p>Transforms a PubMedArticle into text corresponding to its endnote citation</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/citation_manager.jl#L26-L30' class='documenter-source'>source</a><br></p>
+<p>Transforms a Dictionary of pubmed dataframes into text corresponding to its endnote citation</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/citation_manager.jl#L28-L32' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.create_pmid_table!-Tuple{Any}' href='#BioMedQuery.PubMed.create_pmid_table!-Tuple{Any}'>#</a>
 <strong><code>BioMedQuery.PubMed.create_pmid_table!</code></strong> &mdash; <em>Method</em>.</p>
-<div class="codehilite"><pre><span></span>init_pmid_db!(conn; tablename=&quot;article&quot;)
+<div class="codehilite"><pre><span></span>create_pmid_table!(conn; tablename=&quot;article&quot;)
 </pre></div>
 
 
-<p>Creates a database, using either MySQL of SQLite, with all necessary tables to store Entrez related searches. All tables are empty at this point</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/pubmed_sql_utils.jl#L94-L98' class='documenter-source'>source</a><br></p>
+<p>Creates a table, using either MySQL of SQLite, to store PMIDs from Entrez related searches. All tables are empty at this point</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/pubmed_sql_utils.jl#L264-L268' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.create_tables!-Tuple{Any}' href='#BioMedQuery.PubMed.create_tables!-Tuple{Any}'>#</a>
 <strong><code>BioMedQuery.PubMed.create_tables!</code></strong> &mdash; <em>Method</em>.</p>
-<div class="codehilite"><pre><span></span>create_tables!(conn)
+<div class="codehilite"><pre><span></span>create_tables!(conn, medline_load=false)
 </pre></div>
 
 
-<p>Create and initialize tables to save results from an Entrez/PubMed search. Caution, all related tables are dropped if they exist</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/pubmed_sql_utils.jl#L7-L11' class='documenter-source'>source</a><br></p>
+<p>Create and initialize tables to save results from an Entrez/PubMed search or a medline file load. Caution, all related tables are dropped if they exist</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/pubmed_sql_utils.jl#L7-L11' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.dfs_to_csv' href='#BioMedQuery.PubMed.dfs_to_csv'>#</a>
+<strong><code>BioMedQuery.PubMed.dfs_to_csv</code></strong> &mdash; <em>Function</em>.</p>
+<div class="codehilite"><pre><span></span>dfs_to_csv(dfs::Dict, path::String, [file_prefix::String])
+</pre></div>
+
+
+<p>Takes output of toDataFrames and writes to CSV files at the provided path and with the file prefix.</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/pubmed_to_csv.jl#L487-L490' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.get_article_mesh-Tuple{Any,Integer}' href='#BioMedQuery.PubMed.get_article_mesh-Tuple{Any,Integer}'>#</a>
 <strong><code>BioMedQuery.PubMed.get_article_mesh</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>get_article_mesh(db, pmid)
@@ -853,7 +902,7 @@
 
 
 <p>Get the all mesh-descriptors associated with a give article</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/pubmed_sql_utils.jl#L192-L195' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/pubmed_sql_utils.jl#L364-L367' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.get_article_mesh_by_concept-Tuple{Any,Integer,Vararg{Any,N} where N}' href='#BioMedQuery.PubMed.get_article_mesh_by_concept-Tuple{Any,Integer,Vararg{Any,N} where N}'>#</a>
 <strong><code>BioMedQuery.PubMed.get_article_mesh_by_concept</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>get_article_mesh_by_concept(db, pmid, umls_concepts...; local_medline)
@@ -865,20 +914,20 @@
 <ul>
 <li>query_string: "" - assumes full set of results were saved by BioMedQuery directly from XML</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/pubmed_sql_utils.jl#L210-L215' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/pubmed_sql_utils.jl#L382-L387' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.save_efetch!' href='#BioMedQuery.PubMed.save_efetch!'>#</a>
+<strong><code>BioMedQuery.PubMed.save_efetch!</code></strong> &mdash; <em>Function</em>.</p>
+<p>pubmed_save_efetch(efetch_dict, conn)</p>
+<p>Save the results (dictionary) of an entrez-pubmed fetch to the input database.</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/eutils_sql_save.jl#L7-L11' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.save_efetch!' href='#BioMedQuery.PubMed.save_efetch!'>#</a>
 <strong><code>BioMedQuery.PubMed.save_efetch!</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>save_efetch!(output::CitationOutput, efetch_dict, verbose=false)
 </pre></div>
 
 
-<p>Save the results of a Entrez efetch to a bibliography file, with format and  file path given by <code>output::CitationOutput</code></p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/citation_manager.jl#L110-L115' class='documenter-source'>source</a><br></p>
-<p><a id='BioMedQuery.PubMed.save_efetch!' href='#BioMedQuery.PubMed.save_efetch!'>#</a>
-<strong><code>BioMedQuery.PubMed.save_efetch!</code></strong> &mdash; <em>Function</em>.</p>
-<p>pubmed_save_efetch(efetch_dict, conn)</p>
-<p>Save the results (dictionary) of an entrez-pubmed fetch to the input database.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/eutils_sql_save.jl#L5-L9' class='documenter-source'>source</a><br></p>
+<p>Save the results of a Entrez efetch to a bibliography file, with format and file path given by <code>output::CitationOutput</code></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/citation_manager.jl#L120-L125' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.save_pmids!' href='#BioMedQuery.PubMed.save_pmids!'>#</a>
 <strong><code>BioMedQuery.PubMed.save_pmids!</code></strong> &mdash; <em>Function</em>.</p>
 <p>save_pmids!(conn, pmids::Vector{Int64}, verbose::Bool=false)</p>
@@ -888,7 +937,7 @@
 <li><code>pmids</code>: Array of PMIDs</li>
 <li><code>verbose</code>: Boolean to turn on extra print statements</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/eutils_sql_save.jl#L37-L46' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/eutils_sql_save.jl#L29-L38' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.all_mesh-Tuple{Any}' href='#BioMedQuery.PubMed.all_mesh-Tuple{Any}'>#</a>
 <strong><code>BioMedQuery.PubMed.all_mesh</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>all_mesh(db)
@@ -896,7 +945,71 @@
 
 
 <p>Return all PMIDs stored in the <em>article</em> table of the input database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/f0bd0e459eb594dae161cf1d0f34802c6a820ef8/src/PubMed/pubmed_sql_utils.jl#L125-L128' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/pubmed_sql_utils.jl#L295-L298' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.dict_to_array-Tuple{Dict}' href='#BioMedQuery.PubMed.dict_to_array-Tuple{Dict}'>#</a>
+<strong><code>BioMedQuery.PubMed.dict_to_array</code></strong> &mdash; <em>Method</em>.</p>
+<div class="codehilite"><pre><span></span>dict_to_array(dict::Dict)
+</pre></div>
+
+
+<p>Given a dictionary, returns a tuple of arrays with the keys and values.</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/pubmed_to_csv.jl#L7-L11' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.parse_MedlineDate-Tuple{String}' href='#BioMedQuery.PubMed.parse_MedlineDate-Tuple{String}'>#</a>
+<strong><code>BioMedQuery.PubMed.parse_MedlineDate</code></strong> &mdash; <em>Method</em>.</p>
+<div class="codehilite"><pre><span></span>parse_MedlineDate(ml_dt::String)
+</pre></div>
+
+
+<p>Parses the contents of the MedlineDate element and returns a tuple of the year and month.</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/pubmed_to_csv.jl#L25-L28' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.parse_author-Tuple{EzXML.Node}' href='#BioMedQuery.PubMed.parse_author-Tuple{EzXML.Node}'>#</a>
+<strong><code>BioMedQuery.PubMed.parse_author</code></strong> &mdash; <em>Method</em>.</p>
+<div class="codehilite"><pre><span></span>parse_author
+</pre></div>
+
+
+<p>Takes xml for author, and returns parsed elements</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/pubmed_to_csv.jl#L112-L115' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.parse_month-Tuple{AbstractString}' href='#BioMedQuery.PubMed.parse_month-Tuple{AbstractString}'>#</a>
+<strong><code>BioMedQuery.PubMed.parse_month</code></strong> &mdash; <em>Method</em>.</p>
+<div class="codehilite"><pre><span></span>parse_month(mon::String)
+</pre></div>
+
+
+<p>Parses the string month (month or season) and returns an integer with the first month in range.</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/pubmed_to_csv.jl#L56-L59' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.parse_orcid-Tuple{String}' href='#BioMedQuery.PubMed.parse_orcid-Tuple{String}'>#</a>
+<strong><code>BioMedQuery.PubMed.parse_orcid</code></strong> &mdash; <em>Method</em>.</p>
+<div class="codehilite"><pre><span></span>parse_orcid(raw_orc::String)
+</pre></div>
+
+
+<p>Takes a string containing an ORC ID (url, 16 digit string) and returns a formatted ID (0000-1111-2222-3333).</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/pubmed_to_csv.jl#L98-L101' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.parse_year-Tuple{AbstractString}' href='#BioMedQuery.PubMed.parse_year-Tuple{AbstractString}'>#</a>
+<strong><code>BioMedQuery.PubMed.parse_year</code></strong> &mdash; <em>Method</em>.</p>
+<div class="codehilite"><pre><span></span>parse_year(yr::String)
+</pre></div>
+
+
+<p>Parses the string year and returns an integer with the first year in range.</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/pubmed_to_csv.jl#L43-L46' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.remove_csvs' href='#BioMedQuery.PubMed.remove_csvs'>#</a>
+<strong><code>BioMedQuery.PubMed.remove_csvs</code></strong> &mdash; <em>Function</em>.</p>
+<div class="codehilite"><pre><span></span>remove_csvs(dfs, path, file_prefix)
+</pre></div>
+
+
+<p>Removes all of the CSV files associated with a dictionary of dataframes</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/pubmed_to_csv.jl#L496-L499' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.remove_csvs-Tuple{Array{String,1}}' href='#BioMedQuery.PubMed.remove_csvs-Tuple{Array{String,1}}'>#</a>
+<strong><code>BioMedQuery.PubMed.remove_csvs</code></strong> &mdash; <em>Method</em>.</p>
+<div class="codehilite"><pre><span></span>remove_csvs(paths::Vector)
+</pre></div>
+
+
+<p>Removes all of the CSV files associated with an array of paths</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/cb7307bf8e780ab61382292bc7d52b1c99833e30/src/PubMed/pubmed_to_csv.jl#L505-L508' class='documenter-source'>source</a><br></p>
                 
                   
                 
