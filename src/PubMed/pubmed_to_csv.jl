@@ -151,8 +151,8 @@ end
 
 # Note: If needed it could be further refactored to to that author, journal is a type
 """
-    PubMedArticle
-Type that matches the NCBI-XML contents for a PubMedArticle
+    parse(xml::EzXML.Node)
+Parses a PubMedArticleSet that matches the NCBI-XML format
 """
 #Constructor from EzXML article element
 function parse(xml::EzXML.Node)

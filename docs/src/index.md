@@ -38,4 +38,4 @@ Depth = 6 -->
 | Function                                | Description                   |
 | :-------                                | :----------                   |
 |[BioServices.jl](https://github.com/BioJulia/BioServices.jl)| Interface to EUtils and UMLS APIs|
-|[PubMedMiner.jl](https://github.com/bcbi/PubMedMiner.jl) | Examples of comorbidity studies using PubMed artciles|
+|[PubMedMiner.jl](https://github.com/bcbi/PubMedMiner.jl) | Examples of comorbidity studies using PubMed articles|

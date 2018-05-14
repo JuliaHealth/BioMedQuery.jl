@@ -9,6 +9,15 @@ using DataFrames
     load_medline(db_con, output_dir; start_file = 1, end_file = 928, year=2018, test=false)
 
 Given a MySQL connection and optionally the start and end files, fetches the medline files, parses the xml, and loads into a MySQL DB (assumes tables already exist). The raw (xml.gz) and parsed (csv) files will be stored in the output_dir.
+
+###Arguments
+
+* db_con: A MySQL Connection to a db (tables must already be created - see PubMed.create_tables!)
+* output_dir : root directory where the raw and parsed files should be stored
+* start_file : which medline file should the loading start at
+* end_file: which medline file should the loading end at (default is last file in 2018 baseline)
+* year: which year medline is (current is 2018)
+* test: if true, a sample file will be downloaded, parsed, and loaded instead of the baseline files
 """
 function load_medline(db_con::MySQL.Connection, output_dir::String; start_file::Int = 1, end_file::Int = 928, year::Int=2018, test::Bool = false)
 
@@ -17,6 +26,10 @@ function load_medline(db_con::MySQL.Connection, output_dir::String; start_file::
     set_innodb_checks!(db_con,0,0,0)
     drop_mysql_keys!(db_con)
 
+    if test
+        start_file = 1
+        end_file = 1
+    end
 
     info("Getting files from Medline")
     @sync for n = start_file:end_file
@@ -47,9 +60,9 @@ function load_medline(db_con::MySQL.Connection, output_dir::String; start_file::
 end
 
 """
-    init(mysql_host::String, mysql_user::String, mysql_pwd::String, mysql_db::String, overwrite::bool)
+    init_medline(output_dir, test=false)
 
-Sets up environment (folders), and connects to MySQL DB and FTP Server returns these connections.
+Sets up environment (folders), and connects to medline FTP Server and returns the connection.
 """
 function init_medline(output_dir::String, test::Bool=false)
     ## SET UP ENVIRONMENT
@@ -79,8 +92,8 @@ end
 
 
 """
-    get_file_name(fnum::Int, year::Int = 2018)
-Returns the medline file name given the file number.
+    get_file_name(fnum::Int, year::Int = 2018, test = false)
+Returns the medline file name given the file number and year.
 """
 function get_file_name(fnum::Int, year::Int, test::Bool=false)
     nstr = lpad(fnum,4,0) # pad iterator with leading zeros so total length is 4
@@ -92,9 +105,9 @@ function get_file_name(fnum::Int, year::Int, test::Bool=false)
 end
 
 """
-    get_ml_file(fname::String, conn::ConnContext)
+    get_ml_file(fname::String, conn::ConnContext, output_dir)
 
-Retrieves the file with fname /files.  Returns the HTTP response.
+Retrieves the file with fname and puts in medline/raw_files.  Returns the HTTP response.
 """
 function get_ml_file(fname::String, conn::ConnContext, output_dir::String)
     println("Getting file: ", fname)
@@ -113,7 +126,7 @@ end
 
 
 """
-    get_ftp_con()
+    get_ftp_con(test = false)
 Get an FTP connection
 """
 function get_ftp_con(test::Bool = false)
@@ -127,9 +140,9 @@ function get_ftp_con(test::Bool = false)
 end
 
 """
-    parse_ml_file(fname::String)
+    parse_ml_file(fname::String, output_dir::String)
 
-Parses the medline xml file into a dictionary of dataframes
+Parses the medline xml file into a dictionary of dataframes. Saves the resulting CSV files to medline/parsed_files.
 """
 function parse_ml_file(fname::String, output_dir::String)
     println("Parsing file: ", fname)
