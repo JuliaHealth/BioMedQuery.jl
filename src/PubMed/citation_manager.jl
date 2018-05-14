@@ -1,4 +1,6 @@
 
+using DataFrames
+
 """
     CitationOutput
 Structure to hold the format and file location to store citations
@@ -10,7 +12,7 @@ mutable struct CitationOutput
     function CitationOutput(format::String, file::String, overwrite::Bool)
         this = new()
         this.format = format
-        
+
         if overwrite
             if isfile(file)
                 rm(file)
@@ -24,85 +26,93 @@ mutable struct CitationOutput
 end
 
 """
-    citations_endnote(article::PubMedArticle, verbose=false)
+    citations_endnote(article::Dict{String,DataFrame}, verbose=false)
 
-Transforms a PubMedArticle into text corresponding to its endnote citation
+Transforms a Dictionary of pubmed dataframes into text corresponding to its endnote citation
 """
-function citations_endnote(article::PubMedArticle, verbose=false)
+function citations_endnote(article::Dict{String,DataFrame}, row::Int, verbose=false)
+
 
     # println("***Types: ", article.types)
-    jrnl_art = find(x->(x=="Journal Article"), skipmissing(article.types))
+    jrnl_art = find((article["pub_type"][:name].=="Journal Article") .& (article["pub_type"][:pmid] .== article["basic"][row,:pmid]))
 
     if length(jrnl_art)!= 1
         error("EndNote can only export Journal Articles")
     end
 
     lines::Vector{String} = ["%0 Journal Article"]
-    for au in article.authors
-        if ismissing(au[:Initials]) && ismissing(au[:LastName])
+    affiliation_str = ""
+    auth_art = article["author_ref"][find(article["author_ref"][:pmid] .== article["basic"][row,:pmid]),:]
+    for au = 1:size(auth_art)[1]
+        if ismissing(auth_art[au,:initials]) && ismissing(auth_art[au,:last_name])
             println("Skipping author, null field: ", au)
             continue
         end
-        author = string(au[:LastName], ", ", au[:Initials])
+        author = string(auth_art[au,:last_name], ", ", auth_art[au,:initials])
+        if !(ismissing(auth_art[au,:affiliation]))
+            affiliation_str *= auth_art[au,:affiliation] * "; "
+        end
         push!(lines, "%A $author")
     end
 
-    !ismissing(article.year) && push!(lines, "%D $(article.year)")
-    !ismissing(article.title) && push!(lines, "%T $(article.title)")
-    !ismissing(article.journal) && push!(lines, "%J $(article.journal)")
-    !ismissing(article.volume) && push!(lines, "%V $(article.volume)")
-    !ismissing(article.issue) && push!(lines, "%N $(article.issue)")
-    !ismissing(article.pages) && push!(lines, "%P $(article.pages)")
-    !ismissing(article.pmid) && push!(lines, "%M $(article.pmid)")
-    !ismissing(article.url) && push!(lines, "%U $(article.url)")
-    !ismissing(article.abstract_text) && push!(lines, "%X $(article.abstract_text)")
 
+    !ismissing(article["basic"][row,:pub_year]) && push!(lines, "%D $(article["basic"][row,:pub_year])")
+    !ismissing(article["basic"][row,:title]) && push!(lines, "%T $(article["basic"][row,:title])")
+    !ismissing(article["basic"][row,:journal_iso_abbreviation]) && push!(lines, "%J $(article["basic"][row,:journal_iso_abbreviation])") # Does this need to be ISO abbreviation?
+    !ismissing(article["basic"][row,:journal_volume]) && push!(lines, "%V $(article["basic"][row,:journal_volume])")
+    !ismissing(article["basic"][row,:journal_issue]) && push!(lines, "%N $(article["basic"][row,:journal_issue])")
+    !ismissing(article["basic"][row,:journal_pages]) && push!(lines, "%P $(article["basic"][row,:journal_pages])")
+    !ismissing(article["basic"][row,:pmid]) && push!(lines, "%M $(article["basic"][row,:pmid])")
+    !ismissing(article["basic"][row,:url]) && push!(lines, "%U $(article["basic"][row,:url])")
 
-    for term in article.mesh
-        !ismissing(term) && push!(lines, "%K $(term)")
+    abstract_full = article["abstract_full"][find(article["abstract_full"][:pmid] .== article["basic"][row,:pmid]), :abstract_text]
+    length(abstract_full) == 1 && push!(lines, "%X $(abstract_full)")
+
+    mesh_headings = article["mesh_heading"][(find(article["mesh_heading"][:pmid] .== article["basic"][row,:pmid])),:]
+    mesh_descs = join(mesh_headings, article["mesh_desc"], on = (:desc_uid, :uid), kind=:inner)
+
+    for i in 1:size(mesh_descs)[1]
+        !ismissing(mesh_descs[i,:name]) && push!(lines, "%K $(mesh_descs[i,:name])")
     end
 
-    if !isempty(article.affiliations)
-        affiliations_str = join(skipmissing(article.affiliations), ", ")
-        push!(lines, "%+ $affiliations_str")
-    end
-    # for m in mesh_terms
-    #     push!(lines, "%K $m")
-    # end
+    !(affiliation_str == "") && push!(lines, "%+ $(affiliation_str[1:end-2])")
+
     return join(lines, "\n")
 end
 
 """
-    citations_bibtex(article::PubMedArticle, verbose=false)
+    citations_bibtex(article::Dict{String,DataFrame}, verbose=false)
 
-Transforms a PubMedArticle into text corresponding to its bibtex citation
+Transforms a Dictionary of pubmed dataframes into text corresponding to its bibtex citation
 """
-function citations_bibtex(article::PubMedArticle, verbose=false)
-    jrnl_art = find(x->(x=="Journal Article"), skipmissing(article.types))
+function citations_bibtex(article::Dict{String,DataFrame}, row::Int, verbose=false)
+
+    jrnl_art = find((article["pub_type"][:name].=="Journal Article") .& (article["pub_type"][:pmid] .== article["basic"][row,:pmid]))
 
     if length(jrnl_art)!= 1
-        error("EndNote can only export Journal Articles")
+        error("BibTex can only export Journal Articles")
     end
 
-    lines::Vector{String} = ["@article {PMID:$(article.pmid),"]
+    lines::Vector{String} = ["@article {PMID:$(article["basic"][row,:pmid]),"]
     authors_str = []
-    for au in article.authors
-        if ismissing(au[:Initials]) && ismissing(au[:LastName])
+    auth_art = article["author_ref"][(find(article["author_ref"][:pmid] .== article["basic"][row,:pmid])),:]
+    for au = 1:size(auth_art)[1]
+        if ismissing(auth_art[au,:initials]) && ismissing(auth_art[au,:last_name])
             println("Skipping author, null field: ", au)
             continue
         end
-        author = string(au[:LastName], ", ", au[:Initials])
+        author = string(auth_art[au,:last_name], ", ", auth_art[au,:initials])
         push!(authors_str, "$author")
     end
     all_authors_str = join(authors_str, " and ")
     push!(lines, "  author  = {$all_authors_str},")
-    !ismissing(article.title)   && push!(lines, "  title   = {$(article.title)},")
-    !ismissing(article.journal) && push!(lines, "  journal = {$(article.journal)},")
-    !ismissing(article.year)    && push!(lines, "  year    = {$(article.year)},")
-    !ismissing(article.volume)  && push!(lines, "  volume  = {$(article.volume)},")
-    !ismissing(article.issue)   && push!(lines, "  number  = {$(article.issue)},")
-    !ismissing(article.pages)   && push!(lines, "  pages   = {$(article.pages)},")
-    !ismissing(article.url)     && push!(lines, "  url     = {$(article.url)},")
+    !ismissing(article["basic"][row,:title])   && push!(lines, """  title   = {$(article["basic"][row,:title])},""")
+    !ismissing(article["basic"][row,:journal_iso_abbreviation]) && push!(lines, """  journal = {$(article["basic"][row,:journal_iso_abbreviation])},""")
+    !ismissing(article["basic"][row,:pub_year])    && push!(lines, """  year    = {$(article["basic"][row,:pub_year])},""")
+    !ismissing(article["basic"][row,:journal_volume])  && push!(lines, """  volume  = {$(article["basic"][row,:journal_volume])},""")
+    !ismissing(article["basic"][row,:journal_issue])   && push!(lines, """  number  = {$(article["basic"][row,:journal_issue])},""")
+    !ismissing(article["basic"][row,:journal_pages])   && push!(lines, """  pages   = {$(article["basic"][row,:journal_pages])},""")
+    !ismissing(article["basic"][row,:url])     && push!(lines, """  url     = {$(article["basic"][row,:url])},""")
     push!(lines, "}\n")
     return join(lines, "\n")
 end
@@ -110,11 +120,11 @@ end
 """
     save_efetch!(output::CitationOutput, efetch_dict, verbose=false)
 
-Save the results of a Entrez efetch to a bibliography file, with format and 
+Save the results of a Entrez efetch to a bibliography file, with format and
 file path given by `output::CitationOutput`
 """
-function save_efetch!(output::CitationOutput, efetch_dict, verbose=false)
-   
+function save_efetch!(output::CitationOutput, articles::EzXML.Node, verbose=false, cleanup = false)
+
     output_file = output.file
 
     if output.format == "bibtex"
@@ -125,46 +135,36 @@ function save_efetch!(output::CitationOutput, efetch_dict, verbose=false)
         error("Reference type not supported")
     end
 
+    n_articles = countelements(articles)
+
     #Decide type of article based on structrure of efetch
-    if haskey(efetch_dict, "PubmedArticle")
-        TypeArticle = PubMedArticle
-        articles = efetch_dict["PubmedArticle"]
-    else
-        error("Saving citations is only supported for PubMed searches")
+    if nodename(articles) != "PubmedArticleSet"
+        println(articles)
+        error("Save efetch is only supported for PubMed searches")
     end
 
-    println("Saving citation for " , length(articles) ,  " articles")
+    println("Saving citation for " , n_articles ,  " articles")
 
     fout = open(output_file, "a")
     nsuccess=0
-    if typeof(articles) <: Array
-        for xml_article in articles
-            article = TypeArticle(xml_article)
-            try
-                citation = citation_func(article, verbose)
-                print(fout, citation)
-                println(fout) #two empty lines
-                println(fout)
-                nsuccess+=1
-            catch error
-                println("Citation failed for article: ", article)
-                println(error)
-                continue
-            end
-        end
-    else
-        article = TypeArticle(articles)
+
+    articles_df = PubMed.parse(articles)
+
+    for i = 1:n_articles
         try
-            citation = citation_func(article, verbose)
+            citation = citation_func(articles_df, i, verbose)
             print(fout, citation)
             println(fout) #two empty lines
             println(fout)
             nsuccess+=1
         catch error
-            println("Citation failed for article: ", article)
+            println("Citation failed for article: ", articles_df["basic"][i,:pmid])
             println(error)
+            continue
         end
+
     end
+
     close(fout)
     return nsuccess
 end

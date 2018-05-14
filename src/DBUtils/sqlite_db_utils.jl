@@ -4,9 +4,9 @@ using SQLite
     select_columns(db, table)
 Return an array with names of columns in the given table
 """
-function select_columns(db::SQLite.DB, table)
-    cols_query = SQLite.query(db, "SHOW COLUMNS FROM $table;")
-    cols_query[2]
+function select_columns(db::SQLite.DB, table::AbstractString)
+    cols_query = SQLite.columns(db, table)
+    cols_query[:name]
 end
 
 """
@@ -69,19 +69,19 @@ function insert_row!{T}(db::SQLite.DB, tablename, data_values::Dict{Symbol, T},
 end
 
 """
-disable_foreing_checks(con::SQLite.DB)
-Disables foreing checks for SQLite database
+disable_foreign_checks(con::SQLite.DB)
+Disables foreign checks for SQLite database
 """
-function disable_foreing_checks(conn::SQLite.DB)
+function disable_foreign_checks(conn::SQLite.DB)
     SQLite.execute!(conn, "PRAGMA foreign_keys = OFF")
 
 end
 
 """
-    enable_foreing_checks(con::SQLite.DB)
-Enables foreing checks for SQLite database
+    enable_foreign_checks(con::SQLite.DB)
+Enables foreign checks for SQLite database
 """
-function enable_foreing_checks(conn::SQLite.DB)
+function enable_foreign_checks(conn::SQLite.DB)
     SQLite.execute!(conn, "PRAGMA foreign_keys = ON")
 
 end

@@ -2,13 +2,15 @@ using DataFrames
 using MySQL
 using BioServices.EUtils
 using XMLDict
+using EzXML
+import Base.parse
 
 #------------------ BioMedQuery -------------------
     @testset "Testing Eutils/PubMed" begin
     #testset "globals"
     narticles = 10
     ids = Array{Int64,1}()
-    efetch_dict = Dict()
+    efetch_doc = EzXML.ElementNode("")
     verbose = false
     articles = []
 
@@ -28,7 +30,7 @@ using XMLDict
         @test haskey(esearch_dict, "IdList")
 
         for id_node in esearch_dict["IdList"]["Id"]
-            push!(ids, parse(Int64, id_node))
+            push!(ids, Base.parse(Int64, id_node))
         end
 
         @test length(ids)==narticles
@@ -37,18 +39,12 @@ using XMLDict
         efetch_response = efetch(db = "pubmed", tool = "BioJulia", retmode = "xml", rettype = "null", id = ids)
 
         #convert xml to dictionary
-        efetch_dict = parse_xml(String(efetch_response.data))
+        efetch_doc = root(parsexml(String(efetch_response.data)))
 
-        @test haskey(efetch_dict, "PubmedArticle")
+        @test nodename(efetch_doc) == "PubmedArticleSet"
 
-        articles = efetch_dict["PubmedArticle"]
-
-        # println("----------Efetch Dict---------------")
-        # println(efetch_dict)
-        # println("--------------------------")
-        
         #articles should be an array of narticles
-        @test length(articles) == narticles
+        @test narticles == countelements(efetch_doc)
 
     end
 
@@ -59,13 +55,13 @@ using XMLDict
         host = "127.0.0.1";
         user = "root"
         pwd = ""
-        
+
         const conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
         PubMed.create_pmid_table!(conn)
         PubMed.save_pmids!(conn, ids)
 
         #query the article table and make sure the count is correct
-        all_pmids = BioMedQuery.PubMed.all_pmids(conn)
+        all_pmids = PubMed.all_pmids(conn)
         @test length(all_pmids) == narticles
 
          #clean-up
@@ -80,7 +76,7 @@ using XMLDict
         # art = BioMedQuery.PubMed.MedlineArticle(articles[1])
         # println(art)
         citation = PubMed.CitationOutput("endnote", "./citations_temp.endnote", true)
-        nsucceses = PubMed.save_efetch!(citation, efetch_dict, verbose)
+        nsucceses = PubMed.save_efetch!(citation, efetch_doc, verbose)
 
 
         #test that citations are the same as the ones already stored
@@ -109,7 +105,7 @@ using XMLDict
 
         const conn = SQLite.DB(db_path)
         PubMed.create_tables!(conn)
-        PubMed.save_efetch!(conn, efetch_dict)
+        PubMed.save_efetch!(conn, efetch_doc,false, true)
 
         #query the article table and make sure the count is correct
         all_pmids = PubMed.all_pmids(conn)
@@ -123,9 +119,9 @@ using XMLDict
         mesh = PubMed.get_article_mesh(conn, all_pmids[1])
         @test length(mesh) > 0
 
-        #check that reminder of tables are not empty
-        tables = ["author", "author2article", "mesh_descriptor",
-        "mesh_qualifier", "mesh_heading"]
+        #check that remainder of tables are not empty
+        tables = ["author_ref", "mesh_desc",
+        "mesh_qual", "mesh_heading", "pub_type", "abstract_structured"]
 
         for t in tables
             q = SQLite.query(conn, "SELECT count(*) FROM "*t*";")
@@ -151,7 +147,7 @@ using XMLDict
 
         const conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
         PubMed.create_tables!(conn)
-        @time PubMed.save_efetch!(conn, efetch_dict)
+        @time PubMed.save_efetch!(conn, efetch_doc, false, true)
 
         #query the article table and make sure the count is correct
         all_pmids = PubMed.all_pmids(conn)
@@ -167,8 +163,8 @@ using XMLDict
         @test length(mesh) > 0
 
         #check that reminder of tables are not empty
-        tables = ["author", "author2article", "mesh_descriptor",
-        "mesh_qualifier", "mesh_heading"]
+        tables = ["author_ref", "mesh_desc",
+        "mesh_qual", "mesh_heading", "pub_type", "abstract_structured"]
 
         for t in tables
             q = MySQL.query(conn, "SELECT count(*) FROM "*t*";")

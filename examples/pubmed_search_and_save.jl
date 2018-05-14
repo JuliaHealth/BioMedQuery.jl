@@ -6,7 +6,7 @@ using BioMedQuery.Processes
 using DataFrames
 
 email= "" #Only needed if you want to contact NCBI with inqueries
-search_term="(obesity[MeSH Major Topic]) AND (\"2010\"[Date - Publication] : \"2012\"[Date - Publication])" 
+search_term="(obesity[MeSH Major Topic]) AND (\"2010\"[Date - Publication] : \"2012\"[Date - Publication])"
 max_articles = 5
 results_dir = "./results"
 verbose = false;
@@ -22,8 +22,8 @@ Processes.pubmed_search_and_save!(email, search_term, max_articles, mysql_conn, 
 
 display(all_pmids(mysql_conn))
 
-tables = ["author", "author2article", "mesh_descriptor",
-"mesh_qualifier", "mesh_heading"]
+tables = ["author_ref", "mesh_desc",
+"mesh_qual", "mesh_heading"]
 
 for t in tables
     query_str = "SELECT * FROM "*t*" LIMIT 5;"
@@ -38,19 +38,19 @@ const db_path = "$(results_dir)/pubmed_obesity_2010_2012.db"
 #overwrite
 if isfile(db_path)
     rm(db_path)
-end 
+end
 
 #connect
 const conn_sqlite = SQLite.DB(db_path)
 
 # Creates (and deletes if they already exist) all tables needed to save a pubmed search
-PubMed.create_tables!(conn_sqlite)  
+PubMed.create_tables!(conn_sqlite)
 Processes.pubmed_search_and_save!(email, search_term, max_articles, conn_sqlite, verbose)
 
 display(PubMed.all_pmids(conn_sqlite))
 
-tables = ["author", "author2article", "mesh_descriptor",
-"mesh_qualifier", "mesh_heading"]
+tables = ["author_ref", "mesh_desc",
+"mesh_qual", "mesh_heading"]
 
 for t in tables
     query_str = "SELECT * FROM "*t*" LIMIT 5;"

@@ -1,6 +1,7 @@
+using EzXML
 
 #************************ LOCALS TO CONFIGURE!!!! **************************
-const email= "" 
+const email= ""
 #Enviroment variable that need to be setup
 const umls_user = ENV["UMLS_USER"]
 const umls_pswd = ENV["UMLS_PSSWD"]
@@ -16,15 +17,17 @@ const mysql_usr="root"
 const mysql_pswd=""
 const dbname="pubmed_processes_test"
 const dbname_pmid ="pmid_processes_test"
+const medline_file = 1
+const medline_year = 2018
 #*****************************************************************************
 
 const conn = DBUtils.init_mysql_database(host, mysql_usr, mysql_pswd, dbname)
-PubMed.create_tables!(conn)  
+PubMed.create_tables!(conn)
 
 @testset "Search and Save" begin
     println("-----------------------------------------")
     println("       Testing Search and Save")
-     
+
     pubmed_search_and_save!(email, search_term, max_articles,
     conn, verbose)
 
@@ -78,6 +81,38 @@ end
 
     @test length(keys(labels2ind)) > 0
     @test length(find(x->x=="Obesity", collect(keys(labels2ind)))) ==1
+end
+
+@testset "Medline Load" begin
+println("-----------------------------------------")
+println("       Testing Medline Loader")
+
+    PubMed.create_tables!(conn) #drop and re-create pubmed article tables
+
+    load_medline(conn, dirname(@__FILE__), start_file=medline_file, end_file=medline_file, year=medline_year, test=true)
+
+    path = joinpath(dirname(@__FILE__),"medline","raw_files",Processes.get_file_name(medline_file, medline_year, true))
+    doc = EzXML.readxml(path)
+
+    raw_articles = EzXML.root(doc)
+
+    all_pmids = PubMed.all_pmids(conn)
+    @test length(all_pmids) == countelements(raw_articles)
+    res = MySQL.query(conn, "SELECT DISTINCT orcid FROM author_ref;", DataFrame)
+    @test size(res)[1] > 2
+
+    rm(joinpath(dirname(@__FILE__),"medline"), recursive=true)
+
+end
+
+@testset "Search and Parse" begin
+    println("-----------------------------------------")
+    println("       Testing Search and Parse")
+
+    dfs = pubmed_search_and_parse(email, search_term, max_articles, verbose)
+
+    @test size(dfs["basic"])[1] == max_articles
+
 end
 
 MySQL.disconnect(conn)

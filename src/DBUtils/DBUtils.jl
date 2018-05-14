@@ -77,7 +77,7 @@ function assemble_cols_and_vals_string{T}(data_values::Dict{Symbol, T}, op = "AN
     select_string_array = Array{String}(length(data_values))
     for (i, (key,val)) in enumerate(data_values)
         col_backticks = string("`", key, "`")
-        if typeof(val) <: Number && !ismissing(val) 
+        if typeof(val) <: Number && !ismissing(val)
             val_single_quotes=val
         elseif val == nothing || ismissing(val)
             val_single_quotes = "NULL"
@@ -97,6 +97,18 @@ end
 
 function assemble_cols_and_vals_select{T}(data_values::Dict{Symbol, T}, op = "AND")
     assemble_cols_and_vals_string(data_values, "AND")
+end
+
+"""
+    assemble_cols(data_values::DataFrame)
+Given a DataFrame, returns a column name string formatted for an insert/load statement
+"""
+function assemble_cols(data_values::DataFrame)
+    col_str = ""
+    for col in data_values.colindex.names
+        col_str *= string(col) * ","
+    end
+    return col_str[1:end-1]
 end
 
 #*****************
@@ -135,4 +147,30 @@ function db_select{T}(con, colnames, tablename, data_values::Dict{Symbol, T})
     select_string = assemble_cols_and_vals_select(data_values)
     sel = db_query(con, "SELECT $select_cols_string FROM `$tablename` WHERE $select_string;")
     sel
+end
+
+
+"""
+    col_match(con, tablename, data_values)
+Checks if each column in the dataframe has a matching column in the table
+"""
+function col_match(con, tablename::String, data_values::DataFrame)
+    all_match = true
+
+    table_cols = select_columns(con, tablename)
+    for col in data_values.colindex.names
+        this_match = false
+        for tc in table_cols
+            if tc == string(col)
+                this_match = true
+                break
+            end
+        end
+        if this_match == false
+            all_match = false
+            break
+        end
+    end
+
+    return all_match
 end
