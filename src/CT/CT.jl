@@ -4,8 +4,7 @@
 # Author: Isabel Restrepo
 # BCBI - Brown University
 # Version: Julia 0.4.5
-using Requests
-using HttpCommon
+using HTTP
 
 @enum AgeGroup child=0 adult=1 senior=2
 # Submit a search to clinicaltrials.gov
@@ -49,16 +48,16 @@ function search_ct(query, fout; results=false)
     end
 
     println("Getting request")
-    response = Requests.get(uri, query=query)
+    response = HTTP.request("GET", uri, query=query)
 
-    println("Clinical Trials Response: ", STATUS_CODES[response.status])
+    println("Clinical Trials Response: ", response.status)
 
     if response.status != 200
         error("Bad response from clinicaltrials.gov")
     end
 
     #Save xml files to disk
-    save(response, fout)
+    write(fout, response.body)
 
     return response.status
 end
