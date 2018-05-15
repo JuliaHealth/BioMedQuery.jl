@@ -836,17 +836,17 @@
 
 
 <p>Parses a PubMedArticleSet that matches the NCBI-XML format</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/pubmed_to_csv.jl#L153-L156' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/pubmed_to_csv.jl#L153-L156' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.abstracts-Tuple{Any}' href='#BioMedQuery.PubMed.abstracts-Tuple{Any}'>#</a>
 <strong><code>BioMedQuery.PubMed.abstracts</code></strong> &mdash; <em>Method</em>.</p>
 <p>abstracts(db; local_medline=false)</p>
 <p>Return all abstracts related to PMIDs in the database. If local_medline flag is set to true, it is assumed that db contains <em>basic</em> table with only PMIDs and all other info is available in a (same host) medline database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/pubmed_sql_utils.jl#L336-L342' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/pubmed_sql_utils.jl#L336-L342' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.abstracts_by_year-Tuple{Any,Any}' href='#BioMedQuery.PubMed.abstracts_by_year-Tuple{Any,Any}'>#</a>
 <strong><code>BioMedQuery.PubMed.abstracts_by_year</code></strong> &mdash; <em>Method</em>.</p>
 <p>abstracts_by_year(db, pub_year; local_medline=false)</p>
 <p>Return all abstracts of article published in the given year. If local_medline flag is set to true, it is assumed that db contains <em>article</em> table with only PMIDs and all other info is available in a (same host) medline database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/pubmed_sql_utils.jl#L304-L310' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/pubmed_sql_utils.jl#L304-L310' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.all_pmids-Tuple{Any}' href='#BioMedQuery.PubMed.all_pmids-Tuple{Any}'>#</a>
 <strong><code>BioMedQuery.PubMed.all_pmids</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>all_pmids(db)
@@ -854,7 +854,7 @@
 
 
 <p>Return all PMIDs stored in the <em>article</em> table of the input database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/pubmed_sql_utils.jl#L285-L288' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/pubmed_sql_utils.jl#L285-L288' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.citations_bibtex' href='#BioMedQuery.PubMed.citations_bibtex'>#</a>
 <strong><code>BioMedQuery.PubMed.citations_bibtex</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>citations_bibtex(article::Dict{String,DataFrame}, verbose=false)
@@ -862,7 +862,7 @@
 
 
 <p>Transforms a Dictionary of pubmed dataframes into text corresponding to its bibtex citation</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/citation_manager.jl#L83-L87' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/citation_manager.jl#L83-L87' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.citations_endnote' href='#BioMedQuery.PubMed.citations_endnote'>#</a>
 <strong><code>BioMedQuery.PubMed.citations_endnote</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>citations_endnote(article::Dict{String,DataFrame}, verbose=false)
@@ -870,7 +870,7 @@
 
 
 <p>Transforms a Dictionary of pubmed dataframes into text corresponding to its endnote citation</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/citation_manager.jl#L28-L32' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/citation_manager.jl#L28-L32' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.create_pmid_table!-Tuple{Any}' href='#BioMedQuery.PubMed.create_pmid_table!-Tuple{Any}'>#</a>
 <strong><code>BioMedQuery.PubMed.create_pmid_table!</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>create_pmid_table!(conn; tablename=&quot;article&quot;)
@@ -878,7 +878,7 @@
 
 
 <p>Creates a table, using either MySQL of SQLite, to store PMIDs from Entrez related searches. All tables are empty at this point</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/pubmed_sql_utils.jl#L264-L268' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/pubmed_sql_utils.jl#L264-L268' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.create_tables!-Tuple{Any}' href='#BioMedQuery.PubMed.create_tables!-Tuple{Any}'>#</a>
 <strong><code>BioMedQuery.PubMed.create_tables!</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>create_tables!(conn, medline_load=false)
@@ -886,7 +886,7 @@
 
 
 <p>Create and initialize tables to save results from an Entrez/PubMed search or a medline file load. Caution, all related tables are dropped if they exist</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/pubmed_sql_utils.jl#L7-L11' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/pubmed_sql_utils.jl#L7-L11' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.dfs_to_csv' href='#BioMedQuery.PubMed.dfs_to_csv'>#</a>
 <strong><code>BioMedQuery.PubMed.dfs_to_csv</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>dfs_to_csv(dfs::Dict, path::String, [file_prefix::String])
@@ -894,7 +894,7 @@
 
 
 <p>Takes output of toDataFrames and writes to CSV files at the provided path and with the file prefix.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/pubmed_to_csv.jl#L487-L490' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/pubmed_to_csv.jl#L487-L490' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.get_article_mesh-Tuple{Any,Integer}' href='#BioMedQuery.PubMed.get_article_mesh-Tuple{Any,Integer}'>#</a>
 <strong><code>BioMedQuery.PubMed.get_article_mesh</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>get_article_mesh(db, pmid)
@@ -902,7 +902,7 @@
 
 
 <p>Get the all mesh-descriptors associated with a give article</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/pubmed_sql_utils.jl#L364-L367' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/pubmed_sql_utils.jl#L364-L367' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.get_article_mesh_by_concept-Tuple{Any,Integer,Vararg{Any,N} where N}' href='#BioMedQuery.PubMed.get_article_mesh_by_concept-Tuple{Any,Integer,Vararg{Any,N} where N}'>#</a>
 <strong><code>BioMedQuery.PubMed.get_article_mesh_by_concept</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>get_article_mesh_by_concept(db, pmid, umls_concepts...; local_medline)
@@ -914,7 +914,7 @@
 <ul>
 <li>query_string: "" - assumes full set of results were saved by BioMedQuery directly from XML</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/pubmed_sql_utils.jl#L382-L387' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/pubmed_sql_utils.jl#L382-L387' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.save_efetch!' href='#BioMedQuery.PubMed.save_efetch!'>#</a>
 <strong><code>BioMedQuery.PubMed.save_efetch!</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>save_efetch!(output::CitationOutput, efetch_dict, verbose=false)
@@ -922,12 +922,12 @@
 
 
 <p>Save the results of a Entrez efetch to a bibliography file, with format and file path given by <code>output::CitationOutput</code></p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/citation_manager.jl#L120-L125' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/citation_manager.jl#L120-L125' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.save_efetch!' href='#BioMedQuery.PubMed.save_efetch!'>#</a>
 <strong><code>BioMedQuery.PubMed.save_efetch!</code></strong> &mdash; <em>Function</em>.</p>
 <p>pubmed_save_efetch(efetch_dict, conn)</p>
 <p>Save the results (dictionary) of an entrez-pubmed fetch to the input database.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/eutils_sql_save.jl#L7-L11' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/eutils_sql_save.jl#L7-L11' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.save_pmids!' href='#BioMedQuery.PubMed.save_pmids!'>#</a>
 <strong><code>BioMedQuery.PubMed.save_pmids!</code></strong> &mdash; <em>Function</em>.</p>
 <p>save_pmids!(conn, pmids::Vector{Int64}, verbose::Bool=false)</p>
@@ -937,7 +937,7 @@
 <li><code>pmids</code>: Array of PMIDs</li>
 <li><code>verbose</code>: Boolean to turn on extra print statements</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/eutils_sql_save.jl#L29-L38' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/eutils_sql_save.jl#L29-L38' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.all_mesh-Tuple{Any}' href='#BioMedQuery.PubMed.all_mesh-Tuple{Any}'>#</a>
 <strong><code>BioMedQuery.PubMed.all_mesh</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>all_mesh(db)
@@ -945,7 +945,7 @@
 
 
 <p>Return all PMIDs stored in the <em>article</em> table of the input database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/pubmed_sql_utils.jl#L295-L298' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/pubmed_sql_utils.jl#L295-L298' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.dict_to_array-Tuple{Dict}' href='#BioMedQuery.PubMed.dict_to_array-Tuple{Dict}'>#</a>
 <strong><code>BioMedQuery.PubMed.dict_to_array</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>dict_to_array(dict::Dict)
@@ -953,7 +953,7 @@
 
 
 <p>Given a dictionary, returns a tuple of arrays with the keys and values.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/pubmed_to_csv.jl#L7-L11' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/pubmed_to_csv.jl#L7-L11' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.parse_MedlineDate-Tuple{String}' href='#BioMedQuery.PubMed.parse_MedlineDate-Tuple{String}'>#</a>
 <strong><code>BioMedQuery.PubMed.parse_MedlineDate</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>parse_MedlineDate(ml_dt::String)
@@ -961,7 +961,7 @@
 
 
 <p>Parses the contents of the MedlineDate element and returns a tuple of the year and month.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/pubmed_to_csv.jl#L25-L28' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/pubmed_to_csv.jl#L25-L28' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.parse_author-Tuple{EzXML.Node}' href='#BioMedQuery.PubMed.parse_author-Tuple{EzXML.Node}'>#</a>
 <strong><code>BioMedQuery.PubMed.parse_author</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>parse_author
@@ -969,7 +969,7 @@
 
 
 <p>Takes xml for author, and returns parsed elements</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/pubmed_to_csv.jl#L112-L115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/pubmed_to_csv.jl#L112-L115' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.parse_month-Tuple{AbstractString}' href='#BioMedQuery.PubMed.parse_month-Tuple{AbstractString}'>#</a>
 <strong><code>BioMedQuery.PubMed.parse_month</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>parse_month(mon::String)
@@ -977,7 +977,7 @@
 
 
 <p>Parses the string month (month or season) and returns an integer with the first month in range.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/pubmed_to_csv.jl#L56-L59' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/pubmed_to_csv.jl#L56-L59' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.parse_orcid-Tuple{String}' href='#BioMedQuery.PubMed.parse_orcid-Tuple{String}'>#</a>
 <strong><code>BioMedQuery.PubMed.parse_orcid</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>parse_orcid(raw_orc::String)
@@ -985,7 +985,7 @@
 
 
 <p>Takes a string containing an ORC ID (url, 16 digit string) and returns a formatted ID (0000-1111-2222-3333).</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/pubmed_to_csv.jl#L98-L101' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/pubmed_to_csv.jl#L98-L101' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.parse_year-Tuple{AbstractString}' href='#BioMedQuery.PubMed.parse_year-Tuple{AbstractString}'>#</a>
 <strong><code>BioMedQuery.PubMed.parse_year</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>parse_year(yr::String)
@@ -993,7 +993,7 @@
 
 
 <p>Parses the string year and returns an integer with the first year in range.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/pubmed_to_csv.jl#L43-L46' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/pubmed_to_csv.jl#L43-L46' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.remove_csvs' href='#BioMedQuery.PubMed.remove_csvs'>#</a>
 <strong><code>BioMedQuery.PubMed.remove_csvs</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>remove_csvs(dfs, path, file_prefix)
@@ -1001,7 +1001,7 @@
 
 
 <p>Removes all of the CSV files associated with a dictionary of dataframes</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/pubmed_to_csv.jl#L496-L499' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/pubmed_to_csv.jl#L496-L499' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.remove_csvs-Tuple{Array{String,1}}' href='#BioMedQuery.PubMed.remove_csvs-Tuple{Array{String,1}}'>#</a>
 <strong><code>BioMedQuery.PubMed.remove_csvs</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>remove_csvs(paths::Vector)
@@ -1009,7 +1009,7 @@
 
 
 <p>Removes all of the CSV files associated with an array of paths</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/5f98053f184f28aed25330e3cae2e89f97d103d1/src/PubMed/pubmed_to_csv.jl#L505-L508' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/b5d7b016a1751557abaf46ec446cdaac683626e7/src/PubMed/pubmed_to_csv.jl#L505-L508' class='documenter-source'>source</a><br></p>
                 
                   
                 
