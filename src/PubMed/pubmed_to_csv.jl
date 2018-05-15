@@ -105,7 +105,7 @@ function parse_orcid(raw_orc::String)
     else
         reg = match(r"^.*([0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}).*$", raw_orc)
 
-        return reg.match == nothing ? "PARSE_ERROR" : reg.captures[1]
+        return reg == nothing ? "PARSE_ERROR" : reg.captures[1]
     end
 end
 
