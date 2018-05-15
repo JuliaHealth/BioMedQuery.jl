@@ -103,7 +103,7 @@ function parse_orcid(raw_orc::String)
     if ismatch(r"^[0-9]{16}$", raw_orc)
         return "$(raw_orc[1:4])-$(raw_orc[5:8])-$(raw_orc[9:12])-$(raw_orc[13:16])"
     else
-        reg = match(r"^.*([0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}).*$", raw_orc)
+        reg = match(r"^.*([0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9a-zA-Z]{4}).*$", raw_orc)
 
         return reg == nothing ? "PARSE_ERROR" : reg.captures[1]
     end
