@@ -25,7 +25,7 @@ import Base.parse
         retstart = 0, retmax = narticles, tool ="BioJulia")
         println(esearch_response)
         #convert xml to dictionary
-        esearch_dict = parse_xml(String(esearch_response.data))
+        esearch_dict = parse_xml(String(esearch_response.body))
 
         #examine how many ids were returned
         @test haskey(esearch_dict, "IdList")
@@ -40,7 +40,7 @@ import Base.parse
         efetch_response = efetch(db = "pubmed", tool = "BioJulia", retmode = "xml", rettype = "null", id = ids)
 
         #convert xml to dictionary
-        efetch_doc = root(parsexml(String(efetch_response.data)))
+        efetch_doc = root(parsexml(String(efetch_response.body)))
         dfs_efetch = PubMed.parse(efetch_doc)
 
         @test nodename(efetch_doc) == "PubmedArticleSet"

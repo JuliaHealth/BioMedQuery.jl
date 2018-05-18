@@ -20,7 +20,7 @@ function export_citation(pmid::Int64, citation_type, output_file, overwrite = tr
     end
 
     #convert xml to ezxml doc
-    efetch_doc = root(parsexml(String(efetch_response.data)))
+    efetch_doc = root(parsexml(String(efetch_response.body)))
     citation_output = PubMed.CitationOutput(citation_type, output_file, overwrite)
     save_efetch!(citation_output, efetch_doc, verbose)
 end
@@ -42,7 +42,7 @@ function export_citation(pmids::Vector{Int64}, citation_type, output_file, overw
     end
 
     #convert xml to ezxml doc
-    efetch_doc = root(parsexml(String(efetch_response.data)))
+    efetch_doc = root(parsexml(String(efetch_response.body)))
 
     citation_output = PubMed.CitationOutput(citation_type, output_file, overwrite)
     save_efetch!(citation_output, efetch_doc, verbose)

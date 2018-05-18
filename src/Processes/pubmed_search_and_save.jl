@@ -60,7 +60,7 @@ function pubmed_search_and_save!(email, search_term::String, article_max,
         # end
 
         #convert xml to dictionary
-        esearch_dict = parse_xml(String(esearch_response.data))
+        esearch_dict = parse_xml(String(esearch_response.body))
 
         if !haskey(esearch_dict, "IdList")
             println("Error with esearch_dict:")
@@ -81,7 +81,7 @@ function pubmed_search_and_save!(email, search_term::String, article_max,
         # end
 
         #convert xml to dictionary
-        efetch_doc = root(parsexml(String(efetch_response.data)))
+        efetch_doc = root(parsexml(String(efetch_response.body)))
 
         #save the results of an entrez fetch
         println("------Save to database--------")
@@ -135,7 +135,7 @@ function pubmed_pmid_search(email, search_term::String, article_max, verbose=fal
         end
 
         #convert xml to dictionary
-        esearch_dict = parse_xml(String(esearch_response.data))
+        esearch_dict = parse_xml(String(esearch_response.body))
 
         if !haskey(esearch_dict, "IdList")
             println("Error with esearch_dict:")
@@ -224,7 +224,7 @@ function pubmed_search_and_parse(email, search_term::String, article_max, verbos
         # end
 
         #convert xml to dictionary
-        esearch_dict = parse_xml(String(esearch_response.data))
+        esearch_dict = parse_xml(String(esearch_response.body))
 
         if !haskey(esearch_dict, "IdList")
             println("Error with esearch_dict:")
@@ -245,7 +245,7 @@ function pubmed_search_and_parse(email, search_term::String, article_max, verbos
         # end
 
         #convert xml to dictionary
-        efetch_doc = root(parsexml(String(efetch_response.data)))
+        efetch_doc = root(parsexml(String(efetch_response.body)))
 
         #save the results of an entrez fetch
         println("------Save to dataframes--------")

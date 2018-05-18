@@ -5,7 +5,7 @@ using DataStreams, DataFrames
 
 
 """
-    create_tables!(conn, medline_load=false)
+    create_tables!(conn)
 Create and initialize tables to save results from an Entrez/PubMed search or a medline file load.
 Caution, all related tables are dropped if they exist
 """
