@@ -161,6 +161,10 @@ function create_tables!(conn)
 
 end
 
+"""
+   add_mysql_keys!(conn)
+Adds indices/keys to MySQL PubMed tables.
+"""
 function add_mysql_keys!(conn::MySQL.Connection)
 
     res = MySQL.query(conn, "SHOW INDEX FROM basic WHERE key_name = 'pub_year'", DataFrame)
@@ -211,6 +215,10 @@ function add_mysql_keys!(conn::MySQL.Connection)
         )
 end
 
+"""
+   drop_mysql_keys!(conn)
+Removes keys/indices from MySQL PubMed tables.
+"""
 function drop_mysql_keys!(conn::MySQL.Connection)
 
     res = MySQL.query(conn, "SHOW INDEX FROM basic WHERE key_name = 'pub_year'", DataFrame)
@@ -303,7 +311,7 @@ function all_mesh(db)
 end
 
 """
-abstracts_by_year(db, pub_year; local_medline=false)
+   abstracts_by_year(db, pub_year; local_medline=false)
 
 Return all abstracts of article published in the given year.
 If local_medline flag is set to true, it is assumed that db contains *article*
@@ -335,7 +343,7 @@ function abstracts_by_year(db, pub_year; local_medline=false, uid_str = "pmid")
 end
 
 """
-abstracts(db; local_medline=false)
+   abstracts(db; local_medline=false)
 
 Return all abstracts related to PMIDs in the database.
 If local_medline flag is set to true, it is assumed that db contains *basic*
@@ -412,6 +420,11 @@ function get_article_mesh_by_concept(db, pmid::Integer, umls_concepts...; query_
 
 end
 
+"""
+   db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix="<current date>_PubMed_"; verbose=false, drop_csvs=false)
+
+Writes dictionary of dataframes to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.
+"""
 function db_insert!(db::MySQL.Connection, articles::Dict{String,DataFrame}, csv_path::String = pwd(), csv_prefix::String = "$(Date(now()))_PubMed_"; verbose=false, drop_csv=false)
 
     dfs_to_csv(articles, csv_path, csv_prefix)
@@ -446,6 +459,11 @@ function db_insert!(db::MySQL.Connection, articles::Dict{String,DataFrame}, csv_
 
 end
 
+"""
+   db_insert!(conn, csv_path=pwd(), csv_prefix="<current date>_PubMed_"; verbose=false, drop_csvs=false)
+
+Writes CSVs from PubMed parsing to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs can optionally be removed after being written to DB.
+"""
 function db_insert!(db::MySQL.Connection, csv_path::String = pwd(), csv_prefix::String = "$(Date(now()))_PubMed_"; verbose=false, drop_csv=false)
     paths = Vector{String}()
 
@@ -514,6 +532,11 @@ function db_insert!(db::MySQL.Connection, pmid::Int64, articles::Dict{String,Dat
 
 end
 
+"""
+   db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix="<current date>_PubMed_"; verbose=false, drop_csvs=false)
+
+Writes dictionary of dataframes to a SQLite database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.
+"""
 function db_insert!(db::SQLite.DB, articles::Dict{String,DataFrame}, csv_path::String = pwd(), csv_prefix::String = "$(Date(now()))_PubMed_"; verbose=false, drop_csv=false)
 
     #Insert csv prefix into files_meta talbe

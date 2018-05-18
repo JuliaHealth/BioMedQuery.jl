@@ -23,7 +23,7 @@ import Base.parse
 
         esearch_response = esearch(db="pubmed", term = search_term,
         retstart = 0, retmax = narticles, tool ="BioJulia")
-
+        println(esearch_response)
         #convert xml to dictionary
         esearch_dict = parse_xml(String(esearch_response.data))
 
@@ -109,9 +109,11 @@ import Base.parse
         PubMed.create_tables!(conn)
         PubMed.save_efetch!(conn, efetch_doc,false, true)
 
-        # query the mesh heading table to make sure the count is correct
-        mhs = db_query(conn,"select * from mesh_heading")
-        @test size(dfs_efetch["mesh_heading"])[1] == size(mhs)[1]
+        # query the df and db tables to make sure the count is correct
+        for (table, df) in dfs_efetch
+            query_res = db_query(conn, "select count(*) from $table")
+            @test size(df)[1] == query_res[1][1]
+        end
 
         #query the article table and make sure the count is correct
         all_pmids = PubMed.all_pmids(conn)
@@ -154,10 +156,12 @@ import Base.parse
         const conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
         PubMed.create_tables!(conn)
         @time PubMed.save_efetch!(conn, efetch_doc, false, true)
-        
-        # query the mesh heading table to make sure the count is correct
-        mhs = db_query(conn,"select * from mesh_heading")
-        @test size(dfs_efetch["mesh_heading"])[1] == size(mhs)[1]
+
+        # query the df and db tables to make sure the count is correct
+        for (table, df) in dfs_efetch
+            query_res = db_query(conn, "select count(*) from $table")
+            @test size(df)[1] == query_res[1][1]
+        end
 
         #query the article table and make sure the count is correct
         all_pmids = PubMed.all_pmids(conn)
