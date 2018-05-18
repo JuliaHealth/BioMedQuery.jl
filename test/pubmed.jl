@@ -11,6 +11,7 @@ import Base.parse
     narticles = 10
     ids = Array{Int64,1}()
     efetch_doc = EzXML.ElementNode("")
+    dfs_efetch = Dict{String,DataFrame}()
     verbose = false
     articles = []
 
@@ -40,6 +41,7 @@ import Base.parse
 
         #convert xml to dictionary
         efetch_doc = root(parsexml(String(efetch_response.data)))
+        dfs_efetch = PubMed.parse(efetch_doc)
 
         @test nodename(efetch_doc) == "PubmedArticleSet"
 
@@ -107,6 +109,10 @@ import Base.parse
         PubMed.create_tables!(conn)
         PubMed.save_efetch!(conn, efetch_doc,false, true)
 
+        # query the mesh heading table to make sure the count is correct
+        mhs = db_query(conn,"select * from mesh_heading")
+        @test size(dfs_efetch["mesh_heading"])[1] == size(mhs)[1]
+
         #query the article table and make sure the count is correct
         all_pmids = PubMed.all_pmids(conn)
         @test length(all_pmids) == narticles
@@ -148,6 +154,10 @@ import Base.parse
         const conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
         PubMed.create_tables!(conn)
         @time PubMed.save_efetch!(conn, efetch_doc, false, true)
+        
+        # query the mesh heading table to make sure the count is correct
+        mhs = db_query(conn,"select * from mesh_heading")
+        @test size(dfs_efetch["mesh_heading"])[1] == size(mhs)[1]
 
         #query the article table and make sure the count is correct
         all_pmids = PubMed.all_pmids(conn)

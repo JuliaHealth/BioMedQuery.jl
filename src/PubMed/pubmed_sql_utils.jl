@@ -61,7 +61,7 @@ function create_tables!(conn)
          `suffix` varchar(10) DEFAULT NULL,
          `orcid` varchar(19) DEFAULT NULL,
          `collective` varchar(200) DEFAULT NULL,
-         `affiliation` varchar(255) DEFAULT NULL,
+         `affiliation` text DEFAULT NULL,
          `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
          FOREIGN KEY(`pmid`) REFERENCES basic(`pmid`)
        ) $engine_info;"
@@ -149,11 +149,10 @@ function create_tables!(conn)
    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `mesh_heading` (
          `pmid` int(9) NOT NULL,
          `desc_uid` int(6) NOT NULL,
-         `desc_maj_status` boolean DEFAULT NULL,
-         `qual_uid` int(6) DEFAULT -1,
-         `qual_maj_status` boolean DEFAULT -1,
+         `desc_maj_status` tinyint(1) NOT NULL,
+         `qual_uid` int DEFAULT NULL,
+         `qual_maj_status` tinyint DEFAULT NULL,
          `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
-         PRIMARY KEY (`pmid`, `desc_uid`, `qual_uid`),
          FOREIGN KEY(`pmid`) REFERENCES basic(`pmid`),
          FOREIGN KEY(`desc_uid`) REFERENCES mesh_desc(`uid`),
          FOREIGN KEY(`qual_uid`) REFERENCES mesh_qual(`uid`)
@@ -205,6 +204,7 @@ function add_mysql_keys!(conn::MySQL.Connection)
         )
 
     MySQL.execute!(conn, "ALTER TABLE `mesh_heading`
+          ADD UNIQUE KEY (`pmid`, `desc_uid`, `qual_uid`),
           ADD KEY `desc_uid_maj` (`desc_uid`,`desc_maj_status`),
           ADD KEY `qual_UID_maj` (`qual_UID`,`qual_maj_status`)
         ;"
@@ -254,6 +254,7 @@ function drop_mysql_keys!(conn::MySQL.Connection)
         )
 
     MySQL.execute!(conn, "ALTER TABLE `mesh_heading`
+          DROP UNIQUE KEY (`pmid`, `desc_uid`, `qual_uid`),
           DROP KEY `desc_uid_maj`,
           DROP KEY `qual_UID_maj`
         ;"

@@ -146,7 +146,9 @@ function parse_author(xml::EzXML.Node)
         end
     end
 
-    return last_name, first_name, initials, suffix, orcid, collective, affs
+    affil_str = affs == "" ? missing : affs[1:end-2]
+
+    return last_name, first_name, initials, suffix, orcid, collective, affil_str
 end
 
 # Note: If needed it could be further refactored to to that author, journal is a type
@@ -206,8 +208,8 @@ function parse(xml::EzXML.Node)
     mh_pmid = Vector{Int64}()
     mh_did = Vector{Int64}()
     mh_dmaj = Vector{Int8}()
-    mh_qid = Vector{Int64}()
-    mh_qmaj = Vector{Int8}()
+    mh_qid = Vector{Union{Int64,Missing}}()
+    mh_qmaj = Vector{Union{Int64,Missing}}()
 
     i = 1 ::Int64
     for article in eachelement(xml)
@@ -405,8 +407,8 @@ function parse(xml::EzXML.Node)
                             end
 
                             if ismissing(qual)
-                                qual_uid = -1
-                                qual_maj = -1
+                                qual_uid = missing
+                                qual_maj = missing
 
                                 push!(mh_pmid, this_pmid)
                                 push!(mh_did, desc_uid)
