@@ -23,7 +23,7 @@ import Base.parse
 
         esearch_response = esearch(db="pubmed", term = search_term,
         retstart = 0, retmax = narticles, tool ="BioJulia")
-        println(esearch_response)
+
         #convert xml to dictionary
         esearch_dict = parse_xml(String(esearch_response.body))
 
