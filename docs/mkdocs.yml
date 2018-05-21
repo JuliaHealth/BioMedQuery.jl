@@ -4,8 +4,8 @@ repo_url:         https://github.com/bcbi/BioMedQuery.jl
 site_description: Julia connection to BioMedial Search APIs
 site_author:      bcbi
 
-theme: 
-  name: 'material'
+theme:
+  name: 'readthedocs'
   # logo: 'images/bcbi_logo.jpeg'
 
 extra_css:
@@ -27,16 +27,16 @@ docs_dir: 'build'
 
 pages:
 - Home: index.md
-- Examples: 
+- Examples:
   - Overview: examples.md
-  - Pubmed Search and Save: example1.md
-  - MeSH/UMLS Map: example2.md
-  - UMLS Semantic Filtering: example3.md
-  - Export to citations: example4.md
+  - Pubmed Search and Save: examples/pubmed_search_and_save.md
+  - MeSH/UMLS Map: examples/pubmed_mesh_to_umls_map.md
+  - UMLS Semantic Filtering: examples/umls_semantic_occurrences.md
+  - Export to Citations: examples/pubmed_export_citations.md
+  - Load MEDLINE: examples/load_medline.md
 - Manual:
   - Processes/Workflows: processes.md
   - PubMed: pubmed.md
   - Clinical Trials: ct.md
   - Database Utilities: dbutils.md
   - Library: library.md
-  
