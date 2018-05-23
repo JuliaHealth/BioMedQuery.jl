@@ -6,6 +6,7 @@ using DataStreams, DataFrames
 
 """
     create_tables!(conn)
+
 Create and initialize tables to save results from an Entrez/PubMed search or a medline file load.
 Caution, all related tables are dropped if they exist
 """
@@ -162,7 +163,8 @@ function create_tables!(conn)
 end
 
 """
-   add_mysql_keys!(conn)
+    add_mysql_keys!(conn)
+
 Adds indices/keys to MySQL PubMed tables.
 """
 function add_mysql_keys!(conn::MySQL.Connection)
@@ -216,7 +218,8 @@ function add_mysql_keys!(conn::MySQL.Connection)
 end
 
 """
-   drop_mysql_keys!(conn)
+    drop_mysql_keys!(conn)
+
 Removes keys/indices from MySQL PubMed tables.
 """
 function drop_mysql_keys!(conn::MySQL.Connection)
@@ -272,6 +275,7 @@ end
 
 """
     create_pmid_table!(conn; tablename="article")
+
 Creates a table, using either MySQL of SQLite, to store PMIDs from
 Entrez related searches. All tables are empty at this point
 """
@@ -293,7 +297,8 @@ end
 
 """
     all_pmids(db)
-Return all PMIDs stored in the *article* table of the input database
+
+Return all PMIDs stored in the *basic* table of the input database
 """
 function all_pmids(conn)
     sql_engine = (typeof(conn)== MySQL.Connection) ? MySQL : SQLite
@@ -303,7 +308,8 @@ end
 
 """
     all_mesh(db)
-Return all PMIDs stored in the *article* table of the input database
+
+Return all MeSH stored in the *mesh_desc* table of the input database
 """
 function all_mesh(db)
     sel = db_query(db, "SELECT name FROM mesh_desc;")
@@ -311,7 +317,7 @@ function all_mesh(db)
 end
 
 """
-   abstracts_by_year(db, pub_year; local_medline=false)
+    abstracts_by_year(db, pub_year; local_medline=false)
 
 Return all abstracts of article published in the given year.
 If local_medline flag is set to true, it is assumed that db contains *article*
@@ -343,7 +349,7 @@ function abstracts_by_year(db, pub_year; local_medline=false, uid_str = "pmid")
 end
 
 """
-   abstracts(db; local_medline=false)
+    abstracts(db; local_medline=false)
 
 Return all abstracts related to PMIDs in the database.
 If local_medline flag is set to true, it is assumed that db contains *basic*
@@ -372,7 +378,8 @@ end
 
 """
     get_article_mesh(db, pmid)
-Get the all mesh-descriptors associated with a give article
+
+Get the all mesh-descriptors associated with a given article
 """
 function get_article_mesh(db, pmid::Integer)
 
@@ -390,8 +397,9 @@ end
 
 """
     get_article_mesh_by_concept(db, pmid, umls_concepts...; local_medline)
-Get the all mesh-descriptors associated with a give article
-## Argumets:
+
+Get the all mesh-descriptors associated with a given article
+## Arguments:
 * query_string: "" - assumes full set of results were saved by BioMedQuery directly from XML
 """
 function get_article_mesh_by_concept(db, pmid::Integer, umls_concepts...; query_string="")
@@ -421,7 +429,7 @@ function get_article_mesh_by_concept(db, pmid::Integer, umls_concepts...; query_
 end
 
 """
-   db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix="<current date>_PubMed_"; verbose=false, drop_csvs=false)
+    db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix="<current date>_PubMed_"; verbose=false, drop_csvs=false)
 
 Writes dictionary of dataframes to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.
 """
@@ -460,7 +468,7 @@ function db_insert!(db::MySQL.Connection, articles::Dict{String,DataFrame}, csv_
 end
 
 """
-   db_insert!(conn, csv_path=pwd(), csv_prefix="<current date>_PubMed_"; verbose=false, drop_csvs=false)
+    db_insert!(conn, csv_path=pwd(), csv_prefix="<current date>_PubMed_"; verbose=false, drop_csvs=false)
 
 Writes CSVs from PubMed parsing to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs can optionally be removed after being written to DB.
 """
@@ -533,7 +541,7 @@ function db_insert!(db::MySQL.Connection, pmid::Int64, articles::Dict{String,Dat
 end
 
 """
-   db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix="<current date>_PubMed_"; verbose=false, drop_csvs=false)
+    db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix="<current date>_PubMed_"; verbose=false, drop_csvs=false)
 
 Writes dictionary of dataframes to a SQLite database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.
 """

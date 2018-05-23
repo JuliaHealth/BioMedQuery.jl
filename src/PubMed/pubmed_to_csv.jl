@@ -24,6 +24,7 @@ end
 
 """
     parse_MedlineDate(ml_dt::String)
+
 Parses the contents of the MedlineDate element and returns a tuple of the year and month.
 """
 function parse_MedlineDate(ml_dt::String)
@@ -42,6 +43,7 @@ end
 
 """
     parse_year(yr::String)
+
 Parses the string year and returns an integer with the first year in range.
 """
 function parse_year(yr::AbstractString)
@@ -55,6 +57,7 @@ end
 
 """
     parse_month(mon::String)
+
 Parses the string month (month or season) and returns an integer with the first month in range.
 """
 function parse_month(mon::AbstractString)
@@ -97,6 +100,7 @@ end
 
 """
     parse_orcid(raw_orc::String)
+
 Takes a string containing an ORC ID (url, 16 digit string) and returns a formatted ID (0000-1111-2222-3333).
 """
 function parse_orcid(raw_orc::String)
@@ -111,6 +115,7 @@ end
 
 """
     parse_author
+
 Takes xml for author, and returns parsed elements
 """
 function parse_author(xml::EzXML.Node)
@@ -154,6 +159,7 @@ end
 # Note: If needed it could be further refactored to to that author, journal is a type
 """
     parse(xml::EzXML.Node)
+    
 Parses a PubMedArticleSet that matches the NCBI-XML format
 """
 #Constructor from EzXML article element

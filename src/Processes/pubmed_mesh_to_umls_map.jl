@@ -3,17 +3,16 @@ using BioMedQuery.PubMed
 using BioMedQuery.DBUtils
 
 """
-map_mesh_to_umls!(db, c::Credentials)
+    map_mesh_to_umls!(db, c::Credentials)
 
 Build and store in the given database a map from MESH descriptors to
 UMLS Semantic Concepts
 
-###Arguments
-
-- `db`: Database. Must contain TABLE:mesh_descriptor. For each of the
-descriptors in that table, search and insert the associated semantic
-concepts into a new (cleared) TABLE:mesh2umls
-- `c::Credentials`: UMLS username and password
+## Arguments
+* `db` : Database. Must contain TABLE:mesh_descriptor. For each of the descriptors in that table, search and insert the associated semantic concepts into a new (cleared) TABLE:mesh2umls
+* `user` : UMLS username
+* `psswd` : UMLS Password
+* `append_results::Bool` : If false a NEW and EMPTY mesh2umls database table in creted
 """
 function map_mesh_to_umls!(db, user, psswd; timeout = Inf, append_results=false, verbose=false)
 
@@ -71,17 +70,16 @@ end
 """
     map_mesh_to_umls_async!(db, c::Credentials; timeout, append_results, verbose)
 
-    Build (using async UMLS-API calls) and store in the given database a map from
+Build (using async UMLS-API calls) and store in the given database a map from
 MESH descriptors to UMLS Semantic Concepts. For large queies this function will
 be faster than it's synchrounous counterpart
 
-###Arguments
+## Arguments
 
-- `db`: Database. Must contain TABLE:mesh_descriptor. For each of the
-descriptors in that table, search and insert the associated semantic
-concepts into a new (cleared) TABLE:mesh2umls
-- `c::Credentials`: UMLS username and password
-- `append_results::Bool` : If false a NEW and EMPTY mesh2umls database table in creted
+* `db`: Database. Must contain TABLE:mesh_descriptor. For each of the descriptors  in that table, search and insert the associated semantic concepts into a new (cleared) TABLE:mesh2umls
+* `user` : UMLS username
+* `psswd` : UMLS Password
+* `append_results::Bool` : If false a NEW and EMPTY mesh2umls database table in creted
 """
 function map_mesh_to_umls_async!(db, user, psswd; timeout = 5, append_results=false, verbose=false)
 

@@ -8,17 +8,15 @@ using BioMedQuery.PubMed
 
 
 """
-umls_semantic_occurrences(db, umls_semantic_type)
+    umls_semantic_occurrences(db, umls_semantic_type)
 
 Return a sparse matrix indicating the presence of MESH descriptors associated
 with a given umls semantic type in all articles of the input database
 
-###Output
+## Output
 
 * `des_ind_dict`: Dictionary matching row number to descriptor names
-* `disease_occurances` : Sparse matrix. The columns correspond to a feature
-vector, where each row is a MESH descriptor. There are as many
-columns as articles. The occurance/abscense of a descriptor is labeled as 1/0
+* `disease_occurances` : Sparse matrix. The columns correspond to a feature vector, where each row is a MESH descriptor. There are as many columns as articles. The occurance/abscense of a descriptor is labeled as 1/0
 """
 function umls_semantic_occurrences(db, umls_concepts...)
 
@@ -104,4 +102,3 @@ function occurances_to_itemsets(des_ind_dict, disease_occurances)
     names!(itemsets, [symbol(col_names[i]) for i in 1:length(col_names)])
     return itemsets
 end
-

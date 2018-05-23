@@ -1,31 +1,35 @@
 # # Load MEDLINE
 
 # The MEDLINE loader process in BioMedQuery saves the MEDLINE baseline files to a
-# MySQL database and saves the raw (xml.gx) and parsed (csv) files to a medline
-# directory that will be created in the provided output_dir.
+# MySQL database and saves the raw (xml.gz) and parsed (csv) files to a ```medline```
+# directory that will be created in the provided ```output_dir```.
 #
 # **WARNING:** There are 900+ medline files each with approximately 30,000 articles.
-# this process will take hours to run for the full baseline load.
+# This process will take hours to run for the full baseline load.
 #
-# The baseline files can be found at ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/
+# The baseline files can be found [here](ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/).
 
 # ### Set Up
 # The database and tables must already be created before loading the medline files.
 # This process is set up for parallel processing.  To take advantage of this, workers
 # can be added before loading the BioMedQuery package using the ```addprocs``` function.
 
+using BioMedQuery.DBUtils
+using BioMedQuery.PubMed
+using BioMedQuery.Processes
+
 # BioMedQuery has utility functions to create the database and tables. *Note: creating
 # the tables using this function will drop any tables that already exist in the target
 # database.*
 
-conn = DBUtils.init_mysql_database("localhost","root","","test_db")
-PubMed.create_tables!(conn)
+conn = DBUtils.init_mysql_database("localhost","root","","test_db");
+PubMed.create_tables!(conn);
 
 # ### Load a Test File
 # As the full medline load is a large operation, it is recommended that a test run
 # be completed first.
 
-Processes.load_medline(conn, pwd(), test=true)
+@time Processes.load_medline(conn, pwd(), test=true)
 
 # Review the output of this run in MySQL to make sure that it ran as expected.
 # Additionally, the sample raw and parsed file should be in the new ```medline```

@@ -5,7 +5,7 @@ using EzXML
 using DataFrames
 
 """
-pubmed_save_efetch(efetch_dict, conn)
+     pubmed_save_efetch(efetch_dict, conn)
 
 Save the results (dictionary) of an entrez-pubmed fetch to the input database.
 """
@@ -27,11 +27,10 @@ function save_efetch!(conn::Union{MySQL.Connection, SQLite.DB}, articles::EzXML.
 end
 
 """
-save_pmids!(conn, pmids::Vector{Int64}, verbose::Bool=false)
+     save_pmids!(conn, pmids::Vector{Int64}, verbose::Bool=false)
 
 Save a list of PMIDS into input database.
-###Arguments:
-
+## Arguments:
 * `conn`: Database connection (MySQL or SQLite)
 * `pmids`: Array of PMIDs
 * `verbose`: Boolean to turn on extra print statements
