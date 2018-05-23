@@ -33,7 +33,7 @@ dbname = "pubmed_obesity_2010_2012";
 db_mysql = MySQL.connect(host, mysql_usr, mysql_pswd, db = dbname);
 
 # Map MeSH to UMLS
-@time map_mesh_to_umls_async!(db_mysql, umls_user, umls_pswd; append_results=false);
+@time map_mesh_to_umls_async!(db_mysql, umls_user, umls_pswd; append_results=false, timeout=3);
 
 # #### Explore the output table
 
@@ -48,7 +48,7 @@ db_path = "$(results_dir)/pubmed_obesity_2010_2012.db";
 db_sqlite = SQLite.DB(db_path);
 
 # Map MeSH to UMLS
-@time map_mesh_to_umls_async!(db_sqlite, umls_user, umls_pswd; append_results=false);
+@time map_mesh_to_umls_async!(db_sqlite, umls_user, umls_pswd; append_results=false, timeout=3);
 
 # #### Explore the output table
 db_query(db_sqlite, "SELECT * FROM mesh2umls;")
