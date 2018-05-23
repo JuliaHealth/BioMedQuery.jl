@@ -38,6 +38,8 @@ labels2ind
 # Output Data Matrix
 full(occur)
 
+MySQL.disconnect(db_mysql) #src
+
 # ### SQLite backend
 
 # Connecting to SQLite database that was created in pubmed_search_and_save example

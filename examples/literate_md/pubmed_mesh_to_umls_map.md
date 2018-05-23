@@ -48,7 +48,7 @@ db_mysql = MySQL.connect(host, mysql_usr, mysql_pswd, db = dbname);
 Map MeSH to UMLS
 
 ```@example pubmed_mesh_to_umls_map
-@time map_mesh_to_umls_async!(db_mysql, umls_user, umls_pswd; append_results=false);
+@time map_mesh_to_umls_async!(db_mysql, umls_user, umls_pswd; append_results=false, timeout=3);
 ```
 
 #### Explore the output table
@@ -71,7 +71,7 @@ db_sqlite = SQLite.DB(db_path);
 Map MeSH to UMLS
 
 ```@example pubmed_mesh_to_umls_map
-@time map_mesh_to_umls_async!(db_sqlite, umls_user, umls_pswd; append_results=false);
+@time map_mesh_to_umls_async!(db_sqlite, umls_user, umls_pswd; append_results=false, timeout=3);
 ```
 
 #### Explore the output table

@@ -58,6 +58,8 @@ if isfile(db_path)
     rm(db_path)
 end
 
+MySQL.disconnect(mysql_conn) #src
+
 # Connect to the database
 const conn_sqlite = SQLite.DB(db_path);
 

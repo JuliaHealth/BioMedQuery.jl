@@ -39,6 +39,8 @@ db_mysql = MySQL.connect(host, mysql_usr, mysql_pswd, db = dbname);
 
 db_query(db_mysql, "SELECT * FROM mesh2umls")
 
+MySQL.disconnect(db_mysql) #src
+
 # ### Using SQLite as a backend
 
 # *Note: this example reuses the MySQL DB from the PubMed Search and Save example.*
