@@ -5,7 +5,7 @@ site_description: Julia connection to BioMedial Search APIs
 site_author:      bcbi
 
 theme:
-  name: 'readthedocs'
+  name: 'material'
   # logo: 'images/bcbi_logo.jpeg'
 
 extra_css:
