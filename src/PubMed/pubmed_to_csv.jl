@@ -24,6 +24,7 @@ end
 
 """
     parse_MedlineDate(ml_dt::String)
+
 Parses the contents of the MedlineDate element and returns a tuple of the year and month.
 """
 function parse_MedlineDate(ml_dt::String)
@@ -42,6 +43,7 @@ end
 
 """
     parse_year(yr::String)
+
 Parses the string year and returns an integer with the first year in range.
 """
 function parse_year(yr::AbstractString)
@@ -55,6 +57,7 @@ end
 
 """
     parse_month(mon::String)
+
 Parses the string month (month or season) and returns an integer with the first month in range.
 """
 function parse_month(mon::AbstractString)
@@ -97,6 +100,7 @@ end
 
 """
     parse_orcid(raw_orc::String)
+
 Takes a string containing an ORC ID (url, 16 digit string) and returns a formatted ID (0000-1111-2222-3333).
 """
 function parse_orcid(raw_orc::String)
@@ -111,6 +115,7 @@ end
 
 """
     parse_author
+
 Takes xml for author, and returns parsed elements
 """
 function parse_author(xml::EzXML.Node)
@@ -146,12 +151,15 @@ function parse_author(xml::EzXML.Node)
         end
     end
 
-    return last_name, first_name, initials, suffix, orcid, collective, affs
+    affil_str = affs == "" ? missing : affs[1:end-2]
+
+    return last_name, first_name, initials, suffix, orcid, collective, affil_str
 end
 
 # Note: If needed it could be further refactored to to that author, journal is a type
 """
     parse(xml::EzXML.Node)
+    
 Parses a PubMedArticleSet that matches the NCBI-XML format
 """
 #Constructor from EzXML article element
@@ -206,8 +214,8 @@ function parse(xml::EzXML.Node)
     mh_pmid = Vector{Int64}()
     mh_did = Vector{Int64}()
     mh_dmaj = Vector{Int8}()
-    mh_qid = Vector{Int64}()
-    mh_qmaj = Vector{Int8}()
+    mh_qid = Vector{Union{Int64,Missing}}()
+    mh_qmaj = Vector{Union{Int64,Missing}}()
 
     i = 1 ::Int64
     for article in eachelement(xml)
@@ -405,8 +413,8 @@ function parse(xml::EzXML.Node)
                             end
 
                             if ismissing(qual)
-                                qual_uid = -1
-                                qual_maj = -1
+                                qual_uid = missing
+                                qual_maj = missing
 
                                 push!(mh_pmid, this_pmid)
                                 push!(mh_did, desc_uid)

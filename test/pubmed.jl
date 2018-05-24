@@ -11,6 +11,7 @@ import Base.parse
     narticles = 10
     ids = Array{Int64,1}()
     efetch_doc = EzXML.ElementNode("")
+    dfs_efetch = Dict{String,DataFrame}()
     verbose = false
     articles = []
 
@@ -24,7 +25,7 @@ import Base.parse
         retstart = 0, retmax = narticles, tool ="BioJulia")
 
         #convert xml to dictionary
-        esearch_dict = parse_xml(String(esearch_response.data))
+        esearch_dict = parse_xml(String(esearch_response.body))
 
         #examine how many ids were returned
         @test haskey(esearch_dict, "IdList")
@@ -39,7 +40,8 @@ import Base.parse
         efetch_response = efetch(db = "pubmed", tool = "BioJulia", retmode = "xml", rettype = "null", id = ids)
 
         #convert xml to dictionary
-        efetch_doc = root(parsexml(String(efetch_response.data)))
+        efetch_doc = root(parsexml(String(efetch_response.body)))
+        dfs_efetch = PubMed.parse(efetch_doc)
 
         @test nodename(efetch_doc) == "PubmedArticleSet"
 
@@ -107,6 +109,12 @@ import Base.parse
         PubMed.create_tables!(conn)
         PubMed.save_efetch!(conn, efetch_doc,false, true)
 
+        # query the df and db tables to make sure the count is correct
+        for (table, df) in dfs_efetch
+            query_res = db_query(conn, "select count(*) from $table")
+            @test size(df)[1] == query_res[1][1]
+        end
+
         #query the article table and make sure the count is correct
         all_pmids = PubMed.all_pmids(conn)
         @test length(all_pmids) == narticles
@@ -148,6 +156,12 @@ import Base.parse
         const conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
         PubMed.create_tables!(conn)
         @time PubMed.save_efetch!(conn, efetch_doc, false, true)
+
+        # query the df and db tables to make sure the count is correct
+        for (table, df) in dfs_efetch
+            query_res = db_query(conn, "select count(*) from $table")
+            @test size(df)[1] == query_res[1][1]
+        end
 
         #query the article table and make sure the count is correct
         all_pmids = PubMed.all_pmids(conn)

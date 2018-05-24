@@ -54,7 +54,7 @@ end
     append = false
 
     @time begin
-        map_mesh_to_umls_async!(conn, umls_user, umls_pswd; append_results=append)
+        map_mesh_to_umls_async!(conn, umls_user, umls_pswd; append_results=append, timeout=1)
     end
 
     all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
@@ -62,7 +62,7 @@ end
     @test length(all_pairs) > 0
 
     @time begin
-        map_mesh_to_umls!(conn, umls_user, umls_pswd; append_results=append)
+        map_mesh_to_umls!(conn, umls_user, umls_pswd; append_results=append, timeout=1)
     end
 
     all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")

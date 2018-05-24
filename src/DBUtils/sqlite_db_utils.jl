@@ -69,7 +69,7 @@ function insert_row!{T}(db::SQLite.DB, tablename, data_values::Dict{Symbol, T},
 end
 
 """
-disable_foreign_checks(con::SQLite.DB)
+    disable_foreign_checks(con::SQLite.DB)
 Disables foreign checks for SQLite database
 """
 function disable_foreign_checks(conn::SQLite.DB)

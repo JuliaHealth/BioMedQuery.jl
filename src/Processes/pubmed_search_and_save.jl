@@ -15,15 +15,13 @@ Search pubmed and save the results into a database connection. The database is e
 have the appriate pubmed related tables. You can create such tables using
 `PubMed.create_tables(conn)`
 
-###Arguments
+## Arguments
 
-* email: valid email address (otherwise pubmed may block you)
-* search_term : search string to submit to PubMed
-e.g (asthma[MeSH Terms]) AND ("2001/01/29"[Date - Publication] : "2010"[Date - Publication])
-see http://www.ncbi.nlm.nih.gov/pubmed/advanced for help constructing the string
-* article_max : maximum number of articles to return
-* conn: database connection
-* verbose: if true, the NCBI xml response files are saved to current directory
+* `email` : valid email address (otherwise pubmed may block you)
+* `search_term` : search string to submit to PubMed e.g `(asthma[MeSH Terms]) AND ("2001/01/29"[Date - Publication] : "2010"[Date - Publication])` see http://www.ncbi.nlm.nih.gov/pubmed/advanced for help constructing the string
+* `article_max` : maximum number of articles to return
+* `conn` : database connection
+* `verbose` : if true, the NCBI xml response files are saved to current directory
 """
 function pubmed_search_and_save!(email, search_term::String, article_max,
     conn, verbose=false)
@@ -60,7 +58,7 @@ function pubmed_search_and_save!(email, search_term::String, article_max,
         # end
 
         #convert xml to dictionary
-        esearch_dict = parse_xml(String(esearch_response.data))
+        esearch_dict = parse_xml(String(esearch_response.body))
 
         if !haskey(esearch_dict, "IdList")
             println("Error with esearch_dict:")
@@ -81,7 +79,7 @@ function pubmed_search_and_save!(email, search_term::String, article_max,
         # end
 
         #convert xml to dictionary
-        efetch_doc = root(parsexml(String(efetch_response.data)))
+        efetch_doc = root(parsexml(String(efetch_response.body)))
 
         #save the results of an entrez fetch
         println("------Save to database--------")
@@ -135,7 +133,7 @@ function pubmed_pmid_search(email, search_term::String, article_max, verbose=fal
         end
 
         #convert xml to dictionary
-        esearch_dict = parse_xml(String(esearch_response.data))
+        esearch_dict = parse_xml(String(esearch_response.body))
 
         if !haskey(esearch_dict, "IdList")
             println("Error with esearch_dict:")
@@ -179,14 +177,12 @@ end
 Search pubmed and parse the results into a dictionary of DataFrames.  The dataframes have the same names
 and fields as the pubmed database schema. (e.g. df_dict["basic"] returns a dataframe with the basic article info)
 
-###Arguments
+## Arguments
 
-* email: valid email address (otherwise pubmed may block you)
-* search_term : search string to submit to PubMed
-e.g (asthma[MeSH Terms]) AND ("2001/01/29"[Date - Publication] : "2010"[Date - Publication])
-see http://www.ncbi.nlm.nih.gov/pubmed/advanced for help constructing the string
-* article_max : maximum number of articles to return
-* verbose: if true, the NCBI xml response files are saved to current directory
+* `email` : valid email address (otherwise pubmed may block you)
+* `search_term` : search string to submit to PubMed e.g `(asthma[MeSH Terms]) AND ("2001/01/29"[Date - Publication] : "2010"[Date - Publication])` see http://www.ncbi.nlm.nih.gov/pubmed/advanced for help constructing the string
+* `article_max` : maximum number of articles to return
+* `verbose` : if true, the NCBI xml response files are saved to current directory
 """
 function pubmed_search_and_parse(email, search_term::String, article_max, verbose=false)
 
@@ -224,7 +220,7 @@ function pubmed_search_and_parse(email, search_term::String, article_max, verbos
         # end
 
         #convert xml to dictionary
-        esearch_dict = parse_xml(String(esearch_response.data))
+        esearch_dict = parse_xml(String(esearch_response.body))
 
         if !haskey(esearch_dict, "IdList")
             println("Error with esearch_dict:")
@@ -245,7 +241,7 @@ function pubmed_search_and_parse(email, search_term::String, article_max, verbos
         # end
 
         #convert xml to dictionary
-        efetch_doc = root(parsexml(String(efetch_response.data)))
+        efetch_doc = root(parsexml(String(efetch_response.body)))
 
         #save the results of an entrez fetch
         println("------Save to dataframes--------")

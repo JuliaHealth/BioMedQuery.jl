@@ -25,7 +25,7 @@ esearch_response = esearch(db="pubmed", term = search_term,
 retstart = 0, retmax = 20, tool ="BioJulia")
 
 #convert xml to dictionary
-esearch_dict = parse_xml(String(esearch_response.data))
+esearch_dict = parse_xml(String(esearch_response.body))
 
 #convert id's to a array of numbers
 ids = [parse(Int64, id_node) for id_node in esearch_dict["IdList"]["Id"]]
@@ -34,7 +34,7 @@ ids = [parse(Int64, id_node) for id_node in esearch_dict["IdList"]["Id"]]
 efetch_response = efetch(db = "pubmed", tool = "BioJulia", retmode = "xml", rettype = "null", id = ids)
 
 #convert xml to xml node tree
-efetch_doc = root(parsexml(String(efetch_response.data)))
+efetch_doc = root(parsexml(String(efetch_response.body)))
 ```
 
 
@@ -46,7 +46,7 @@ To parse an XML to a Julia dictionary we can use the XMLDict package
 
 ```julia
 using XMLDict
-dict = parse_xml(String(response.data))  
+dict = parse_xml(String(response.body))  
 ```
 
 You can save directly the XML String to file

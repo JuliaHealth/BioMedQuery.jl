@@ -10,10 +10,10 @@ const db_path="./test_processes.sqlite"
 
 if isfile(db_path)
     rm(db_path)
-end 
+end
 
 const conn_sql = SQLite.DB(db_path)
-PubMed.create_tables!(conn_sql)   
+PubMed.create_tables!(conn_sql)
 
 @testset "Save and Search" begin
 
@@ -36,7 +36,7 @@ end
     append = false
 
     @time begin
-        map_mesh_to_umls_async!(conn_sql, umls_user, umls_pswd; append_results=append)
+        map_mesh_to_umls_async!(conn_sql, umls_user, umls_pswd; append_results=append, timeout=1)
     end
 
     all_pairs_query = db_query(conn_sql, "SELECT mesh FROM mesh2umls;")
@@ -44,7 +44,7 @@ end
     @test length(all_pairs) > 0
 
     @time begin
-        map_mesh_to_umls!(conn_sql, umls_user, umls_pswd; append_results=append)
+        map_mesh_to_umls!(conn_sql, umls_user, umls_pswd; append_results=append, timeout=1)
     end
 
     all_pairs_query = db_query(conn_sql, "SELECT mesh FROM mesh2umls;")
