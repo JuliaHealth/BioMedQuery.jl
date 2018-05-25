@@ -1,0 +1,912 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Julia connection to BioMedial Search APIs">
+      
+      
+      
+        <meta name="author" content="bcbi">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-0.17.3, mkdocs-material-2.7.3">
+    
+    
+      
+        <title>MeSH/UMLS Map - BioMedQuery.jl</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.8d40d89b.css">
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+      <link rel="stylesheet" href="../../assets/Documenter.css">
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <a href="#map-medical-subject-headings-mesh-to-umls" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../.." title="BioMedQuery.jl" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                BioMedQuery.jl
+              </span>
+              <span class="md-header-nav__topic">
+                MeSH/UMLS Map
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/bcbi/BioMedQuery.jl/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    <span class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </span>
+    BioMedQuery.jl
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/bcbi/BioMedQuery.jl/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      Examples
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Examples
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pubmed_search_and_save/" title="Pubmed Search and Save" class="md-nav__link">
+      Pubmed Search and Save
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        MeSH/UMLS Map
+      </label>
+    
+    <a href="./" title="MeSH/UMLS Map" class="md-nav__link md-nav__link--active">
+      MeSH/UMLS Map
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#set-up" title="Set Up" class="md-nav__link">
+    Set Up
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-mysql-as-a-backend" title="Using MySQL as a backend" class="md-nav__link">
+    Using MySQL as a backend
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#explore-the-output-table" title="Explore the output table" class="md-nav__link">
+    Explore the output table
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-sqlite-as-a-backend" title="Using SQLite as a backend" class="md-nav__link">
+    Using SQLite as a backend
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#explore-the-output-table_1" title="Explore the output table" class="md-nav__link">
+    Explore the output table
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../umls_semantic_occurrences/" title="UMLS Semantic Filtering" class="md-nav__link">
+      UMLS Semantic Filtering
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pubmed_export_citations/" title="Export to Citations" class="md-nav__link">
+      Export to Citations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../load_medline/" title="Load MEDLINE" class="md-nav__link">
+      Load MEDLINE
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Manual
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Manual
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../processes/" title="Processes/Workflows" class="md-nav__link">
+      Processes/Workflows
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../pubmed/" title="PubMed" class="md-nav__link">
+      PubMed
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ct/" title="Clinical Trials" class="md-nav__link">
+      Clinical Trials
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../dbutils/" title="Database Utilities" class="md-nav__link">
+      Database Utilities
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../library/" title="Library" class="md-nav__link">
+      Library
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#set-up" title="Set Up" class="md-nav__link">
+    Set Up
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-mysql-as-a-backend" title="Using MySQL as a backend" class="md-nav__link">
+    Using MySQL as a backend
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#explore-the-output-table" title="Explore the output table" class="md-nav__link">
+    Explore the output table
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-sqlite-as-a-backend" title="Using SQLite as a backend" class="md-nav__link">
+    Using SQLite as a backend
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#explore-the-output-table_1" title="Explore the output table" class="md-nav__link">
+    Explore the output table
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/bcbi/BioMedQuery.jl/edit/master/docs/examples/pubmed_mesh_to_umls_map.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <p><a id='Map-Medical-Subject-Headings-(MeSH)-to-UMLS-1'></a></p>
+<h1 id="map-medical-subject-headings-mesh-to-umls">Map Medical Subject Headings (MeSH) to UMLS</h1>
+<p>This example demonstrates the typical workflow to populate a MESH2UMLS database table relating all concepts associated with all MeSH terms in the input database.</p>
+<p>The following backends are supported for storing the results:</p>
+<ul>
+<li>MySQL</li>
+<li>SQLite</li>
+</ul>
+<p><a id='Set-Up-1'></a></p>
+<h3 id="set-up">Set Up</h3>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">SQLite</span>
+<span class="k">using</span> <span class="n">MySQL</span>
+<span class="k">using</span> <span class="n">BioMedQuery</span><span class="o">.</span><span class="n">DBUtils</span>
+<span class="k">using</span> <span class="n">BioMedQuery</span><span class="o">.</span><span class="n">Processes</span>
+<span class="k">using</span> <span class="n">BioServices</span><span class="o">.</span><span class="n">UMLS</span>
+</pre></div>
+
+
+<p>Credentials are environment variables (e.g set in your .juliarc.jl)</p>
+<div class="codehilite"><pre><span></span><span class="n">umls_user</span> <span class="o">=</span> <span class="nb">ENV</span><span class="p">[</span><span class="s">&quot;UMLS_USER&quot;</span><span class="p">];</span>
+<span class="n">umls_pswd</span> <span class="o">=</span> <span class="nb">ENV</span><span class="p">[</span><span class="s">&quot;UMLS_PSSWD&quot;</span><span class="p">];</span>
+
+<span class="n">results_dir</span> <span class="o">=</span> <span class="s">&quot;./results&quot;</span><span class="p">;</span>
+</pre></div>
+
+
+<p><a id='Using-MySQL-as-a-backend-1'></a></p>
+<h3 id="using-mysql-as-a-backend">Using MySQL as a backend</h3>
+<p><em>Note: this example reuses the MySQL DB from the PubMed Search and Save example.</em></p>
+<p>Create MySQL DB connection</p>
+<div class="codehilite"><pre><span></span><span class="n">host</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">;</span>
+<span class="n">mysql_usr</span> <span class="o">=</span> <span class="s">&quot;root&quot;</span><span class="p">;</span>
+<span class="n">mysql_pswd</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">;</span>
+<span class="n">dbname</span> <span class="o">=</span> <span class="s">&quot;pubmed_obesity_2010_2012&quot;</span><span class="p">;</span>
+
+<span class="n">db_mysql</span> <span class="o">=</span> <span class="n">MySQL</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">mysql_usr</span><span class="p">,</span> <span class="n">mysql_pswd</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">dbname</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Map MeSH to UMLS</p>
+<div class="codehilite"><pre><span></span><span class="nd">@time</span> <span class="n">map_mesh_to_umls_async!</span><span class="p">(</span><span class="n">db_mysql</span><span class="p">,</span> <span class="n">umls_user</span><span class="p">,</span> <span class="n">umls_pswd</span><span class="p">;</span> <span class="n">append_results</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>----------Matching MESH to UMLS-----------
+String[&quot;Adult&quot;, &quot;Aged&quot;, &quot;Aged, 80 and over&quot;, &quot;Analysis of Variance&quot;, &quot;Body Weight&quot;, &quot;C-Reactive Protein&quot;, &quot;Child&quot;, &quot;Cross-Sectional Studies&quot;, &quot;Fatigue&quot;, &quot;Female&quot;, &quot;Fibromyalgia&quot;, &quot;Germany&quot;, &quot;Health Status&quot;, &quot;Humans&quot;, &quot;Japan&quot;, &quot;Male&quot;, &quot;Middle Aged&quot;, &quot;Nutrition Surveys&quot;, &quot;Obesity&quot;, &quot;Pain&quot;, &quot;Pain Measurement&quot;, &quot;Physical Fitness&quot;, &quot;Prognosis&quot;, &quot;Quality of Life&quot;, &quot;Surveys and Questionnaires&quot;, &quot;Reference Values&quot;, &quot;Risk Factors&quot;, &quot;ROC Curve&quot;, &quot;Severity of Illness Index&quot;, &quot;Sports&quot;, &quot;Television&quot;, &quot;Thyrotropin&quot;, &quot;Biomarkers&quot;, &quot;Weight Gain&quot;, &quot;Exercise&quot;, &quot;Body Mass Index&quot;, &quot;Incidence&quot;, &quot;Prevalence&quot;, &quot;Logistic Models&quot;, &quot;Odds Ratio&quot;, &quot;Case-Control Studies&quot;, &quot;Age Distribution&quot;, &quot;Sex Distribution&quot;, &quot;Sleep Apnea, Obstructive&quot;, &quot;Metabolic Syndrome&quot;, &quot;Overweight&quot;, &quot;Waist Circumference&quot;, &quot;Young Adult&quot;, &quot;Obesity, Abdominal&quot;, &quot;Republic of Korea&quot;, &quot;Sedentary Lifestyle&quot;, &quot;Pediatric Obesity&quot;]
+INFO: UTS: Requesting new TGT
+INFO: Descriptor 1 out of 52: Adult
+INFO: Descriptor 19 out of 52: Obesity
+INFO: Descriptor 18 out of 52: Nutrition Surveys
+INFO: Descriptor 20 out of 52: Pain
+INFO: Descriptor 16 out of 52: Male
+INFO: Descriptor 25 out of 52: Surveys and Questionnaires
+INFO: Descriptor 22 out of 52: Physical Fitness
+INFO: Descriptor 24 out of 52: Quality of Life
+INFO: Descriptor 17 out of 52: Middle Aged
+INFO: Descriptor 35 out of 52: Exercise
+INFO: Descriptor 27 out of 52: Risk Factors
+INFO: Descriptor 28 out of 52: ROC Curve
+INFO: Descriptor 23 out of 52: Prognosis
+INFO: Descriptor 39 out of 52: Logistic Models
+INFO: Descriptor 44 out of 52: Sleep Apnea, Obstructive
+INFO: Descriptor 29 out of 52: Severity of Illness Index
+INFO: Descriptor 43 out of 52: Sex Distribution
+INFO: Descriptor 41 out of 52: Case-Control Studies
+INFO: Descriptor 37 out of 52: Incidence
+INFO: Descriptor 26 out of 52: Reference Values
+INFO: Descriptor 34 out of 52: Weight Gain
+INFO: Descriptor 42 out of 52: Age Distribution
+INFO: Descriptor 45 out of 52: Metabolic Syndrome
+INFO: Descriptor 30 out of 52: Sports
+INFO: Descriptor 33 out of 52: Biomarkers
+INFO: Descriptor 36 out of 52: Body Mass Index
+INFO: Descriptor 3 out of 52: Aged, 80 and over
+INFO: Descriptor 48 out of 52: Young Adult
+INFO: Descriptor 2 out of 52: Aged
+INFO: Descriptor 38 out of 52: Prevalence
+INFO: Descriptor 46 out of 52: Overweight
+INFO: Descriptor 47 out of 52: Waist Circumference
+INFO: Descriptor 9 out of 52: Fatigue
+INFO: Descriptor 13 out of 52: Health Status
+INFO: Descriptor 4 out of 52: Analysis of Variance
+INFO: Descriptor 12 out of 52: Germany
+INFO: Descriptor 5 out of 52: Body Weight
+INFO: Descriptor 10 out of 52: Female
+INFO: Descriptor 11 out of 52: Fibromyalgia
+INFO: Descriptor 14 out of 52: Humans
+INFO: Descriptor 6 out of 52: C-Reactive Protein
+INFO: Descriptor 50 out of 52: Republic of Korea
+INFO: Descriptor 51 out of 52: Sedentary Lifestyle
+INFO: Descriptor 31 out of 52: Television
+INFO: Descriptor 32 out of 52: Thyrotropin
+INFO: Descriptor 21 out of 52: Pain Measurement
+INFO: Descriptor 8 out of 52: Cross-Sectional Studies
+INFO: Descriptor 7 out of 52: Child
+INFO: Descriptor 40 out of 52: Odds Ratio
+INFO: Descriptor 15 out of 52: Japan
+INFO: Descriptor 49 out of 52: Obesity, Abdominal
+INFO: Descriptor 52 out of 52: Pediatric Obesity
+INFO: Descriptor 51 out of 52: Sedentary Lifestyle
+  5.722805 seconds (1.39 M allocations: 76.679 MiB, 0.86% gc time)
+</pre></div>
+
+
+<p><a id='Explore-the-output-table-1'></a></p>
+<h4 id="explore-the-output-table">Explore the output table</h4>
+<div class="codehilite"><pre><span></span><span class="n">db_query</span><span class="p">(</span><span class="n">db_mysql</span><span class="p">,</span> <span class="s">&quot;SELECT * FROM mesh2umls&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>56×2 DataFrames.DataFrame
+│ Row │ mesh                       │ umls                            │
+├─────┼────────────────────────────┼─────────────────────────────────┤
+│ 1   │ Adult                      │ Age Group                       │
+│ 2   │ Age Distribution           │ Quantitative Concept            │
+│ 3   │ Aged                       │ Organism Attribute              │
+│ 4   │ Aged, 80 and over          │ Age Group                       │
+│ 5   │ Analysis of Variance       │ Quantitative Concept            │
+│ 6   │ Biomarkers                 │ Clinical Attribute              │
+│ 7   │ Body Mass Index            │ Diagnostic Procedure            │
+│ 8   │ Body Weight                │ Organism Attribute              │
+⋮
+│ 48  │ Sports                     │ Daily or Recreational Activity  │
+│ 49  │ Surveys and Questionnaires │ Research Activity               │
+│ 50  │ Television                 │ Manufactured Object             │
+│ 51  │ Thyrotropin                │ Amino Acid, Peptide, or Protein │
+│ 52  │ Thyrotropin                │ Hormone                         │
+│ 53  │ Thyrotropin                │ Pharmacologic Substance         │
+│ 54  │ Waist Circumference        │ Clinical Attribute              │
+│ 55  │ Weight Gain                │ Finding                         │
+│ 56  │ Young Adult                │ Age Group                       │
+</pre></div>
+
+
+<p><a id='Using-SQLite-as-a-backend-1'></a></p>
+<h3 id="using-sqlite-as-a-backend">Using SQLite as a backend</h3>
+<p><em>Note: this example reuses the MySQL DB from the PubMed Search and Save example.</em></p>
+<p>Create SQLite DB connection</p>
+<div class="codehilite"><pre><span></span><span class="n">db_path</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">$</span><span class="p">(</span><span class="n">results_dir</span><span class="p">)</span><span class="s">/pubmed_obesity_2010_2012.db&quot;</span><span class="p">;</span>
+<span class="n">db_sqlite</span> <span class="o">=</span> <span class="n">SQLite</span><span class="o">.</span><span class="n">DB</span><span class="p">(</span><span class="n">db_path</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Map MeSH to UMLS</p>
+<div class="codehilite"><pre><span></span><span class="nd">@time</span> <span class="n">map_mesh_to_umls_async!</span><span class="p">(</span><span class="n">db_sqlite</span><span class="p">,</span> <span class="n">umls_user</span><span class="p">,</span> <span class="n">umls_pswd</span><span class="p">;</span> <span class="n">append_results</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>----------Matching MESH to UMLS-----------
+Union{Missings.Missing, String}[&quot;Reference Values&quot;, &quot;Republic of Korea&quot;, &quot;ROC Curve&quot;, &quot;Fatigue&quot;, &quot;Obesity&quot;, &quot;Risk Factors&quot;, &quot;Logistic Models&quot;, &quot;Severity of Illness Index&quot;, &quot;Male&quot;, &quot;Case-Control Studies&quot;, &quot;Analysis of Variance&quot;, &quot;Sedentary Lifestyle&quot;, &quot;Prevalence&quot;, &quot;Quality of Life&quot;, &quot;Odds Ratio&quot;, &quot;Exercise&quot;, &quot;Body Mass Index&quot;, &quot;Aged&quot;, &quot;Child&quot;, &quot;Sex Distribution&quot;, &quot;Adult&quot;, &quot;Germany&quot;, &quot;Sports&quot;, &quot;Thyrotropin&quot;, &quot;Pediatric Obesity&quot;, &quot;Humans&quot;, &quot;Japan&quot;, &quot;Cross-Sectional Studies&quot;, &quot;Weight Gain&quot;, &quot;Middle Aged&quot;, &quot;Surveys and Questionnaires&quot;, &quot;Health Status&quot;, &quot;Young Adult&quot;, &quot;Incidence&quot;, &quot;Prognosis&quot;, &quot;Body Weight&quot;, &quot;Pain Measurement&quot;, &quot;Waist Circumference&quot;, &quot;Metabolic Syndrome&quot;, &quot;Pain&quot;, &quot;Nutrition Surveys&quot;, &quot;Fibromyalgia&quot;, &quot;Sleep Apnea, Obstructive&quot;, &quot;Television&quot;, &quot;Age Distribution&quot;, &quot;Overweight&quot;, &quot;Physical Fitness&quot;, &quot;Female&quot;, &quot;Biomarkers&quot;, &quot;Obesity, Abdominal&quot;, &quot;C-Reactive Protein&quot;, &quot;Aged, 80 and over&quot;]
+INFO: UTS: Reading TGT from file
+INFO: Descriptor 6 out of 52: Risk Factors
+INFO: Descriptor 5 out of 52: Obesity
+INFO: Descriptor 19 out of 52: Child
+INFO: Descriptor 7 out of 52: Logistic Models
+INFO: Descriptor 14 out of 52: Quality of Life
+INFO: Descriptor 13 out of 52: Prevalence
+INFO: Descriptor 3 out of 52: ROC Curve
+INFO: Descriptor 4 out of 52: Fatigue
+INFO: Descriptor 11 out of 52: Analysis of Variance
+INFO: Descriptor 18 out of 52: Aged
+INFO: Descriptor 1 out of 52: Reference Values
+INFO: Descriptor 2 out of 52: Republic of Korea
+INFO: Descriptor 8 out of 52: Severity of Illness Index
+INFO: Descriptor 12 out of 52: Sedentary Lifestyle
+INFO: Descriptor 22 out of 52: Germany
+INFO: Descriptor 21 out of 52: Adult
+INFO: Descriptor 9 out of 52: Male
+INFO: Descriptor 17 out of 52: Body Mass Index
+INFO: Descriptor 15 out of 52: Odds Ratio
+INFO: Descriptor 10 out of 52: Case-Control Studies
+INFO: Descriptor 29 out of 52: Weight Gain
+INFO: Descriptor 24 out of 52: Thyrotropin
+INFO: Descriptor 26 out of 52: Humans
+INFO: Descriptor 16 out of 52: Exercise
+INFO: Descriptor 30 out of 52: Middle Aged
+INFO: Descriptor 28 out of 52: Cross-Sectional Studies
+INFO: Descriptor 27 out of 52: Japan
+INFO: Descriptor 38 out of 52: Waist Circumference
+INFO: Descriptor 20 out of 52: Sex Distribution
+INFO: Descriptor 36 out of 52: Body Weight
+INFO: Descriptor 31 out of 52: Surveys and Questionnaires
+INFO: Descriptor 23 out of 52: Sports
+INFO: Descriptor 42 out of 52: Fibromyalgia
+INFO: Descriptor 39 out of 52: Metabolic Syndrome
+INFO: Descriptor 32 out of 52: Health Status
+INFO: Descriptor 33 out of 52: Young Adult
+INFO: Descriptor 49 out of 52: Biomarkers
+INFO: Descriptor 44 out of 52: Television
+INFO: Descriptor 37 out of 52: Pain Measurement
+INFO: Descriptor 43 out of 52: Sleep Apnea, Obstructive
+INFO: Descriptor 41 out of 52: Nutrition Surveys
+INFO: Descriptor 25 out of 52: Pediatric Obesity
+INFO: Descriptor 45 out of 52: Age Distribution
+INFO: Descriptor 50 out of 52: Obesity, Abdominal
+INFO: Descriptor 46 out of 52: Overweight
+INFO: Descriptor 48 out of 52: Female
+INFO: Descriptor 34 out of 52: Incidence
+INFO: Descriptor 51 out of 52: C-Reactive Protein
+INFO: Descriptor 40 out of 52: Pain
+INFO: Descriptor 35 out of 52: Prognosis
+INFO: Descriptor 47 out of 52: Physical Fitness
+INFO: Descriptor 51 out of 52: C-Reactive Protein
+INFO: Descriptor 52 out of 52: Aged, 80 and over
+  3.294326 seconds (605.13 k allocations: 32.972 MiB, 0.70% gc time)
+</pre></div>
+
+
+<p><a id='Explore-the-output-table-2'></a></p>
+<h4 id="explore-the-output-table_1">Explore the output table</h4>
+<div class="codehilite"><pre><span></span><span class="n">db_query</span><span class="p">(</span><span class="n">db_sqlite</span><span class="p">,</span> <span class="s">&quot;SELECT * FROM mesh2umls;&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>56×2 DataFrames.DataFrame
+│ Row │ mesh                      │ umls                           │
+├─────┼───────────────────────────┼────────────────────────────────┤
+│ 1   │ Quality of Life           │ Idea or Concept                │
+│ 2   │ Aged                      │ Organism Attribute             │
+│ 3   │ Analysis of Variance      │ Quantitative Concept           │
+│ 4   │ Reference Values          │ Quantitative Concept           │
+│ 5   │ Logistic Models           │ Intellectual Product           │
+│ 6   │ Logistic Models           │ Quantitative Concept           │
+│ 7   │ Severity of Illness Index │ Quantitative Concept           │
+│ 8   │ Republic of Korea         │ Geographic Area                │
+⋮
+│ 48  │ Sports                    │ Daily or Recreational Activity │
+│ 49  │ Middle Aged               │ Age Group                      │
+│ 50  │ Prognosis                 │ Health Care Activity           │
+│ 51  │ Body Weight               │ Organism Attribute             │
+│ 52  │ Fibromyalgia              │ Disease or Syndrome            │
+│ 53  │ Physical Fitness          │ Idea or Concept                │
+│ 54  │ Television                │ Manufactured Object            │
+│ 55  │ Incidence                 │ Quantitative Concept           │
+│ 56  │ Aged, 80 and over         │ Age Group                      │
+</pre></div>
+
+
+<p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../pubmed_search_and_save/" title="Pubmed Search and Save" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Pubmed Search and Save
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../umls_semantic_occurrences/" title="UMLS Semantic Filtering" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                UMLS Semantic Filtering
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="http://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.b438e6c5.js"></script>
+      
+      <script>app.initialize({version:"0.17.3",url:{base:"../.."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>

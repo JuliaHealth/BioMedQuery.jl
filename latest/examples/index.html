@@ -95,6 +95,10 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
+      <a href="#examples" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid">
@@ -272,6 +276,8 @@
     
     <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
     
+      
+    
     
     <a href="./" title="Overview" class="md-nav__link md-nav__link--active">
       Overview
@@ -286,7 +292,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../example1/" title="Pubmed Search and Save" class="md-nav__link">
+    <a href="pubmed_search_and_save/" title="Pubmed Search and Save" class="md-nav__link">
       Pubmed Search and Save
     </a>
   </li>
@@ -298,7 +304,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../example2/" title="MeSH/UMLS Map" class="md-nav__link">
+    <a href="pubmed_mesh_to_umls_map/" title="MeSH/UMLS Map" class="md-nav__link">
       MeSH/UMLS Map
     </a>
   </li>
@@ -310,7 +316,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../example3/" title="UMLS Semantic Filtering" class="md-nav__link">
+    <a href="umls_semantic_occurrences/" title="UMLS Semantic Filtering" class="md-nav__link">
       UMLS Semantic Filtering
     </a>
   </li>
@@ -322,8 +328,20 @@
 
 
   <li class="md-nav__item">
-    <a href="../example4/" title="Export to citations" class="md-nav__link">
-      Export to citations
+    <a href="pubmed_export_citations/" title="Export to Citations" class="md-nav__link">
+      Export to Citations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="load_medline/" title="Load MEDLINE" class="md-nav__link">
+      Load MEDLINE
     </a>
   </li>
 
@@ -424,6 +442,21 @@
               </div>
             
             
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
@@ -432,10 +465,9 @@
                   <a href="https://github.com/bcbi/BioMedQuery.jl/edit/master/docs/examples.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                  <h1>Overview</h1>
-                
-                <p>The repository contains an <a href="https://github.com/bcbi/BioMedQuery.jl/tree/master/examples">examples folder</a> with jupyter notebooks demonstrating how to use BioMedQuery's pre-assembled high-level processes and workflows.</p>
-<p><strong>Note: </strong> When working with the notebooks, a corresponding julia script is generated automatically on every save. For this feature to work properly, make sure you have <code>nbconvert</code> installed.</p>
+                <p><a id='Examples-1'></a></p>
+<h1 id="examples">Examples</h1>
+<p>The repository contains an <a href="https://github.com/bcbi/BioMedQuery.jl/tree/master/examples">examples folder</a> with scripts demonstrating how to use BioMedQuery's pre-assembled high-level processes and workflows.</p>
 <p>The following examples are available:</p>
 <table>
 <thead>
@@ -446,20 +478,24 @@
 </thead>
 <tbody>
 <tr>
-<td align="left"><a href="../example1/">Search and Save PubMed Queries</a></td>
-<td align="left">Search pubmed, parse results and store using MySQL or SQLite backend, or export to a  citation library</td>
+<td align="left"><a href="pubmed_search_and_save/">Search and Save PubMed Queries</a></td>
+<td align="left">Search PubMed, parse results, store them using a MySQL or SQLite backend, or export to a  citation library</td>
 </tr>
 <tr>
-<td align="left"><a href="../example2/">Build MESH-UMLS map</a></td>
+<td align="left"><a href="pubmed_mesh_to_umls_map/">Build MeSH-UMLS map</a></td>
 <td align="left">For all MeSH descriptors in a given database, build a table to match them to their UMLS concept</td>
 </tr>
 <tr>
-<td align="left"><a href="../example3/">Occurrence Matrix</a></td>
-<td align="left">Build a occurrence matrix indicating papers associated with MeSH descriptors of a given UMLS concept</td>
+<td align="left"><a href="umls_semantic_occurrences/">Occurrence Matrix</a></td>
+<td align="left">Build an occurrence matrix indicating articles associated with MeSH descriptors of a given UMLS concept</td>
 </tr>
 <tr>
-<td align="left"><a href="../example4/">Exporting Citations</a></td>
-<td align="left">Export the citation for one or more PMIDs to a Endnote/Bibtex file</td>
+<td align="left"><a href="pubmed_export_citations/">Exporting Citations</a></td>
+<td align="left">Export the citation for one or more PMIDs to an Endnote/Bibtex file</td>
+</tr>
+<tr>
+<td align="left"><a href="load_medline/">Loading MEDLINE</a></td>
+<td align="left">Load the MEDLINE baseline files</td>
 </tr>
 </tbody>
 </table>
@@ -498,7 +534,7 @@
           </a>
         
         
-          <a href="../example1/" title="Pubmed Search and Save" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="pubmed_search_and_save/" title="Pubmed Search and Save" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
