@@ -75,15 +75,22 @@ end
 end
 
 @testset "Occurrences" begin
-    println("-----------------------------------------")
-    println("       Testing Occurrences")
-    umls_concept = "Disease or Syndrome"
-    @time begin
-        labels2ind, occur = umls_semantic_occurrences(conn, umls_concept)
-    end
-
-    @test length(keys(labels2ind)) > 0
-    @test length(find(x->x=="Obesity", collect(keys(labels2ind)))) ==1
+    # $TRAVIS is equal to "true" if it's a Travis build, and "false" if it's not.
+    is_travis = lowercase(strip(get(ENV, "TRAVIS", ""))) == "true"
+    # $TRAVIS_PULL_REQUEST is equal to the PR number if it is a PR, and "false" if it's not.
+    is_travis_pull_request = lowercase(strip(get(ENV, "TRAVIS_PULL_REQUEST", ""))) != "false"
+    # If this is a Travis build, only execute this test if it is NOT a pull request.
+    # If this is not a Travis build, then always execute this test.
+    if !is_travis || !is_travis_pull_request
+        println("-----------------------------------------")
+        println("       Testing Occurrences")
+        umls_concept = "Disease or Syndrome"
+        @time begin
+            labels2ind, occur = umls_semantic_occurrences(conn, umls_concept)
+        end
+        @test length(keys(labels2ind)) > 0
+        @test length(find(x->x=="Obesity", collect(keys(labels2ind)))) ==1
+    end    
 end
 
 @testset "Medline Load" begin
