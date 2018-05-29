@@ -38,8 +38,8 @@ end
     if !is_travis || !is_travis_pull_request
         println("-----------------------------------------")
         println("       Testing MESH2UMLS")
-        umls_user = ENV["UMLS_USER"]
-        umls_pswd = ENV["UMLS_PSSWD"]
+        umls_user = get(ENV, "UMLS_USER", "")
+        umls_pswd = get(ENV, "UMLS_PSSWD", "")
         append = false
         @time begin
             map_mesh_to_umls_async!(conn_sql, umls_user, umls_pswd; append_results=append, timeout=1)
