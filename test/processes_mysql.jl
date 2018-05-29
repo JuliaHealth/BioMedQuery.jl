@@ -3,8 +3,8 @@ using EzXML
 #************************ LOCALS TO CONFIGURE!!!! **************************
 const email= ""
 #Enviroment variable that need to be setup
-const umls_user = ENV["UMLS_USER"]
-const umls_pswd = ENV["UMLS_PSSWD"]
+const umls_user = get(ENV, "UMLS_USER", "")
+const umls_pswd = get(ENV, "UMLS_PSSWD", "")
 const search_term="(obesity[MeSH Major Topic]) AND (\"2010\"[Date - Publication])"
 const max_articles = 2
 const overwrite_db=true
@@ -49,26 +49,29 @@ PubMed.create_tables!(conn)
 end
 
 @testset "MESH2UMLS" begin
-    println("-----------------------------------------")
-    println("       Testing MESH2UMLS")
-    append = false
-
-    @time begin
-        map_mesh_to_umls_async!(conn, umls_user, umls_pswd; append_results=append, timeout=1)
+    # $TRAVIS is equal to "true" if it's a Travis build, and "false" if it's not.
+    is_travis = lowercase(strip(get(ENV, "TRAVIS", ""))) == "true"
+    # $TRAVIS_PULL_REQUEST is equal to the PR number if it is a PR, and "false" if it's not.
+    is_travis_pull_request = lowercase(strip(get(ENV, "TRAVIS_PULL_REQUEST", ""))) != "false"
+    # If this is a Travis build, only execute this test if it is NOT a pull request.
+    # If this is not a Travis build, then always execute this test.
+    if !is_travis || !is_travis_pull_request
+        println("-----------------------------------------")
+        println("       Testing MESH2UMLS")
+        append = false
+        @time begin
+            map_mesh_to_umls_async!(conn, umls_user, umls_pswd; append_results=append, timeout=1)
+        end
+        all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
+        all_pairs = all_pairs_query[1]
+        @test length(all_pairs) > 0
+        @time begin
+            map_mesh_to_umls!(conn, umls_user, umls_pswd; append_results=append, timeout=1)
+        end
+        all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
+        all_pairs = all_pairs_query[1]
+        @test length(all_pairs) > 0
     end
-
-    all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
-    all_pairs = all_pairs_query[1]
-    @test length(all_pairs) > 0
-
-    @time begin
-        map_mesh_to_umls!(conn, umls_user, umls_pswd; append_results=append, timeout=1)
-    end
-
-    all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
-    all_pairs = all_pairs_query[1]
-    @test length(all_pairs) > 0
-
 end
 
 @testset "Occurrences" begin
