@@ -1,4 +1,5 @@
 using EzXML
+import HTTP
 
 #************************ LOCALS TO CONFIGURE!!!! **************************
 const email= ""
@@ -49,6 +50,8 @@ PubMed.create_tables!(conn)
 end
 
 @testset "MESH2UMLS" begin
+    ignore_http_errors = lowercase(strip(get(ENV, "IGNORE_HTTP_ERRORS", "true"))) == "true"
+
     # $TRAVIS is equal to "true" if it's a Travis build, and "false" if it's not.
     is_travis = lowercase(strip(get(ENV, "TRAVIS", ""))) == "true"
     # $TRAVIS_PULL_REQUEST is equal to the PR number if it is a PR, and "false" if it's not.
@@ -56,25 +59,35 @@ end
     # If this is a Travis build, only execute this test if it is NOT a pull request.
     # If this is not a Travis build, then always execute this test.
     if !is_travis || !is_travis_pull_request
-        println("-----------------------------------------")
-        println("       Testing MESH2UMLS")
-        append = false
-        @time begin
-            map_mesh_to_umls_async!(conn, umls_user, umls_pswd; append_results=append, timeout=1)
+        try
+            println("-----------------------------------------")
+            println("       Testing MESH2UMLS")
+            append = false
+            @time begin
+                map_mesh_to_umls_async!(conn, umls_user, umls_pswd; append_results=append, timeout=1)
+            end
+            all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
+            all_pairs = all_pairs_query[1]
+            @test length(all_pairs) > 0
+            @time begin
+                map_mesh_to_umls!(conn, umls_user, umls_pswd; append_results=append, timeout=1)
+            end
+            all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
+            all_pairs = all_pairs_query[1]
+            @test length(all_pairs) > 0
+        catch e
+            if typeof(e) <: HTTP.ExceptionRequest.StatusError && ignore_http_errors
+                warn(string("Ignoring error: ", e,))
+            else
+                rethrow(e)
+            end
         end
-        all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
-        all_pairs = all_pairs_query[1]
-        @test length(all_pairs) > 0
-        @time begin
-            map_mesh_to_umls!(conn, umls_user, umls_pswd; append_results=append, timeout=1)
-        end
-        all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
-        all_pairs = all_pairs_query[1]
-        @test length(all_pairs) > 0
     end
 end
 
 @testset "Occurrences" begin
+    ignore_http_errors = lowercase(strip(get(ENV, "IGNORE_HTTP_ERRORS", "true"))) == "true"
+
     # $TRAVIS is equal to "true" if it's a Travis build, and "false" if it's not.
     is_travis = lowercase(strip(get(ENV, "TRAVIS", ""))) == "true"
     # $TRAVIS_PULL_REQUEST is equal to the PR number if it is a PR, and "false" if it's not.
@@ -82,15 +95,23 @@ end
     # If this is a Travis build, only execute this test if it is NOT a pull request.
     # If this is not a Travis build, then always execute this test.
     if !is_travis || !is_travis_pull_request
-        println("-----------------------------------------")
-        println("       Testing Occurrences")
-        umls_concept = "Disease or Syndrome"
-        @time begin
-            labels2ind, occur = umls_semantic_occurrences(conn, umls_concept)
+        try
+            println("-----------------------------------------")
+            println("       Testing Occurrences")
+            umls_concept = "Disease or Syndrome"
+            @time begin
+                labels2ind, occur = umls_semantic_occurrences(conn, umls_concept)
+            end
+            @test length(keys(labels2ind)) > 0
+            @test length(find(x->x=="Obesity", collect(keys(labels2ind)))) ==1
+        catch e
+            if typeof(e) <: HTTP.ExceptionRequest.StatusError && ignore_http_errors
+                warn(string("Ignoring error: ", e,))
+            else
+                rethrow(e)
+            end
         end
-        @test length(keys(labels2ind)) > 0
-        @test length(find(x->x=="Obesity", collect(keys(labels2ind)))) ==1
-    end    
+    end
 end
 
 @testset "Medline Load" begin
