@@ -46,15 +46,15 @@ end
         umls_pswd = get(ENV, "UMLS_PSSWD", "")
         append = false
 
-        success = try
+        success = true
+        try
             @time begin
                 map_mesh_to_umls_async!(conn_sql, umls_user, umls_pswd; append_results=append, timeout=1)
             end
-            true
         catch e
             if isa(e, HTTP.ExceptionRequest.StatusError)
                 warn(string("ignoring error: "), e)
-                false
+                success = false
             else
                 rethrow(e)
             end
@@ -65,15 +65,15 @@ end
             @test length(all_pairs) > 0
         end
 
-        success = try
+        success = true
+        try
             @time begin
                 map_mesh_to_umls!(conn_sql, umls_user, umls_pswd; append_results=append, timeout=1)
             end
-            true
         catch e
             if isa(e, HTTP.ExceptionRequest.StatusError)
                 warn(string("ignoring error: "), e)
-                false
+                success = false
             else
                 rethrow(e)
             end
@@ -97,13 +97,19 @@ end
         println("-----------------------------------------")
         println("       Testing Occurrences")
         umls_concept = "Disease or Syndrome"
-        
-        success = try
+
+        success = true
+        try
             @time begin
                 labels2ind, occur = umls_semantic_occurrences(conn_sql, umls_concept)
             end
-            true
         catch e
+            if isa(e, HTTP.ExceptionRequest.StatusError)
+                warn(string("ignoring error: "), e)
+                success = false
+            else
+                rethrow(e)
+            end
         end
         if success
             @test length(keys(labels2ind)) > 0
