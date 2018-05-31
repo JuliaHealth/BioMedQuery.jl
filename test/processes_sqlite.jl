@@ -31,15 +31,12 @@ PubMed.create_tables!(conn_sql)
 end
 
 @testset "MESH2UMLS" begin
-    # $TRAVIS is equal to "true" if it's a Travis build, and "false" if it's not.
-    is_travis = lowercase(strip(get(ENV, "TRAVIS", ""))) == "true"
+    # If this is a Travis build and is a PR, then $TRAVIS_PULL_REQUEST is equal to the PR number.
+    # If this is a Travis build and is not a PR, then $TRAVIS_PULL_REQUEST is equal to "false".
+    # If this is not a Travis build, then $TRAVIS_PULL_REQUEST is unset.
+    is_not_travis_pull_request = lowercase(strip(get(ENV, "TRAVIS_PULL_REQUEST", "false"))) == "false"
 
-    # $TRAVIS_PULL_REQUEST is equal to the PR number if it is a PR, and "false" if it's not.
-    is_travis_pull_request = lowercase(strip(get(ENV, "TRAVIS_PULL_REQUEST", ""))) != "false"
-
-    # If this is a Travis build, only execute this test if it is NOT a pull request.
-    # If this is not a Travis build, then always execute this test.
-    if !is_travis || !is_travis_pull_request
+    if is_not_travis_pull_request
         println("-----------------------------------------")
         println("       Testing MESH2UMLS")
         umls_user = get(ENV, "UMLS_USER", "")
@@ -87,13 +84,12 @@ end
 end
 
 @testset "Occurrences" begin
-    # $TRAVIS is equal to "true" if it's a Travis build, and "false" if it's not.
-    is_travis = lowercase(strip(get(ENV, "TRAVIS", ""))) == "true"
+    # If this is a Travis build and is a PR, then $TRAVIS_PULL_REQUEST is equal to the PR number.
+    # If this is a Travis build and is not a PR, then $TRAVIS_PULL_REQUEST is equal to "false".
+    # If this is not a Travis build, then $TRAVIS_PULL_REQUEST is unset.
+    is_not_travis_pull_request = lowercase(strip(get(ENV, "TRAVIS_PULL_REQUEST", "false"))) == "false"
 
-    # $TRAVIS_PULL_REQUEST is equal to the PR number if it is a PR, and "false" if it's not.
-    is_travis_pull_request = lowercase(strip(get(ENV, "TRAVIS_PULL_REQUEST", ""))) != "false"
-
-    if !is_travis || !is_travis_pull_request
+    if is_not_travis_pull_request
         println("-----------------------------------------")
         println("       Testing Occurrences")
         umls_concept = "Disease or Syndrome"
