@@ -107,6 +107,8 @@ end
         umls_concept = "Disease or Syndrome"
 
         success = true
+        labels2ind = ""
+        occur = ""
         try
             @time begin
                 labels2ind, occur = umls_semantic_occurrences(conn, umls_concept)
