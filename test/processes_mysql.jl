@@ -49,12 +49,12 @@ PubMed.create_tables!(conn)
 
 end
 
-@testset "MESH2UMLS" begin
-    # If this is a Travis build and is a PR, then $TRAVIS_PULL_REQUEST is equal to the PR number.
-    # If this is a Travis build and is not a PR, then $TRAVIS_PULL_REQUEST is equal to "false".
-    # If this is not a Travis build, then $TRAVIS_PULL_REQUEST is unset.
-    is_not_travis_pull_request = lowercase(strip(get(ENV, "TRAVIS_PULL_REQUEST", "false"))) == "false"
+# If this is a Travis build and is a PR, then $TRAVIS_PULL_REQUEST is equal to the PR number.
+# If this is a Travis build and is not a PR, then $TRAVIS_PULL_REQUEST is equal to "false".
+# If this is not a Travis build, then $TRAVIS_PULL_REQUEST is unset.
+is_not_travis_pull_request = get(ENV, "TRAVIS_PULL_REQUEST", "false") == "false"
 
+@testset "MESH2UMLS" begin
     if is_not_travis_pull_request
         println("-----------------------------------------")
         println("       Testing MESH2UMLS")
@@ -101,11 +101,6 @@ end
 end
 
 @testset "Occurrences" begin
-    # If this is a Travis build and is a PR, then $TRAVIS_PULL_REQUEST is equal to the PR number.
-    # If this is a Travis build and is not a PR, then $TRAVIS_PULL_REQUEST is equal to "false".
-    # If this is not a Travis build, then $TRAVIS_PULL_REQUEST is unset.
-    is_not_travis_pull_request = lowercase(strip(get(ENV, "TRAVIS_PULL_REQUEST", "false"))) == "false"
-
     if is_not_travis_pull_request
         println("-----------------------------------------")
         println("       Testing Occurrences")
