@@ -41,3 +41,4 @@ To checkout the current master (development) branch:
 ```julia
 Pkg.checkout("BioMedQuery")
 ```
+
