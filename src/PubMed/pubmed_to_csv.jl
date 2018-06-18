@@ -1,5 +1,5 @@
 using Missings
-using EzXML
+using LightXML
 using CSV
 using DataFrames
 import Base.parse
@@ -118,7 +118,7 @@ end
 
 Takes xml for author, and returns parsed elements
 """
-function parse_author(xml::EzXML.Node)
+function parse_author(xml::LightXML.XMLElement)
 
     first_name = missing :: Union{Missing,String}
     initials = missing :: Union{Missing,String}
@@ -128,24 +128,24 @@ function parse_author(xml::EzXML.Node)
     collective = missing :: Union{Missing,String}
     affs = ""
 
-    for names in eachelement(xml)
-        names_name = nodename(names)
+    for names in child_elements(xml)
+        names_name = name(names)
         if names_name == "LastName"
-            last_name = nodecontent(names)
+            last_name = content(names)
         elseif names_name == "ForeName"
-            first_name = nodecontent(names)
+            first_name = content(names)
         elseif names_name == "Initials"
-            initials = nodecontent(names)
+            initials = content(names)
         elseif names_name == "Suffix"
-            suffix = nodecontent(names)
-        elseif names_name == "Identifier" && names["Source"] == "ORCID"
-            orcid = parse_orcid(nodecontent(names))
+            suffix = content(names)
+        elseif names_name == "Identifier" && attribute(names, "Source") == "ORCID"
+            orcid = parse_orcid(content(names))
         elseif names_name == "CollectiveName"
-            collective = nodecontent(names)
+            collective = content(names)
         elseif names_name == "AffiliationInfo"
-            for affil_info in eachelement(names)
-                if nodename(affil_info) == "Affiliation"
-                    affs *= nodecontent(affil_info) * "; "
+            for affil_info in child_elements(names)
+                if name(affil_info) == "Affiliation"
+                    affs *= content(affil_info) * "; "
                 end
             end
         end
@@ -158,14 +158,15 @@ end
 
 # Note: If needed it could be further refactored to to that author, journal is a type
 """
-    parse(xml::EzXML.Node)
-    
+    parse(xml)
+
 Parses a PubMedArticleSet that matches the NCBI-XML format
 """
-#Constructor from EzXML article element
-function parse(xml::EzXML.Node)
+#Constructor from xml article element
+function parse(xml::LightXML.XMLElement)
 
-    n_articles = countelements(xml)
+    articles = get_elements_by_tagname(xml,"PubmedArticle")
+    n_articles = length(articles)
 
     #basic
     pmid= Vector{Int64}(n_articles)
@@ -218,7 +219,7 @@ function parse(xml::EzXML.Node)
     mh_qmaj = Vector{Union{Int64,Missing}}()
 
     i = 1 ::Int64
-    for article in eachelement(xml)
+    for article in articles
 
         # Initialize optional 1:1 article attributes
         this_issn = missing :: Union{Missing,String}
@@ -231,47 +232,47 @@ function parse(xml::EzXML.Node)
 
         this_pmid = 0
 
-        for tdat in eachelement(article)
-            if nodename(tdat) == "MedlineCitation"
-                for mc in eachelement(tdat)
-                    if nodename(mc) == "PMID"
-                        this_pmid = Base.parse(Int64, nodecontent(mc)) ::Int64
+        for tdat in child_elements(article)
+            if name(tdat) == "MedlineCitation"
+                for mc in child_elements(tdat)
+                    if name(mc) == "PMID"
+                        this_pmid = Base.parse(Int64, content(mc)) ::Int64
                         @inbounds url[i] = string("http://www.ncbi.nlm.nih.gov/pubmed/", this_pmid)
                         @inbounds pmid[i] = this_pmid
-                    elseif nodename(mc) == "Article"
-                        for a_info in eachelement(mc)
+                    elseif name(mc) == "Article"
+                        for a_info in child_elements(mc)
 
                             # Journal
-                            if nodename(a_info) == "Journal"
-                                for j_info in eachelement(a_info)
+                            if name(a_info) == "Journal"
+                                for j_info in child_elements(a_info)
 
                                     # ISSN?
-                                    if nodename(j_info) == "ISSN"
-                                    this_issn = nodecontent(j_info)
+                                    if name(j_info) == "ISSN"
+                                    this_issn = content(j_info)
 
                                     # JournalIssue
-                                    elseif nodename(j_info) == "JournalIssue"
-                                        for j_issue in eachelement(j_info)
+                                    elseif name(j_info) == "JournalIssue"
+                                        for j_issue in child_elements(j_info)
 
                                             # Volume?
-                                            if nodename(j_issue) == "Volume"
-                                                this_volume = nodecontent(j_issue)
+                                            if name(j_issue) == "Volume"
+                                                this_volume = content(j_issue)
 
                                             # Issue?
-                                            elseif nodename(j_issue) == "Issue"
-                                                this_issue = nodecontent(j_issue)
+                                            elseif name(j_issue) == "Issue"
+                                                this_issue = content(j_issue)
 
                                             # PubDate
-                                            elseif nodename(j_issue) == "PubDate"
+                                            elseif name(j_issue) == "PubDate"
                                                 ystr = "" :: String
                                                 mstr = "" :: String
-                                                for j_pub_dt in eachelement(j_issue)
-                                                    if nodename(j_pub_dt) == "MedlineDate"
-                                                        ystr, mstr = parse_MedlineDate(nodecontent(j_pub_dt))
-                                                    elseif nodename(j_pub_dt) == "Year"
-                                                        ystr = nodecontent(j_pub_dt)
-                                                    elseif nodename(j_pub_dt) == "Month" || nodename(j_pub_dt) == "Season"
-                                                        mstr = nodecontent(j_pub_dt)
+                                                for j_pub_dt in child_elements(j_issue)
+                                                    if name(j_pub_dt) == "MedlineDate"
+                                                        ystr, mstr = parse_MedlineDate(content(j_pub_dt))
+                                                    elseif name(j_pub_dt) == "Year"
+                                                        ystr = content(j_pub_dt)
+                                                    elseif name(j_pub_dt) == "Month" || name(j_pub_dt) == "Season"
+                                                        mstr = content(j_pub_dt)
                                                     end
                                                 end
                                                 @inbounds pub_year[i] = parse_year(ystr)
@@ -281,31 +282,31 @@ function parse(xml::EzXML.Node)
                                         end # JournalIssue For
 
                                     # Title?
-                                    elseif nodename(j_info) == "Title"
-                                        this_journal_title = nodecontent(j_info)
+                                    elseif name(j_info) == "Title"
+                                        this_journal_title = content(j_info)
 
                                     # ISO Abbreviation?
-                                    elseif nodename(j_info) == "ISOAbbreviation"
-                                        this_iso_abbrv = nodecontent(j_info)
+                                    elseif name(j_info) == "ISOAbbreviation"
+                                        this_iso_abbrv = content(j_info)
                                     end #Journal If
                                 end # Journal For
 
                             # Article Title
-                            elseif nodename(a_info) == "ArticleTitle"
-                                @inbounds title[i] = nodecontent(a_info)
+                            elseif name(a_info) == "ArticleTitle"
+                                @inbounds title[i] = content(a_info)
 
                             # Pagination?
-                            elseif nodename(a_info) == "Pagination"
+                            elseif name(a_info) == "Pagination"
                                 ml_pgn = missing :: Union{Missing,String}
                                 start_page = missing :: Union{Missing,String}
                                 end_page = missing :: Union{Missing,String}
-                                for p_info in eachelement(a_info)
-                                    if nodename(p_info) == "MedlinePgn"
-                                        ml_pgn = nodecontent(p_info)
-                                    elseif nodename(p_info) == "StartPage"
-                                        start_page = nodecontent(p_info)
-                                    elseif nodename(p_info) == "EndPage"
-                                        end_page = nodecontent(p_info)
+                                for p_info in child_elements(a_info)
+                                    if name(p_info) == "MedlinePgn"
+                                        ml_pgn = content(p_info)
+                                    elseif name(p_info) == "StartPage"
+                                        start_page = content(p_info)
+                                    elseif name(p_info) == "EndPage"
+                                        end_page = content(p_info)
                                     end # p_info if
                                 end # p_info for
 
@@ -316,28 +317,28 @@ function parse(xml::EzXML.Node)
                                 end
 
                             # Abstract?
-                            elseif nodename(a_info) == "Abstract"
+                            elseif name(a_info) == "Abstract"
                                 # AbstractText+
                                 # parse_abstracts!(a_info, abstract_structured, abstract_full, this_pmid)
                                 abstract_full_text = "" :: String
                                 abs_is_struct = false :: Bool
-                                for abs in eachelement(a_info)
-                                    if nodename(abs) == "AbstractText"
-                                        if !abs_is_struct && countattributes(abs) > 0
+                                for abs in child_elements(a_info)
+                                    if name(abs) == "AbstractText"
+                                        if !abs_is_struct && has_attributes(abs)
                                             abs_is_struct = true
                                         end
 
                                         if abs_is_struct
-                                            label = haskey(abs, "Label") ? abs["Label"] : missing :: Union{Missing,String}
-                                            nlm_category = haskey(abs, "NlmCategory") ? abs["NlmCategory"] : missing :: Union{Missing,String}
-                                            abs_text = nodecontent(abs)
+                                            label = has_attribute(abs, "Label") ? attribute(abs,"Label") : missing :: Union{Missing,String}
+                                            nlm_category = has_attribute(abs, "NlmCategory") ? attribute(abs, "NlmCategory") : missing :: Union{Missing,String}
+                                            abs_text = content(abs)
                                             push!(as_pmid, this_pmid)
                                             push!(as_nlm, nlm_category)
                                             push!(as_label, label)
                                             push!(as_text, abs_text)
                                             abstract_full_text *= !ismissing(label) ? label * ": " * abs_text * " " : "NO LABEL: " * abs_text * " "
                                         else
-                                            abstract_full_text *= nodecontent(abs) * " "
+                                            abstract_full_text *= content(abs) * " "
                                         end
                                     end #abstract if
                                 end #abstract for
@@ -346,11 +347,11 @@ function parse(xml::EzXML.Node)
 
 
                             # AuthorList?
-                            elseif nodename(a_info) == "AuthorList"
+                            elseif name(a_info) == "AuthorList"
                                 # parse_authors!(a_info, authors, auth_cite, i, this_pmid)
                                 this_auth_cite = "" :: String
 
-                                for author in eachelement(a_info)
+                                for author in child_elements(a_info)
                                     last_name, first_name, initials, suffix, orcid, collective, affs = parse_author(author)
 
                                     this_auth_cite *= !ismissing(first_name) ? "$last_name, $first_name; " : (!ismissing(last_name) ? "$last_name; " : "")
@@ -368,12 +369,12 @@ function parse(xml::EzXML.Node)
                                 @inbounds auth_cite[i] = (this_auth_cite == "" ? missing : this_auth_cite[1:end-2])
 
                             # PublicationTypeList
-                            elseif nodename(a_info) == "PublicationTypeList"
+                            elseif name(a_info) == "PublicationTypeList"
                                 #Publication Type+
                                 # parse_pubtypes!(a_info, pub_type, this_pmid)
-                                for pt in eachelement(a_info)
-                                    desc = nodecontent(pt) :: String
-                                    ui = pt["UI"] :: String
+                                for pt in child_elements(a_info)
+                                    desc = content(pt) :: String
+                                    ui = attribute(pt, "UI") :: String
                                     uid = length(ui) > 1 ? Base.parse(Int64, ui[2:end]) : -1
                                     push!(pt_pmid, this_pmid)
                                     push!(pt_uid, uid)
@@ -383,24 +384,24 @@ function parse(xml::EzXML.Node)
                         end # Article For
 
                     # MeshHeadingList?
-                    elseif nodename(mc) == "MeshHeadingList"
-                        for heading in eachelement(mc)
+                    elseif name(mc) == "MeshHeadingList"
+                        for heading in child_elements(mc)
                         # parse_meshheadings!(mc, mesh_heading, mesh_desc, mesh_qual, this_pmid)
                             desc_uid = -1
                             desc_maj = -1
                             qual = missing :: Union{Missing,String}
 
-                            for header in eachelement(heading)
-                                header_name = nodename(header) :: String
+                            for header in child_elements(heading)
+                                header_name = name(header) :: String
                                 if header_name == "DescriptorName"
-                                    desc = nodecontent(header) :: String
-                                    desc_maj = header["MajorTopicYN"] == "Y" ? 1 : 0
-                                    desc_uid = Base.parse(Int, header["UI"][2:end])
+                                    desc = content(header) :: String
+                                    desc_maj = attribute(header, "MajorTopicYN") == "Y" ? 1 : 0
+                                    desc_uid = Base.parse(Int, attribute(header, "UI")[2:end])
                                     mesh_desc[desc_uid] = desc
                                 elseif header_name == "QualifierName"
-                                    qual = nodecontent(header)
-                                    qual_maj = header["MajorTopicYN"] == "Y" ? 1 : 0 :: Int
-                                    qual_uid = Base.parse(Int, header["UI"][2:end]) :: Int
+                                    qual = content(header)
+                                    qual_maj = attribute(header, "MajorTopicYN") == "Y" ? 1 : 0 :: Int
+                                    qual_uid = Base.parse(Int, attribute(header, "UI")[2:end]) :: Int
 
                                     mesh_qual[qual_uid] = qual
 

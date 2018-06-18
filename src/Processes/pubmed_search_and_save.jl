@@ -3,7 +3,7 @@ using BioServices.EUtils
 using SQLite
 using MySQL
 using XMLDict
-using EzXML
+using LightXML
 
 
 
@@ -79,12 +79,14 @@ function pubmed_search_and_save!(email, search_term::String, article_max,
         # end
 
         #convert xml to dictionary
-        efetch_doc = root(parsexml(String(efetch_response.body)))
+        efetch_doc = root(parse_string(String(efetch_response.body)))
 
         #save the results of an entrez fetch
         println("------Save to database--------")
 
         save_efetch!(conn, efetch_doc, verbose, true)
+
+        free(efetch_doc)
 
         article_total+=length(ids)
 
@@ -241,7 +243,7 @@ function pubmed_search_and_parse(email, search_term::String, article_max, verbos
         # end
 
         #convert xml to dictionary
-        efetch_doc = root(parsexml(String(efetch_response.body)))
+        efetch_doc = root(parse_string(String(efetch_response.body)))
 
         #save the results of an entrez fetch
         println("------Save to dataframes--------")
@@ -253,6 +255,8 @@ function pubmed_search_and_parse(email, search_term::String, article_max, verbos
                 dfs[table] = df
             end
         end
+
+        free(efetch_doc)
 
         article_total+=length(ids)
 

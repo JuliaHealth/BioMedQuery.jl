@@ -2,7 +2,7 @@ using MySQL
 using FTPClient
 using BioMedQuery.PubMed
 using BioMedQuery.DBUtils
-using EzXML
+using LightXML
 using DataFrames
 
 """
@@ -147,12 +147,14 @@ function parse_ml_file(fname::String, output_dir::String)
     println("Parsing file: ", fname)
 
     path = joinpath(output_dir,"medline","raw_files",fname)
-    doc = EzXML.readxml(path)
-    raw_articles = EzXML.root(doc)
+    doc = parse_file(path)
+    raw_articles = root(doc)
 
     dfs = PubMed.parse(raw_articles)
 
     dfs_to_csv(dfs, joinpath(output_dir,"medline","parsed_files"), "$(fname[1:end-7])_")
+
+    free(doc)
 
     return nothing
 end

@@ -2,7 +2,7 @@ using DataFrames
 using MySQL
 using BioServices.EUtils
 using XMLDict
-using EzXML
+using LightXML
 import Base.parse
 
 #------------------ BioMedQuery -------------------
@@ -40,13 +40,13 @@ import Base.parse
         efetch_response = efetch(db = "pubmed", tool = "BioJulia", retmode = "xml", rettype = "null", id = ids)
 
         #convert xml to dictionary
-        efetch_doc = root(parsexml(String(efetch_response.body)))
+        efetch_doc = root(parse_string(String(efetch_response.body)))
         dfs_efetch = PubMed.parse(efetch_doc)
 
-        @test nodename(efetch_doc) == "PubmedArticleSet"
+        @test name(efetch_doc) == "PubmedArticleSet"
 
         #articles should be an array of narticles
-        @test narticles == countelements(efetch_doc)
+        @test narticles == length(collect(child_elements(efetch_doc)))
 
     end
 

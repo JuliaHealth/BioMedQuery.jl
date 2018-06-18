@@ -1,6 +1,6 @@
 using BioServices.EUtils
 using BioMedQuery.PubMed
-using EzXML
+using LightXML
 
 """
     export_citation(pmid::Int64, citation_type, output_file,verbose)
@@ -15,12 +15,12 @@ function export_citation(pmid::Int64, citation_type, output_file, overwrite = tr
     efetch_response = efetch(db = "pubmed", tool = "BioJulia", retmode = "xml", rettype = "null", id = [pmid])
 
     if verbose
-        xdoc = parsexml(efetch_response)
+        xdoc = parse_string(String(efetch_response.body))
         save_file(xdoc, "./efetch.xml")
     end
 
     #convert xml to ezxml doc
-    efetch_doc = root(parsexml(String(efetch_response.body)))
+    efetch_doc = root(parse_string(String(efetch_response.body)))
     citation_output = PubMed.CitationOutput(citation_type, output_file, overwrite)
     save_efetch!(citation_output, efetch_doc, verbose)
 end
@@ -37,12 +37,12 @@ function export_citation(pmids::Vector{Int64}, citation_type, output_file, overw
     efetch_response = efetch(db = "pubmed", tool = "BioJulia", retmode = "xml", rettype = "null", id = pmids)
 
     if verbose
-        xdoc = parsestring(efetch_response)
+        xdoc = parse_string(efetch_response.body)
         save_file(xdoc, "./efetch.xml")
     end
 
     #convert xml to ezxml doc
-    efetch_doc = root(parsexml(String(efetch_response.body)))
+    efetch_doc = root(parse_string(String(efetch_response.body)))
 
     citation_output = PubMed.CitationOutput(citation_type, output_file, overwrite)
     save_efetch!(citation_output, efetch_doc, verbose)

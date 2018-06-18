@@ -1,7 +1,7 @@
 using ..DBUtils
 using SQLite
 using MySQL
-using EzXML
+using LightXML
 using DataFrames
 
 """
@@ -9,16 +9,16 @@ using DataFrames
 
 Save the results (dictionary) of an entrez-pubmed fetch to the input database.
 """
-function save_efetch!(conn::Union{MySQL.Connection, SQLite.DB}, articles::EzXML.Node, verbose=false, drop_csv=true)
+function save_efetch!(conn::Union{MySQL.Connection, SQLite.DB}, articles::LightXML.XMLElement, verbose=false, drop_csv=true)
 
     #Decide type of article based on structrure of efetch
 
-    if nodename(articles) != "PubmedArticleSet"
+    if name(articles) != "PubmedArticleSet"
         println(articles)
         error("Save efetch is only supported for PubMed searches")
     end
 
-    println("Saving " , countelements(articles) ,  " articles to database")
+    println("Saving " , length(collect(child_elements(articles))) ,  " articles to database")
 
     parsed = PubMed.parse(articles)
 
