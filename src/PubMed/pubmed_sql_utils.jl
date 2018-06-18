@@ -15,7 +15,7 @@ function create_tables!(conn)
     # Determine engine
     sql_engine = (typeof(conn)== MySQL.Connection) ? MySQL : SQLite
     AUTOINCREMENT = (sql_engine == MySQL) ? "AUTO_INCREMENT" : "AUTOINCREMENT"
-    engine_info = (sql_engine == MySQL) ? "ENGINE=InnoDB DEFAULT CHARSET=latin1" : ""
+    engine_info = (sql_engine == MySQL) ? "ENGINE=InnoDB DEFAULT CHARSET=utf8" : ""
 
    #purge related tables
    DBUtils.disable_foreign_checks(conn)
@@ -75,7 +75,7 @@ function create_tables!(conn)
    #       PRIMARY KEY (`pmid`, `author_id`),
    #       FOREIGN KEY(`pmid`) REFERENCES basic(`pmid`),
    #       FOREIGN KEY(`author_id`) REFERENCES author_ref(`author_id`)
-   #     ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
+   #     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
    #     )
 
    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `pub_type` (
@@ -452,7 +452,7 @@ function db_insert!(db::MySQL.Connection, articles::Dict{String,DataFrame}, csv_
         cols_string = assemble_cols(df)
 
         # Save article data (MySQL.stream from df)
-        ins_sql = """LOAD DATA LOCAL INFILE '$path' INTO TABLE $table CHARACTER SET latin1 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' IGNORE 1 LINES ($cols_string)"""
+        ins_sql = """LOAD DATA LOCAL INFILE '$path' INTO TABLE $table CHARACTER SET utf8 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' IGNORE 1 LINES ($cols_string)"""
         MySQL.execute!(db, ins_sql)
     end
 
@@ -496,7 +496,7 @@ function db_insert!(db::MySQL.Connection, csv_path::String = pwd(), csv_prefix::
             cols_string = join(cols, ",")
 
             # Save article data (MySQL.stream from df)
-            ins_sql = """LOAD DATA LOCAL INFILE '$path' INTO TABLE $table CHARACTER SET latin1 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' IGNORE 1 LINES ($cols_string)"""
+            ins_sql = """LOAD DATA LOCAL INFILE '$path' INTO TABLE $table CHARACTER SET utf8 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' IGNORE 1 LINES ($cols_string)"""
             MySQL.execute!(db, ins_sql)
         end
     end
@@ -527,7 +527,7 @@ function db_insert!(db::MySQL.Connection, pmid::Int64, articles::Dict{String,Dat
             cols_string = assemble_cols(df)
 
             # Save article data (MySQL.stream from df)
-            ins_sql = """LOAD DATA LOCAL INFILE '$path' INTO TABLE $table CHARACTER SET latin1 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' IGNORE 1 LINES ($cols_string)"""
+            ins_sql = """LOAD DATA LOCAL INFILE '$path' INTO TABLE $table CHARACTER SET utf8 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' IGNORE 1 LINES ($cols_string)"""
             MySQL.execute!(db, ins_sql)
         end
     end

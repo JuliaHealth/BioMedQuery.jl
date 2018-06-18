@@ -84,8 +84,8 @@ function db_query(con::MySQLHandle, query_code)
         sel = MySQL.query(con, query_code, DataFrame)
         return sel
     catch
-        error("There was an error with MySQL")
-        #throw(MySQL.MySQLInternalError(con))
+        #error("There was an error with MySQL")
+        throw(MySQL.MySQLInternalError(con))
     end
 end
 
