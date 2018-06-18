@@ -9,12 +9,15 @@ Build and store in the given database a map from MESH descriptors to
 UMLS Semantic Concepts
 
 ## Arguments
-* `db` : Database. Must contain TABLE:mesh_descriptor. For each of the descriptors in that table, search and insert the associated semantic concepts into a new (cleared) TABLE:mesh2umls
+* `db` : Database connection. Must contain TABLE:mesh_descriptor. For each of the descriptors in that table, search and insert the associated semantic concepts into a new (cleared) TABLE:mesh2umls
 * `user` : UMLS username
 * `psswd` : UMLS Password
 * `append_results::Bool` : If false a NEW and EMPTY mesh2umls database table in creted
 """
 function map_mesh_to_umls!(db, user, psswd; timeout = Inf, append_results=false, verbose=false)
+
+    sql_engine = (typeof(db)== MySQL.Connection) ? MySQL : SQLite
+    engine_info = (sql_engine == MySQL) ? "ENGINE=InnoDB DEFAULT CHARSET=utf8" : ""
 
     #if the mesh2umls relationship table doesn't esxist, create it
     db_query(db, "CREATE table IF NOT EXISTS mesh2umls (
@@ -22,7 +25,7 @@ function map_mesh_to_umls!(db, user, psswd; timeout = Inf, append_results=false,
     umls VARCHAR(255),
     FOREIGN KEY(mesh) REFERENCES mesh_desc(name),
     PRIMARY KEY(mesh, umls)
-    )")
+    ) $engine_info")
 
     #clear the relationship table
     if !append_results
@@ -85,13 +88,15 @@ function map_mesh_to_umls_async!(db, user, psswd; timeout = 5, append_results=fa
 
     # Determine engine
     sql_engine = (typeof(db)== MySQL.Connection) ? MySQL : SQLite
+    engine_info = (sql_engine == MySQL) ? "ENGINE=InnoDB DEFAULT CHARSET=utf8" : ""
+
 
     #if the mesh2umls relationship table doesn't esxist, create it
     sql_engine.execute!(db, "CREATE table IF NOT EXISTS mesh2umls (
                                 mesh VARCHAR(255),
                                 umls VARCHAR(255),
                                 PRIMARY KEY(mesh, umls)
-                            );")
+                            ) $engine_info;")
 
     #clear the relationship table
     if !append_results
