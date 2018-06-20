@@ -162,6 +162,45 @@ function create_tables!(conn)
 
 end
 
+function create_post_tables!(conn::MySQL.Connection)
+
+    # engine
+    engine_info = "ENGINE=InnoDB DEFAULT CHARSET=utf8"
+
+   #purge related tables
+   DBUtils.disable_foreign_checks(conn)
+   MySQL.execute!(conn, "DROP TABLE IF EXISTS author2article")
+   MySQL.execute!(conn, "DROP TABLE IF EXISTS author")
+   DBUtils.enable_foreign_checks(conn)
+
+
+   MySQL.execute!(conn, "CREATE TABLE `author` (
+         `auth_id` int(12) NOT NULL AUTO_INCREMENT,
+         `last_name` varchar(60) DEFAULT NULL,
+         `first_name` varchar(60) DEFAULT NULL,
+         `initials` varchar(10) DEFAULT NULL,
+         `suffix` varchar(10) DEFAULT NULL,
+         `orcid` varchar(19) DEFAULT NULL,
+         `collective` varchar(200) DEFAULT NULL,
+         `affiliation` text DEFAULT NULL,
+         `ins_dt_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+         PRIMARY KEY (`auth_id`)
+       ) $engine_info;"
+       )
+
+
+   #Create tables to store
+   MySQL.execute!(conn, "CREATE TABLE IF NOT EXISTS `author2article` (
+         `pmid` int(9) NOT NULL,
+         `auth_id` int(12) NOT NULL,
+         PRIMARY KEY (`pmid`,`auth_id`),
+         FOREIGN KEY (`pmid`) REFERENCES basic(`pmid`),
+         FOREIGN KEY (`auth_id`) REFERENCES author(`auth_id`)
+       ) $engine_info;"
+       )
+
+end
+
 """
     add_mysql_keys!(conn)
 

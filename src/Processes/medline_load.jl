@@ -170,3 +170,41 @@ function close_cons(ftp_con::ConnContext)
 
     return nothing
 end
+
+"""
+    post_process!(conn)
+
+Creates an article2author and author table.  The author table has unique identifiers for every combination of last_name, first_name, initials, suffix, orcid, collective, and affiliation.  The article2author table provides a mapping from PMIDs to these unique authors.
+"""
+function post_process!(conn::MySQL.Connection)
+
+    PubMed.create_post_tables!(conn)
+
+    a = db_query(conn, "select count(*) from author_ref")
+
+    num_a = a[1,1]
+
+    info("==============Processing ", num_a, " article/author entries==============")
+
+    println("Inserting into author table")
+    MySQL.execute!(conn, """insert into author
+        (last_name, first_name, initials, suffix, orcid, collective, affiliation)
+        select distinct last_name, first_name, initials, suffix, orcid, collective, affiliation
+        from author_ref;""")
+
+    println("Inserting into author2article table")
+    MySQL.execute!(conn, """insert into author2article
+        (pmid, auth_id)
+        select distinct ar.pmid, a.auth_id
+        from author_ref ar, author a
+        where (ar.last_name = a.last_name or (ar.last_name is null and a.last_name is null))
+        and (ar.first_name = a.first_name or (ar.first_name is null and a.first_name is null))
+        and (ar.initials = a.initials or (ar.initials is null and a.initials is null))
+        and (ar.suffix = a.suffix or (ar.suffix is null and a.suffix is null))
+        and (ar.orcid = a.orcid or (ar.orcid is null and a.orcid is null))
+        and (ar.collective = a.collective or (ar.collective is null and a.collective is null))
+        and (ar.affiliation = a.affiliation or (ar.affiliation is null and a.affiliation is null))
+        ;""")
+
+    return nothing
+end
