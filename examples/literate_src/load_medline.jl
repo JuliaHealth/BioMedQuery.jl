@@ -39,3 +39,9 @@ PubMed.create_tables!(conn);
 # To run a full load, use the same code as above, but do not pass the test variable.
 # It is also possible to break up the load by passing which files to start and stop at -
 # simply pass ```start_file=n``` and ```end_file=p```.
+
+### Post-Processing
+# Optionally, an author and author2article table can be built and loaded.  This will create a
+# table with unique author entries and an author id as well as a mapping of PMIDs to author IDs.
+
+@time Processes.post_process!(conn)
