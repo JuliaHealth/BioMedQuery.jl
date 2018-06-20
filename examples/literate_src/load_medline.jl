@@ -42,6 +42,6 @@ PubMed.create_tables!(conn);
 
 ### Post-Processing
 # Optionally, an author and author2article table can be built and loaded.  This will create a
-# table with unique author entries and an author id as well as a mapping of PMIDs to author IDs.
+# table with unique author entries and an author id as well as a table with mappings of PMIDs to author IDs.
 
 @time Processes.post_process!(conn)
