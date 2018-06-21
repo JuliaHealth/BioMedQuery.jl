@@ -91,7 +91,7 @@ end
 
         success = true
         labels2ind = ""
-        occur=""
+        occur = ""
 
         try
             @time begin

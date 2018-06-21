@@ -1,5 +1,5 @@
 julia 0.6
-BioServices 0.1.1
+BioServices 0.1.2
 CSV
 DataFrames
 DataStreams
