@@ -52,7 +52,8 @@ function load_medline(db_con::MySQL.Connection, output_dir::String; start_file::
 
     set_innodb_checks!(db_con)
     add_mysql_keys!(db_con)
-    info("All files processed - closing connections")
+    
+    info("All files processed - closing FTP connection")
     close_cons(ftp_con)
 
     return nothing
@@ -146,15 +147,20 @@ Parses the medline xml file into a dictionary of dataframes. Saves the resulting
 function parse_ml_file(fname::String, output_dir::String)
     println("Parsing file: ", fname)
 
-    path = joinpath(output_dir,"medline","raw_files",fname)
-    doc = parse_file(path)
-    raw_articles = root(doc)
+    parsed_path = joinpath(output_dir,"medline","parsed_files","$(fname[1:end-7])_basic.csv")
+    if isfile(parsed_path)
+        resp = "File already exists, using local file"
+    else
+        path = joinpath(output_dir,"medline","raw_files",fname)
+        doc = parse_file(path)
+        raw_articles = root(doc)
 
-    dfs = PubMed.parse(raw_articles)
+        dfs = PubMed.parse(raw_articles)
 
-    dfs_to_csv(dfs, joinpath(output_dir,"medline","parsed_files"), "$(fname[1:end-7])_")
+        dfs_to_csv(dfs, joinpath(output_dir,"medline","parsed_files"), "$(fname[1:end-7])_")
 
-    free(doc)
+        free(doc)
+    end
 
     return nothing
 end
@@ -186,6 +192,8 @@ function post_process!(conn::MySQL.Connection)
 
     info("==============Processing ", num_a, " article/author entries==============")
 
+    set_innodb_checks!(conn,0,0,0)
+
     println("Inserting into author table")
     MySQL.execute!(conn, """insert into author
         (last_name, first_name, initials, suffix, orcid, collective, affiliation)
@@ -205,6 +213,8 @@ function post_process!(conn::MySQL.Connection)
         and (ar.collective = a.collective or (ar.collective is null and a.collective is null))
         and (ar.affiliation = a.affiliation or (ar.affiliation is null and a.affiliation is null))
         ;""")
+
+    set_innodb_checks!(conn)
 
     return nothing
 end

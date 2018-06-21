@@ -55,7 +55,7 @@ function create_tables!(conn)
 
 
    sql_engine.execute!(conn, "CREATE TABLE `author_ref` (
-         `pmid` int(10) NOT NULL,
+         `pmid` int(9) NOT NULL,
          `last_name` varchar(60) DEFAULT NULL,
          `first_name` varchar(60) DEFAULT NULL,
          `initials` varchar(10) DEFAULT NULL,
@@ -249,11 +249,11 @@ function add_mysql_keys!(conn::MySQL.Connection)
         )
 
     MySQL.execute!(conn, "ALTER TABLE `mesh_heading`
-          ADD UNIQUE KEY (`pmid`, `desc_uid`, `qual_uid`),
-          ADD KEY `desc_uid_maj` (`desc_uid`,`desc_maj_status`),
-          ADD KEY `qual_UID_maj` (`qual_UID`,`qual_maj_status`)
+          ADD UNIQUE KEY `pmid_uids` (`pmid`, `desc_uid`, `qual_uid`)
         ;"
         )
+
+   return nothing
 end
 
 """
@@ -304,9 +304,7 @@ function drop_mysql_keys!(conn::MySQL.Connection)
         )
 
     MySQL.execute!(conn, "ALTER TABLE `mesh_heading`
-          DROP UNIQUE KEY (`pmid`, `desc_uid`, `qual_uid`),
-          DROP KEY `desc_uid_maj`,
-          DROP KEY `qual_UID_maj`
+          DROP KEY `pmid_uids`
         ;"
         )
 end
