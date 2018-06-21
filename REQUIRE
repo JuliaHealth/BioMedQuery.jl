@@ -3,9 +3,9 @@ BioServices 0.1.2
 CSV
 DataFrames
 DataStreams
-EzXML
 FTPClient
 HTTP
+LightXML
 Missings
 MySQL
 SQLite

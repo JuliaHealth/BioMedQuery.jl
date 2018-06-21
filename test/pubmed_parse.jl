@@ -2,12 +2,12 @@
 @testset "PubMed Parse" begin
     #convert to an xml doc
     efetch_sample = readstring("efetch_sample.xml")
-    efetch_doc = parsexml(efetch_sample)
+    efetch_doc = parse_string(efetch_sample)
 
     articles = root(efetch_doc)
 
     # Decide type of article based on structrure of efetch
-    if nodename(articles) != "PubmedArticleSet"
+    if name(articles) != "PubmedArticleSet"
         error("Not a PubMed search")
     end
 

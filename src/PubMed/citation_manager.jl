@@ -123,7 +123,7 @@ end
 Save the results of a Entrez efetch to a bibliography file, with format and
 file path given by `output::CitationOutput`
 """
-function save_efetch!(output::CitationOutput, articles::EzXML.Node, verbose=false, cleanup = false)
+function save_efetch!(output::CitationOutput, articles::LightXML.XMLElement, verbose=false, cleanup = false)
 
     output_file = output.file
 
@@ -135,10 +135,10 @@ function save_efetch!(output::CitationOutput, articles::EzXML.Node, verbose=fals
         error("Reference type not supported")
     end
 
-    n_articles = countelements(articles)
+    n_articles = length(collect(child_elements(articles)))
 
     #Decide type of article based on structrure of efetch
-    if nodename(articles) != "PubmedArticleSet"
+    if name(articles) != "PubmedArticleSet"
         println(articles)
         error("Save efetch is only supported for PubMed searches")
     end
