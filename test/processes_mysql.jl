@@ -146,6 +146,15 @@ println("       Testing Medline Loader")
     res = MySQL.query(conn, "SELECT DISTINCT orcid FROM author_ref;", DataFrame)
     @test size(res)[1] > 2
 
+    post_process!(conn)
+
+    num_auth = MySQL.query(conn, "SELECT count(*) from author;", DataFrame)[1,1]
+    num_auth2art = MySQL.query(conn, "SELECT count(*) from author2article;", DataFrame)[1,1]
+    num_authref = MySQL.query(conn, "SELECT count(*) from author_ref;", DataFrame)[1,1]
+
+    @test num_auth > 0
+    @test num_auth <= num_auth2art && num_auth2art <= num_authref
+
     rm(joinpath(dirname(@__FILE__),"medline"), recursive=true)
 
 end

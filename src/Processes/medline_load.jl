@@ -52,7 +52,8 @@ function load_medline(db_con::MySQL.Connection, output_dir::String; start_file::
 
     set_innodb_checks!(db_con)
     add_mysql_keys!(db_con)
-    info("All files processed - closing connections")
+    
+    info("All files processed - closing FTP connection")
     close_cons(ftp_con)
 
     return nothing
@@ -146,15 +147,20 @@ Parses the medline xml file into a dictionary of dataframes. Saves the resulting
 function parse_ml_file(fname::String, output_dir::String)
     println("Parsing file: ", fname)
 
-    path = joinpath(output_dir,"medline","raw_files",fname)
-    doc = parse_file(path)
-    raw_articles = root(doc)
+    parsed_path = joinpath(output_dir,"medline","parsed_files","$(fname[1:end-7])_basic.csv")
+    if isfile(parsed_path)
+        resp = "File already exists, using local file"
+    else
+        path = joinpath(output_dir,"medline","raw_files",fname)
+        doc = parse_file(path)
+        raw_articles = root(doc)
 
-    dfs = PubMed.parse(raw_articles)
+        dfs = PubMed.parse(raw_articles)
 
-    dfs_to_csv(dfs, joinpath(output_dir,"medline","parsed_files"), "$(fname[1:end-7])_")
+        dfs_to_csv(dfs, joinpath(output_dir,"medline","parsed_files"), "$(fname[1:end-7])_")
 
-    free(doc)
+        free(doc)
+    end
 
     return nothing
 end
@@ -167,6 +173,48 @@ function close_cons(ftp_con::ConnContext)
     # Close FTP Connection
     ftp_close_connection(ftp_con)
     ftp_cleanup()
+
+    return nothing
+end
+
+"""
+    post_process!(conn)
+
+Creates an article2author and author table.  The author table has unique identifiers for every combination of last_name, first_name, initials, suffix, orcid, collective, and affiliation.  The article2author table provides a mapping from PMIDs to these unique authors.
+"""
+function post_process!(conn::MySQL.Connection)
+
+    PubMed.create_post_tables!(conn)
+
+    a = db_query(conn, "select count(*) from author_ref")
+
+    num_a = a[1,1]
+
+    info("==============Processing ", num_a, " article/author entries==============")
+
+    set_innodb_checks!(conn,0,0,0)
+
+    println("Inserting into author table")
+    MySQL.execute!(conn, """insert into author
+        (last_name, first_name, initials, suffix, orcid, collective, affiliation)
+        select distinct last_name, first_name, initials, suffix, orcid, collective, affiliation
+        from author_ref;""")
+
+    println("Inserting into author2article table")
+    MySQL.execute!(conn, """insert into author2article
+        (pmid, auth_id)
+        select distinct ar.pmid, a.auth_id
+        from author_ref ar, author a
+        where (ar.last_name = a.last_name or (ar.last_name is null and a.last_name is null))
+        and (ar.first_name = a.first_name or (ar.first_name is null and a.first_name is null))
+        and (ar.initials = a.initials or (ar.initials is null and a.initials is null))
+        and (ar.suffix = a.suffix or (ar.suffix is null and a.suffix is null))
+        and (ar.orcid = a.orcid or (ar.orcid is null and a.orcid is null))
+        and (ar.collective = a.collective or (ar.collective is null and a.collective is null))
+        and (ar.affiliation = a.affiliation or (ar.affiliation is null and a.affiliation is null))
+        ;""")
+
+    set_innodb_checks!(conn)
 
     return nothing
 end

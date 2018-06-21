@@ -22,7 +22,9 @@ Create a MySQL database using the code inside mysql_code
 function init_mysql_database(host="127.0.0.1",
     user="root", pwd="", dbname="test", overwrite=false)
 
-    const con = MySQL.connect(host, user, pwd)
+    opts = Dict(MySQL.API.MYSQL_SET_CHARSET_NAME=>"utf8")
+
+    const con = MySQL.connect(host, user, pwd, opts=opts)
 
     init_mysql_database(con, dbname, overwrite)
 end

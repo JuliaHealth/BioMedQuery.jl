@@ -16,7 +16,7 @@ We are often interested in searching PubMed for all articles related to a search
 ```julia
 using BioServices.EUtils
 using XMLDict
-using EzXML
+using LightXML
 
 search_term = "obstructive sleep apnea[MeSH Major Topic]"
 
@@ -34,7 +34,7 @@ ids = [parse(Int64, id_node) for id_node in esearch_dict["IdList"]["Id"]]
 efetch_response = efetch(db = "pubmed", tool = "BioJulia", retmode = "xml", rettype = "null", id = ids)
 
 #convert xml to xml node tree
-efetch_doc = root(parsexml(String(efetch_response.body)))
+efetch_doc = root(parse_string(String(efetch_response.body)))
 ```
 
 
