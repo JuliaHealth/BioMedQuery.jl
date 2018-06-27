@@ -10,7 +10,7 @@ import Base.parse
     #testset "globals"
     narticles = 10
     ids = Array{Int64,1}()
-    efetch_doc = EzXML.ElementNode("")
+    efetch_doc = ""
     dfs_efetch = Dict{String,DataFrame}()
     verbose = false
     articles = []
