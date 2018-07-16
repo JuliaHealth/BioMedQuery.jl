@@ -20,7 +20,7 @@ using BioServices.UMLS
 umls_user = ENV["UMLS_USER"];
 umls_pswd = ENV["UMLS_PSSWD"];
 
-results_dir = "./results";
+results_dir = "../results";
 
 # ### Using MySQL as a backend
 
