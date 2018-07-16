@@ -76,8 +76,7 @@ export pubmed_search_and_save!,
        umls_semantic_occurrences,
        filter_mesh_by_concept,
        export_citation,
-       load_medline,
-       post_process!
+       load_medline!
 include("Processes/pubmed_search_and_save.jl")
 include("Processes/pubmed_mesh_to_umls_map.jl")
 include("Processes/pubmed_occurrance_filtering.jl")

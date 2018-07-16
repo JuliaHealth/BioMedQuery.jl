@@ -134,7 +134,7 @@ println("       Testing Medline Loader")
 
     PubMed.create_tables!(conn) #drop and re-create pubmed article tables
 
-    load_medline(conn, dirname(@__FILE__), start_file=medline_file, end_file=medline_file, year=medline_year, test=true)
+    load_medline!(conn, dirname(@__FILE__), start_file=medline_file, end_file=medline_file, year=medline_year, test=true)
 
     path = joinpath(dirname(@__FILE__),"medline","raw_files",Processes.get_file_name(medline_file, medline_year, true))
     doc = parse_file(path)
@@ -145,15 +145,6 @@ println("       Testing Medline Loader")
     @test length(all_pmids) == length(collect(child_elements(raw_articles)))
     res = MySQL.query(conn, "SELECT DISTINCT orcid FROM author_ref;", DataFrame)
     @test size(res)[1] > 2
-
-    post_process!(conn)
-
-    num_auth = MySQL.query(conn, "SELECT count(*) from author;", DataFrame)[1,1]
-    num_auth2art = MySQL.query(conn, "SELECT count(*) from author2article;", DataFrame)[1,1]
-    num_authref = MySQL.query(conn, "SELECT count(*) from author_ref;", DataFrame)[1,1]
-
-    @test num_auth > 0
-    @test num_auth <= num_auth2art && num_auth2art <= num_authref
 
     rm(joinpath(dirname(@__FILE__),"medline"), recursive=true)
 
