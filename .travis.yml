@@ -4,7 +4,7 @@ julia:
   # - nightly
 os:
   - linux
-  # - osx
+  - osx
 env:
   - GROUP=Test
   # - GROUP=Examples
