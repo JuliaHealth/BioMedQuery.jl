@@ -22,8 +22,8 @@ using SQLite
 email = ""; # Only needed if you want to contact NCBI with inqueries
 search_term = """(obesity[MeSH Major Topic]) AND ("2010"[Date - Publication] : "2012"[Date - Publication])""";
 max_articles = 5;
-results_dir = "./results";
-verbose = false;
+results_dir = "../results";
+verbose = true;
 
 # ### MySQL backend
 
@@ -41,13 +41,13 @@ all_pmids(mysql_conn)
 
 # #### Explore tables
 # You may use the MySQL command directly. If you want the return type to be a DataFrame, you need to explicitly request so.
-
 tables = ["author_ref", "mesh_desc", "mesh_qual", "mesh_heading"]
 for t in tables
     query_str = "SELECT * FROM $t LIMIT 5;"
     q = MySQL.query(mysql_conn, query_str, DataFrame)
     println(q)
 end
+
 #-
 MySQL.disconnect(mysql_conn);
 
