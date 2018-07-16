@@ -46,4 +46,4 @@ script:
           end'
 after_success:
   - julia -e 'cd(Pkg.dir("BioMedQuery")); Pkg.add("Documenter"); Pkg.add("Literate"); include(joinpath("docs", "make.jl"))'
-  - julia -e 'cd(Pkg.dir("BioMedQuery")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
+  # - julia -e 'cd(Pkg.dir("BioMedQuery")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
