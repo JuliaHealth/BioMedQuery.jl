@@ -29,7 +29,7 @@ PubMed.create_tables!(conn);
 # As the full medline load is a large operation, it is recommended that a test run
 # be completed first.
 
-@time Processes.load_medline(conn, pwd(), test=true)
+@time Processes.load_medline!(conn, pwd(), test=true)
 
 # Review the output of this run in MySQL to make sure that it ran as expected.
 # Additionally, the sample raw and parsed file should be in the new ```medline```
@@ -39,9 +39,8 @@ PubMed.create_tables!(conn);
 # To run a full load, use the same code as above, but do not pass the test variable.
 # It is also possible to break up the load by passing which files to start and stop at -
 # simply pass ```start_file=n``` and ```end_file=p```.
+#
+# After loading, it is recommended you add indexes to the tables, the ```add_mysql_keys!```
+# function can be used to add a standard set of indexes.
 
-### Post-Processing
-# Optionally, an author and author2article table can be built and loaded.  This will create a
-# table with unique author entries and an author id as well as a table with mappings of PMIDs to author IDs.
-
-@time Processes.post_process!(conn)
+add_mysql_keys!(conn)

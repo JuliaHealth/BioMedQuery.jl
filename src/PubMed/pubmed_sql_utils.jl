@@ -100,7 +100,7 @@ function create_tables!(conn)
 
 
    sql_engine.execute!(conn, "CREATE TABLE IF NOT EXISTS `abstract_structured` (
-         `abstracts_structured_id` INTEGER PRIMARY KEY $AUTOINCREMENT,
+         `abstract_structured_id` INTEGER PRIMARY KEY $AUTOINCREMENT,
          `pmid` int(9) NOT NULL,
          `nlm_category` varchar(20) DEFAULT NULL,
          `label` varchar(40) DEFAULT NULL,
@@ -522,7 +522,7 @@ function db_insert!(db::MySQL.Connection, csv_path::String = pwd(), csv_prefix::
             path = joinpath(csv_path, "$(csv_prefix)$(table).csv")
             drop_csv && push!(paths,path)
 
-            headers = CSV.read(path, rows = 2)
+            headers = CSV.read(path, DataFrame, rows = 1)
             # return headers
 
             cols = String.(headers.colindex.names)

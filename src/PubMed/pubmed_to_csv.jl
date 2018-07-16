@@ -21,6 +21,20 @@ function dict_to_array(dict::Dict)
     return keys, vals
 end
 
+"""
+    strip_newline(val::Union{Missing,String})
+
+Replaces new line characters with spaces.
+"""
+function strip_newline(val::Union{Missing,String})
+    if ismissing(val)
+        return val
+    else
+        res = replace(val, "\n"," ")
+        res = replace(res, "\r"," ")
+        return res
+    end
+end
 
 """
     parse_MedlineDate(ml_dt::String)
@@ -283,7 +297,7 @@ function parse(xml::LightXML.XMLElement)
 
                                     # Title?
                                     elseif name(j_info) == "Title"
-                                        this_journal_title = content(j_info)
+                                        this_journal_title = strip_newline(content(j_info))
 
                                     # ISO Abbreviation?
                                     elseif name(j_info) == "ISOAbbreviation"
@@ -293,7 +307,7 @@ function parse(xml::LightXML.XMLElement)
 
                             # Article Title
                             elseif name(a_info) == "ArticleTitle"
-                                @inbounds title[i] = content(a_info)
+                                @inbounds title[i] = strip_newline(content(a_info))
 
                             # Pagination?
                             elseif name(a_info) == "Pagination"
@@ -331,14 +345,14 @@ function parse(xml::LightXML.XMLElement)
                                         if abs_is_struct
                                             label = has_attribute(abs, "Label") ? attribute(abs,"Label") : missing :: Union{Missing,String}
                                             nlm_category = has_attribute(abs, "NlmCategory") ? attribute(abs, "NlmCategory") : missing :: Union{Missing,String}
-                                            abs_text = content(abs)
+                                            abs_text = strip_newline(content(abs))
                                             push!(as_pmid, this_pmid)
                                             push!(as_nlm, nlm_category)
                                             push!(as_label, label)
                                             push!(as_text, abs_text)
                                             abstract_full_text *= !ismissing(label) ? label * ": " * abs_text * " " : "NO LABEL: " * abs_text * " "
                                         else
-                                            abstract_full_text *= content(abs) * " "
+                                            abstract_full_text *= strip_newline(content(abs)) * " "
                                         end
                                     end #abstract if
                                 end #abstract for
@@ -363,7 +377,7 @@ function parse(xml::LightXML.XMLElement)
                                     push!(au_suffix, suffix)
                                     push!(au_orcid, orcid)
                                     push!(au_coll, collective)
-                                    push!(au_affs, affs)
+                                    push!(au_affs, strip_newline(affs))
                                 end
 
                                 @inbounds auth_cite[i] = (this_auth_cite == "" ? missing : this_auth_cite[1:end-2])
@@ -396,12 +410,14 @@ function parse(xml::LightXML.XMLElement)
                                 if header_name == "DescriptorName"
                                     desc = content(header) :: String
                                     desc_maj = attribute(header, "MajorTopicYN") == "Y" ? 1 : 0
-                                    desc_uid = Base.parse(Int, attribute(header, "UI")[2:end])
+                                    desc_ui = attribute(header, "UI")
+                                    desc_uid = length(desc_ui) > 1 ? Base.parse(Int, desc_ui[2:end]) : -1
                                     mesh_desc[desc_uid] = desc
                                 elseif header_name == "QualifierName"
                                     qual = content(header)
                                     qual_maj = attribute(header, "MajorTopicYN") == "Y" ? 1 : 0 :: Int
-                                    qual_uid = Base.parse(Int, attribute(header, "UI")[2:end]) :: Int
+                                    qual_ui = attribute(header, "UI")
+                                    qual_uid = length(qual_ui) > 1 ? Base.parse(Int, qual_ui[2:end]) : -1
 
                                     mesh_qual[qual_uid] = qual
 
