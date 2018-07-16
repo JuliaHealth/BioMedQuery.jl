@@ -1,20 +1,22 @@
 language: julia
 julia:
   - 0.6
-  - nightly
+  # - nightly
 os:
   - linux
-  - osx
+  # - osx
 env:
   - GROUP=Test
-  - GROUP=Examples
-matrix:
+  # - GROUP=Examples
+# matrix:
 #  exclude:
-#       - os: osx
-#         env: GROUP=Examples
-  allow_failures:
-    - julia: nightly
-    - env: GROUP=Examples
+#     - julia: nightly
+#       os: osx
+#     - julia: nightly
+#       env: GROUP=Examples
+#   allow_failures:
+#     - julia: nightly
+#     - env: GROUP=Examples
 notifications:
   email: true
 before_script:
