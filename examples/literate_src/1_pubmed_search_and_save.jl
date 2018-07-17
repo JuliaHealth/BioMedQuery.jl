@@ -22,7 +22,7 @@ using SQLite
 email = ""; # Only needed if you want to contact NCBI with inqueries
 search_term = """(obesity[MeSH Major Topic]) AND ("2010"[Date - Publication] : "2012"[Date - Publication])""";
 max_articles = 5;
-results_dir = "../results";
+results_dir = ".";
 verbose = true;
 
 # ### MySQL backend

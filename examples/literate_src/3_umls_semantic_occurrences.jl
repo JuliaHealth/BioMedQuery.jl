@@ -19,7 +19,7 @@ using BioMedQuery.PubMed
 using MySQL
 using SQLite
 
-results_dir = "../results";
+results_dir = ".";
 umls_concept = "Disease or Syndrome";
 
 # ### MySQL backend

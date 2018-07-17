@@ -29,7 +29,7 @@ PubMed.create_tables!(conn);
 # As the full medline load is a large operation, it is recommended that a test run
 # be completed first.
 
-@time Processes.load_medline!(conn, "../results", test=true)
+@time Processes.load_medline!(conn, pwd(), test=true)
 
 # Review the output of this run in MySQL to make sure that it ran as expected.
 # Additionally, the sample raw and parsed file should be in the new ```medline```

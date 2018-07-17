@@ -12,7 +12,7 @@
 using BioMedQuery.Processes
 
 # The functions require a directory to save the citation files to
-results_dir = "../results";
+results_dir = ".";
 
 if !isdir(results_dir)
      mkdir(results_dir)
