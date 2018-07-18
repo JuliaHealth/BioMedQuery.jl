@@ -1,86 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-    
     <url>
      <loc>/</loc>
-     <lastmod>2018-05-30</lastmod>
+     <lastmod>2018-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
-    
-
-    
-        
     <url>
      <loc>/examples/</loc>
-     <lastmod>2018-05-30</lastmod>
+     <lastmod>2018-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
-     <loc>/examples/pubmed_search_and_save/</loc>
-     <lastmod>2018-05-30</lastmod>
+     <loc>/examples/1_pubmed_search_and_save/</loc>
+     <lastmod>2018-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
-     <loc>/examples/pubmed_mesh_to_umls_map/</loc>
-     <lastmod>2018-05-30</lastmod>
+     <loc>/examples/2_pubmed_mesh_to_umls_map/</loc>
+     <lastmod>2018-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
-     <loc>/examples/umls_semantic_occurrences/</loc>
-     <lastmod>2018-05-30</lastmod>
+     <loc>/examples/3_umls_semantic_occurrences/</loc>
+     <lastmod>2018-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
-     <loc>/examples/pubmed_export_citations/</loc>
-     <lastmod>2018-05-30</lastmod>
+     <loc>/examples/4_pubmed_export_citations/</loc>
+     <lastmod>2018-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
-     <loc>/examples/load_medline/</loc>
-     <lastmod>2018-05-30</lastmod>
+     <loc>/examples/5_load_medline/</loc>
+     <lastmod>2018-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
-    
-
-    
-        
     <url>
      <loc>/processes/</loc>
-     <lastmod>2018-05-30</lastmod>
+     <lastmod>2018-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
      <loc>/pubmed/</loc>
-     <lastmod>2018-05-30</lastmod>
+     <lastmod>2018-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
      <loc>/ct/</loc>
-     <lastmod>2018-05-30</lastmod>
+     <lastmod>2018-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
      <loc>/dbutils/</loc>
-     <lastmod>2018-05-30</lastmod>
+     <lastmod>2018-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
      <loc>/library/</loc>
-     <lastmod>2018-05-30</lastmod>
+     <lastmod>2018-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
-    
-
 </urlset>
