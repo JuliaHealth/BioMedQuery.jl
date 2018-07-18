@@ -1,6 +1,6 @@
 # # Map Medical Subject Headings (MeSH) to UMLS
 
-# #md [![nbviewer](https://img.shields.io/badge/example-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/pubmed_mesh_to_umls_map.ipynb)
+#md [![nbviewer](https://img.shields.io/badge/jupyter_notebook-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/pubmed_mesh_to_umls_map.ipynb)
 
 # This example demonstrates the typical workflow to populate a MESH2UMLS database
 # table relating all concepts associated with all MeSH terms in the input database.

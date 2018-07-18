@@ -13,6 +13,7 @@ for (root, dirs, files) in walkdir("examples/literate_src")
         Literate.markdown(joinpath(root,file), joinpath(@__DIR__, "src", "examples"))
     end
 end
+
 makedocs()
 
 deploydocs(
