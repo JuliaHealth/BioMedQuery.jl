@@ -1,6 +1,6 @@
 # # Search PubMed and Save Results
 
-#md [![nbviewer](https://img.shields.io/badge/jupyter_notebook-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/pubmed_search_and_save.ipynb)
+#md # [![nbviewer](https://img.shields.io/badge/jupyter_notebook-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/1_pubmed_search_and_save.ipynb)
 
 # This example demonstrates the typical workflow to query pubmed and store
 # the results. The following backends are supported for storing the results:

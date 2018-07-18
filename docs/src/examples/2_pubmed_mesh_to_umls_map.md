@@ -4,7 +4,7 @@ EditURL = "https://github.com/TRAVIS_REPO_SLUG/blob/master/../../../bcbi/julia_p
 
 # Map Medical Subject Headings (MeSH) to UMLS
 
-#md [![nbviewer](https://img.shields.io/badge/example-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/pubmed_mesh_to_umls_map.ipynb)
+[![nbviewer](https://img.shields.io/badge/jupyter_notebook-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/2_pubmed_mesh_to_umls_map.ipynb)
 
 This example demonstrates the typical workflow to populate a MESH2UMLS database
 table relating all concepts associated with all MeSH terms in the input database.
@@ -29,7 +29,7 @@ Credentials are environment variables (e.g set in your .juliarc.jl)
 umls_user = ENV["UMLS_USER"];
 umls_pswd = ENV["UMLS_PSSWD"];
 
-results_dir = "../results";
+results_dir = ".";
 ```
 
 ### Using MySQL as a backend

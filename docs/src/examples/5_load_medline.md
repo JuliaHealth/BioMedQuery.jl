@@ -4,6 +4,8 @@ EditURL = "https://github.com/TRAVIS_REPO_SLUG/blob/master/../../../bcbi/julia_p
 
 # Load MEDLINE
 
+[![nbviewer](https://img.shields.io/badge/jupyter_notebook-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/5_load_medline.ipynb)
+
 The MEDLINE loader process in BioMedQuery saves the MEDLINE baseline files to a
 MySQL database and saves the raw (xml.gz) and parsed (csv) files to a ```medline```
 directory that will be created in the provided ```output_dir```.
@@ -38,7 +40,7 @@ As the full medline load is a large operation, it is recommended that a test run
 be completed first.
 
 ```@example 5_load_medline
-@time Processes.load_medline!(conn, "../results", test=true)
+@time Processes.load_medline!(conn, pwd(), test=true)
 ```
 
 Review the output of this run in MySQL to make sure that it ran as expected.

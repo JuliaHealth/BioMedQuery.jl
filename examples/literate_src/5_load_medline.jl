@@ -1,6 +1,6 @@
 # # Load MEDLINE
 
-#md [![nbviewer](https://img.shields.io/badge/jupyter_notebook-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/load_medline.ipynb)
+#md # [![nbviewer](https://img.shields.io/badge/jupyter_notebook-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/5_load_medline.ipynb)
 
 # The MEDLINE loader process in BioMedQuery saves the MEDLINE baseline files to a
 # MySQL database and saves the raw (xml.gz) and parsed (csv) files to a ```medline```

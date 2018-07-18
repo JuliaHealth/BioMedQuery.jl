@@ -4,7 +4,7 @@ EditURL = "https://github.com/TRAVIS_REPO_SLUG/blob/master/../../../bcbi/julia_p
 
 # Unified Medical Language (UMLS) Filtering
 
-#md [![nbviewer](https://img.shields.io/badge/example-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/umls_semantic_occurrences.ipynb)
+[![nbviewer](https://img.shields.io/badge/jupyter_notebook-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/3_umls_semantic_occurrences.ipynb)
 
 This example demonstrates how to obtain an occurrence matrix associated with a
 UMLS concept in a previously obtained pubmed/medline search.
@@ -25,7 +25,7 @@ using BioMedQuery.PubMed
 using MySQL
 using SQLite
 
-results_dir = "../results";
+results_dir = ".";
 umls_concept = "Disease or Syndrome";
 ```
 

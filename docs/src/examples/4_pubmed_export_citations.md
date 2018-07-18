@@ -4,7 +4,7 @@ EditURL = "https://github.com/TRAVIS_REPO_SLUG/blob/master/../../../bcbi/julia_p
 
 # Export PubMed Citations
 
-#md [![nbviewer](https://img.shields.io/badge/example-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/pubmed_export_citations.ipynb)
+[![nbviewer](https://img.shields.io/badge/jupyter_notebook-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/4_pubmed_export_citations.ipynb)
 BioMedQuery has functions to search PubMed for PMIDs and save the xml data
 as either a BibTex or EndNote citation.
 
@@ -20,7 +20,7 @@ using BioMedQuery.Processes
 The functions require a directory to save the citation files to
 
 ```@example 4_pubmed_export_citations
-results_dir = "../results";
+results_dir = ".";
 
 if !isdir(results_dir)
      mkdir(results_dir)

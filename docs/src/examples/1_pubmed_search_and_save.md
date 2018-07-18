@@ -4,7 +4,7 @@ EditURL = "https://github.com/TRAVIS_REPO_SLUG/blob/master/../../../bcbi/julia_p
 
 # Search PubMed and Save Results
 
-#md [![nbviewer](https://img.shields.io/badge/example-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/pubmed_search_and_save.ipynb)
+[![nbviewer](https://img.shields.io/badge/jupyter_notebook-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/1_pubmed_search_and_save.ipynb)
 
 This example demonstrates the typical workflow to query pubmed and store
 the results. The following backends are supported for storing the results:
@@ -30,7 +30,7 @@ Variables used to search PubMed
 email = ""; # Only needed if you want to contact NCBI with inqueries
 search_term = """(obesity[MeSH Major Topic]) AND ("2010"[Date - Publication] : "2012"[Date - Publication])""";
 max_articles = 5;
-results_dir = "../results";
+results_dir = ".";
 verbose = true;
 ```
 
