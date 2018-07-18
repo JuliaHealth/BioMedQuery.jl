@@ -1,0 +1,1166 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Julia connection to BioMedial Search APIs">
+      
+      
+      
+        <meta name="author" content="bcbi">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-0.17.5, mkdocs-material-2.9.2">
+    
+    
+      
+        <title>Pubmed Search and Save - BioMedQuery.jl</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.ba0fd1a6.css">
+      
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+      <link rel="stylesheet" href="../../assets/Documenter.css">
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#search-pubmed-and-save-results" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../.." title="BioMedQuery.jl" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                BioMedQuery.jl
+              </span>
+              <span class="md-header-nav__topic">
+                Pubmed Search and Save
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/bcbi/BioMedQuery.jl/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <span class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </span>
+    BioMedQuery.jl
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/bcbi/BioMedQuery.jl/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      Examples
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Examples
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Pubmed Search and Save
+      </label>
+    
+    <a href="./" title="Pubmed Search and Save" class="md-nav__link md-nav__link--active">
+      Pubmed Search and Save
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#set-up" title="Set Up" class="md-nav__link">
+    Set Up
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mysql-backend" title="MySQL backend" class="md-nav__link">
+    MySQL backend
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-all-pmids" title="Access all PMIDs" class="md-nav__link">
+    Access all PMIDs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explore-tables" title="Explore tables" class="md-nav__link">
+    Explore tables
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sqlite-backend" title="SQLite backend" class="md-nav__link">
+    SQLite backend
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-all-pmids_1" title="Access all PMIDs" class="md-nav__link">
+    Access all PMIDs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explore-the-tables" title="Explore the tables" class="md-nav__link">
+    Explore the tables
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#citations" title="Citations" class="md-nav__link">
+    Citations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dataframes" title="DataFrames" class="md-nav__link">
+    DataFrames
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../2_pubmed_mesh_to_umls_map/" title="MeSH/UMLS Map" class="md-nav__link">
+      MeSH/UMLS Map
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../3_umls_semantic_occurrences/" title="UMLS Semantic Filtering" class="md-nav__link">
+      UMLS Semantic Filtering
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../4_pubmed_export_citations/" title="Export to Citations" class="md-nav__link">
+      Export to Citations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../5_load_medline/" title="Load MEDLINE" class="md-nav__link">
+      Load MEDLINE
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Manual
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Manual
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../processes/" title="Processes/Workflows" class="md-nav__link">
+      Processes/Workflows
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../pubmed/" title="PubMed" class="md-nav__link">
+      PubMed
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ct/" title="Clinical Trials" class="md-nav__link">
+      Clinical Trials
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../dbutils/" title="Database Utilities" class="md-nav__link">
+      Database Utilities
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../library/" title="Library" class="md-nav__link">
+      Library
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#set-up" title="Set Up" class="md-nav__link">
+    Set Up
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mysql-backend" title="MySQL backend" class="md-nav__link">
+    MySQL backend
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-all-pmids" title="Access all PMIDs" class="md-nav__link">
+    Access all PMIDs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explore-tables" title="Explore tables" class="md-nav__link">
+    Explore tables
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sqlite-backend" title="SQLite backend" class="md-nav__link">
+    SQLite backend
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-all-pmids_1" title="Access all PMIDs" class="md-nav__link">
+    Access all PMIDs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explore-the-tables" title="Explore the tables" class="md-nav__link">
+    Explore the tables
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#citations" title="Citations" class="md-nav__link">
+    Citations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dataframes" title="DataFrames" class="md-nav__link">
+    DataFrames
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/bcbi/BioMedQuery.jl/edit/master/docs/examples/1_pubmed_search_and_save.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <p><a id='Search-PubMed-and-Save-Results-1'></a></p>
+<h1 id="search-pubmed-and-save-results">Search PubMed and Save Results</h1>
+<p><a href="http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/1_pubmed_search_and_save.ipynb"><img alt="nbviewer" src="https://img.shields.io/badge/jupyter_notebook-nbviewer-orange.svg" /></a></p>
+<p>This example demonstrates the typical workflow to query pubmed and store the results. The following backends are supported for storing the results:</p>
+<ul>
+<li>MySQL</li>
+<li>SQLite</li>
+<li>Citation (endnote/bibtex)</li>
+<li>DataFrames</li>
+</ul>
+<p><a id='Set-Up-1'></a></p>
+<h3 id="set-up">Set Up</h3>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">BioMedQuery</span><span class="o">.</span><span class="n">DBUtils</span>
+<span class="k">using</span> <span class="n">BioMedQuery</span><span class="o">.</span><span class="n">PubMed</span>
+<span class="k">using</span> <span class="n">BioMedQuery</span><span class="o">.</span><span class="n">Processes</span>
+<span class="k">using</span> <span class="n">DataFrames</span>
+<span class="k">using</span> <span class="n">MySQL</span>
+<span class="k">using</span> <span class="n">SQLite</span>
+</pre></div>
+
+
+<p>Variables used to search PubMed</p>
+<div class="codehilite"><pre><span></span><span class="n">email</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">;</span> <span class="c"># Only needed if you want to contact NCBI with inqueries</span>
+<span class="n">search_term</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;(obesity[MeSH Major Topic]) AND (&quot;2010&quot;[Date - Publication] : &quot;2012&quot;[Date - Publication])&quot;&quot;&quot;</span><span class="p">;</span>
+<span class="n">max_articles</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="n">results_dir</span> <span class="o">=</span> <span class="s">&quot;.&quot;</span><span class="p">;</span>
+<span class="n">verbose</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</pre></div>
+
+
+<p><a id='MySQL-backend-1'></a></p>
+<h3 id="mysql-backend">MySQL backend</h3>
+<p>Initialize database, if it exists it connects to it, otherwise it creates it</p>
+<div class="codehilite"><pre><span></span><span class="kd">const</span> <span class="n">mysql_conn</span> <span class="o">=</span> <span class="n">DBUtils</span><span class="o">.</span><span class="n">init_mysql_database</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="s">&quot;root&quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="s">&quot;pubmed_obesity_2010_2012&quot;</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Creates (and deletes if they already exist) all tables needed to save a pubmed search</p>
+<div class="codehilite"><pre><span></span><span class="n">PubMed</span><span class="o">.</span><span class="n">create_tables!</span><span class="p">(</span><span class="n">mysql_conn</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Search pubmed and save results to database</p>
+<div class="codehilite"><pre><span></span><span class="n">Processes</span><span class="o">.</span><span class="n">pubmed_search_and_save!</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">search_term</span><span class="p">,</span> <span class="n">max_articles</span><span class="p">,</span> <span class="n">mysql_conn</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>Getting 5 articles, starting at index 0
+------ESearch--------
+------EFetch--------
+------Save to database--------
+Saving 5 articles to database
+Finished searching, total number of articles: 5
+</pre></div>
+
+
+<p><a id='Access-all-PMIDs-1'></a></p>
+<h4 id="access-all-pmids">Access all PMIDs</h4>
+<div class="codehilite"><pre><span></span><span class="n">all_pmids</span><span class="p">(</span><span class="n">mysql_conn</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>5-element Array{Int32,1}:
+ 24315250
+ 24444198
+ 24533500
+ 24694474
+ 25548090
+</pre></div>
+
+
+<p><a id='Explore-tables-1'></a></p>
+<h4 id="explore-tables">Explore tables</h4>
+<p>You may use the MySQL command directly. If you want the return type to be a DataFrame, you need to explicitly request so.</p>
+<div class="codehilite"><pre><span></span><span class="n">tables</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;author_ref&quot;</span><span class="p">,</span> <span class="s">&quot;mesh_desc&quot;</span><span class="p">,</span> <span class="s">&quot;mesh_qual&quot;</span><span class="p">,</span> <span class="s">&quot;mesh_heading&quot;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">t</span> <span class="kp">in</span> <span class="n">tables</span>
+    <span class="n">query_str</span> <span class="o">=</span> <span class="s">&quot;SELECT * FROM </span><span class="si">$t</span><span class="s"> LIMIT 5;&quot;</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">MySQL</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">mysql_conn</span><span class="p">,</span> <span class="n">query_str</span><span class="p">,</span> <span class="n">DataFrame</span><span class="p">)</span>
+    <span class="n">println</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>5×9 DataFrames.DataFrame. Omitted printing of 3 columns
+│ Row │ pmid     │ last_name │ first_name │ initials │ suffix  │ orcid   │
+├─────┼──────────┼───────────┼────────────┼──────────┼─────────┼─────────┤
+│ 1   │ 25548090 │ So        │ Eun Sun    │ ES       │ missing │ missing │
+│ 2   │ 25548090 │ Yoo       │ Kwang Soo  │ KS       │ missing │ missing │
+│ 3   │ 24694474 │ Sakurai   │ Masaru     │ M        │ missing │ missing │
+│ 4   │ 24694474 │ Nakamura  │ Koshi      │ K        │ missing │ missing │
+│ 5   │ 24694474 │ Miura     │ Katsuyuki  │ K        │ missing │ missing │
+5×3 DataFrames.DataFrame
+│ Row │ uid  │ name                 │ ins_dt_time         │
+├─────┼──────┼──────────────────────┼─────────────────────┤
+│ 1   │ 328  │ Adult                │ 2018-07-18T21:37:04 │
+│ 2   │ 368  │ Aged                 │ 2018-07-18T21:37:04 │
+│ 3   │ 369  │ Aged, 80 and over    │ 2018-07-18T21:37:04 │
+│ 4   │ 704  │ Analysis of Variance │ 2018-07-18T21:37:04 │
+│ 5   │ 1835 │ Body Weight          │ 2018-07-18T21:37:04 │
+5×3 DataFrames.DataFrame
+│ Row │ uid │ name          │ ins_dt_time         │
+├─────┼─────┼───────────────┼─────────────────────┤
+│ 1   │ 32  │ analysis      │ 2018-07-18T21:37:04 │
+│ 2   │ 97  │ blood         │ 2018-07-18T21:37:04 │
+│ 3   │ 150 │ complications │ 2018-07-18T21:37:04 │
+│ 4   │ 208 │ ethnology     │ 2018-07-18T21:37:04 │
+│ 5   │ 209 │ etiology      │ 2018-07-18T21:37:04 │
+5×6 DataFrames.DataFrame. Omitted printing of 1 columns
+│ Row │ pmid     │ desc_uid │ desc_maj_status │ qual_uid │ qual_maj_status │
+├─────┼──────────┼──────────┼─────────────────┼──────────┼─────────────────┤
+│ 1   │ 25548090 │ 17677    │ 0               │ missing  │ missing         │
+│ 2   │ 25548090 │ 368      │ 0               │ missing  │ missing         │
+│ 3   │ 25548090 │ 369      │ 0               │ missing  │ missing         │
+│ 4   │ 25548090 │ 5260     │ 0               │ missing  │ missing         │
+│ 5   │ 25548090 │ 6801     │ 0               │ missing  │ missing         │
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="n">MySQL</span><span class="o">.</span><span class="n">disconnect</span><span class="p">(</span><span class="n">mysql_conn</span><span class="p">);</span>
+</pre></div>
+
+
+<p><a id='SQLite-backend-1'></a></p>
+<h3 id="sqlite-backend">SQLite backend</h3>
+<div class="codehilite"><pre><span></span><span class="kd">const</span> <span class="n">db_path</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">$</span><span class="p">(</span><span class="n">results_dir</span><span class="p">)</span><span class="s">/pubmed_obesity_2010_2012.db&quot;</span><span class="p">;</span>
+</pre></div>
+
+
+<p>Overwrite the database if it already exists</p>
+<div class="codehilite"><pre><span></span><span class="k">if</span> <span class="n">isfile</span><span class="p">(</span><span class="n">db_path</span><span class="p">)</span>
+    <span class="n">rm</span><span class="p">(</span><span class="n">db_path</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<p>Connect to the database</p>
+<div class="codehilite"><pre><span></span><span class="kd">const</span> <span class="n">conn_sqlite</span> <span class="o">=</span> <span class="n">SQLite</span><span class="o">.</span><span class="n">DB</span><span class="p">(</span><span class="n">db_path</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Creates (and deletes if they already exist) all tables needed to save a pubmed search</p>
+<div class="codehilite"><pre><span></span><span class="n">PubMed</span><span class="o">.</span><span class="n">create_tables!</span><span class="p">(</span><span class="n">conn_sqlite</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Search PubMed and save the results</p>
+<div class="codehilite"><pre><span></span><span class="n">Processes</span><span class="o">.</span><span class="n">pubmed_search_and_save!</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">search_term</span><span class="p">,</span> <span class="n">max_articles</span><span class="p">,</span> <span class="n">conn_sqlite</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>Getting 5 articles, starting at index 0
+------ESearch--------
+------EFetch--------
+------Save to database--------
+Saving 5 articles to database
+Finished searching, total number of articles: 5
+</pre></div>
+
+
+<p><a id='Access-all-PMIDs-2'></a></p>
+<h4 id="access-all-pmids_1">Access all PMIDs</h4>
+<div class="codehilite"><pre><span></span><span class="n">all_pmids</span><span class="p">(</span><span class="n">conn_sqlite</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>5-element Array{Union{Int64, Missings.Missing},1}:
+ 24315250
+ 24444198
+ 24533500
+ 24694474
+ 25548090
+</pre></div>
+
+
+<p><a id='Explore-the-tables-1'></a></p>
+<h4 id="explore-the-tables">Explore the tables</h4>
+<p>You may use the SQLite commands directly. The return type is a DataFrame.</p>
+<div class="codehilite"><pre><span></span><span class="n">tables</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;author_ref&quot;</span><span class="p">,</span> <span class="s">&quot;mesh_desc&quot;</span><span class="p">,</span> <span class="s">&quot;mesh_qual&quot;</span><span class="p">,</span> <span class="s">&quot;mesh_heading&quot;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">t</span> <span class="kp">in</span> <span class="n">tables</span>
+    <span class="n">query_str</span> <span class="o">=</span> <span class="s">&quot;SELECT * FROM </span><span class="si">$t</span><span class="s"> LIMIT 5;&quot;</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">SQLite</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">conn_sqlite</span><span class="p">,</span> <span class="n">query_str</span><span class="p">)</span>
+    <span class="n">println</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>5×9 DataFrames.DataFrame. Omitted printing of 3 columns
+│ Row │ pmid     │ last_name │ first_name │ initials │ suffix  │ orcid   │
+├─────┼──────────┼───────────┼────────────┼──────────┼─────────┼─────────┤
+│ 1   │ 25548090 │ So        │ Eun Sun    │ ES       │ missing │ missing │
+│ 2   │ 25548090 │ Yoo       │ Kwang Soo  │ KS       │ missing │ missing │
+│ 3   │ 24694474 │ Sakurai   │ Masaru     │ M        │ missing │ missing │
+│ 4   │ 24694474 │ Nakamura  │ Koshi      │ K        │ missing │ missing │
+│ 5   │ 24694474 │ Miura     │ Katsuyuki  │ K        │ missing │ missing │
+5×3 DataFrames.DataFrame
+│ Row │ uid   │ name              │ ins_dt_time         │
+├─────┼───────┼───────────────────┼─────────────────────┤
+│ 1   │ 12016 │ Reference Values  │ 2018-07-18 21:37:05 │
+│ 2   │ 56910 │ Republic of Korea │ 2018-07-18 21:37:05 │
+│ 3   │ 12372 │ ROC Curve         │ 2018-07-18 21:37:05 │
+│ 4   │ 5221  │ Fatigue           │ 2018-07-18 21:37:05 │
+│ 5   │ 9765  │ Obesity           │ 2018-07-18 21:37:05 │
+5×3 DataFrames.DataFrame
+│ Row │ uid │ name                        │ ins_dt_time         │
+├─────┼─────┼─────────────────────────────┼─────────────────────┤
+│ 1   │ 208 │ ethnology                   │ 2018-07-18 21:37:05 │
+│ 2   │ 706 │ statistics &amp; numerical data │ 2018-07-18 21:37:05 │
+│ 3   │ 453 │ epidemiology                │ 2018-07-18 21:37:05 │
+│ 4   │ 502 │ physiology                  │ 2018-07-18 21:37:05 │
+│ 5   │ 32  │ analysis                    │ 2018-07-18 21:37:05 │
+5×6 DataFrames.DataFrame. Omitted printing of 1 columns
+│ Row │ pmid     │ desc_uid │ desc_maj_status │ qual_uid │ qual_maj_status │
+├─────┼──────────┼──────────┼─────────────────┼──────────┼─────────────────┤
+│ 1   │ 25548090 │ 17677    │ 0               │ missing  │ missing         │
+│ 2   │ 25548090 │ 368      │ 0               │ missing  │ missing         │
+│ 3   │ 25548090 │ 369      │ 0               │ missing  │ missing         │
+│ 4   │ 25548090 │ 5260     │ 0               │ missing  │ missing         │
+│ 5   │ 25548090 │ 6801     │ 0               │ missing  │ missing         │
+</pre></div>
+
+
+<p><a id='Citations-1'></a></p>
+<h3 id="citations">Citations</h3>
+<p>Citation type can be "endnote" or "bibtex"</p>
+<div class="codehilite"><pre><span></span><span class="n">enw_file</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">$</span><span class="p">(</span><span class="n">results_dir</span><span class="p">)</span><span class="s">/pubmed_obesity_2010_2012.enw&quot;</span>
+<span class="n">endnote_citation</span> <span class="o">=</span> <span class="n">PubMed</span><span class="o">.</span><span class="n">CitationOutput</span><span class="p">(</span><span class="s">&quot;endnote&quot;</span><span class="p">,</span> <span class="n">enw_file</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+<span class="n">Processes</span><span class="o">.</span><span class="n">pubmed_search_and_save!</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">search_term</span><span class="p">,</span> <span class="n">max_articles</span><span class="p">,</span> <span class="n">endnote_citation</span><span class="p">,</span> <span class="n">verbose</span><span class="p">);</span>
+
+<span class="n">println</span><span class="p">(</span><span class="n">readstring</span><span class="p">(</span><span class="n">enw_file</span><span class="p">))</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="nt">Getting</span> <span class="nt">5</span> <span class="nt">articles</span><span class="o">,</span> <span class="nt">starting</span> <span class="nt">at</span> <span class="nt">index</span> <span class="nt">0</span>
+<span class="nt">------ESearch--------</span>
+<span class="nt">------EFetch--------</span>
+<span class="nt">------Save</span> <span class="nt">to</span> <span class="nt">database--------</span>
+<span class="nt">Saving</span> <span class="nt">citation</span> <span class="nt">for</span> <span class="nt">5</span> <span class="nt">articles</span>
+<span class="nt">Finished</span> <span class="nt">searching</span><span class="o">,</span> <span class="nt">total</span> <span class="nt">number</span> <span class="nt">of</span> <span class="nt">articles</span><span class="o">:</span> <span class="nt">5</span>
+<span class="o">%</span><span class="nt">0</span> <span class="nt">Journal</span> <span class="nt">Article</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">So</span><span class="o">,</span> <span class="nt">ES</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Yoo</span><span class="o">,</span> <span class="nt">KS</span>
+<span class="o">%</span><span class="nt">D</span> <span class="nt">2015</span>
+<span class="o">%</span><span class="nt">T</span> <span class="nt">Waist</span> <span class="nt">circumference</span> <span class="nt">cutoff</span> <span class="nt">points</span> <span class="nt">for</span> <span class="nt">central</span> <span class="nt">obesity</span> <span class="nt">in</span> <span class="nt">the</span> <span class="nt">Korean</span> <span class="nt">elderly</span> <span class="nt">population</span><span class="o">.</span>
+<span class="o">%</span><span class="nt">J</span> <span class="nt">J</span> <span class="nt">Appl</span> <span class="nt">Gerontol</span>
+<span class="o">%</span><span class="nt">V</span> <span class="nt">34</span>
+<span class="o">%</span><span class="nt">N</span> <span class="nt">1</span>
+<span class="o">%</span><span class="nt">P</span> <span class="nt">102-17</span>
+<span class="o">%</span><span class="nt">M</span> <span class="nt">25548090</span>
+<span class="o">%</span><span class="nt">U</span> <span class="nt">http</span><span class="o">://</span><span class="nt">www</span><span class="p">.</span><span class="nc">ncbi</span><span class="p">.</span><span class="nc">nlm</span><span class="p">.</span><span class="nc">nih</span><span class="p">.</span><span class="nc">gov</span><span class="o">/</span><span class="nt">pubmed</span><span class="o">/</span><span class="nt">25548090</span>
+<span class="o">%</span><span class="nt">X</span> <span class="nt">String</span><span class="cp">[</span><span class="s2">&quot;The aim is to determine the appropriate cutoff values of waist circumference (WC) for an increased risk of the metabolic syndrome in the Korean elderly population. We analyzed the WC cutoff values of four groups divided according to sex and age with a total of 2,224 elderly participants aged 65 years old and above from the Fourth Korean National Health and Nutrition Examination Survey using the receiver operating characteristic curve and multiple logistic regression. The WC cutoff values associated with an increased risk of metabolic syndrome were 89.6 cm for men and 90.5 cm for women for those who were 65 to 74 years old, and 89.9 cm for men and 87.9 cm for women for those who were 75 years old or older. WC cutoff points for estimating metabolic risk are similar in elderly men and women. Age-specific optimal WC cutoff points should be considered especially for elderly women in screening for metabolic syndrome. &quot;</span><span class="cp">]</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Age</span> <span class="nt">Distribution</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Aged</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Aged</span><span class="o">,</span> <span class="nt">80</span> <span class="nt">and</span> <span class="nt">over</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Female</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Humans</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Logistic</span> <span class="nt">Models</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Male</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Metabolic</span> <span class="nt">Syndrome</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Nutrition</span> <span class="nt">Surveys</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Obesity</span><span class="o">,</span> <span class="nt">Abdominal</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">ROC</span> <span class="nt">Curve</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Republic</span> <span class="nt">of</span> <span class="nt">Korea</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Risk</span> <span class="nt">Factors</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Sex</span> <span class="nt">Distribution</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Waist</span> <span class="nt">Circumference</span>
+<span class="o">%+</span> <span class="nt">Chonbuk</span> <span class="nt">National</span> <span class="nt">University</span><span class="o">,</span> <span class="nt">South</span> <span class="nt">Korea</span> <span class="nt">soeunjee</span><span class="p">@</span><span class="k">naver</span><span class="p">.</span><span class="nc">com</span><span class="o">.</span><span class="p">;</span> <span class="nt">Chonbuk</span> <span class="nt">National</span> <span class="nt">University</span><span class="o">,</span> <span class="nt">South</span> <span class="nt">Korea</span><span class="o">.</span>
+
+<span class="o">%</span><span class="nt">0</span> <span class="nt">Journal</span> <span class="nt">Article</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Sakurai</span><span class="o">,</span> <span class="nt">M</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Nakamura</span><span class="o">,</span> <span class="nt">K</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Miura</span><span class="o">,</span> <span class="nt">K</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Yoshita</span><span class="o">,</span> <span class="nt">K</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Takamura</span><span class="o">,</span> <span class="nt">T</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Nagasawa</span><span class="o">,</span> <span class="nt">SY</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Morikawa</span><span class="o">,</span> <span class="nt">Y</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Ishizaki</span><span class="o">,</span> <span class="nt">M</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Kido</span><span class="o">,</span> <span class="nt">T</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Naruse</span><span class="o">,</span> <span class="nt">Y</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Nakashima</span><span class="o">,</span> <span class="nt">M</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Nogawa</span><span class="o">,</span> <span class="nt">K</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Suwazono</span><span class="o">,</span> <span class="nt">Y</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Nakagawa</span><span class="o">,</span> <span class="nt">H</span>
+<span class="o">%</span><span class="nt">D</span> <span class="nt">2014</span>
+<span class="o">%</span><span class="nt">T</span> <span class="nt">Association</span> <span class="nt">between</span> <span class="nt">a</span> <span class="nt">serum</span> <span class="nt">thyroid-stimulating</span> <span class="nt">hormone</span> <span class="nt">concentration</span> <span class="nt">within</span> <span class="nt">the</span> <span class="nt">normal</span> <span class="nt">range</span> <span class="nt">and</span> <span class="nt">indices</span> <span class="nt">of</span> <span class="nt">obesity</span> <span class="nt">in</span> <span class="nt">Japanese</span> <span class="nt">men</span> <span class="nt">and</span> <span class="nt">women</span><span class="o">.</span>
+<span class="o">%</span><span class="nt">J</span> <span class="nt">Intern</span><span class="o">.</span> <span class="nt">Med</span><span class="o">.</span>
+<span class="o">%</span><span class="nt">V</span> <span class="nt">53</span>
+<span class="o">%</span><span class="nt">N</span> <span class="nt">7</span>
+<span class="o">%</span><span class="nt">P</span> <span class="nt">669-74</span>
+<span class="o">%</span><span class="nt">M</span> <span class="nt">24694474</span>
+<span class="o">%</span><span class="nt">U</span> <span class="nt">http</span><span class="o">://</span><span class="nt">www</span><span class="p">.</span><span class="nc">ncbi</span><span class="p">.</span><span class="nc">nlm</span><span class="p">.</span><span class="nc">nih</span><span class="p">.</span><span class="nc">gov</span><span class="o">/</span><span class="nt">pubmed</span><span class="o">/</span><span class="nt">24694474</span>
+<span class="o">%</span><span class="nt">X</span> <span class="nt">String</span><span class="cp">[</span><span class="s2">&quot;OBJECTIVE: This cross-sectional study investigated the associations between the serum thyroid-stimulating hormone (TSH) concentration and indices of obesity in middle-aged Japanese men and women. METHODS: The participants were 2,037 employees (1,044 men and 993 women; age, 36-55 yr) of a metal products factory in Japan. Clinical examinations were conducted in 2009. We obtained a medical history and anthropometric measurements (body weight, body mass index [BMI] and waist circumference) and measured the serum TSH concentrations. The anthropometric indices were compared across serum TSH quartiles. The associations were evaluated separately according to the smoking status in men. RESULTS: The mean body weight (kg), BMI (kg/m(2)) and waist circumference (cm) were 69.2, 23.7 and 83.2 in men and 55.3, 22.3 and 74.3 in women, respectively. Men with a higher TSH concentration had higher body weight and BMI values (p for trend=0.016 and 0.019, respectively), and these significant associations were observed even after adjusting for age, smoking status and other potential confounders. The TSH level was not associated with waist circumference. We found a significant interaction between the TSH level and the smoking status on body weight (p for interaction=0.013) and a significant association between the TSH level and body weight in nonsmokers, but not in current smokers. No significant associations were observed between the TSH level and the anthropometric indices in women. CONCLUSION: Significant positive associations between the serum TSH concentration, body weight and BMI were detected in men only, and an interaction with the smoking status was observed for this association.&quot;</span><span class="cp">]</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Adult</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Biomarkers</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Body</span> <span class="nt">Mass</span> <span class="nt">Index</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Body</span> <span class="nt">Weight</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Cross-Sectional</span> <span class="nt">Studies</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Female</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Humans</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Incidence</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Japan</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Male</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Middle</span> <span class="nt">Aged</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Obesity</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Obesity</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Obesity</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Prevalence</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Prognosis</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Reference</span> <span class="nt">Values</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Surveys</span> <span class="nt">and</span> <span class="nt">Questionnaires</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Thyrotropin</span>
+<span class="o">%+</span> <span class="nt">Department</span> <span class="nt">of</span> <span class="nt">Epidemiology</span> <span class="nt">and</span> <span class="nt">Public</span> <span class="nt">Health</span><span class="o">,</span> <span class="nt">Kanazawa</span> <span class="nt">Medical</span> <span class="nt">University</span><span class="o">,</span> <span class="nt">Japan</span><span class="o">.</span>
+
+<span class="o">%</span><span class="nt">0</span> <span class="nt">Journal</span> <span class="nt">Article</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Drenowatz</span><span class="o">,</span> <span class="nt">C</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Kobel</span><span class="o">,</span> <span class="nt">S</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Kettner</span><span class="o">,</span> <span class="nt">S</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Keszty</span><span class="err">ü</span><span class="nt">s</span><span class="o">,</span> <span class="nt">D</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Steinacker</span><span class="o">,</span> <span class="nt">JM</span>
+<span class="o">%</span><span class="nt">D</span> <span class="nt">2014</span>
+<span class="o">%</span><span class="nt">T</span> <span class="nt">Interaction</span> <span class="nt">of</span> <span class="nt">sedentary</span> <span class="nt">behaviour</span><span class="o">,</span> <span class="nt">sports</span> <span class="nt">participation</span> <span class="nt">and</span> <span class="nt">fitness</span> <span class="nt">with</span> <span class="nt">weight</span> <span class="nt">status</span> <span class="nt">in</span> <span class="nt">elementary</span> <span class="nt">school</span> <span class="nt">children</span><span class="o">.</span>
+<span class="o">%</span><span class="nt">J</span> <span class="nt">Eur</span> <span class="nt">J</span> <span class="nt">Sport</span> <span class="nt">Sci</span>
+<span class="o">%</span><span class="nt">V</span> <span class="nt">14</span>
+<span class="o">%</span><span class="nt">N</span> <span class="nt">1</span>
+<span class="o">%</span><span class="nt">P</span> <span class="nt">100-5</span>
+<span class="o">%</span><span class="nt">M</span> <span class="nt">24533500</span>
+<span class="o">%</span><span class="nt">U</span> <span class="nt">http</span><span class="o">://</span><span class="nt">www</span><span class="p">.</span><span class="nc">ncbi</span><span class="p">.</span><span class="nc">nlm</span><span class="p">.</span><span class="nc">nih</span><span class="p">.</span><span class="nc">gov</span><span class="o">/</span><span class="nt">pubmed</span><span class="o">/</span><span class="nt">24533500</span>
+<span class="o">%</span><span class="nt">X</span> <span class="nt">String</span><span class="cp">[</span><span class="s2">&quot;Even though the effect of single components contributing to weight gain in children have been addressed only limited research is available on the combined association of sports participation, physical fitness and time spent watching TV with body weight in children. Baseline data from 1594 children (809 male; 785 female), 7.1 ± 0.6 years of age participating in a large school-based intervention in southern Germany was used. Height and weight was measured and body mass index (BMI) percentiles (BMIPCT) were determined accordingly. Sports participation and time spent watching TV was assessed via parent questionnaire while fitness was determined via a composite fitness test. Combined and single associations of sports participation, TV time and fitness with BMIPCT and weight status were assessed via ANCOVA as well as logistic regression analysis, controlling for age and sex. A significant interaction of TV time, sports participation and fitness on BMIPCT occurred, despite low correlations among the three components. Further, there was a combined association of sports participation and TV time on BMIPCT. TV time and fitness were also independently associated with BMIPCT. Similarly, only increased TV time and lower fitness were associated with a higher odds ratio for overweight/obesity. These results underline the complex interaction of TV time, sports participation and fitness with BMIPCT. In children, TV time and fitness have a stronger influence on BMIPCT compared to sports participation. Sports participation, however, may not reflect overall activity levels of children appropriately. More research is necessary to examine the complex interaction of various behaviours and fitness with BMIPCT.&quot;</span><span class="cp">]</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Analysis</span> <span class="nt">of</span> <span class="nt">Variance</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Body</span> <span class="nt">Mass</span> <span class="nt">Index</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Child</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Exercise</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Female</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Germany</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Humans</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Logistic</span> <span class="nt">Models</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Male</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Odds</span> <span class="nt">Ratio</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Overweight</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Pediatric</span> <span class="nt">Obesity</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Physical</span> <span class="nt">Fitness</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Sedentary</span> <span class="nt">Lifestyle</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Sports</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Surveys</span> <span class="nt">and</span> <span class="nt">Questionnaires</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Television</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Weight</span> <span class="nt">Gain</span>
+<span class="o">%+</span> <span class="nt">a</span> <span class="nt">Division</span> <span class="nt">of</span> <span class="nt">Sport</span> <span class="nt">and</span> <span class="nt">Rehabilitation</span> <span class="nt">Medicine</span> <span class="o">,</span> <span class="nt">Ulm</span> <span class="nt">University</span> <span class="nt">Medical</span> <span class="nt">Center</span> <span class="o">,</span> <span class="nt">Ulm</span> <span class="o">,</span> <span class="nt">Germany</span><span class="o">.</span>
+
+<span class="o">%</span><span class="nt">0</span> <span class="nt">Journal</span> <span class="nt">Article</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Cavagnolli</span><span class="o">,</span> <span class="nt">DA</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Esteves</span><span class="o">,</span> <span class="nt">AM</span>
+<span class="o">%</span><span class="nt">A</span> <span class="nt">Ackel-D</span><span class="s1">&#39;Elia, C</span>
+<span class="s1">%A Maeda, MY</span>
+<span class="s1">%A de Faria, AP</span>
+<span class="s1">%A Tufik, S</span>
+<span class="s1">%A de Mello, MT</span>
+<span class="s1">%D 2014</span>
+<span class="s1">%T Aerobic exercise does not change C-reactive protein levels in non-obese patients with obstructive sleep apnoea.</span>
+<span class="s1">%J Eur J Sport Sci</span>
+<span class="s1">%V 14 Suppl 1</span>
+<span class="s1">%P S142-7</span>
+<span class="s1">%M 24444198</span>
+<span class="s1">%U http://www.ncbi.nlm.nih.gov/pubmed/24444198</span>
+<span class="s1">%X String</span><span class="cp">[</span><span class="s2">&quot;The aim of this study is to evaluate the effects of a 2-month aerobic exercise training programme on C-reactive protein (CRP) levels in non-obese patients with obstructive sleep apnoea. Twenty non-obese and sedentary adult male volunteers underwent polysomnography (PSG) to assess their sleep parameters. After the PSG analysis, the subjects were divided into two groups (CTRL, control and OSA, obstructive sleep apnoea). Twenty-four sessions of aerobic exercise were performed, and PSG was repeated on the night that followed the last physical training session (24th). Blood samples were collected for CRP analysis before the first exercise session and after the last session. The OSA group demonstrated a reduction in sleep latency (SL) after 2 months of physical exercise, and 80% of them showed a lower apnoea-hypopnoea index (AHI), although this difference was not statistically significant. The differences between the CRP values for the CTRL and OSA groups were also not statistically significant at baseline or after 2 months of physical exercise. Furthermore, there was no correlation between the CRP levels and body mass index (BMI) in the two groups assessed. Our results suggest that in non-obese patients with OSA, CRP levels were normal and did not change after 2 months of aerobic exercise training.&quot;</span><span class="cp">]</span><span class="s1"></span>
+<span class="s1">%K Adult</span>
+<span class="s1">%K C-Reactive Protein</span>
+<span class="s1">%K Case-Control Studies</span>
+<span class="s1">%K Exercise</span>
+<span class="s1">%K Humans</span>
+<span class="s1">%K Male</span>
+<span class="s1">%K Middle Aged</span>
+<span class="s1">%K Obesity</span>
+<span class="s1">%K Sleep Apnea, Obstructive</span>
+<span class="s1">%K Young Adult</span>
+<span class="s1">%+ a Departamento de Psicobiologia , Universidade Federal de São Paulo , São Paulo , Brazil.</span>
+
+<span class="s1">%0 Journal Article</span>
+<span class="s1">%A Aparicio, VA</span>
+<span class="s1">%A Ortega, FB</span>
+<span class="s1">%A Carbonell-Baeza, A</span>
+<span class="s1">%A Gatto-Cardia, C</span>
+<span class="s1">%A Sjöström, M</span>
+<span class="s1">%A Ruiz, JR</span>
+<span class="s1">%A Delgado-Fernández, M</span>
+<span class="s1">%D 2013</span>
+<span class="s1">%T Fibromyalgia&#39;</span><span class="nt">s</span> <span class="nt">key</span> <span class="nt">symptoms</span> <span class="nt">in</span> <span class="nt">normal-weight</span><span class="o">,</span> <span class="nt">overweight</span><span class="o">,</span> <span class="nt">and</span> <span class="nt">obese</span> <span class="nt">female</span> <span class="nt">patients</span><span class="o">.</span>
+<span class="o">%</span><span class="nt">J</span> <span class="nt">Pain</span> <span class="nt">Manag</span> <span class="nt">Nurs</span>
+<span class="o">%</span><span class="nt">V</span> <span class="nt">14</span>
+<span class="o">%</span><span class="nt">N</span> <span class="nt">4</span>
+<span class="o">%</span><span class="nt">P</span> <span class="nt">268-276</span>
+<span class="o">%</span><span class="nt">M</span> <span class="nt">24315250</span>
+<span class="o">%</span><span class="nt">U</span> <span class="nt">http</span><span class="o">://</span><span class="nt">www</span><span class="p">.</span><span class="nc">ncbi</span><span class="p">.</span><span class="nc">nlm</span><span class="p">.</span><span class="nc">nih</span><span class="p">.</span><span class="nc">gov</span><span class="o">/</span><span class="nt">pubmed</span><span class="o">/</span><span class="nt">24315250</span>
+<span class="o">%</span><span class="nt">X</span> <span class="nt">String</span><span class="cp">[</span><span class="s2">&quot;Factors affecting the symptomatology of fibromyalgia (FM) are not fully understood. The aim of the present study was to analyze the relationship of weight status with pain, fatigue, and stiffness in Spanish female FM patients, with special focus on the differences between overweight and obese patients. The sample comprised 177 Spanish women with FM (51.3 ± 7.3 years old). We assessed tenderness (using pressure algometry), pain and vitality using the General Health Short-Form Survey (SF36), and pain, fatigue, morning tiredness, and stiffness using the Fibromyalgia Impact Questionnaire (FIQ). The international criteria for body mass index was used to classify the patients as normal weight, overweight, or obese. Thirty-two percent were normal-weight, 35% overweight, and 32% obese. Both overweight and obese patients had higher levels of pain than normal-weight patients, as assessed by FIQ and SF36 questionnaires and tender point count (p &lt; .01). The same pattern was observed for algometer score, yet the differences were not significant. Both overweight and obese patients had higher levels of fatigue, and morning tiredness, and stiffness (p &lt; .05) and less vitality than normal-weight patients. No significant differences were observed in any of the variables studied between overweight and obese patients. In conclusion, FM symptomatology in obese patients did not differ from overweight patients, whereas normal-weight patients significantly differed from overweight and obese patients in the studied symptoms. These findings suggest that keeping a healthy (normal) weight is not only associated with decreased risk for developing FM but might also be a relevant and useful way of improving FM symptomatology in women. &quot;</span><span class="cp">]</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Adult</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Body</span> <span class="nt">Mass</span> <span class="nt">Index</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Body</span> <span class="nt">Weight</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Fatigue</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Female</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Fibromyalgia</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Health</span> <span class="nt">Status</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Humans</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Middle</span> <span class="nt">Aged</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Obesity</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Overweight</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Pain</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Pain</span> <span class="nt">Measurement</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Quality</span> <span class="nt">of</span> <span class="nt">Life</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Severity</span> <span class="nt">of</span> <span class="nt">Illness</span> <span class="nt">Index</span>
+<span class="o">%</span><span class="nt">K</span> <span class="nt">Surveys</span> <span class="nt">and</span> <span class="nt">Questionnaires</span>
+<span class="o">%+</span> <span class="nt">Department</span> <span class="nt">of</span> <span class="nt">Physical</span> <span class="nt">Education</span> <span class="nt">and</span> <span class="nt">Sport</span><span class="o">,</span> <span class="nt">School</span> <span class="nt">of</span> <span class="nt">Physical</span> <span class="nt">Activity</span> <span class="nt">and</span> <span class="nt">Sports</span> <span class="nt">Sciences</span><span class="o">,</span> <span class="nt">University</span> <span class="nt">of</span> <span class="nt">Granada</span><span class="o">,</span> <span class="nt">Granada</span><span class="o">,</span> <span class="nt">Spain</span><span class="o">;</span> <span class="nt">Department</span> <span class="nt">of</span> <span class="nt">Biosciences</span> <span class="nt">and</span> <span class="nt">Nutrition</span><span class="o">,</span> <span class="nt">Unit</span> <span class="nt">for</span> <span class="nt">Preventive</span> <span class="nt">Nutrition</span><span class="o">,</span> <span class="nt">Novum</span><span class="o">,</span> <span class="nt">Karolinska</span> <span class="nt">Institutet</span><span class="o">,</span> <span class="nt">Stockholm</span> <span class="nt">Sweden</span><span class="o">;</span> <span class="nt">Department</span> <span class="nt">of</span> <span class="nt">Physiology</span> <span class="nt">and</span> <span class="nt">Institute</span> <span class="nt">of</span> <span class="nt">Nutrition</span> <span class="nt">and</span> <span class="nt">Food</span> <span class="nt">Technology</span><span class="o">,</span> <span class="nt">University</span> <span class="nt">of</span> <span class="nt">Granada</span><span class="o">,</span> <span class="nt">Granada</span><span class="o">,</span> <span class="nt">Spain</span><span class="o">.</span> <span class="nt">Electronic</span> <span class="nt">address</span><span class="o">:</span> <span class="nt">virginiaparicio</span><span class="p">@</span><span class="k">ugr</span><span class="p">.</span><span class="nc">es</span><span class="o">.</span><span class="p">;</span> <span class="nt">Department</span> <span class="nt">of</span> <span class="nt">Biosciences</span> <span class="nt">and</span> <span class="nt">Nutrition</span><span class="o">,</span> <span class="nt">Unit</span> <span class="nt">for</span> <span class="nt">Preventive</span> <span class="nt">Nutrition</span><span class="o">,</span> <span class="nt">Novum</span><span class="o">,</span> <span class="nt">Karolinska</span> <span class="nt">Institutet</span><span class="o">,</span> <span class="nt">Stockholm</span> <span class="nt">Sweden</span><span class="o">;</span> <span class="nt">Department</span> <span class="nt">of</span> <span class="nt">Physiology</span><span class="o">,</span> <span class="nt">School</span> <span class="nt">of</span> <span class="nt">Medicine</span><span class="o">,</span> <span class="nt">University</span> <span class="nt">of</span> <span class="nt">Granada</span><span class="o">,</span> <span class="nt">Granada</span><span class="o">,</span> <span class="nt">Spain</span><span class="o">.;</span> <span class="nt">Department</span> <span class="nt">of</span> <span class="nt">Physical</span> <span class="nt">Education</span> <span class="nt">and</span> <span class="nt">Sport</span><span class="o">,</span> <span class="nt">School</span> <span class="nt">of</span> <span class="nt">Physical</span> <span class="nt">Activity</span> <span class="nt">and</span> <span class="nt">Sports</span> <span class="nt">Sciences</span><span class="o">,</span> <span class="nt">University</span> <span class="nt">of</span> <span class="nt">Granada</span><span class="o">,</span> <span class="nt">Granada</span><span class="o">,</span> <span class="nt">Spain</span><span class="o">;</span> <span class="nt">Department</span> <span class="nt">of</span> <span class="nt">Physical</span> <span class="nt">Education</span> <span class="nt">and</span> <span class="nt">Sport</span><span class="o">,</span> <span class="nt">School</span> <span class="nt">of</span> <span class="nt">Education</span><span class="o">,</span> <span class="nt">University</span> <span class="nt">of</span> <span class="nt">Seville</span><span class="o">,</span> <span class="nt">Seville</span><span class="o">,</span> <span class="nt">Spain</span><span class="o">.;</span> <span class="nt">Department</span> <span class="nt">of</span> <span class="nt">Physical</span> <span class="nt">Education</span> <span class="nt">and</span> <span class="nt">Sport</span><span class="o">,</span> <span class="nt">School</span> <span class="nt">of</span> <span class="nt">Physical</span> <span class="nt">Activity</span> <span class="nt">and</span> <span class="nt">Sports</span> <span class="nt">Sciences</span><span class="o">,</span> <span class="nt">University</span> <span class="nt">of</span> <span class="nt">Granada</span><span class="o">,</span> <span class="nt">Granada</span><span class="o">,</span> <span class="nt">Spain</span><span class="o">.;</span> <span class="nt">Department</span> <span class="nt">of</span> <span class="nt">Biosciences</span> <span class="nt">and</span> <span class="nt">Nutrition</span><span class="o">,</span> <span class="nt">Unit</span> <span class="nt">for</span> <span class="nt">Preventive</span> <span class="nt">Nutrition</span><span class="o">,</span> <span class="nt">Novum</span><span class="o">,</span> <span class="nt">Karolinska</span> <span class="nt">Institutet</span><span class="o">,</span> <span class="nt">Stockholm</span> <span class="nt">Sweden</span><span class="o">.;</span> <span class="nt">Department</span> <span class="nt">of</span> <span class="nt">Biosciences</span> <span class="nt">and</span> <span class="nt">Nutrition</span><span class="o">,</span> <span class="nt">Unit</span> <span class="nt">for</span> <span class="nt">Preventive</span> <span class="nt">Nutrition</span><span class="o">,</span> <span class="nt">Novum</span><span class="o">,</span> <span class="nt">Karolinska</span> <span class="nt">Institutet</span><span class="o">,</span> <span class="nt">Stockholm</span> <span class="nt">Sweden</span><span class="o">.;</span> <span class="nt">Department</span> <span class="nt">of</span> <span class="nt">Physical</span> <span class="nt">Education</span> <span class="nt">and</span> <span class="nt">Sport</span><span class="o">,</span> <span class="nt">School</span> <span class="nt">of</span> <span class="nt">Physical</span> <span class="nt">Activity</span> <span class="nt">and</span> <span class="nt">Sports</span> <span class="nt">Sciences</span><span class="o">,</span> <span class="nt">University</span> <span class="nt">of</span> <span class="nt">Granada</span><span class="o">,</span> <span class="nt">Granada</span><span class="o">,</span> <span class="nt">Spain</span><span class="o">.</span>
+</pre></div>
+
+
+<p><a id='DataFrames-1'></a></p>
+<h3 id="dataframes">DataFrames</h3>
+<p>Returns a dictionary of dataframes which match the content and structure of the database tables.</p>
+<div class="codehilite"><pre><span></span><span class="n">dfs</span> <span class="o">=</span> <span class="n">Processes</span><span class="o">.</span><span class="n">pubmed_search_and_parse</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">search_term</span><span class="p">,</span> <span class="n">max_articles</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>Getting 5 articles, starting at index 0
+------ESearch--------
+------EFetch--------
+------Save to dataframes--------
+Dict{String,DataFrames.DataFrame} with 8 entries:
+  &quot;basic&quot;               =&gt; 5×13 DataFrames.DataFrame. Omitted printing of 9 col…
+  &quot;mesh_desc&quot;           =&gt; 52×2 DataFrames.DataFrame…
+  &quot;mesh_qual&quot;           =&gt; 9×2 DataFrames.DataFrame…
+  &quot;pub_type&quot;            =&gt; 10×3 DataFrames.DataFrame…
+  &quot;abstract_full&quot;       =&gt; 5×2 DataFrames.DataFrame. Omitted printing of 1 colu…
+  &quot;author_ref&quot;          =&gt; 35×8 DataFrames.DataFrame. Omitted printing of 3 col…
+  &quot;mesh_heading&quot;        =&gt; 78×5 DataFrames.DataFrame…
+  &quot;abstract_structured&quot; =&gt; 4×4 DataFrames.DataFrame. Omitted printing of 1 colu…
+</pre></div>
+
+
+<p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../" title="Overview" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Overview
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../2_pubmed_mesh_to_umls_map/" title="MeSH/UMLS Map" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                MeSH/UMLS Map
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.a59e2a89.js"></script>
+      
+      <script>app.initialize({version:"0.17.5",url:{base:"../.."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>
