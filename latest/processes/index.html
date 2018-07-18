@@ -572,7 +572,7 @@
 <ul>
 <li><code>citation_type::String</code>: At the moment supported types include: "endnote", "bibtex"</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/209b8e06632e6f368d4edaa04baf084044875d2e/src/Processes/pubmed_export_citations.jl#L5-L12' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/4ca3c2f5c328bdc48e8ce2493d03918aa8ec9c48/src/Processes/pubmed_export_citations.jl#L5-L12' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.export_citation' href='#BioMedQuery.Processes.export_citation'>#</a>
 <strong><code>BioMedQuery.Processes.export_citation</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>export_citation(pmids::Vector{Int64}, citation_type, output_file,verbose)
@@ -584,7 +584,7 @@
 <ul>
 <li><code>citation_type::String</code>: At the moment supported types include: "endnote", "bibtex"</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/209b8e06632e6f368d4edaa04baf084044875d2e/src/Processes/pubmed_export_citations.jl#L28-L35' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/4ca3c2f5c328bdc48e8ce2493d03918aa8ec9c48/src/Processes/pubmed_export_citations.jl#L28-L35' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.load_medline!-Tuple{MySQL.Connection,String}' href='#BioMedQuery.Processes.load_medline!-Tuple{MySQL.Connection,String}'>#</a>
 <strong><code>BioMedQuery.Processes.load_medline!</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>load_medline(db_con, output_dir; start_file=1, end_file=928, year=2018, test=false)
@@ -601,7 +601,7 @@
 <li><code>year</code> : which year medline is (current is 2018)</li>
 <li><code>test</code> : if true, a sample file will be downloaded, parsed, and loaded instead of the baseline files</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/209b8e06632e6f368d4edaa04baf084044875d2e/src/Processes/medline_load.jl#L8-L20' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/4ca3c2f5c328bdc48e8ce2493d03918aa8ec9c48/src/Processes/medline_load.jl#L8-L20' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.map_mesh_to_umls!-Tuple{Any,Any,Any}' href='#BioMedQuery.Processes.map_mesh_to_umls!-Tuple{Any,Any,Any}'>#</a>
 <strong><code>BioMedQuery.Processes.map_mesh_to_umls!</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>map_mesh_to_umls!(db, c::Credentials)
@@ -616,7 +616,7 @@
 <li><code>psswd</code> : UMLS Password</li>
 <li><code>append_results::Bool</code> : If false a NEW and EMPTY mesh2umls database table in creted</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/209b8e06632e6f368d4edaa04baf084044875d2e/src/Processes/pubmed_mesh_to_umls_map.jl#L5-L16' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/4ca3c2f5c328bdc48e8ce2493d03918aa8ec9c48/src/Processes/pubmed_mesh_to_umls_map.jl#L5-L16' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.map_mesh_to_umls_async!-Tuple{Any,Any,Any}' href='#BioMedQuery.Processes.map_mesh_to_umls_async!-Tuple{Any,Any,Any}'>#</a>
 <strong><code>BioMedQuery.Processes.map_mesh_to_umls_async!</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span><span class="nt">map_mesh_to_umls_async</span><span class="o">!(</span><span class="nt">db</span><span class="o">,</span> <span class="nt">c</span><span class="p">::</span><span class="nd">Credentials</span><span class="o">;</span> <span class="nt">timeout</span><span class="o">,</span> <span class="nt">append_results</span><span class="o">,</span> <span class="nt">verbose</span><span class="o">)</span>
@@ -631,7 +631,7 @@
 <li><code>psswd</code> : UMLS Password</li>
 <li><code>append_results::Bool</code> : If false a NEW and EMPTY mesh2umls database table in creted</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/209b8e06632e6f368d4edaa04baf084044875d2e/src/Processes/pubmed_mesh_to_umls_map.jl#L73-L86' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/4ca3c2f5c328bdc48e8ce2493d03918aa8ec9c48/src/Processes/pubmed_mesh_to_umls_map.jl#L73-L86' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.pubmed_search_and_parse' href='#BioMedQuery.Processes.pubmed_search_and_parse'>#</a>
 <strong><code>BioMedQuery.Processes.pubmed_search_and_parse</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>pubmed_search_and_parse(email, search_term::String, article_max, verbose=false)
@@ -646,7 +646,7 @@
 <li><code>article_max</code> : maximum number of articles to return</li>
 <li><code>verbose</code> : if true, the NCBI xml response files are saved to current directory</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/209b8e06632e6f368d4edaa04baf084044875d2e/src/Processes/pubmed_search_and_save.jl#L176-L188' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/4ca3c2f5c328bdc48e8ce2493d03918aa8ec9c48/src/Processes/pubmed_search_and_save.jl#L176-L188' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.pubmed_search_and_save!' href='#BioMedQuery.Processes.pubmed_search_and_save!'>#</a>
 <strong><code>BioMedQuery.Processes.pubmed_search_and_save!</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>pubmed_search_and_save!(email, search_term::String, article_max,
@@ -663,7 +663,7 @@ conn, verbose=false)
 <li><code>conn</code> : database connection</li>
 <li><code>verbose</code> : if true, the NCBI xml response files are saved to current directory</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/209b8e06632e6f368d4edaa04baf084044875d2e/src/Processes/pubmed_search_and_save.jl#L10-L25' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/4ca3c2f5c328bdc48e8ce2493d03918aa8ec9c48/src/Processes/pubmed_search_and_save.jl#L10-L25' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.umls_semantic_occurrences-Tuple{Any,Vararg{Any,N} where N}' href='#BioMedQuery.Processes.umls_semantic_occurrences-Tuple{Any,Vararg{Any,N} where N}'>#</a>
 <strong><code>BioMedQuery.Processes.umls_semantic_occurrences</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>umls_semantic_occurrences(db, umls_semantic_type)
@@ -676,7 +676,7 @@ conn, verbose=false)
 <li><code>des_ind_dict</code>: Dictionary matching row number to descriptor names</li>
 <li><code>disease_occurances</code> : Sparse matrix. The columns correspond to a feature vector, where each row is a MESH descriptor. There are as many columns as articles. The occurance/abscense of a descriptor is labeled as 1/0</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/209b8e06632e6f368d4edaa04baf084044875d2e/src/Processes/pubmed_occurrance_filtering.jl#L10-L20' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/4ca3c2f5c328bdc48e8ce2493d03918aa8ec9c48/src/Processes/pubmed_occurrance_filtering.jl#L10-L20' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.close_cons-Tuple{FTPClient.ConnContext}' href='#BioMedQuery.Processes.close_cons-Tuple{FTPClient.ConnContext}'>#</a>
 <strong><code>BioMedQuery.Processes.close_cons</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>close_cons(ftp_con)
@@ -684,7 +684,7 @@ conn, verbose=false)
 
 
 <p>closes connection and cleans up</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/209b8e06632e6f368d4edaa04baf084044875d2e/src/Processes/medline_load.jl#L168-L171' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/4ca3c2f5c328bdc48e8ce2493d03918aa8ec9c48/src/Processes/medline_load.jl#L168-L171' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.get_file_name' href='#BioMedQuery.Processes.get_file_name'>#</a>
 <strong><code>BioMedQuery.Processes.get_file_name</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>get_file_name(fnum::Int, year::Int = 2018, test = false)
@@ -692,7 +692,7 @@ conn, verbose=false)
 
 
 <p>Returns the medline file name given the file number and year.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/209b8e06632e6f368d4edaa04baf084044875d2e/src/Processes/medline_load.jl#L94-L97' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/4ca3c2f5c328bdc48e8ce2493d03918aa8ec9c48/src/Processes/medline_load.jl#L94-L97' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.get_ftp_con' href='#BioMedQuery.Processes.get_ftp_con'>#</a>
 <strong><code>BioMedQuery.Processes.get_ftp_con</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>get_ftp_con(test = false)
@@ -700,7 +700,7 @@ conn, verbose=false)
 
 
 <p>Get an FTP connection</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/209b8e06632e6f368d4edaa04baf084044875d2e/src/Processes/medline_load.jl#L128-L131' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/4ca3c2f5c328bdc48e8ce2493d03918aa8ec9c48/src/Processes/medline_load.jl#L128-L131' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.get_ml_file-Tuple{String,FTPClient.ConnContext,String}' href='#BioMedQuery.Processes.get_ml_file-Tuple{String,FTPClient.ConnContext,String}'>#</a>
 <strong><code>BioMedQuery.Processes.get_ml_file</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>get_ml_file(fname::String, conn::ConnContext, output_dir)
@@ -708,7 +708,7 @@ conn, verbose=false)
 
 
 <p>Retrieves the file with fname and puts in medline/raw_files.  Returns the HTTP response.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/209b8e06632e6f368d4edaa04baf084044875d2e/src/Processes/medline_load.jl#L107-L111' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/4ca3c2f5c328bdc48e8ce2493d03918aa8ec9c48/src/Processes/medline_load.jl#L107-L111' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.init_medline' href='#BioMedQuery.Processes.init_medline'>#</a>
 <strong><code>BioMedQuery.Processes.init_medline</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>init_medline(output_dir, test=false)
@@ -716,7 +716,7 @@ conn, verbose=false)
 
 
 <p>Sets up environment (folders), and connects to medline FTP Server and returns the connection.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/209b8e06632e6f368d4edaa04baf084044875d2e/src/Processes/medline_load.jl#L62-L66' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/4ca3c2f5c328bdc48e8ce2493d03918aa8ec9c48/src/Processes/medline_load.jl#L62-L66' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.Processes.parse_ml_file-Tuple{String,String}' href='#BioMedQuery.Processes.parse_ml_file-Tuple{String,String}'>#</a>
 <strong><code>BioMedQuery.Processes.parse_ml_file</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>parse_ml_file(fname::String, output_dir::String)
@@ -724,7 +724,7 @@ conn, verbose=false)
 
 
 <p>Parses the medline xml file into a dictionary of dataframes. Saves the resulting CSV files to medline/parsed_files.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/209b8e06632e6f368d4edaa04baf084044875d2e/src/Processes/medline_load.jl#L142-L146' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/4ca3c2f5c328bdc48e8ce2493d03918aa8ec9c48/src/Processes/medline_load.jl#L142-L146' class='documenter-source'>source</a><br></p>
                 
                   
                 
