@@ -12,10 +12,10 @@ matrix:
  exclude:
     - julia: nightly
       os: osx
-    - julia: nightly
-      env: GROUP=Examples
-    - os: osx
-      env: GROUP=Examples
+    # - julia: nightly
+    #   env: GROUP=Examples
+    # - os: osx
+    #   env: GROUP=Examples
   allow_failures:
     - julia: nightly
 notifications:
