@@ -9,9 +9,9 @@ env:
   - GROUP=Test
   - GROUP=Examples
 matrix:
- exclude:
-    - julia: nightly
-      os: osx
+#  exclude:
+    # - julia: nightly
+    #   os: osx
     # - julia: nightly
     #   env: GROUP=Examples
     # - os: osx
