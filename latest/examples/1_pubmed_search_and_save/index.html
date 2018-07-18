@@ -649,10 +649,7 @@
                 
                 <p><a id='Search-PubMed-and-Save-Results-1'></a></p>
 <h1 id="search-pubmed-and-save-results">Search PubMed and Save Results</h1>
-<div class="codehilite"><pre><span></span><span class="p">[</span><span class="o">!</span><span class="p">[</span><span class="n">nbviewer</span><span class="p">](</span><span class="n">https</span><span class="o">://</span><span class="n">img</span><span class="o">.</span><span class="n">shields</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">badge</span><span class="o">/</span><span class="n">jupyter_notebook</span><span class="o">-</span><span class="n">nbviewer</span><span class="o">-</span><span class="n">orange</span><span class="o">.</span><span class="n">svg</span><span class="p">)](</span><span class="n">http</span><span class="o">://</span><span class="n">nbviewer</span><span class="o">.</span><span class="n">jupyter</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">github</span><span class="o">/</span><span class="n">bcbi</span><span class="o">/</span><span class="n">BioMedQuery</span><span class="o">.</span><span class="n">jl</span><span class="o">/</span><span class="n">tree</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">docs</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">notebooks</span><span class="o">/</span><span class="n">pubmed_search_and_save</span><span class="o">.</span><span class="n">ipynb</span><span class="p">)</span>
-</pre></div>
-
-
+<p><a href="http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/1_pubmed_search_and_save.ipynb"><img alt="nbviewer" src="https://img.shields.io/badge/jupyter_notebook-nbviewer-orange.svg" /></a></p>
 <p>This example demonstrates the typical workflow to query pubmed and store the results. The following backends are supported for storing the results:</p>
 <ul>
 <li>MySQL</li>
@@ -744,19 +741,19 @@ Finished searching, total number of articles: 5
 5×3 DataFrames.DataFrame
 │ Row │ uid  │ name                 │ ins_dt_time         │
 ├─────┼──────┼──────────────────────┼─────────────────────┤
-│ 1   │ 328  │ Adult                │ 2018-07-18T14:02:58 │
-│ 2   │ 368  │ Aged                 │ 2018-07-18T14:02:58 │
-│ 3   │ 369  │ Aged, 80 and over    │ 2018-07-18T14:02:58 │
-│ 4   │ 704  │ Analysis of Variance │ 2018-07-18T14:02:58 │
-│ 5   │ 1835 │ Body Weight          │ 2018-07-18T14:02:58 │
+│ 1   │ 328  │ Adult                │ 2018-07-18T20:25:08 │
+│ 2   │ 368  │ Aged                 │ 2018-07-18T20:25:08 │
+│ 3   │ 369  │ Aged, 80 and over    │ 2018-07-18T20:25:08 │
+│ 4   │ 704  │ Analysis of Variance │ 2018-07-18T20:25:08 │
+│ 5   │ 1835 │ Body Weight          │ 2018-07-18T20:25:08 │
 5×3 DataFrames.DataFrame
 │ Row │ uid │ name          │ ins_dt_time         │
 ├─────┼─────┼───────────────┼─────────────────────┤
-│ 1   │ 32  │ analysis      │ 2018-07-18T14:02:58 │
-│ 2   │ 97  │ blood         │ 2018-07-18T14:02:58 │
-│ 3   │ 150 │ complications │ 2018-07-18T14:02:58 │
-│ 4   │ 208 │ ethnology     │ 2018-07-18T14:02:58 │
-│ 5   │ 209 │ etiology      │ 2018-07-18T14:02:58 │
+│ 1   │ 32  │ analysis      │ 2018-07-18T20:25:08 │
+│ 2   │ 97  │ blood         │ 2018-07-18T20:25:08 │
+│ 3   │ 150 │ complications │ 2018-07-18T20:25:08 │
+│ 4   │ 208 │ ethnology     │ 2018-07-18T20:25:08 │
+│ 5   │ 209 │ etiology      │ 2018-07-18T20:25:08 │
 5×6 DataFrames.DataFrame. Omitted printing of 1 columns
 │ Row │ pmid     │ desc_uid │ desc_maj_status │ qual_uid │ qual_maj_status │
 ├─────┼──────────┼──────────┼─────────────────┼──────────┼─────────────────┤
@@ -847,19 +844,19 @@ Finished searching, total number of articles: 5
 5×3 DataFrames.DataFrame
 │ Row │ uid   │ name              │ ins_dt_time         │
 ├─────┼───────┼───────────────────┼─────────────────────┤
-│ 1   │ 12016 │ Reference Values  │ 2018-07-18 14:02:59 │
-│ 2   │ 56910 │ Republic of Korea │ 2018-07-18 14:02:59 │
-│ 3   │ 12372 │ ROC Curve         │ 2018-07-18 14:02:59 │
-│ 4   │ 5221  │ Fatigue           │ 2018-07-18 14:02:59 │
-│ 5   │ 9765  │ Obesity           │ 2018-07-18 14:02:59 │
+│ 1   │ 12016 │ Reference Values  │ 2018-07-18 20:25:09 │
+│ 2   │ 56910 │ Republic of Korea │ 2018-07-18 20:25:09 │
+│ 3   │ 12372 │ ROC Curve         │ 2018-07-18 20:25:09 │
+│ 4   │ 5221  │ Fatigue           │ 2018-07-18 20:25:09 │
+│ 5   │ 9765  │ Obesity           │ 2018-07-18 20:25:09 │
 5×3 DataFrames.DataFrame
 │ Row │ uid │ name                        │ ins_dt_time         │
 ├─────┼─────┼─────────────────────────────┼─────────────────────┤
-│ 1   │ 208 │ ethnology                   │ 2018-07-18 14:03:00 │
-│ 2   │ 706 │ statistics &amp; numerical data │ 2018-07-18 14:03:00 │
-│ 3   │ 453 │ epidemiology                │ 2018-07-18 14:03:00 │
-│ 4   │ 502 │ physiology                  │ 2018-07-18 14:03:00 │
-│ 5   │ 32  │ analysis                    │ 2018-07-18 14:03:00 │
+│ 1   │ 208 │ ethnology                   │ 2018-07-18 20:25:09 │
+│ 2   │ 706 │ statistics &amp; numerical data │ 2018-07-18 20:25:09 │
+│ 3   │ 453 │ epidemiology                │ 2018-07-18 20:25:09 │
+│ 4   │ 502 │ physiology                  │ 2018-07-18 20:25:09 │
+│ 5   │ 32  │ analysis                    │ 2018-07-18 20:25:09 │
 5×6 DataFrames.DataFrame. Omitted printing of 1 columns
 │ Row │ pmid     │ desc_uid │ desc_maj_status │ qual_uid │ qual_maj_status │
 ├─────┼──────────┼──────────┼─────────────────┼──────────┼─────────────────┤
