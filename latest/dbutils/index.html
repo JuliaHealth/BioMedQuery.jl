@@ -549,14 +549,14 @@
 <li><a href="./#BioMedQuery.DBUtils.assemble_cols_and_vals-Union{Tuple{Dict{Symbol,T}}, Tuple{T}} where T"><code>BioMedQuery.DBUtils.assemble_cols_and_vals</code></a></li>
 <li><a href="./#BioMedQuery.DBUtils.assemble_cols_and_vals_string-Union{Tuple{Dict{Symbol,T},Any}, Tuple{Dict{Symbol,T}}, Tuple{T}} where T"><code>BioMedQuery.DBUtils.assemble_cols_and_vals_string</code></a></li>
 <li><a href="./#BioMedQuery.DBUtils.assemble_vals-Union{Tuple{Dict{Symbol,T},Array{Symbol,1}}, Tuple{T}} where T"><code>BioMedQuery.DBUtils.assemble_vals</code></a></li>
-<li><a href="./#BioMedQuery.DBUtils.col_match-Tuple{Any,String,DataFrames.DataFrame}"><code>BioMedQuery.DBUtils.col_match</code></a></li>
 <li><a href="./#BioMedQuery.DBUtils.col_match-Tuple{Any,String,Array{String,1}}"><code>BioMedQuery.DBUtils.col_match</code></a></li>
+<li><a href="./#BioMedQuery.DBUtils.col_match-Tuple{Any,String,DataFrames.DataFrame}"><code>BioMedQuery.DBUtils.col_match</code></a></li>
 <li><a href="./#BioMedQuery.DBUtils.colname_dict-Tuple{Any}"><code>BioMedQuery.DBUtils.colname_dict</code></a></li>
 <li><a href="./#BioMedQuery.DBUtils.db_query-Tuple{SQLite.DB,Any}"><code>BioMedQuery.DBUtils.db_query</code></a></li>
 <li><a href="./#BioMedQuery.DBUtils.db_query-Tuple{MySQL.Connection,Any}"><code>BioMedQuery.DBUtils.db_query</code></a></li>
 <li><a href="./#BioMedQuery.DBUtils.db_select-Union{Tuple{Any,Any,Any,Dict{Symbol,T}}, Tuple{T}} where T"><code>BioMedQuery.DBUtils.db_select</code></a></li>
-<li><a href="./#BioMedQuery.DBUtils.disable_foreign_checks-Tuple{MySQL.Connection}"><code>BioMedQuery.DBUtils.disable_foreign_checks</code></a></li>
 <li><a href="./#BioMedQuery.DBUtils.disable_foreign_checks-Tuple{SQLite.DB}"><code>BioMedQuery.DBUtils.disable_foreign_checks</code></a></li>
+<li><a href="./#BioMedQuery.DBUtils.disable_foreign_checks-Tuple{MySQL.Connection}"><code>BioMedQuery.DBUtils.disable_foreign_checks</code></a></li>
 <li><a href="./#BioMedQuery.DBUtils.enable_foreign_checks-Tuple{MySQL.Connection}"><code>BioMedQuery.DBUtils.enable_foreign_checks</code></a></li>
 <li><a href="./#BioMedQuery.DBUtils.enable_foreign_checks-Tuple{SQLite.DB}"><code>BioMedQuery.DBUtils.enable_foreign_checks</code></a></li>
 <li><a href="./#BioMedQuery.DBUtils.init_mysql_database"><code>BioMedQuery.DBUtils.init_mysql_database</code></a></li>
@@ -577,7 +577,7 @@
 
 
 <p>Given a DataFrame, returns a column name string formatted for an insert/load statement</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/DBUtils.jl#L102-L105' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/DBUtils.jl#L102-L105' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.assemble_cols_and_vals-Union{Tuple{Dict{Symbol,T}}, Tuple{T}} where T' href='#BioMedQuery.DBUtils.assemble_cols_and_vals-Union{Tuple{Dict{Symbol,T}}, Tuple{T}} where T'>#</a>
 <strong><code>BioMedQuery.DBUtils.assemble_cols_and_vals</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>assemble_vals(data_values)
@@ -585,7 +585,7 @@
 
 
 <p>Given a dictionary containg (:column=&gt;value) return a single string properly formatted for a MySQL insert. E.g MySQL requires CHAR or other non-numeric values be passed with single quotes around them.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/DBUtils.jl#L10-L17' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/DBUtils.jl#L10-L17' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.assemble_cols_and_vals_string-Union{Tuple{Dict{Symbol,T},Any}, Tuple{Dict{Symbol,T}}, Tuple{T}} where T' href='#BioMedQuery.DBUtils.assemble_cols_and_vals_string-Union{Tuple{Dict{Symbol,T},Any}, Tuple{Dict{Symbol,T}}, Tuple{T}} where T'>#</a>
 <strong><code>BioMedQuery.DBUtils.assemble_cols_and_vals_string</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>assemble_vals(data_values)
@@ -593,7 +593,7 @@
 
 
 <p>Given a dictionary containg (:column=&gt;value), return a single string properly formatted for a MySQL SELECT. E.g MySQL requires CHAR or other non-numeric values be passed with single quotes around them.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/DBUtils.jl#L66-L73' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/DBUtils.jl#L66-L73' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.assemble_vals-Union{Tuple{Dict{Symbol,T},Array{Symbol,1}}, Tuple{T}} where T' href='#BioMedQuery.DBUtils.assemble_vals-Union{Tuple{Dict{Symbol,T},Array{Symbol,1}}, Tuple{T}} where T'>#</a>
 <strong><code>BioMedQuery.DBUtils.assemble_vals</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>assemble_vals(data_values, column_names)
@@ -601,7 +601,7 @@
 
 
 <p>Given a Dict of values and the column names, return a single string properly formatted for a MySQL INSERT. E.g MySQL requires CHAR or other non-numeric values be passed with single quotes around them.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/DBUtils.jl#L40-L46' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/DBUtils.jl#L40-L46' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.col_match-Tuple{Any,String,Array{String,1}}' href='#BioMedQuery.DBUtils.col_match-Tuple{Any,String,Array{String,1}}'>#</a>
 <strong><code>BioMedQuery.DBUtils.col_match</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>col_match(con, tablename, col_names)
@@ -609,7 +609,7 @@
 
 
 <p>Checks if each column in the csv/data frame has a matching column in the table.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/DBUtils.jl#L162-L165' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/DBUtils.jl#L162-L165' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.col_match-Tuple{Any,String,DataFrames.DataFrame}' href='#BioMedQuery.DBUtils.col_match-Tuple{Any,String,DataFrames.DataFrame}'>#</a>
 <strong><code>BioMedQuery.DBUtils.col_match</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>col_match(con, tablename, data_values)
@@ -617,7 +617,7 @@
 
 
 <p>Checks if each column in the dataframe has a matching column in the table.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/DBUtils.jl#L153-L156' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/DBUtils.jl#L153-L156' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.db_query-Tuple{MySQL.Connection,Any}' href='#BioMedQuery.DBUtils.db_query-Tuple{MySQL.Connection,Any}'>#</a>
 <strong><code>BioMedQuery.DBUtils.db_query</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>query_mysql(con, query_code)
@@ -625,7 +625,7 @@
 
 
 <p>Execute a mysql command</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/mysql_db_utils.jl#L79-L83' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/mysql_db_utils.jl#L79-L83' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.db_query-Tuple{SQLite.DB,Any}' href='#BioMedQuery.DBUtils.db_query-Tuple{SQLite.DB,Any}'>#</a>
 <strong><code>BioMedQuery.DBUtils.db_query</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>query(db, query_code)
@@ -633,7 +633,7 @@
 
 
 <p>Execute a SQLite command</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/sqlite_db_utils.jl#L22-L26' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/sqlite_db_utils.jl#L22-L26' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.db_select-Union{Tuple{Any,Any,Any,Dict{Symbol,T}}, Tuple{T}} where T' href='#BioMedQuery.DBUtils.db_select-Union{Tuple{Any,Any,Any,Dict{Symbol,T}}, Tuple{T}} where T'>#</a>
 <strong><code>BioMedQuery.DBUtils.db_select</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>select_(con, colnames, tablename, data_values)
@@ -641,7 +641,7 @@
 
 
 <p>Perform: SELECT colnames tablename WHERE keys(data_values)=values(data_values)</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/DBUtils.jl#L139-L143' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/DBUtils.jl#L139-L143' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.init_mysql_database' href='#BioMedQuery.DBUtils.init_mysql_database'>#</a>
 <strong><code>BioMedQuery.DBUtils.init_mysql_database</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>init_mysql_database(;host = &quot;127.0.0.1&quot;, dbname=&quot;test&quot;,
@@ -660,7 +660,7 @@ username=&quot;root&quot;, pswd=&quot;&quot;, mysql_code=nothing, overwrite=fals
 <ul>
 <li><code>con</code>: Database connection and table-column names map</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/mysql_db_utils.jl#L5-L21' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/mysql_db_utils.jl#L5-L21' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.insert_row!-Union{Tuple{MySQL.Connection,Any,Dict{Symbol,T},Any}, Tuple{MySQL.Connection,Any,Dict{Symbol,T}}, Tuple{T}} where T' href='#BioMedQuery.DBUtils.insert_row!-Union{Tuple{MySQL.Connection,Any,Dict{Symbol,T},Any}, Tuple{MySQL.Connection,Any,Dict{Symbol,T}}, Tuple{T}} where T'>#</a>
 <strong><code>BioMedQuery.DBUtils.insert_row!</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>insert_row!(db, tablename, values)
@@ -674,7 +674,7 @@ username=&quot;root&quot;, pswd=&quot;&quot;, mysql_code=nothing, overwrite=fals
 <li><code>data_values::Dict{String, Any}</code>: Array of (string) values</li>
 <li><code>verbose</code>: Print debugginh info</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/mysql_db_utils.jl#L116-L125' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/mysql_db_utils.jl#L116-L125' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.insert_row!-Union{Tuple{SQLite.DB,Any,Dict{Symbol,T},Any}, Tuple{SQLite.DB,Any,Dict{Symbol,T}}, Tuple{T}} where T' href='#BioMedQuery.DBUtils.insert_row!-Union{Tuple{SQLite.DB,Any,Dict{Symbol,T},Any}, Tuple{SQLite.DB,Any,Dict{Symbol,T}}, Tuple{T}} where T'>#</a>
 <strong><code>BioMedQuery.DBUtils.insert_row!</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>insert_row!(db, tablename, values)
@@ -688,7 +688,7 @@ username=&quot;root&quot;, pswd=&quot;&quot;, mysql_code=nothing, overwrite=fals
 <li><code>data_values::Dict{String, Any}</code>: Array of (string) values</li>
 <li><code>verbose</code>: Print debugginh info</li>
 </ul>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/sqlite_db_utils.jl#L32-L41' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/sqlite_db_utils.jl#L32-L41' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.select_all_tables-Tuple{MySQL.Connection}' href='#BioMedQuery.DBUtils.select_all_tables-Tuple{MySQL.Connection}'>#</a>
 <strong><code>BioMedQuery.DBUtils.select_all_tables</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>select_all_tables_mysql(con)
@@ -696,7 +696,7 @@ username=&quot;root&quot;, pswd=&quot;&quot;, mysql_code=nothing, overwrite=fals
 
 
 <p>Return an array of all tables in a given MySQL database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/mysql_db_utils.jl#L64-L68' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/mysql_db_utils.jl#L64-L68' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.select_all_tables-Tuple{SQLite.DB}' href='#BioMedQuery.DBUtils.select_all_tables-Tuple{SQLite.DB}'>#</a>
 <strong><code>BioMedQuery.DBUtils.select_all_tables</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>select_all_tables_mysql(con)
@@ -704,14 +704,14 @@ username=&quot;root&quot;, pswd=&quot;&quot;, mysql_code=nothing, overwrite=fals
 
 
 <p>Return an array of all tables in a given MySQL database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/sqlite_db_utils.jl#L12-L16' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/sqlite_db_utils.jl#L12-L16' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.set_innodb_checks!' href='#BioMedQuery.DBUtils.set_innodb_checks!'>#</a>
 <strong><code>BioMedQuery.DBUtils.set_innodb_checks!</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>set_innodb_checks(conn, autocommit = 1, foreign_keys = 1, unique = 1)
 </pre></div>
 
 
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/mysql_db_utils.jl#L172-L174' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/mysql_db_utils.jl#L172-L174' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.colname_dict-Tuple{Any}' href='#BioMedQuery.DBUtils.colname_dict-Tuple{Any}'>#</a>
 <strong><code>BioMedQuery.DBUtils.colname_dict</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>colname_dict_(con)
@@ -719,7 +719,7 @@ username=&quot;root&quot;, pswd=&quot;&quot;, mysql_code=nothing, overwrite=fals
 
 
 <p>Return a dictionary maping tables and their columns for a given MySQL-connection/SQLite-database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/DBUtils.jl#L117-L121' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/DBUtils.jl#L117-L121' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.disable_foreign_checks-Tuple{MySQL.Connection}' href='#BioMedQuery.DBUtils.disable_foreign_checks-Tuple{MySQL.Connection}'>#</a>
 <strong><code>BioMedQuery.DBUtils.disable_foreign_checks</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>disable_foreign_checks(con::MySQL.MySQLHandle)
@@ -727,7 +727,7 @@ username=&quot;root&quot;, pswd=&quot;&quot;, mysql_code=nothing, overwrite=fals
 
 
 <p>Disables foreign checks for MySQL database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/mysql_db_utils.jl#L154-L157' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/mysql_db_utils.jl#L154-L157' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.disable_foreign_checks-Tuple{SQLite.DB}' href='#BioMedQuery.DBUtils.disable_foreign_checks-Tuple{SQLite.DB}'>#</a>
 <strong><code>BioMedQuery.DBUtils.disable_foreign_checks</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>disable_foreign_checks(con::SQLite.DB)
@@ -735,7 +735,7 @@ username=&quot;root&quot;, pswd=&quot;&quot;, mysql_code=nothing, overwrite=fals
 
 
 <p>Disables foreign checks for SQLite database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/sqlite_db_utils.jl#L71-L74' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/sqlite_db_utils.jl#L71-L74' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.enable_foreign_checks-Tuple{MySQL.Connection}' href='#BioMedQuery.DBUtils.enable_foreign_checks-Tuple{MySQL.Connection}'>#</a>
 <strong><code>BioMedQuery.DBUtils.enable_foreign_checks</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>enable_foreign_checks(con::MySQL.MySQLHandle)
@@ -743,7 +743,7 @@ username=&quot;root&quot;, pswd=&quot;&quot;, mysql_code=nothing, overwrite=fals
 
 
 <p>Enables foreign checks for MySQL database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/mysql_db_utils.jl#L163-L166' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/mysql_db_utils.jl#L163-L166' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.enable_foreign_checks-Tuple{SQLite.DB}' href='#BioMedQuery.DBUtils.enable_foreign_checks-Tuple{SQLite.DB}'>#</a>
 <strong><code>BioMedQuery.DBUtils.enable_foreign_checks</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>enable_foreign_checks(con::SQLite.DB)
@@ -751,7 +751,7 @@ username=&quot;root&quot;, pswd=&quot;&quot;, mysql_code=nothing, overwrite=fals
 
 
 <p>Enables foreign checks for SQLite database</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/sqlite_db_utils.jl#L80-L83' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/sqlite_db_utils.jl#L80-L83' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.select_columns-Tuple{MySQL.Connection,Any}' href='#BioMedQuery.DBUtils.select_columns-Tuple{MySQL.Connection,Any}'>#</a>
 <strong><code>BioMedQuery.DBUtils.select_columns</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>select_columns_mysql(con, table)
@@ -759,7 +759,7 @@ username=&quot;root&quot;, pswd=&quot;&quot;, mysql_code=nothing, overwrite=fals
 
 
 <p>For a MySQL database, return an array of all columns in the given table</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/mysql_db_utils.jl#L54-L58' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/mysql_db_utils.jl#L54-L58' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.DBUtils.select_columns-Tuple{SQLite.DB,AbstractString}' href='#BioMedQuery.DBUtils.select_columns-Tuple{SQLite.DB,AbstractString}'>#</a>
 <strong><code>BioMedQuery.DBUtils.select_columns</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>select_columns(db, table)
@@ -767,7 +767,7 @@ username=&quot;root&quot;, pswd=&quot;&quot;, mysql_code=nothing, overwrite=fals
 
 
 <p>Return an array with names of columns in the given table</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/2203dcef6662eb485ac964f4a1e1539407b7933d/src/DBUtils/sqlite_db_utils.jl#L3-L6' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/3dadabe596960c2122436697342e576f5bd27ede/src/DBUtils/sqlite_db_utils.jl#L3-L6' class='documenter-source'>source</a><br></p>
                 
                   
                 
