@@ -150,16 +150,6 @@ println("       Testing Medline Loader")
 
 end
 
-@testset "Search and Parse" begin
-    println("-----------------------------------------")
-    println("       Testing Search and Parse")
-
-    dfs = pubmed_search_and_parse(email, search_term, max_articles, verbose)
-
-    @test size(dfs["basic"])[1] == max_articles
-
-end
-
 MySQL.disconnect(conn)
 mysql_conn = MySQL.connect(host, mysql_usr, mysql_pswd)
 MySQL.execute!(mysql_conn, "DROP DATABASE IF EXISTS $dbname;")
