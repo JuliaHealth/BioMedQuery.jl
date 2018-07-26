@@ -1,9 +1,10 @@
 using BioServices.UMLS
 using BioMedQuery.PubMed
 using BioMedQuery.DBUtils
+using DataFrames
 
 """
-    map_mesh_to_umls!(db, c::Credentials)
+    map_mesh_to_umls!(db, user, psswd; timeout=Inf, append_results=false, verbose=false)
 
 Build and store in the given database a map from MESH descriptors to
 UMLS Semantic Concepts
@@ -150,5 +151,128 @@ function map_mesh_to_umls_async!(db, user, psswd; timeout = 5, append_results=fa
             end
         end
     end
+
+end
+
+"""
+    map_mesh_to_umls!(mesh_df, user, psswd; timeout=Inf, append_results=false, verbose=false)
+
+Build and return a map (DataFrame) from MESH descriptors to
+UMLS Semantic Concepts
+
+## Arguments
+* `mesh_df` : DataFrame countaining Mesh_Descriptors. This is the dataframe with the key `mesh_desc` that is returned from pubmed_search_and_parse.
+* `user` : UMLS username
+* `psswd` : UMLS password
+"""
+function map_mesh_to_umls(mesh_df::DataFrame, user, psswd; timeout = Inf, verbose=false)
+
+    mesh = Vector{String}()
+    umls = Vector{String}()
+
+    println("----------Matching MESH to UMLS-----------")
+    tgt = get_tgt(username = user, password = psswd)
+
+    num_mesh = length(mesh_df[:name])
+
+    for (i, term) in enumerate(mesh_df[:name])
+
+        info("Descriptor ", i, " out of ", num_mesh, ": ", term)
+        #submit umls query
+        query = Dict("string"=>term, "searchType"=>"exact" )
+        # println("term: ", term)
+
+        for attempt=1:5
+            try
+                all_results= search_umls(tgt, query, timeout=timeout)
+                if length(all_results) > 0
+                    cui = best_match_cui(all_results)
+                    if cui == ""
+                        println("Nothing!")
+                        println(all_results)
+                    end
+                    all_concepts = get_semantic_types(tgt, cui)
+                    for concept in all_concepts
+                        push!(mesh, term)
+                        push!(umls, concept)
+                    end
+                end
+                break
+            catch err
+                println("! failed attempt ", attempt, " out of 5 for term ", term, " with error ", err)
+            end
+        end
+    end
+    println("--------------------------------------------------")
+
+    return sort(unique(DataFrame(descriptor = mesh, concept = umls)))
+end
+
+"""
+    map_mesh_to_umls_async(mesh_df, user, psswd; timeout, append_results, verbose)
+
+Build (using async UMLS-API calls) and return a map from
+MESH descriptors to UMLS Semantic Concepts. For large queies this function will
+be faster than it's synchrounous counterpart
+
+## Arguments
+
+* `mesh_df`: DataFrame countaining Mesh_Descriptors. This is the dataframe with the key `mesh_desc` that is returned from pubmed_search_and_parse.
+* `user` : UMLS username
+* `psswd` : UMLS Password
+"""
+function map_mesh_to_umls_async(mesh_df::DataFrame, user, psswd; timeout = 5, verbose=false)
+
+    mesh = Vector{String}()
+    umls = Vector{String}()
+
+    #get the array of terms
+    mesh_terms = mesh_df[:name]
+    num_mesh = length(mesh_terms)
+
+    println("----------Matching MESH to UMLS-----------")
+    println(mesh_terms)
+
+    tgt = get_tgt(username = user, password = psswd)
+    errors = 200*ones(num_mesh)
+    times = -ones(num_mesh)
+    batch_size = 50
+
+    for m=1:batch_size:num_mesh
+
+        end_loop = m + batch_size > num_mesh ? num_mesh : m + batch_size
+
+        @sync for i=m:end_loop
+            #submit umls async batch query
+            @async begin
+                term = mesh_terms[i]
+                query = Dict("string"=>term, "searchType"=>"exact" )
+                # println("term: ", term)
+                for attempt=1:5
+                    try
+                        all_results= search_umls(tgt, query, timeout=timeout)
+                        info("Descriptor ", i, " out of ", num_mesh, ": ", term)
+                        if length(all_results) > 0
+                            cui = best_match_cui(all_results)
+                            if cui == ""
+                                println("Nothing!")
+                                println(all_results)
+                            end
+                            all_concepts = get_semantic_types(tgt, cui)
+                            for concept in all_concepts
+                                push!(mesh, term)
+                                push!(umls, concept)
+                            end
+                        end
+                        break
+                    catch err
+                        warn("! failed attempt ", attempt, " out of 5 for term ", term, " with error ", err)
+                    end
+                end
+            end
+        end
+    end
+
+    return sort(unique(DataFrame(descriptor = mesh, concept = umls)))
 
 end

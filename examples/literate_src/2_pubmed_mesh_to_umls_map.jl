@@ -8,6 +8,7 @@
 # The following backends are supported for storing the results:
 # * MySQL
 # * SQLite
+# * DataFrame
 
 # ### Set Up
 using SQLite
@@ -15,10 +16,16 @@ using MySQL
 using BioMedQuery.DBUtils
 using BioMedQuery.Processes
 using BioServices.UMLS
+using BioMedQuery.PubMed # hide
 
 # Credentials are environment variables (e.g set in your .juliarc.jl)
 umls_user = ENV["UMLS_USER"];
 umls_pswd = ENV["UMLS_PSSWD"];
+email = ""; # Only needed if you want to contact NCBI with inqueries
+search_term = """(obesity[MeSH Major Topic]) AND ("2010"[Date - Publication] : "2012"[Date - Publication])""";
+max_articles = 5;
+results_dir = ".";
+verbose = true;
 
 results_dir = ".";
 
@@ -51,8 +58,23 @@ MySQL.disconnect(db_mysql) #src
 db_path = "$(results_dir)/pubmed_obesity_2010_2012.db";
 db_sqlite = SQLite.DB(db_path);
 
+if isfile(db_path) # hide
+    rm(db_path) # hide
+end # hide
+db_sqlite = SQLite.DB(db_path); # hide
+PubMed.create_tables!(db_sqlite); # hide
+Processes.pubmed_search_and_save!(email, search_term, max_articles, db_sqlite, verbose) # hide
+
 # Map MeSH to UMLS
 @time map_mesh_to_umls_async!(db_sqlite, umls_user, umls_pswd; append_results=false, timeout=3);
 
 # #### Explore the output table
 db_query(db_sqlite, "SELECT * FROM mesh2umls;")
+
+# ### Using DataFrames as a backend
+
+# Get the articles (same as example in PubMed Search and Parse)
+dfs = Processes.pubmed_search_and_parse(email, search_term, max_articles, verbose)
+
+# Map MeSH to UMLS and explore the output table
+@time res = map_mesh_to_umls_async(dfs["mesh_desc"], umls_user, umls_pswd)

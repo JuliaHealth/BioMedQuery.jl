@@ -441,13 +441,7 @@ Get the all mesh-descriptors associated with a given article
 """
 function get_article_mesh_by_concept(db, pmid::Integer, umls_concepts...; query_string="")
 
-    concept_set_str = """( "$(umls_concepts[1])" """
-
-    for i=2:length(umls_concepts)
-        concept_set_str = """$(concept_set_str), "$(umls_concepts[i])" """
-    end
-
-    concept_set_str = "$(concept_set_str))"
+    concept_set_string = "'" * join(umls_concepts,"','") * "'"
 
     if query_string == ""
         query_string = "SELECT DISTINCT(md.name), m2u.umls
@@ -455,7 +449,7 @@ function get_article_mesh_by_concept(db, pmid::Integer, umls_concepts...; query_
                         JOIN mesh_heading AS mh ON mh.desc_uid = md.uid
                         JOIN mesh2umls AS m2u ON m2u.mesh = md.name
                         WHERE mh.pmid = $pmid
-                        AND m2u.umls IN  $(concept_set_str)"
+                        AND m2u.umls IN  ($(concept_set_string))"
     end
 
     query  = db_query(db, query_string)
