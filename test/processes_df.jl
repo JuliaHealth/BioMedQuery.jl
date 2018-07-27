@@ -9,7 +9,7 @@ const max_articles = 2
 const verbose = false
 
 dfs = DataFrame()
-
+mesh2umls_df
 @testset "Search and Parse" begin
     println("-----------------------------------------")
     println("       Testing Search and Parse")
@@ -20,25 +20,28 @@ dfs = DataFrame()
 
 end
 
+is_not_travis_pull_request = get(ENV, "TRAVIS_PULL_REQUEST", "false") == "false"
+
 @testset "UMLS DataFrames" begin
-    println("-----------------------------------------")
-    println("       Testing MESH2UMLS")
-    m2u = map_mesh_to_umls(dfs["mesh_desc"], umls_user, umls_pswd)
+    if is_not_travis_pull_request
+        println("-----------------------------------------")
+        println("       Testing MESH2UMLS")
+        m2u = map_mesh_to_umls_async(dfs["mesh_desc"], umls_user, umls_pswd)
 
-    @test size(m2u)[1] > length(dfs["mesh_desc"])
+        @test size(m2u)[1] > length(dfs["mesh_desc"])
 
-    m2u = map_mesh_to_umls(dfs["mesh_desc"], umls_user, umls_pswd)
+        m2u = map_mesh_to_umls(dfs["mesh_desc"], umls_user, umls_pswd)
 
-    @test size(m2u)[1] > length(dfs["mesh_desc"])
+        @test size(m2u)[1] > length(dfs["mesh_desc"])
 
-    println("-----------------------------------------")
-    println("       Testing Occurences")
+        println("-----------------------------------------")
+        println("       Testing Occurences")
 
-    umls_concept = "Disease or Syndrome"
+        umls_concept = "Disease or Syndrome"
 
-    labels2ind, occur = umls_semantic_occurrences(dfs, m2u, umls_concept)
+        labels2ind, occur = umls_semantic_occurrences(dfs, m2u, umls_concept)
 
-    @test length(keys(labels2ind)) > 0
-    @test length(find(x->x=="Obesity", collect(keys(labels2ind)))) ==1
-
+        @test length(keys(labels2ind)) > 0
+        @test length(find(x->x=="Obesity", collect(keys(labels2ind)))) ==1
+    end
 end
