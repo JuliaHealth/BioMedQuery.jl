@@ -30,10 +30,6 @@ credentials_set = get(ENV, "TRAVIS_SECURE_ENV_VARS", true)
 
         @test size(m2u)[1] > length(dfs["mesh_desc"])
 
-        m2u = map_mesh_to_umls(dfs["mesh_desc"], umls_user, umls_pswd)
-
-        @test size(m2u)[1] > length(dfs["mesh_desc"])
-
         println("-----------------------------------------")
         println("       Testing Occurences")
 
