@@ -34,7 +34,7 @@ credentials_set = get(ENV, "TRAVIS_SECURE_ENV_VARS", true)
 
 @testset "UMLS" begin
 
-    if is_not_travis_pull_request
+    if credentials_set
         println("-----------------------------------------")
         println("       Testing MESH2UMLS")
         umls_user = get(ENV, "UMLS_USER", "")
