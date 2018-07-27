@@ -63,13 +63,6 @@ credentials_set = get(ENV, "TRAVIS_SECURE_ENV_VARS", true)
         all_pairs = all_pairs_query[1]
         @test length(all_pairs) > 0
   
-        #non-async version
-        map_mesh_to_umls!(conn, umls_user, umls_pswd; append_results=append, timeout=1)
-
-        all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
-        all_pairs = all_pairs_query[1]
-        @test length(all_pairs) > 0
-
         println("-----------------------------------------")
         println("       Testing Occurrences")
         umls_concept = "Disease or Syndrome"
