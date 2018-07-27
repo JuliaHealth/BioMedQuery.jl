@@ -5,7 +5,6 @@
 # Version: Julia 0.4.5
 
 using BioMedQuery.PubMed
-using Query
 using DataFrames
 
 
