@@ -20,7 +20,7 @@ dfs = DataFrame()
 
 end
 
-credentials_set = get(ENV, "TRAVIS_SECURE_ENV_VARS", true)
+credentials_set = get(ENV, "TRAVIS_SECURE_ENV_VARS", "true")=="true"
 
 @testset "UMLS DataFrames" begin
     if credentials_set
