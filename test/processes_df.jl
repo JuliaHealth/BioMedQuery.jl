@@ -9,7 +9,7 @@ const max_articles = 2
 const verbose = false
 
 dfs = DataFrame()
-mesh2umls_df
+
 @testset "Search and Parse" begin
     println("-----------------------------------------")
     println("       Testing Search and Parse")
