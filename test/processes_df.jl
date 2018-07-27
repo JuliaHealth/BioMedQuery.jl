@@ -20,10 +20,10 @@ dfs = DataFrame()
 
 end
 
-is_not_travis_pull_request = get(ENV, "TRAVIS_PULL_REQUEST", "false") == "false"
+credentials_set = get(ENV, "TRAVIS_SECURE_ENV_VARS", true)
 
 @testset "UMLS DataFrames" begin
-    if is_not_travis_pull_request
+    if credentials_set
         println("-----------------------------------------")
         println("       Testing MESH2UMLS")
         m2u = map_mesh_to_umls_async(dfs["mesh_desc"], umls_user, umls_pswd)
