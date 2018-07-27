@@ -22,7 +22,7 @@ my_tests = [
             ("ct.jl",               "       Testing: CLINICAL TRIALS"),
             ("processes_mysql.jl",  "       Testing: Processes MySQL"),
             ("processes_sqlite.jl", "       Testing: Processes SQLite"),
-            ("processes_df.jl",       "       Testing: Processes DataFrame")
+            ("processes_df.jl",     "       Testing: Processes DataFrame")
             ]
 
 println("Running tests:")
