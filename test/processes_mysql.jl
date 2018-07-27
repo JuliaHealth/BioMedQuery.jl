@@ -49,82 +49,29 @@ PubMed.create_tables!(conn)
 
 end
 
-# If this is a Travis build and is a PR, then $TRAVIS_PULL_REQUEST is equal to the PR number.
-# If this is a Travis build and is not a PR, then $TRAVIS_PULL_REQUEST is equal to "false".
-# If this is not a Travis build, then $TRAVIS_PULL_REQUEST is unset.
-is_not_travis_pull_request = get(ENV, "TRAVIS_PULL_REQUEST", "false") == "false"
+credentials_set = get(ENV, "TRAVIS_SECURE_ENV_VARS", true)
 
-@testset "MESH2UMLS" begin
-    if is_not_travis_pull_request
+@testset "UMLS" begin
+
+    if credentials_set
         println("-----------------------------------------")
         println("       Testing MESH2UMLS")
         append = false
 
-        success = true
-        try
-            @time begin
-                map_mesh_to_umls_async!(conn, umls_user, umls_pswd; append_results=append, timeout=1)
-            end
-        catch e
-            if isa(e, HTTP.ExceptionRequest.StatusError)
-                warn(string("ignoring error: "), e)
-                success = false
-            else
-                rethrow(e)
-            end
-        end
-        if success
-            all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
-            all_pairs = all_pairs_query[1]
-            @test length(all_pairs) > 0
-        end
-
-        success = true
-        try
-            @time begin
-                map_mesh_to_umls!(conn, umls_user, umls_pswd; append_results=append, timeout=1)
-            end
-        catch e
-            if isa(e, HTTP.ExceptionRequest.StatusError)
-                warn(string("ignoring error: "), e)
-                success = false
-            else
-                rethrow(e)
-            end
-        end
-        if success
-            all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
-            all_pairs = all_pairs_query[1]
-            @test length(all_pairs) > 0
-        end
-    end
-end
-
-@testset "Occurrences" begin
-    if is_not_travis_pull_request
+        map_mesh_to_umls_async!(conn, umls_user, umls_pswd; append_results=append, timeout=1)
+        all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
+        all_pairs = all_pairs_query[1]
+        @test length(all_pairs) > 0
+  
         println("-----------------------------------------")
         println("       Testing Occurrences")
         umls_concept = "Disease or Syndrome"
 
-        success = true
-        labels2ind = ""
-        occur = ""
-        try
-            @time begin
-                labels2ind, occur = umls_semantic_occurrences(conn, umls_concept)
-            end
-        catch e
-            if isa(e, HTTP.ExceptionRequest.StatusError)
-                warn(string("ignoring error: "), e)
-                success = false
-            else
-                rethrow(e)
-            end
-        end
-        if success
-            @test length(keys(labels2ind)) > 0
-            @test length(find(x->x=="Obesity", collect(keys(labels2ind)))) ==1
-        end
+        labels2ind, occur = umls_semantic_occurrences(conn, umls_concept)
+       
+        @test length(keys(labels2ind)) > 0
+        @test length(find(x->x=="Obesity", collect(keys(labels2ind)))) ==1
+
     end
 end
 
@@ -147,16 +94,6 @@ println("       Testing Medline Loader")
     @test size(res)[1] > 2
 
     rm(joinpath(dirname(@__FILE__),"medline"), recursive=true)
-
-end
-
-@testset "Search and Parse" begin
-    println("-----------------------------------------")
-    println("       Testing Search and Parse")
-
-    dfs = pubmed_search_and_parse(email, search_term, max_articles, verbose)
-
-    @test size(dfs["basic"])[1] == max_articles
 
 end
 
