@@ -1,5 +1,5 @@
 ```@meta
-EditURL = "https://github.com/TRAVIS_REPO_SLUG/blob/master/../../../bcbi/julia_packages/BioMedQuery/examples/literate_src/4_pubmed_export_citations.jl"
+EditURL = "https://github.com/TRAVIS_REPO_SLUG/blob/master/../../julia-local-packages/BioMedQuery/examples/literate_src/4_pubmed_export_citations.jl"
 ```
 
 # Export PubMed Citations

@@ -21,7 +21,8 @@ my_tests = [
             ("pubmed_parse.jl",     "       Testing: Entrez Parsing"),
             ("ct.jl",               "       Testing: CLINICAL TRIALS"),
             ("processes_mysql.jl",  "       Testing: Processes MySQL"),
-            ("processes_sqlite.jl", "       Testing: Processes SQLite")
+            ("processes_sqlite.jl", "       Testing: Processes SQLite"),
+            ("processes_df.jl",     "       Testing: Processes DataFrame")
             ]
 
 println("Running tests:")

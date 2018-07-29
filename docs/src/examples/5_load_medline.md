@@ -1,5 +1,5 @@
 ```@meta
-EditURL = "https://github.com/TRAVIS_REPO_SLUG/blob/master/../../../bcbi/julia_packages/BioMedQuery/examples/literate_src/5_load_medline.jl"
+EditURL = "https://github.com/TRAVIS_REPO_SLUG/blob/master/../../julia-local-packages/BioMedQuery/examples/literate_src/5_load_medline.jl"
 ```
 
 # Load MEDLINE
