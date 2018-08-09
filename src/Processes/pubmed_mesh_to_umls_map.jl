@@ -16,7 +16,7 @@ be faster than it's synchrounous counterpart
 * `user` : UMLS username
 * `psswd` : UMLS Password
 * `append_results::Bool` : If false a NEW and EMPTY mesh2umls database table in creted
-* `batch_size`: Number of 
+* `batch_size`: Number of
 """
 function map_mesh_to_umls_async!(db, user, psswd; timeout = 5, append_results=false, verbose=false, batch_size=50)
 

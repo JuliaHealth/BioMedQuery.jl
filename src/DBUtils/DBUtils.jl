@@ -1,4 +1,5 @@
-using Missings
+using Dates
+using DataFrames
 
 include("mysql_db_utils.jl")
 include("sqlite_db_utils.jl")
@@ -105,7 +106,7 @@ Given a DataFrame, returns a column name string formatted for an insert/load sta
 """
 function assemble_cols(data_values::DataFrame)
     col_str = ""
-    for col in data_values.colindex.names
+    for col in getfield(data_values, :colindex).names
         col_str *= string(col) * ","
     end
     return col_str[1:end-1]
@@ -155,15 +156,15 @@ end
 Checks if each column in the dataframe has a matching column in the table.
 """
 function col_match(con, tablename::String, data_values::DataFrame)
-    cols = String.(data_values.colindex.names)
+    cols = String.(getfield(data_values, :colindex).names)
     col_match(con, tablename, cols)
 end
+
 
 """
     col_match(con, tablename, col_names)
 Checks if each column in the csv/data frame has a matching column in the table.
 """
-
 function col_match(con, tablename::String, col_names::Vector{String})
     all_match = true
 

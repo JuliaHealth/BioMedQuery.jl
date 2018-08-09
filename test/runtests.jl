@@ -1,7 +1,7 @@
 #
 # Correctness Tests
 #
-using Base.Test
+using Test
 
 using XMLDict
 using BioMedQuery.Processes

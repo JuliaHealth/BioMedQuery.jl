@@ -1,5 +1,5 @@
 using MySQL
-using DataStreams
+# using DataStreams
 using DataFrames
 
 """
@@ -24,7 +24,7 @@ function init_mysql_database(host="127.0.0.1",
 
     opts = Dict(MySQL.API.MYSQL_SET_CHARSET_NAME=>"utf8")
 
-    const con = MySQL.connect(host, user, pwd, opts=opts)
+    con = MySQL.connect(host, user, pwd, opts=opts)
 
     init_mysql_database(con, dbname, overwrite)
 end
@@ -91,8 +91,8 @@ function db_query(con::MySQLHandle, query_code)
     end
 end
 
-function insert_row!{T}(con::MySQL.MySQLHandle, tablename, data_values::Dict{Symbol, T},
-    colname_dict::Dict{String, Array{String, 1}}, verbose = false)
+function insert_row!(con::MySQL.MySQLHandle, tablename, data_values::Dict{Symbol, T},
+    colname_dict::Dict{String, Array{String, 1}}, verbose = false) where T
 
     table_cols = colname_dict[symbol(tablename)]
     table_cols_backticks = [string("`", x, "`") for x in table_cols]
@@ -106,7 +106,7 @@ function insert_row!{T}(con::MySQL.MySQLHandle, tablename, data_values::Dict{Sym
     catch e
         # Base.showerror(STDOUT, MySQLInternalError(con))
         println("\n")
-        println("Warning: Row with values $vals_string not inserted into the table: $tablename")
+        warn("Warning: Row with values $vals_string not inserted into the table: $tablename")
         # throw(MySQLInternalError(con))
     end
     return lastid
@@ -123,8 +123,8 @@ Insert a row of values into the specified table for a given a MySQL database han
 * `data_values::Dict{String, Any}`: Array of (string) values
 * `verbose`: Print debugginh info
 """
-function insert_row!{T}(con::MySQL.MySQLHandle, tablename, data_values::Dict{Symbol, T},
-    verbose = false)
+function insert_row!(con::MySQL.MySQLHandle, tablename, data_values::Dict{Symbol, T},
+    verbose = false) where T
 
     cols_string, vals_string = assemble_cols_and_vals(data_values)
     lastid = -1

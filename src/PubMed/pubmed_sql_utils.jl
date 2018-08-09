@@ -1,7 +1,8 @@
 using ..DBUtils
 using SQLite
 using MySQL
-using DataStreams, DataFrames
+using DataFrames # DataStreams,
+using Dates
 
 
 """
@@ -428,7 +429,7 @@ function get_article_mesh(db, pmid::Integer)
     query  = db_query(db, query_string)
 
     #return data array
-    return query.columns[1]
+    return query[:name]
 
 end
 
@@ -455,7 +456,7 @@ function get_article_mesh_by_concept(db, pmid::Integer, umls_concepts...; query_
     query  = db_query(db, query_string)
 
     #return data array
-    return query.columns[1]
+    return query[:name]
 
 end
 
@@ -519,7 +520,7 @@ function db_insert!(db::MySQL.Connection, csv_path::String = pwd(), csv_prefix::
             headers = CSV.read(path, DataFrame, rows = 1)
             # return headers
 
-            cols = String.(headers.colindex.names)
+            cols = String.(getfield(headers, :colindex).names)
             if !col_match(db, table, cols)
                 error("Each CSV column must match the name of a table column. $table had mismatches.")
             end
@@ -591,7 +592,7 @@ function db_insert!(db::SQLite.DB, articles::Dict{String,DataFrame}, csv_path::S
 
         for i = 1:size(df)[1]
             col_dict = Dict{Symbol,Any}()
-            for col in df.colindex.names
+            for col in getfield(df, :colindex).names
                 col_dict[col] = df[i,col]
             end
             insert_row!(db, table, col_dict)
