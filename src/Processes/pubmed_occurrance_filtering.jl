@@ -6,7 +6,7 @@
 
 using BioMedQuery.PubMed
 using DataFrames
-
+using SparseArrays
 
 """
     umls_semantic_occurrences(db, umls_semantic_type)
@@ -57,7 +57,7 @@ function umls_semantic_occurrences(db, umls_concepts...)
         #TO DO: Not sure about the type. Should we choose bool to save space
         # or float to support opperations
         article_dis_feature  = zeros(Int, (length(filtered_mesh),1))
-        article_dis_feature[indices] = 1
+        article_dis_feature[indices] .= 1
 
         #append to data matrix
         disease_occurances[:, i] = article_dis_feature
@@ -133,7 +133,7 @@ function umls_semantic_occurrences(dfs::Dict{String,DataFrame}, mesh2umls_df::Da
         #TO DO: Not sure about the type. Should we choose bool to save space
         # or float to support opperations
         article_dis_feature  = zeros(Int, (length(filtered_mesh),1))
-        article_dis_feature[indices] = 1
+        article_dis_feature[indices] .= 1
 
         #append to data matrix
         disease_occurances[:, i] = article_dis_feature

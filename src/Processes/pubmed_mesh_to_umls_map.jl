@@ -63,7 +63,7 @@ function map_mesh_to_umls_async!(db, user, psswd; timeout = 5, append_results=fa
                 for attempt=1:5
                     try
                         all_results= search_umls(tgt, query, timeout=timeout)
-                        info("Descriptor $i out of ", length(mesh_terms), ": ", term)
+                        @info "Descriptor $i out of $(length(mesh_terms)): $term"
                         if length(all_results) > 0
                             cui = best_match_cui(all_results)
                             if cui == ""
@@ -77,7 +77,7 @@ function map_mesh_to_umls_async!(db, user, psswd; timeout = 5, append_results=fa
                         end
                         break
                     catch err
-                        warn("! failed attempt $attempt out of 5 for term $term with error ", err)
+                        @warn "! failed attempt $attempt out of 5 for term $term with error " err
                     end
                 end
             end
@@ -129,7 +129,7 @@ function map_mesh_to_umls_async(mesh_df::DataFrame, user, psswd; timeout = 5, ve
                 for attempt=1:5
                     try
                         all_results= search_umls(tgt, query, timeout=timeout)
-                        info("Descriptor ", i, " out of ", num_mesh, ": ", term)
+                        @info "Descriptor $i, out of $num_mesh: $term"
                         if length(all_results) > 0
                             cui = best_match_cui(all_results)
                             if cui == ""
@@ -144,7 +144,7 @@ function map_mesh_to_umls_async(mesh_df::DataFrame, user, psswd; timeout = 5, ve
                         end
                         break
                     catch err
-                        warn("! failed attempt ", attempt, " out of 5 for term ", term, " with error ", err)
+                        @warn "! failed attempt $attempt out of 5 for term $term with error "  err
                     end
                 end
             end

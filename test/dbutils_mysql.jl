@@ -5,7 +5,7 @@
 
     dbname="pubmed_test"
 
-    const conn = DBUtils.init_mysql_database("127.0.0.1", "root", "", dbname)
+    conn = DBUtils.init_mysql_database("127.0.0.1", "root", "", dbname)
     PubMed.create_tables!(conn)
 
     println(conn)

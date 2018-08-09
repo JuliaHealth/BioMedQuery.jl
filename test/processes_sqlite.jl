@@ -6,6 +6,8 @@ const search_term="(obesity[MeSH Major Topic]) AND (\"2010\"[Date - Publication]
 const max_articles = 2
 const overwrite_db=true
 const verbose = false
+const umls_user = get(ENV, "UMLS_USER", "")
+const umls_pswd = get(ENV, "UMLS_PSSWD", "")
 #************************ SQLite **************************
 const db_path="./test_processes.sqlite"
 #***************************************************************************
@@ -30,19 +32,18 @@ PubMed.create_tables!(conn_sql)
 
 end
 
-credentials_set = get(ENV, "TRAVIS_SECURE_ENV_VARS", "true")=="true"
+global credentials_set = get(ENV, "TRAVIS_SECURE_ENV_VARS", "true")=="true"
 
 @testset "UMLS" begin
 
     if credentials_set
         println("-----------------------------------------")
         println("       Testing MESH2UMLS")
-        umls_user = get(ENV, "UMLS_USER", "")
-        umls_pswd = get(ENV, "UMLS_PSSWD", "")
+
         append = false
 
         map_mesh_to_umls_async!(conn_sql, umls_user, umls_pswd; append_results=append, timeout=1)
-        
+
         all_pairs_query = db_query(conn_sql, "SELECT mesh FROM mesh2umls;")
         all_pairs = all_pairs_query[1]
         @test length(all_pairs) > 0
@@ -53,9 +54,9 @@ credentials_set = get(ENV, "TRAVIS_SECURE_ENV_VARS", "true")=="true"
         umls_concept = "Disease or Syndrome"
 
         labels2ind, occur = umls_semantic_occurrences(conn_sql, umls_concept)
-       
+
         @test length(keys(labels2ind)) > 0
-        @test length(find(x->x=="Obesity", collect(keys(labels2ind)))) ==1
+        @test length(findall(x->x=="Obesity", collect(keys(labels2ind)))) ==1
     end
 
 end

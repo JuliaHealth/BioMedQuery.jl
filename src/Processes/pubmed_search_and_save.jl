@@ -168,7 +168,7 @@ function pubmed_pmid_search_and_save!(email, search_term::String, article_max,
     db = save_pmids!(conn, pmids, verbose)
 
     narticles = length(pmids)
-    info("Finished saving $narticles articles")
+    @info "Finished saving $narticles articles"
 
     return nothing
 end

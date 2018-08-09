@@ -37,7 +37,7 @@ PubMed.create_tables!(conn)
     all_pmids = PubMed.all_pmids(conn)
     @test length(all_pmids) == max_articles
 
-    const conn_pmid = DBUtils.init_mysql_database(host, mysql_usr, mysql_pswd, dbname_pmid)
+    conn_pmid = DBUtils.init_mysql_database(host, mysql_usr, mysql_pswd, dbname_pmid)
     PubMed.create_pmid_table!(conn_pmid)
     pubmed_pmid_search_and_save!(email, search_term, max_articles, conn_pmid, verbose)
 
@@ -62,22 +62,22 @@ credentials_set = get(ENV, "TRAVIS_SECURE_ENV_VARS", "true")=="true"
         all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
         all_pairs = all_pairs_query[1]
         @test length(all_pairs) > 0
-  
+
         println("-----------------------------------------")
         println("       Testing Occurrences")
         umls_concept = "Disease or Syndrome"
 
         labels2ind, occur = umls_semantic_occurrences(conn, umls_concept)
-       
+
         @test length(keys(labels2ind)) > 0
-        @test length(find(x->x=="Obesity", collect(keys(labels2ind)))) ==1
+        @test length(findall(x->x=="Obesity", collect(keys(labels2ind)))) ==1
 
     end
 end
 
 @testset "Medline Load" begin
-println("-----------------------------------------")
-println("       Testing Medline Loader")
+    println("-----------------------------------------")
+    println("       Testing Medline Loader")
 
     PubMed.create_tables!(conn) #drop and re-create pubmed article tables
 

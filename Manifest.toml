@@ -108,12 +108,10 @@ deps = ["Random"]
 uuid = "9fa8497b-333b-5362-9e8d-4d0656e87820"
 
 [[Gumbo]]
-deps = ["AbstractTrees", "BinaryProvider", "Libdl"]
-git-tree-sha1 = "fc5ad452516ed454763fd42c6f1177b803fabbf5"
-repo-rev = "master"
-repo-url = "https://github.com/porterjamesj/Gumbo.jl.git"
+deps = ["AbstractTrees", "BinDeps", "Libdl"]
+git-tree-sha1 = "82e5226b77b66b74da098d26941c6792b85e2f83"
 uuid = "708ec375-b3d6-5a57-a7ce-8257bf98657a"
-version = "0.4.1+"
+version = "0.4.1"
 
 [[HTTP]]
 deps = ["Base64", "Dates", "Distributed", "IniFile", "MbedTLS", "Sockets", "Test"]

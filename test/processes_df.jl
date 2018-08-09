@@ -8,13 +8,13 @@ const search_term="(obesity[MeSH Major Topic]) AND (\"2010\"[Date - Publication]
 const max_articles = 2
 const verbose = false
 
-dfs = DataFrame()
+# global dfs = DataFrame()
 
 @testset "Search and Parse" begin
     println("-----------------------------------------")
     println("       Testing Search and Parse")
 
-    dfs = pubmed_search_and_parse(email, search_term, max_articles, verbose)
+    global dfs = pubmed_search_and_parse(email, search_term, max_articles, verbose)
 
     @test size(dfs["basic"])[1] == max_articles
 
@@ -38,6 +38,6 @@ credentials_set = get(ENV, "TRAVIS_SECURE_ENV_VARS", "true")=="true"
         labels2ind, occur = umls_semantic_occurrences(dfs, m2u, umls_concept)
 
         @test length(keys(labels2ind)) > 0
-        @test length(find(x->x=="Obesity", collect(keys(labels2ind)))) ==1
+        @test length(findall(x->x=="Obesity", collect(keys(labels2ind)))) ==1
     end
 end

@@ -72,7 +72,7 @@ function select_all_tables(con::MySQL.MySQLHandle)
 end
 
 function print_error(con::MySQL.MySQLHandle)
-    Base.showerror(STDOUT, MySQL.MySQLInternalError(con))
+    Base.showerror(stdout, MySQL.MySQLInternalError(con))
     println("\n")
 end
 
@@ -105,10 +105,10 @@ function insert_row!(con::MySQL.MySQLHandle, tablename, data_values::Dict{Symbol
         lastid = MySQL.insertid(con)
     catch e
         # Base.showerror(STDOUT, MySQLInternalError(con))
-        println("\n")
-        warn("Warning: Row with values $vals_string not inserted into the table: $tablename")
+        @warn "Warning: Row with values $vals_string not inserted into the table: $tablename"
         # throw(MySQLInternalError(con))
     end
+    
     return lastid
 end
 
@@ -121,7 +121,7 @@ Insert a row of values into the specified table for a given a MySQL database han
 
 * `db::MySQLDB`: Database object (connection and map)
 * `data_values::Dict{String, Any}`: Array of (string) values
-* `verbose`: Print debugginh info
+* `verbose`: Print debugging info
 """
 function insert_row!(con::MySQL.MySQLHandle, tablename, data_values::Dict{Symbol, T},
     verbose = false) where T
@@ -134,7 +134,7 @@ function insert_row!(con::MySQL.MySQLHandle, tablename, data_values::Dict{Symbol
     catch
         if verbose
             println("Warning! Row with values $vals_string not inserted into the table: $tablename")
-            Base.showerror(STDOUT, MySQL.MySQLInternalError(con))
+            Base.showerror(stdout, MySQL.MySQLInternalError(con))
             println("\n")
         end
         # throw(MySQLInternalError(con))

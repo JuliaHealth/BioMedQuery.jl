@@ -29,8 +29,8 @@ function strip_newline(val::Union{Missing,String})
     if ismissing(val)
         return val
     else
-        res = replace(val, "\n"," ")
-        res = replace(res, "\r"," ")
+        res = replace(val, "\n" => " ")
+        res = replace(res, "\r" => " ")
         return res
     end
 end
@@ -47,8 +47,8 @@ function parse_MedlineDate(ml_dt::String)
     try
         year = matches[1]
         month = matches[2]
-    # catch
-    #     warn("Couldn't fully parse date: ", ml_dt)
+    catch
+        @debug "Couldn't fully parse date: $ml_dt"
     end
 
     return year, month
@@ -117,7 +117,7 @@ end
 Takes a string containing an ORC ID (url, 16 digit string) and returns a formatted ID (0000-1111-2222-3333).
 """
 function parse_orcid(raw_orc::String)
-    if ismatch(r"^[0-9]{16}$", raw_orc)
+    if occursin(r"^[0-9]{16}$", raw_orc)
         return "$(raw_orc[1:4])-$(raw_orc[5:8])-$(raw_orc[9:12])-$(raw_orc[13:16])"
     else
         reg = match(r"^.*([0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9a-zA-Z]{4}).*$", raw_orc)
@@ -175,26 +175,25 @@ end
 
 Parses a PubMedArticleSet that matches the NCBI-XML format
 """
-#Constructor from xml article element
 function parse(xml::LightXML.XMLElement)
 
     articles = get_elements_by_tagname(xml,"PubmedArticle")
     n_articles = length(articles)
 
     #basic
-    pmid= Vector{Int64}(n_articles)
-    url=Vector{Union{Missing, String}}(n_articles)
-    title=Vector{String}(n_articles)
-    auth_cite=Vector{Union{Missing, String}}(n_articles)
-    pub_year=Vector{Union{Missing, Int64}}(n_articles)
-    pub_month=Vector{Union{Missing, Int64}}(n_articles)
-    pub_dt_desc=Vector{String}(n_articles)
-    journal_title=Vector{Union{Missing, String}}(n_articles)
-    journal_iso_abbrv=Vector{Union{Missing, String}}(n_articles)
-    journal_issn=Vector{Union{Missing, String}}(n_articles)
-    volume=Vector{Union{Missing, String}}(n_articles)
-    issue=Vector{Union{Missing, String}}(n_articles)
-    pages=Vector{Union{Missing, String}}(n_articles)
+    pmid= Vector{Int64}(undef, n_articles)
+    url=Vector{Union{Missing, String}}(undef, n_articles)
+    title=Vector{String}(undef, n_articles)
+    auth_cite=Vector{Union{Missing, String}}(undef, n_articles)
+    pub_year=Vector{Union{Missing, Int64}}(undef, n_articles)
+    pub_month=Vector{Union{Missing, Int64}}(undef, n_articles)
+    pub_dt_desc=Vector{String}(undef, n_articles)
+    journal_title=Vector{Union{Missing, String}}(undef, n_articles)
+    journal_iso_abbrv=Vector{Union{Missing, String}}(undef, n_articles)
+    journal_issn=Vector{Union{Missing, String}}(undef, n_articles)
+    volume=Vector{Union{Missing, String}}(undef, n_articles)
+    issue=Vector{Union{Missing, String}}(undef, n_articles)
+    pages=Vector{Union{Missing, String}}(undef, n_articles)
 
     mesh_qual=Dict{Int64, String}() #qid, qdesc
     mesh_desc=Dict{Int64, String}() #did, ddesc
