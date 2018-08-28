@@ -1,7 +1,6 @@
 language: julia
 julia:
   - 0.7
-  - 1.0
 os:
   - linux
   - osx
@@ -12,8 +11,6 @@ matrix:
   exclude:
     - os: osx
       env: GROUP=Examples
-    - os: osx
-      julia: 1.0
 notifications:
   email: true
 before_script:
