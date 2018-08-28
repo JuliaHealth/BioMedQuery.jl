@@ -34,7 +34,7 @@ script:
           if ENV["GROUP"] == "Test"
             Pkg.test("BioMedQuery"; coverage=true)
           elseif ENV["GROUP"] == "Examples"
-            include(@__DIR__*"/examples/runexamples.jl")
+            include(joinpath(@__DIR__,"examples","runexamples.jl"))
           else
                 println("Unknown test command.")
           end'
