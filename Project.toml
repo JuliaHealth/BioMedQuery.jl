@@ -18,6 +18,8 @@ SQLite = "0aa819cd-b072-5ff4-a722-6bc24af294d9"
 SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 XMLDict = "228000da-037f-5747-90a9-8195ccbf91a5"
 
+[compat]
+julia = "0.7"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
@@ -25,6 +27,3 @@ ZipFile = "a5390f91-8eb1-5f08-bee0-b1d1ffed6cea"
 
 [targets]
 test = ["Test", "ZipFile"]
-
-[compat]
-julia = "0.7"

@@ -298,9 +298,3 @@ deps = ["Compat", "DataStructures", "EzXML", "IterTools"]
 git-tree-sha1 = "eef200c08af0eb5ea6fdcb49d2605ad70954302d"
 uuid = "228000da-037f-5747-90a9-8195ccbf91a5"
 version = "0.2.0"
-
-[[ZipFile]]
-deps = ["Printf", "Test"]
-git-tree-sha1 = "c191e56c849b1784cacbf7cd5e52cc672f1ae2db"
-uuid = "a5390f91-8eb1-5f08-bee0-b1d1ffed6cea"
-version = "0.7.0"
