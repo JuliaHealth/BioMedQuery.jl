@@ -320,7 +320,7 @@ Entrez related searches. All tables are empty at this point
 function create_pmid_table!(conn)
 
     # Determine engine
-    sql_engine = (typeof(conn)== MySQL.Connection) ? MySQL : SQLite
+    sql_engine = (typeof(conn) == MySQL.Connection) ? MySQL : SQLite
 
     #purge related tables
     # sql_engine.execute!(conn, "DROP TABLE IF EXISTS $tablename")

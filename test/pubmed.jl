@@ -19,7 +19,7 @@ import Base.parse
         println("-----------------------------------------")
         println("       Testing ESearch/EFetch for PubMed     ")
 
-        search_term="obstructive sleep apnea[MeSH Major Topic]"
+        search_term="""(obstructive sleep apnea[MeSH Major Topic]) AND "journal article"[Publication Type]"""
 
         esearch_response = esearch(db="pubmed", term = search_term,
         retstart = 0, retmax = narticles, tool ="BioJulia")
@@ -41,7 +41,7 @@ import Base.parse
 
         #convert xml to dictionary
         efetch_doc = root(parse_string(String(efetch_response.body)))
-        dfs_efetch = PubMed.parse(efetch_doc)
+        dfs_efetch = PubMed.parse_articles(efetch_doc)
 
         @test name(efetch_doc) == "PubmedArticleSet"
 

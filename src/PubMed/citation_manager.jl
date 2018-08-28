@@ -37,6 +37,7 @@ function citations_endnote(article::Dict{String,DataFrame}, row::Int, verbose=fa
     jrnl_art = findall((article["pub_type"][:name].=="Journal Article") .& (article["pub_type"][:pmid] .== article["basic"][row,:pmid]))
 
     if length(jrnl_art)!= 1
+        println(article["pub_type"])
         @error "EndNote can only export Journal Articles" exception=ErrorException
     end
 
@@ -148,7 +149,7 @@ function save_efetch!(output::CitationOutput, articles::LightXML.XMLElement, ver
     fout = open(output_file, "a")
     nsuccess=0
 
-    articles_df = PubMed.parse(articles)
+    articles_df = PubMed.parse_articles(articles)
 
     for i = 1:n_articles
         try

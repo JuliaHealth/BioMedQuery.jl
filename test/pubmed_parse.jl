@@ -12,7 +12,7 @@
     end
 
 
-    parsed = PubMed.parse(articles)
+    parsed = PubMed.parse_articles(articles)
 
     @test !ismissing(parsed["basic"][1,:pmid])
 

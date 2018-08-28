@@ -247,7 +247,7 @@ function pubmed_search_and_parse(email, search_term::String, article_max, verbos
 
         #save the results of an entrez fetch
         println("------Save to dataframes--------")
-        this_dfs = PubMed.parse(efetch_doc)
+        this_dfs = PubMed.parse_articles(efetch_doc)
         for (table, df) in this_dfs
             if haskey(dfs, table)
                 dfs[table] = vcat(dfs[table], df)

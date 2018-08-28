@@ -33,7 +33,7 @@ function load_medline!(db_con::MySQL.Connection, output_dir::String; start_file:
 
     @info "Getting files from Medline"
     @sync for n = start_file:end_file
-        @async get_ml_file(get_file_name(n, year, test), ftp_con, output_dir)
+        @async get_ml_file(get_file_name(n, year, test), ftp_con, output_dir, test)
     end
 
     @info "Parsing files into CSV"
@@ -85,7 +85,7 @@ function init_medline(output_dir::String, test::Bool=false)
     # Initialize FTP
     ftp_init()
 
-    ftp_con = get_ftp_con(test)
+    ftp_con = get_ftp_con()
 
     return ftp_con
 end
@@ -110,9 +110,17 @@ end
 
 Retrieves the file with fname and puts in medline/raw_files.  Returns the HTTP response.
 """
-function get_ml_file(fname::String, conn::ConnContext, output_dir::String)
+function get_ml_file(fname::String, conn::ConnContext, output_dir::String, test::Bool = false)
     println("Getting file: ", fname)
     # get file
+
+    if test
+        source = joinpath(@__DIR__, "..", "..","test",fname)
+        target = joinpath(output_dir,"medline","raw_files",fname)
+        cp(source, target)
+        # copy pubmedsample to right folder
+    end
+
     path = joinpath(output_dir,"medline","raw_files",fname)
     if isfile(path)
         resp = "File already exists, using local file"
@@ -127,15 +135,12 @@ end
 
 
 """
-    get_ftp_con(test = false)
+    get_ftp_con()
 Get an FTP connection
 """
-function get_ftp_con(test::Bool = false)
-    if test
-        options = RequestOptions(url="ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline-2018-sample/")
-    else
-        options = RequestOptions(url="ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/")
-    end
+function get_ftp_con()
+    options = RequestOptions("ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/")
+
     conn = ftp_connect(options) # returns connection and response
     return conn[1]# get ConnContext object
 end
@@ -156,7 +161,7 @@ function parse_ml_file(fname::String, output_dir::String)
         doc = parse_file(path)
         raw_articles = root(doc)
 
-        dfs = PubMed.parse(raw_articles)
+        dfs = PubMed.parse_articles(raw_articles)
 
         dfs_to_csv(dfs, joinpath(output_dir,"medline","parsed_files"), "$(fname[1:end-7])_")
 
