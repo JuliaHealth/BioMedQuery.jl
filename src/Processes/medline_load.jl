@@ -115,10 +115,10 @@ function get_ml_file(fname::String, conn::ConnContext, output_dir::String, test:
     # get file
 
     if test
+        # copy pubmedsample to right folder
         source = joinpath(@__DIR__, "..", "..","test",fname)
         target = joinpath(output_dir,"medline","raw_files",fname)
-        cp(source, target)
-        # copy pubmedsample to right folder
+        cp(source, target, force=true)
     end
 
     path = joinpath(output_dir,"medline","raw_files",fname)

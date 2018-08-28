@@ -81,9 +81,9 @@ end
 
     PubMed.create_tables!(conn) #drop and re-create pubmed article tables
 
-    load_medline!(conn, dirname(@__FILE__), start_file=medline_file, end_file=medline_file, year=medline_year, test=true)
+    load_medline!(conn, @__DIR__, start_file=medline_file, end_file=medline_file, year=medline_year, test=true)
 
-    path = joinpath(dirname(@__FILE__),"medline","raw_files",Processes.get_file_name(medline_file, medline_year, true))
+    path = joinpath(@__DIR__,"medline","raw_files",Processes.get_file_name(medline_file, medline_year, true))
     doc = parse_file(path)
 
     raw_articles = root(doc)
