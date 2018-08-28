@@ -12,6 +12,8 @@ matrix:
   exclude:
     - os: osx
       env: GROUP=Examples
+    - os: osx
+      julia: 1.0
 notifications:
   email: true
 before_script:
@@ -30,7 +32,7 @@ script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
   # - julia -e 'Pkg.clone(pwd(), "BioMedQuery"); Pkg.build("BioMedQuery"); ENV["TRAVIS"] = "yes"; Pkg.test("BioMedQuery"; coverage=true)'
   - julia --check-bounds=yes -e 'import Pkg;
-          Pkg.instantiate();
+          Pkg.build();
           if ENV["GROUP"] == "Test"
             Pkg.test("BioMedQuery"; coverage=true)
           elseif ENV["GROUP"] == "Examples"
