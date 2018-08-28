@@ -28,9 +28,8 @@ after_script:
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
   # - julia -e 'Pkg.clone(pwd(), "BioMedQuery"); Pkg.build("BioMedQuery"); ENV["TRAVIS"] = "yes"; Pkg.test("BioMedQuery"; coverage=true)'
-  - julia --check-bounds=yes -e 'Pkg.update();
-          Pkg.clone(pwd(), "BioMedQuery");
-          Pkg.build("BioMedQuery");
+  - julia --check-bounds=yes -e 'import Pkg;
+          Pkg.instantiate();
           if ENV["GROUP"] == "Test"
             Pkg.test("BioMedQuery"; coverage=true)
           elseif ENV["GROUP"] == "Examples"
