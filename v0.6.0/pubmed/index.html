@@ -911,20 +911,20 @@
 <p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/bde4b1bbd51847063d4968aec53b93f78f569d3d/src/PubMed/pubmed_sql_utils.jl#L463-L467' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.db_insert!' href='#BioMedQuery.PubMed.db_insert!'>#</a>
 <strong><code>BioMedQuery.PubMed.db_insert!</code></strong> &mdash; <em>Function</em>.</p>
-<div class="codehilite"><pre><span></span><span class="nt">db_insert</span><span class="o">!(</span><span class="nt">conn</span><span class="o">,</span> <span class="nt">articles</span><span class="p">::</span><span class="nd">Dict</span><span class="p">{</span><span class="err">String,DataFrame</span><span class="p">}</span><span class="o">,</span> <span class="nt">csv_path</span><span class="o">=</span><span class="nt">pwd</span><span class="o">(),</span> <span class="nt">csv_prefix</span><span class="o">=</span><span class="s2">&quot;&lt;current date&gt;_PubMed_&quot;</span><span class="o">;</span> <span class="nt">verbose</span><span class="o">=</span><span class="nt">false</span><span class="o">,</span> <span class="nt">drop_csvs</span><span class="o">=</span><span class="nt">false</span><span class="o">)</span>
-</pre></div>
-
-
-<p>Writes dictionary of dataframes to a SQLite database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/bde4b1bbd51847063d4968aec53b93f78f569d3d/src/PubMed/pubmed_sql_utils.jl#L575-L579' class='documenter-source'>source</a><br></p>
-<p><a id='BioMedQuery.PubMed.db_insert!' href='#BioMedQuery.PubMed.db_insert!'>#</a>
-<strong><code>BioMedQuery.PubMed.db_insert!</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>db_insert!(conn, csv_path=pwd(), csv_prefix=&quot;&lt;current date&gt;_PubMed_&quot;; verbose=false, drop_csvs=false)
 </pre></div>
 
 
 <p>Writes CSVs from PubMed parsing to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs can optionally be removed after being written to DB.</p>
 <p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/bde4b1bbd51847063d4968aec53b93f78f569d3d/src/PubMed/pubmed_sql_utils.jl#L502-L506' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.db_insert!' href='#BioMedQuery.PubMed.db_insert!'>#</a>
+<strong><code>BioMedQuery.PubMed.db_insert!</code></strong> &mdash; <em>Function</em>.</p>
+<div class="codehilite"><pre><span></span><span class="nt">db_insert</span><span class="o">!(</span><span class="nt">conn</span><span class="o">,</span> <span class="nt">articles</span><span class="p">::</span><span class="nd">Dict</span><span class="p">{</span><span class="err">String,DataFrame</span><span class="p">}</span><span class="o">,</span> <span class="nt">csv_path</span><span class="o">=</span><span class="nt">pwd</span><span class="o">(),</span> <span class="nt">csv_prefix</span><span class="o">=</span><span class="s2">&quot;&lt;current date&gt;_PubMed_&quot;</span><span class="o">;</span> <span class="nt">verbose</span><span class="o">=</span><span class="nt">false</span><span class="o">,</span> <span class="nt">drop_csvs</span><span class="o">=</span><span class="nt">false</span><span class="o">)</span>
+</pre></div>
+
+
+<p>Writes dictionary of dataframes to a SQLite database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/bde4b1bbd51847063d4968aec53b93f78f569d3d/src/PubMed/pubmed_sql_utils.jl#L575-L579' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.dfs_to_csv' href='#BioMedQuery.PubMed.dfs_to_csv'>#</a>
 <strong><code>BioMedQuery.PubMed.dfs_to_csv</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>dfs_to_csv(dfs::Dict, path::String, [file_prefix::String])
