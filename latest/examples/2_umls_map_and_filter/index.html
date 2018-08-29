@@ -705,62 +705,65 @@
 
 
 <div class="codehilite"><pre><span></span>----------Matching MESH to UMLS-----------
-String[&quot;Adult&quot;, &quot;Aged&quot;, &quot;Aged, 80 and over&quot;, &quot;Analysis of Variance&quot;, &quot;Body Weight&quot;, &quot;C-Reactive Protein&quot;, &quot;Child&quot;, &quot;Cross-Sectional Studies&quot;, &quot;Fatigue&quot;, &quot;Female&quot;, &quot;Fibromyalgia&quot;, &quot;Germany&quot;, &quot;Health Status&quot;, &quot;Humans&quot;, &quot;Japan&quot;, &quot;Male&quot;, &quot;Middle Aged&quot;, &quot;Nutrition Surveys&quot;, &quot;Obesity&quot;, &quot;Pain&quot;, &quot;Pain Measurement&quot;, &quot;Physical Fitness&quot;, &quot;Prognosis&quot;, &quot;Quality of Life&quot;, &quot;Surveys and Questionnaires&quot;, &quot;Reference Values&quot;, &quot;Risk Factors&quot;, &quot;ROC Curve&quot;, &quot;Severity of Illness Index&quot;, &quot;Sports&quot;, &quot;Television&quot;, &quot;Thyrotropin&quot;, &quot;Biomarkers&quot;, &quot;Weight Gain&quot;, &quot;Exercise&quot;, &quot;Body Mass Index&quot;, &quot;Incidence&quot;, &quot;Prevalence&quot;, &quot;Logistic Models&quot;, &quot;Odds Ratio&quot;, &quot;Case-Control Studies&quot;, &quot;Age Distribution&quot;, &quot;Sex Distribution&quot;, &quot;Sleep Apnea, Obstructive&quot;, &quot;Metabolic Syndrome&quot;, &quot;Overweight&quot;, &quot;Waist Circumference&quot;, &quot;Young Adult&quot;, &quot;Obesity, Abdominal&quot;, &quot;Republic of Korea&quot;, &quot;Sedentary Lifestyle&quot;, &quot;Pediatric Obesity&quot;]
+[&quot;Adult&quot;, &quot;Aged&quot;, &quot;Aged, 80 and over&quot;, &quot;Analysis of Variance&quot;, &quot;Body Weight&quot;, &quot;C-Reactive Protein&quot;, &quot;Child&quot;, &quot;Cross-Sectional Studies&quot;, &quot;Fatigue&quot;, &quot;Female&quot;, &quot;Fibromyalgia&quot;, &quot;Germany&quot;, &quot;Health Status&quot;, &quot;Humans&quot;, &quot;Japan&quot;, &quot;Male&quot;, &quot;Middle Aged&quot;, &quot;Nutrition Surveys&quot;, &quot;Obesity&quot;, &quot;Pain&quot;, &quot;Pain Measurement&quot;, &quot;Physical Fitness&quot;, &quot;Prognosis&quot;, &quot;Quality of Life&quot;, &quot;Surveys and Questionnaires&quot;, &quot;Reference Values&quot;, &quot;Risk Factors&quot;, &quot;ROC Curve&quot;, &quot;Severity of Illness Index&quot;, &quot;Sports&quot;, &quot;Television&quot;, &quot;Thyrotropin&quot;, &quot;Biomarkers&quot;, &quot;Weight Gain&quot;, &quot;Exercise&quot;, &quot;Body Mass Index&quot;, &quot;Incidence&quot;, &quot;Prevalence&quot;, &quot;Logistic Models&quot;, &quot;Odds Ratio&quot;, &quot;Case-Control Studies&quot;, &quot;Age Distribution&quot;, &quot;Sex Distribution&quot;, &quot;Sleep Apnea, Obstructive&quot;, &quot;Metabolic Syndrome&quot;, &quot;Overweight&quot;, &quot;Waist Circumference&quot;, &quot;Young Adult&quot;, &quot;Obesity, Abdominal&quot;, &quot;Republic of Korea&quot;, &quot;Sedentary Lifestyle&quot;, &quot;Pediatric Obesity&quot;]
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = #get_tgt#2(::Bool, ::Base.Iterators.Pairs{Symbol,String,Tuple{Symbol,Symbol},NamedTuple{(:username, :password),Tuple{String,String}}}, ::Function) at umls.jl:128
+└ @ BioServices.UMLS ~/.julia/packages/BioServices/NaYhg/src/umls.jl:128
 INFO: UTS: Requesting new TGT
-INFO: Descriptor 23 out of 52: Prognosis
-INFO: Descriptor 3 out of 52: Aged, 80 and over
-INFO: Descriptor 40 out of 52: Odds Ratio
-INFO: Descriptor 21 out of 52: Pain Measurement
-INFO: Descriptor 20 out of 52: Pain
-INFO: Descriptor 7 out of 52: Child
-INFO: Descriptor 22 out of 52: Physical Fitness
-INFO: Descriptor 26 out of 52: Reference Values
-INFO: Descriptor 5 out of 52: Body Weight
-INFO: Descriptor 16 out of 52: Male
-INFO: Descriptor 35 out of 52: Exercise
-INFO: Descriptor 18 out of 52: Nutrition Surveys
-INFO: Descriptor 36 out of 52: Body Mass Index
-INFO: Descriptor 31 out of 52: Television
-INFO: Descriptor 42 out of 52: Age Distribution
-INFO: Descriptor 34 out of 52: Weight Gain
-INFO: Descriptor 28 out of 52: ROC Curve
-INFO: Descriptor 30 out of 52: Sports
-INFO: Descriptor 41 out of 52: Case-Control Studies
-INFO: Descriptor 9 out of 52: Fatigue
-INFO: Descriptor 6 out of 52: C-Reactive Protein
-INFO: Descriptor 39 out of 52: Logistic Models
-INFO: Descriptor 29 out of 52: Severity of Illness Index
-INFO: Descriptor 14 out of 52: Humans
-INFO: Descriptor 25 out of 52: Surveys and Questionnaires
-INFO: Descriptor 13 out of 52: Health Status
-INFO: Descriptor 12 out of 52: Germany
-INFO: Descriptor 15 out of 52: Japan
-INFO: Descriptor 27 out of 52: Risk Factors
-INFO: Descriptor 32 out of 52: Thyrotropin
-INFO: Descriptor 1 out of 52: Adult
-INFO: Descriptor 10 out of 52: Female
-INFO: Descriptor 46 out of 52: Overweight
-INFO: Descriptor 47 out of 52: Waist Circumference
-INFO: Descriptor 43 out of 52: Sex Distribution
-INFO: Descriptor 45 out of 52: Metabolic Syndrome
-INFO: Descriptor 44 out of 52: Sleep Apnea, Obstructive
-INFO: Descriptor 4 out of 52: Analysis of Variance
-INFO: Descriptor 2 out of 52: Aged
-INFO: Descriptor 11 out of 52: Fibromyalgia
-INFO: Descriptor 17 out of 52: Middle Aged
-INFO: Descriptor 33 out of 52: Biomarkers
-INFO: Descriptor 48 out of 52: Young Adult
-INFO: Descriptor 8 out of 52: Cross-Sectional Studies
-INFO: Descriptor 24 out of 52: Quality of Life
-INFO: Descriptor 38 out of 52: Prevalence
-INFO: Descriptor 37 out of 52: Incidence
-INFO: Descriptor 49 out of 52: Obesity, Abdominal
-INFO: Descriptor 19 out of 52: Obesity
-INFO: Descriptor 50 out of 52: Republic of Korea
-INFO: Descriptor 51 out of 52: Sedentary Lifestyle
-INFO: Descriptor 52 out of 52: Pediatric Obesity
-INFO: Descriptor 51 out of 52: Sedentary Lifestyle
- 82.837021 seconds (632.09 k allocations: 32.177 MiB, 0.03% gc time)
+[ Info: Descriptor 20 out of 52: Pain
+[ Info: Descriptor 14 out of 52: Humans
+[ Info: Descriptor 5 out of 52: Body Weight
+[ Info: Descriptor 21 out of 52: Pain Measurement
+[ Info: Descriptor 13 out of 52: Health Status
+[ Info: Descriptor 7 out of 52: Child
+[ Info: Descriptor 16 out of 52: Male
+[ Info: Descriptor 18 out of 52: Nutrition Surveys
+[ Info: Descriptor 19 out of 52: Obesity
+[ Info: Descriptor 27 out of 52: Risk Factors
+[ Info: Descriptor 4 out of 52: Analysis of Variance
+[ Info: Descriptor 3 out of 52: Aged, 80 and over
+[ Info: Descriptor 11 out of 52: Fibromyalgia
+[ Info: Descriptor 24 out of 52: Quality of Life
+[ Info: Descriptor 8 out of 52: Cross-Sectional Studies
+[ Info: Descriptor 29 out of 52: Severity of Illness Index
+[ Info: Descriptor 30 out of 52: Sports
+[ Info: Descriptor 33 out of 52: Biomarkers
+[ Info: Descriptor 2 out of 52: Aged
+[ Info: Descriptor 34 out of 52: Weight Gain
+[ Info: Descriptor 38 out of 52: Prevalence
+[ Info: Descriptor 40 out of 52: Odds Ratio
+[ Info: Descriptor 15 out of 52: Japan
+[ Info: Descriptor 44 out of 52: Sleep Apnea, Obstructive
+[ Info: Descriptor 43 out of 52: Sex Distribution
+[ Info: Descriptor 46 out of 52: Overweight
+[ Info: Descriptor 47 out of 52: Waist Circumference
+[ Info: Descriptor 48 out of 52: Young Adult
+[ Info: Descriptor 39 out of 52: Logistic Models
+[ Info: Descriptor 1 out of 52: Adult
+[ Info: Descriptor 51 out of 52: Sedentary Lifestyle
+[ Info: Descriptor 50 out of 52: Republic of Korea
+[ Info: Descriptor 49 out of 52: Obesity, Abdominal
+[ Info: Descriptor 6 out of 52: C-Reactive Protein
+[ Info: Descriptor 22 out of 52: Physical Fitness
+[ Info: Descriptor 9 out of 52: Fatigue
+[ Info: Descriptor 31 out of 52: Television
+[ Info: Descriptor 32 out of 52: Thyrotropin
+[ Info: Descriptor 42 out of 52: Age Distribution
+[ Info: Descriptor 17 out of 52: Middle Aged
+[ Info: Descriptor 28 out of 52: ROC Curve
+[ Info: Descriptor 12 out of 52: Germany
+[ Info: Descriptor 26 out of 52: Reference Values
+[ Info: Descriptor 23 out of 52: Prognosis
+[ Info: Descriptor 45 out of 52: Metabolic Syndrome
+[ Info: Descriptor 10 out of 52: Female
+[ Info: Descriptor 36 out of 52: Body Mass Index
+[ Info: Descriptor 41 out of 52: Case-Control Studies
+[ Info: Descriptor 35 out of 52: Exercise
+[ Info: Descriptor 25 out of 52: Surveys and Questionnaires
+[ Info: Descriptor 37 out of 52: Incidence
+[ Info: Descriptor 51 out of 52: Sedentary Lifestyle
+[ Info: Descriptor 52 out of 52: Pediatric Obesity
+ 62.701071 seconds (1.25 M allocations: 66.638 MiB, 0.04% gc time)
 </pre></div>
 
 
@@ -805,7 +808,7 @@ INFO: Descriptor 51 out of 52: Sedentary Lifestyle
 -------------------------------------------------------------
 Found 5 articles with valid descriptors
 -------------------------------------------------------------
-  0.004324 seconds (2.66 k allocations: 164.813 KiB)
+  0.003438 seconds (2.18 k allocations: 141.453 KiB)
 </pre></div>
 
 
@@ -828,7 +831,10 @@ Found 5 articles with valid descriptors
 </pre></div>
 
 
-<div class="codehilite"><pre><span></span>5×5 Array{Float64,2}:
+<div class="codehilite"><pre><span></span>┌ Warning: `full(S::SparseMatrixCSC)` (and `full` in general) has been deprecated. To replace `full(S::SparseMatrixCSC)`, consider `Matrix(S)` or, if that option is too narrow, `Array(S)`.
+│   caller = top-level scope at none:0
+└ @ Core none:0
+5×5 Array{Float64,2}:
  1.0  1.0  0.0  1.0  0.0
  0.0  0.0  1.0  0.0  0.0
  0.0  1.0  0.0  0.0  0.0
@@ -863,62 +869,65 @@ Finished searching, total number of articles: 5
 
 
 <div class="codehilite"><pre><span></span>----------Matching MESH to UMLS-----------
-Union{Missings.Missing, String}[&quot;Reference Values&quot;, &quot;Republic of Korea&quot;, &quot;ROC Curve&quot;, &quot;Fatigue&quot;, &quot;Obesity&quot;, &quot;Risk Factors&quot;, &quot;Logistic Models&quot;, &quot;Severity of Illness Index&quot;, &quot;Male&quot;, &quot;Case-Control Studies&quot;, &quot;Analysis of Variance&quot;, &quot;Sedentary Lifestyle&quot;, &quot;Prevalence&quot;, &quot;Quality of Life&quot;, &quot;Odds Ratio&quot;, &quot;Exercise&quot;, &quot;Body Mass Index&quot;, &quot;Aged&quot;, &quot;Child&quot;, &quot;Sex Distribution&quot;, &quot;Adult&quot;, &quot;Germany&quot;, &quot;Sports&quot;, &quot;Thyrotropin&quot;, &quot;Pediatric Obesity&quot;, &quot;Humans&quot;, &quot;Japan&quot;, &quot;Cross-Sectional Studies&quot;, &quot;Weight Gain&quot;, &quot;Middle Aged&quot;, &quot;Surveys and Questionnaires&quot;, &quot;Health Status&quot;, &quot;Young Adult&quot;, &quot;Incidence&quot;, &quot;Prognosis&quot;, &quot;Body Weight&quot;, &quot;Pain Measurement&quot;, &quot;Waist Circumference&quot;, &quot;Metabolic Syndrome&quot;, &quot;Pain&quot;, &quot;Nutrition Surveys&quot;, &quot;Fibromyalgia&quot;, &quot;Sleep Apnea, Obstructive&quot;, &quot;Television&quot;, &quot;Age Distribution&quot;, &quot;Overweight&quot;, &quot;Physical Fitness&quot;, &quot;Female&quot;, &quot;Biomarkers&quot;, &quot;Obesity, Abdominal&quot;, &quot;C-Reactive Protein&quot;, &quot;Aged, 80 and over&quot;]
+Union{Missing, String}[&quot;Reference Values&quot;, &quot;Republic of Korea&quot;, &quot;ROC Curve&quot;, &quot;Fatigue&quot;, &quot;Obesity&quot;, &quot;Risk Factors&quot;, &quot;Logistic Models&quot;, &quot;Severity of Illness Index&quot;, &quot;Male&quot;, &quot;Case-Control Studies&quot;, &quot;Analysis of Variance&quot;, &quot;Sedentary Lifestyle&quot;, &quot;Prevalence&quot;, &quot;Quality of Life&quot;, &quot;Odds Ratio&quot;, &quot;Exercise&quot;, &quot;Body Mass Index&quot;, &quot;Aged&quot;, &quot;Child&quot;, &quot;Sex Distribution&quot;, &quot;Adult&quot;, &quot;Germany&quot;, &quot;Sports&quot;, &quot;Thyrotropin&quot;, &quot;Pediatric Obesity&quot;, &quot;Humans&quot;, &quot;Japan&quot;, &quot;Cross-Sectional Studies&quot;, &quot;Weight Gain&quot;, &quot;Middle Aged&quot;, &quot;Surveys and Questionnaires&quot;, &quot;Health Status&quot;, &quot;Young Adult&quot;, &quot;Incidence&quot;, &quot;Prognosis&quot;, &quot;Body Weight&quot;, &quot;Pain Measurement&quot;, &quot;Waist Circumference&quot;, &quot;Metabolic Syndrome&quot;, &quot;Pain&quot;, &quot;Nutrition Surveys&quot;, &quot;Fibromyalgia&quot;, &quot;Sleep Apnea, Obstructive&quot;, &quot;Television&quot;, &quot;Age Distribution&quot;, &quot;Overweight&quot;, &quot;Physical Fitness&quot;, &quot;Female&quot;, &quot;Biomarkers&quot;, &quot;Obesity, Abdominal&quot;, &quot;C-Reactive Protein&quot;, &quot;Aged, 80 and over&quot;]
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = #get_tgt#2(::Bool, ::Base.Iterators.Pairs{Symbol,String,Tuple{Symbol,Symbol},NamedTuple{(:username, :password),Tuple{String,String}}}, ::Function) at umls.jl:124
+└ @ BioServices.UMLS ~/.julia/packages/BioServices/NaYhg/src/umls.jl:124
 INFO: UTS: Reading TGT from file
-INFO: Descriptor 7 out of 52: Logistic Models
-INFO: Descriptor 6 out of 52: Risk Factors
-INFO: Descriptor 4 out of 52: Fatigue
-INFO: Descriptor 17 out of 52: Body Mass Index
-INFO: Descriptor 34 out of 52: Incidence
-INFO: Descriptor 21 out of 52: Adult
-INFO: Descriptor 32 out of 52: Health Status
-INFO: Descriptor 33 out of 52: Young Adult
-INFO: Descriptor 18 out of 52: Aged
-INFO: Descriptor 28 out of 52: Cross-Sectional Studies
-INFO: Descriptor 19 out of 52: Child
-INFO: Descriptor 30 out of 52: Middle Aged
-INFO: Descriptor 27 out of 52: Japan
-INFO: Descriptor 22 out of 52: Germany
-INFO: Descriptor 29 out of 52: Weight Gain
-INFO: Descriptor 23 out of 52: Sports
-INFO: Descriptor 35 out of 52: Prognosis
-INFO: Descriptor 36 out of 52: Body Weight
-INFO: Descriptor 37 out of 52: Pain Measurement
-INFO: Descriptor 38 out of 52: Waist Circumference
-INFO: Descriptor 16 out of 52: Exercise
-INFO: Descriptor 39 out of 52: Metabolic Syndrome
-INFO: Descriptor 40 out of 52: Pain
-INFO: Descriptor 41 out of 52: Nutrition Surveys
-INFO: Descriptor 43 out of 52: Sleep Apnea, Obstructive
-INFO: Descriptor 44 out of 52: Television
-INFO: Descriptor 47 out of 52: Physical Fitness
-INFO: Descriptor 48 out of 52: Female
-INFO: Descriptor 49 out of 52: Biomarkers
-INFO: Descriptor 1 out of 52: Reference Values
-INFO: Descriptor 50 out of 52: Obesity, Abdominal
-INFO: Descriptor 51 out of 52: C-Reactive Protein
-INFO: Descriptor 3 out of 52: ROC Curve
-INFO: Descriptor 13 out of 52: Prevalence
-INFO: Descriptor 8 out of 52: Severity of Illness Index
-INFO: Descriptor 14 out of 52: Quality of Life
-INFO: Descriptor 12 out of 52: Sedentary Lifestyle
-INFO: Descriptor 2 out of 52: Republic of Korea
-INFO: Descriptor 15 out of 52: Odds Ratio
-INFO: Descriptor 5 out of 52: Obesity
-INFO: Descriptor 10 out of 52: Case-Control Studies
-INFO: Descriptor 26 out of 52: Humans
-INFO: Descriptor 25 out of 52: Pediatric Obesity
-INFO: Descriptor 20 out of 52: Sex Distribution
-INFO: Descriptor 11 out of 52: Analysis of Variance
-INFO: Descriptor 24 out of 52: Thyrotropin
-INFO: Descriptor 9 out of 52: Male
-INFO: Descriptor 31 out of 52: Surveys and Questionnaires
-INFO: Descriptor 45 out of 52: Age Distribution
-INFO: Descriptor 46 out of 52: Overweight
-INFO: Descriptor 42 out of 52: Fibromyalgia
-INFO: Descriptor 51 out of 52: C-Reactive Protein
-INFO: Descriptor 52 out of 52: Aged, 80 and over
- 84.024437 seconds (626.27 k allocations: 33.491 MiB, 0.02% gc time)
+[ Info: Descriptor 16 out of 52: Exercise
+[ Info: Descriptor 21 out of 52: Adult
+[ Info: Descriptor 10 out of 52: Case-Control Studies
+[ Info: Descriptor 14 out of 52: Quality of Life
+[ Info: Descriptor 25 out of 52: Pediatric Obesity
+[ Info: Descriptor 22 out of 52: Germany
+[ Info: Descriptor 19 out of 52: Child
+[ Info: Descriptor 28 out of 52: Cross-Sectional Studies
+[ Info: Descriptor 8 out of 52: Severity of Illness Index
+[ Info: Descriptor 30 out of 52: Middle Aged
+[ Info: Descriptor 11 out of 52: Analysis of Variance
+[ Info: Descriptor 29 out of 52: Weight Gain
+[ Info: Descriptor 18 out of 52: Aged
+[ Info: Descriptor 36 out of 52: Body Weight
+[ Info: Descriptor 24 out of 52: Thyrotropin
+[ Info: Descriptor 35 out of 52: Prognosis
+[ Info: Descriptor 23 out of 52: Sports
+[ Info: Descriptor 39 out of 52: Metabolic Syndrome
+[ Info: Descriptor 42 out of 52: Fibromyalgia
+[ Info: Descriptor 44 out of 52: Television
+[ Info: Descriptor 45 out of 52: Age Distribution
+[ Info: Descriptor 46 out of 52: Overweight
+[ Info: Descriptor 47 out of 52: Physical Fitness
+[ Info: Descriptor 48 out of 52: Female
+[ Info: Descriptor 49 out of 52: Biomarkers
+[ Info: Descriptor 50 out of 52: Obesity, Abdominal
+[ Info: Descriptor 51 out of 52: C-Reactive Protein
+[ Info: Descriptor 3 out of 52: ROC Curve
+[ Info: Descriptor 1 out of 52: Reference Values
+[ Info: Descriptor 7 out of 52: Logistic Models
+[ Info: Descriptor 5 out of 52: Obesity
+[ Info: Descriptor 2 out of 52: Republic of Korea
+[ Info: Descriptor 9 out of 52: Male
+[ Info: Descriptor 20 out of 52: Sex Distribution
+[ Info: Descriptor 27 out of 52: Japan
+[ Info: Descriptor 4 out of 52: Fatigue
+[ Info: Descriptor 43 out of 52: Sleep Apnea, Obstructive
+[ Info: Descriptor 6 out of 52: Risk Factors
+[ Info: Descriptor 26 out of 52: Humans
+[ Info: Descriptor 13 out of 52: Prevalence
+[ Info: Descriptor 12 out of 52: Sedentary Lifestyle
+[ Info: Descriptor 38 out of 52: Waist Circumference
+[ Info: Descriptor 31 out of 52: Surveys and Questionnaires
+[ Info: Descriptor 32 out of 52: Health Status
+[ Info: Descriptor 34 out of 52: Incidence
+[ Info: Descriptor 17 out of 52: Body Mass Index
+[ Info: Descriptor 40 out of 52: Pain
+[ Info: Descriptor 15 out of 52: Odds Ratio
+[ Info: Descriptor 37 out of 52: Pain Measurement
+[ Info: Descriptor 33 out of 52: Young Adult
+[ Info: Descriptor 41 out of 52: Nutrition Surveys
+[ Info: Descriptor 51 out of 52: C-Reactive Protein
+[ Info: Descriptor 52 out of 52: Aged, 80 and over
+101.495708 seconds (724.84 k allocations: 41.026 MiB, 0.02% gc time)
 </pre></div>
 
 
@@ -928,26 +937,26 @@ INFO: Descriptor 52 out of 52: Aged, 80 and over
 
 
 <div class="codehilite"><pre><span></span>56×2 DataFrames.DataFrame
-│ Row │ mesh                │ umls                 │
-├─────┼─────────────────────┼──────────────────────┤
-│ 1   │ Japan               │ Geographic Area      │
-│ 2   │ Logistic Models     │ Intellectual Product │
-│ 3   │ Logistic Models     │ Quantitative Concept │
-│ 4   │ Risk Factors        │ Finding              │
-│ 5   │ Body Mass Index     │ Diagnostic Procedure │
-│ 6   │ Fatigue             │ Sign or Symptom      │
-│ 7   │ Adult               │ Age Group            │
-│ 8   │ Incidence           │ Quantitative Concept │
+│ Row │ mesh                      │ umls                           │
+├─────┼───────────────────────────┼────────────────────────────────┤
+│ 1   │ Exercise                  │ Daily or Recreational Activity │
+│ 2   │ Adult                     │ Age Group                      │
+│ 3   │ Case-Control Studies      │ Research Activity              │
+│ 4   │ Quality of Life           │ Idea or Concept                │
+│ 5   │ Pediatric Obesity         │ Disease or Syndrome            │
+│ 6   │ Severity of Illness Index │ Quantitative Concept           │
+│ 7   │ Child                     │ Age Group                      │
+│ 8   │ Cross-Sectional Studies   │ Research Activity              │
 ⋮
-│ 48  │ Sex Distribution    │ Quantitative Concept │
-│ 49  │ Quality of Life     │ Idea or Concept      │
-│ 50  │ Overweight          │ Finding              │
-│ 51  │ Young Adult         │ Age Group            │
-│ 52  │ Sedentary Lifestyle │ Finding              │
-│ 53  │ Health Status       │ Qualitative Concept  │
-│ 54  │ Humans              │ Human                │
-│ 55  │ Fibromyalgia        │ Disease or Syndrome  │
-│ 56  │ Aged, 80 and over   │ Age Group            │
+│ 48  │ Body Mass Index           │ Diagnostic Procedure           │
+│ 49  │ Risk Factors              │ Finding                        │
+│ 50  │ Japan                     │ Geographic Area                │
+│ 51  │ Incidence                 │ Quantitative Concept           │
+│ 52  │ Nutrition Surveys         │ Research Activity              │
+│ 53  │ Sedentary Lifestyle       │ Finding                        │
+│ 54  │ Prevalence                │ Quantitative Concept           │
+│ 55  │ Female                    │ Population Group               │
+│ 56  │ Aged, 80 and over         │ Age Group                      │
 </pre></div>
 
 
@@ -962,7 +971,7 @@ INFO: Descriptor 52 out of 52: Aged, 80 and over
 -------------------------------------------------------------
 Found 5 articles with valid descriptors
 -------------------------------------------------------------
-  0.003186 seconds (2.23 k allocations: 133.000 KiB)
+  0.002501 seconds (1.93 k allocations: 115.813 KiB)
 </pre></div>
 
 
@@ -973,22 +982,22 @@ Found 5 articles with valid descriptors
 
 <div class="codehilite"><pre><span></span>Dict{String,Int64} with 5 entries:
   &quot;Obesity&quot;                  =&gt; 1
-  &quot;Sleep Apnea, Obstructive&quot; =&gt; 2
-  &quot;Pediatric Obesity&quot;        =&gt; 3
+  &quot;Pediatric Obesity&quot;        =&gt; 2
+  &quot;Sleep Apnea, Obstructive&quot; =&gt; 3
   &quot;Metabolic Syndrome&quot;       =&gt; 4
   &quot;Fibromyalgia&quot;             =&gt; 5
 </pre></div>
 
 
 <p>Output Data Matrix</p>
-<div class="codehilite"><pre><span></span><span class="n">full</span><span class="p">(</span><span class="n">occur</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="kt">Matrix</span><span class="p">(</span><span class="n">occur</span><span class="p">)</span>
 </pre></div>
 
 
 <div class="codehilite"><pre><span></span>5×5 Array{Float64,2}:
  1.0  1.0  0.0  1.0  0.0
- 0.0  1.0  0.0  0.0  0.0
  0.0  0.0  1.0  0.0  0.0
+ 0.0  1.0  0.0  0.0  0.0
  0.0  0.0  0.0  0.0  1.0
  1.0  0.0  0.0  0.0  0.0
 </pre></div>
@@ -1025,61 +1034,64 @@ Dict{String,DataFrames.DataFrame} with 8 entries:
 
 <div class="codehilite"><pre><span></span>----------Matching MESH to UMLS-----------
 Any[&quot;Reference Values&quot;, &quot;Republic of Korea&quot;, &quot;ROC Curve&quot;, &quot;Fatigue&quot;, &quot;Obesity&quot;, &quot;Risk Factors&quot;, &quot;Logistic Models&quot;, &quot;Severity of Illness Index&quot;, &quot;Male&quot;, &quot;Case-Control Studies&quot;, &quot;Analysis of Variance&quot;, &quot;Sedentary Lifestyle&quot;, &quot;Prevalence&quot;, &quot;Quality of Life&quot;, &quot;Odds Ratio&quot;, &quot;Exercise&quot;, &quot;Body Mass Index&quot;, &quot;Aged&quot;, &quot;Child&quot;, &quot;Sex Distribution&quot;, &quot;Adult&quot;, &quot;Germany&quot;, &quot;Sports&quot;, &quot;Thyrotropin&quot;, &quot;Pediatric Obesity&quot;, &quot;Humans&quot;, &quot;Japan&quot;, &quot;Cross-Sectional Studies&quot;, &quot;Weight Gain&quot;, &quot;Middle Aged&quot;, &quot;Surveys and Questionnaires&quot;, &quot;Health Status&quot;, &quot;Young Adult&quot;, &quot;Incidence&quot;, &quot;Prognosis&quot;, &quot;Body Weight&quot;, &quot;Pain Measurement&quot;, &quot;Waist Circumference&quot;, &quot;Metabolic Syndrome&quot;, &quot;Pain&quot;, &quot;Nutrition Surveys&quot;, &quot;Fibromyalgia&quot;, &quot;Sleep Apnea, Obstructive&quot;, &quot;Television&quot;, &quot;Age Distribution&quot;, &quot;Overweight&quot;, &quot;Physical Fitness&quot;, &quot;Female&quot;, &quot;Biomarkers&quot;, &quot;Obesity, Abdominal&quot;, &quot;C-Reactive Protein&quot;, &quot;Aged, 80 and over&quot;]
+┌ Warning: `info()` is deprecated, use `@info` instead.
+│   caller = #get_tgt#2(::Bool, ::Base.Iterators.Pairs{Symbol,String,Tuple{Symbol,Symbol},NamedTuple{(:username, :password),Tuple{String,String}}}, ::Function) at umls.jl:124
+└ @ BioServices.UMLS ~/.julia/packages/BioServices/NaYhg/src/umls.jl:124
 INFO: UTS: Reading TGT from file
-INFO: Descriptor 5 out of 52: Obesity
-INFO: Descriptor 8 out of 52: Severity of Illness Index
-INFO: Descriptor 14 out of 52: Quality of Life
-INFO: Descriptor 30 out of 52: Middle Aged
-INFO: Descriptor 25 out of 52: Pediatric Obesity
-INFO: Descriptor 29 out of 52: Weight Gain
-INFO: Descriptor 10 out of 52: Case-Control Studies
-INFO: Descriptor 18 out of 52: Aged
-INFO: Descriptor 24 out of 52: Thyrotropin
-INFO: Descriptor 9 out of 52: Male
-INFO: Descriptor 32 out of 52: Health Status
-INFO: Descriptor 31 out of 52: Surveys and Questionnaires
-INFO: Descriptor 36 out of 52: Body Weight
-INFO: Descriptor 37 out of 52: Pain Measurement
-INFO: Descriptor 11 out of 52: Analysis of Variance
-INFO: Descriptor 28 out of 52: Cross-Sectional Studies
-INFO: Descriptor 34 out of 52: Incidence
-INFO: Descriptor 33 out of 52: Young Adult
-INFO: Descriptor 23 out of 52: Sports
-INFO: Descriptor 45 out of 52: Age Distribution
-INFO: Descriptor 47 out of 52: Physical Fitness
-INFO: Descriptor 3 out of 52: ROC Curve
-INFO: Descriptor 16 out of 52: Exercise
-INFO: Descriptor 2 out of 52: Republic of Korea
-INFO: Descriptor 50 out of 52: Obesity, Abdominal
-INFO: Descriptor 46 out of 52: Overweight
-INFO: Descriptor 51 out of 52: C-Reactive Protein
-INFO: Descriptor 19 out of 52: Child
-INFO: Descriptor 15 out of 52: Odds Ratio
-INFO: Descriptor 6 out of 52: Risk Factors
-INFO: Descriptor 42 out of 52: Fibromyalgia
-INFO: Descriptor 21 out of 52: Adult
-INFO: Descriptor 35 out of 52: Prognosis
-INFO: Descriptor 13 out of 52: Prevalence
-INFO: Descriptor 17 out of 52: Body Mass Index
-INFO: Descriptor 4 out of 52: Fatigue
-INFO: Descriptor 22 out of 52: Germany
-INFO: Descriptor 27 out of 52: Japan
-INFO: Descriptor 7 out of 52: Logistic Models
-INFO: Descriptor 20 out of 52: Sex Distribution
-INFO: Descriptor 26 out of 52: Humans
-INFO: Descriptor 41 out of 52: Nutrition Surveys
-INFO: Descriptor 1 out of 52: Reference Values
-INFO: Descriptor 48 out of 52: Female
-INFO: Descriptor 40 out of 52: Pain
-INFO: Descriptor 44 out of 52: Television
-INFO: Descriptor 43 out of 52: Sleep Apnea, Obstructive
-INFO: Descriptor 38 out of 52: Waist Circumference
-INFO: Descriptor 49 out of 52: Biomarkers
-INFO: Descriptor 39 out of 52: Metabolic Syndrome
-INFO: Descriptor 12 out of 52: Sedentary Lifestyle
-INFO: Descriptor 51 out of 52: C-Reactive Protein
-INFO: Descriptor 52 out of 52: Aged, 80 and over
-103.114008 seconds (607.32 k allocations: 31.800 MiB, 0.03% gc time)
+[ Info: Descriptor 4, out of 52: Fatigue
+[ Info: Descriptor 7, out of 52: Logistic Models
+[ Info: Descriptor 19, out of 52: Child
+[ Info: Descriptor 8, out of 52: Severity of Illness Index
+[ Info: Descriptor 13, out of 52: Prevalence
+[ Info: Descriptor 15, out of 52: Odds Ratio
+[ Info: Descriptor 3, out of 52: ROC Curve
+[ Info: Descriptor 34, out of 52: Incidence
+[ Info: Descriptor 22, out of 52: Germany
+[ Info: Descriptor 23, out of 52: Sports
+[ Info: Descriptor 17, out of 52: Body Mass Index
+[ Info: Descriptor 35, out of 52: Prognosis
+[ Info: Descriptor 26, out of 52: Humans
+[ Info: Descriptor 29, out of 52: Weight Gain
+[ Info: Descriptor 9, out of 52: Male
+[ Info: Descriptor 12, out of 52: Sedentary Lifestyle
+[ Info: Descriptor 16, out of 52: Exercise
+[ Info: Descriptor 21, out of 52: Adult
+[ Info: Descriptor 20, out of 52: Sex Distribution
+[ Info: Descriptor 24, out of 52: Thyrotropin
+[ Info: Descriptor 36, out of 52: Body Weight
+[ Info: Descriptor 37, out of 52: Pain Measurement
+[ Info: Descriptor 38, out of 52: Waist Circumference
+[ Info: Descriptor 39, out of 52: Metabolic Syndrome
+[ Info: Descriptor 40, out of 52: Pain
+[ Info: Descriptor 42, out of 52: Fibromyalgia
+[ Info: Descriptor 45, out of 52: Age Distribution
+[ Info: Descriptor 46, out of 52: Overweight
+[ Info: Descriptor 47, out of 52: Physical Fitness
+[ Info: Descriptor 48, out of 52: Female
+[ Info: Descriptor 49, out of 52: Biomarkers
+[ Info: Descriptor 50, out of 52: Obesity, Abdominal
+[ Info: Descriptor 1, out of 52: Reference Values
+[ Info: Descriptor 51, out of 52: C-Reactive Protein
+[ Info: Descriptor 11, out of 52: Analysis of Variance
+[ Info: Descriptor 14, out of 52: Quality of Life
+[ Info: Descriptor 2, out of 52: Republic of Korea
+[ Info: Descriptor 25, out of 52: Pediatric Obesity
+[ Info: Descriptor 28, out of 52: Cross-Sectional Studies
+[ Info: Descriptor 41, out of 52: Nutrition Surveys
+[ Info: Descriptor 30, out of 52: Middle Aged
+[ Info: Descriptor 6, out of 52: Risk Factors
+[ Info: Descriptor 5, out of 52: Obesity
+[ Info: Descriptor 32, out of 52: Health Status
+[ Info: Descriptor 10, out of 52: Case-Control Studies
+[ Info: Descriptor 31, out of 52: Surveys and Questionnaires
+[ Info: Descriptor 18, out of 52: Aged
+[ Info: Descriptor 27, out of 52: Japan
+[ Info: Descriptor 43, out of 52: Sleep Apnea, Obstructive
+[ Info: Descriptor 44, out of 52: Television
+[ Info: Descriptor 33, out of 52: Young Adult
+[ Info: Descriptor 51, out of 52: C-Reactive Protein
+[ Info: Descriptor 52, out of 52: Aged, 80 and over
+ 81.101622 seconds (810.60 k allocations: 43.993 MiB, 0.02% gc time)
 56×2 DataFrames.DataFrame
 │ Row │ descriptor                 │ concept                         │
 ├─────┼────────────────────────────┼─────────────────────────────────┤
@@ -1112,7 +1124,7 @@ INFO: Descriptor 52 out of 52: Aged, 80 and over
 <div class="codehilite"><pre><span></span>-------------------------------------------------------------
 Found 5 articles with valid descriptors
 -------------------------------------------------------------
-  0.001080 seconds (1.97 k allocations: 72.781 KiB)
+  0.001690 seconds (12.11 k allocations: 350.797 KiB)
 </pre></div>
 
 
@@ -1131,7 +1143,7 @@ Found 5 articles with valid descriptors
 
 
 <p>Output Data Matrix</p>
-<div class="codehilite"><pre><span></span><span class="n">full</span><span class="p">(</span><span class="n">occur</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="kt">Matrix</span><span class="p">(</span><span class="n">occur</span><span class="p">)</span>
 </pre></div>
 
 
