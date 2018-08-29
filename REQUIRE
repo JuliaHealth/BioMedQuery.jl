@@ -1,13 +1,14 @@
-julia 0.6
+julia 0.7
 BioServices 0.1.2
-CSV
 DataFrames
 DataStreams
+Dates
 FTPClient
 HTTP
 LightXML
 Missings
 MySQL
 SQLite
+Test
 XMLDict
 ZipFile

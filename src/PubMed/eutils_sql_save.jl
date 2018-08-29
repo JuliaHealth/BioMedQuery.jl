@@ -20,7 +20,7 @@ function save_efetch!(conn::Union{MySQL.Connection, SQLite.DB}, articles::LightX
 
     println("Saving " , length(collect(child_elements(articles))) ,  " articles to database")
 
-    parsed = PubMed.parse(articles)
+    parsed = PubMed.parse_articles(articles)
 
     db_insert!(conn, parsed, drop_csv=drop_csv)
 

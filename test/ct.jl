@@ -13,7 +13,7 @@ using ZipFile
     not_xml = false
     r = ZipFile.Reader(fout);
     for f in r.files
-        if Base.search(f.name, ".xml") == 0:-1
+        if !occursin(r"^.*\.xml.*$", f.name)
           not_xml = true
           break
         end

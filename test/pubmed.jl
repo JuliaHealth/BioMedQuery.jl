@@ -19,7 +19,7 @@ import Base.parse
         println("-----------------------------------------")
         println("       Testing ESearch/EFetch for PubMed     ")
 
-        search_term="obstructive sleep apnea[MeSH Major Topic]"
+        search_term="""(obstructive sleep apnea[MeSH Major Topic]) AND "journal article"[Publication Type]"""
 
         esearch_response = esearch(db="pubmed", term = search_term,
         retstart = 0, retmax = narticles, tool ="BioJulia")
@@ -41,7 +41,7 @@ import Base.parse
 
         #convert xml to dictionary
         efetch_doc = root(parse_string(String(efetch_response.body)))
-        dfs_efetch = PubMed.parse(efetch_doc)
+        dfs_efetch = PubMed.parse_articles(efetch_doc)
 
         @test name(efetch_doc) == "PubmedArticleSet"
 
@@ -58,7 +58,7 @@ import Base.parse
         user = "root"
         pwd = ""
 
-        const conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
+        conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
         PubMed.create_pmid_table!(conn)
         PubMed.save_pmids!(conn, ids)
 
@@ -66,8 +66,8 @@ import Base.parse
         all_pmids = PubMed.all_pmids(conn)
         @test length(all_pmids) == narticles
 
-         #clean-up
-         db_query(conn, "DROP DATABASE IF EXISTS $dbname;")
+        #clean-up
+        db_query(conn, "DROP DATABASE IF EXISTS $dbname;")
 
     end
 
@@ -89,7 +89,7 @@ import Base.parse
 
         nlines = 0
         for li=1:length(lines)
-            if contains(lines[li], "%0 Journal Article")
+            if occursin("%0 Journal Article", lines[li])
               nlines+=1
             end
         end
@@ -105,7 +105,7 @@ import Base.parse
 
         db_path = "./test_db.db"
 
-        const conn = SQLite.DB(db_path)
+        conn = SQLite.DB(db_path)
         PubMed.create_tables!(conn)
         PubMed.save_efetch!(conn, efetch_doc,false, true)
 
@@ -153,7 +153,7 @@ import Base.parse
         user = "root"
         pwd = ""
 
-        const conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
+        conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
         PubMed.create_tables!(conn)
         @time PubMed.save_efetch!(conn, efetch_doc, false, true)
 

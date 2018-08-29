@@ -53,7 +53,7 @@ function search_ct(query, fout; results=false)
     println("Clinical Trials Response: ", response.status)
 
     if response.status != 200
-        error("Bad response from clinicaltrials.gov")
+        @error "Bad response from clinicaltrials.gov" exception=ErrorException
     end
 
     #Save xml files to disk

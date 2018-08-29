@@ -4,6 +4,7 @@ using BioMedQuery.PubMed
 using BioMedQuery.DBUtils
 using LightXML
 using DataFrames
+using Distributed
 
 """
     load_medline(db_con, output_dir; start_file=1, end_file=928, year=2018, test=false)
@@ -30,15 +31,15 @@ function load_medline!(db_con::MySQL.Connection, output_dir::String; start_file:
         end_file = 1
     end
 
-    info("Getting files from Medline")
+    @info "Getting files from Medline"
     @sync for n = start_file:end_file
-        @async get_ml_file(get_file_name(n, year, test), ftp_con, output_dir)
+        @async get_ml_file(get_file_name(n, year, test), ftp_con, output_dir, test)
     end
 
-    info("Parsing files into CSV")
+    @info "Parsing files into CSV"
     pmap(x -> parse_ml_file(get_file_name(x, year, test), output_dir), start_file:end_file)
 
-    info("Loading CSVs into MySQL")
+    @info "Loading CSVs into MySQL"
     @sync for n = start_file:end_file
 
         fname = get_file_name(n, year, test) ::String
@@ -53,7 +54,7 @@ function load_medline!(db_con::MySQL.Connection, output_dir::String; start_file:
     set_innodb_checks!(db_con)
     # add_mysql_keys!(db_con)
 
-    info("All files processed - closing FTP connection")
+    @info "All files processed - closing FTP connection"
     close_cons(ftp_con)
 
     return nothing
@@ -66,7 +67,7 @@ Sets up environment (folders), and connects to medline FTP Server and returns th
 """
 function init_medline(output_dir::String, test::Bool=false)
     ## SET UP ENVIRONMENT
-    info("======Setting up folders and creating FTP Connection======")
+    @info "======Setting up folders and creating FTP Connection======"
 
     try
         mkdir(joinpath(output_dir,"medline"))
@@ -84,7 +85,7 @@ function init_medline(output_dir::String, test::Bool=false)
     # Initialize FTP
     ftp_init()
 
-    ftp_con = get_ftp_con(test)
+    ftp_con = get_ftp_con()
 
     return ftp_con
 end
@@ -96,7 +97,7 @@ end
 Returns the medline file name given the file number and year.
 """
 function get_file_name(fnum::Int, year::Int, test::Bool=false)
-    nstr = lpad(fnum,4,0) # pad iterator with leading zeros so total length is 4
+    nstr = lpad(string(fnum), 4, "0") # pad iterator with leading zeros so total length is 4
     y2 = string(year)[3:4]
     if test
         y2 = "sample" * y2
@@ -109,9 +110,17 @@ end
 
 Retrieves the file with fname and puts in medline/raw_files.  Returns the HTTP response.
 """
-function get_ml_file(fname::String, conn::ConnContext, output_dir::String)
+function get_ml_file(fname::String, conn::ConnContext, output_dir::String, test::Bool = false)
     println("Getting file: ", fname)
     # get file
+
+    if test
+        # copy pubmedsample to right folder
+        source = joinpath(@__DIR__, "..", "..","test",fname)
+        target = joinpath(output_dir,"medline","raw_files",fname)
+        cp(source, target, force=true)
+    end
+
     path = joinpath(output_dir,"medline","raw_files",fname)
     if isfile(path)
         resp = "File already exists, using local file"
@@ -126,15 +135,12 @@ end
 
 
 """
-    get_ftp_con(test = false)
+    get_ftp_con()
 Get an FTP connection
 """
-function get_ftp_con(test::Bool = false)
-    if test
-        options = RequestOptions(url="ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline-2018-sample/")
-    else
-        options = RequestOptions(url="ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/")
-    end
+function get_ftp_con()
+    options = RequestOptions("ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/")
+
     conn = ftp_connect(options) # returns connection and response
     return conn[1]# get ConnContext object
 end
@@ -155,7 +161,7 @@ function parse_ml_file(fname::String, output_dir::String)
         doc = parse_file(path)
         raw_articles = root(doc)
 
-        dfs = PubMed.parse(raw_articles)
+        dfs = PubMed.parse_articles(raw_articles)
 
         dfs_to_csv(dfs, joinpath(output_dir,"medline","parsed_files"), "$(fname[1:end-7])_")
 
@@ -176,50 +182,3 @@ function close_cons(ftp_con::ConnContext)
 
     return nothing
 end
-
-# Commented out as this requires database priveleges that aren't common
-# """
-#     post_process!(conn)
-#
-# Creates an article2author and author table.  The author table has unique identifiers for every combination of last_name, first_name, initials, suffix, orcid, collective, and affiliation.  The article2author table provides a mapping from PMIDs to these unique authors.
-# """
-# function post_process!(conn::MySQL.Connection)
-#
-#     PubMed.create_post_tables!(conn)
-#
-#     a = db_query(conn, "select count(*) from author_ref")
-#
-#     num_a = a[1,1]
-#
-#     info("==============Processing ", num_a, " article/author entries==============")
-#
-#     set_innodb_checks!(conn,0,0,0)
-#
-#     println("Inserting into author table")
-    # MySQL.execute!(conn, """
-    #     select distinct sql_big_result last_name, first_name, initials, suffix, orcid, collective, affiliation
-    #     from author_ref
-    #     into dumpfile 'medline_author_dump';""")
-    #
-    # MySQL.execute!(conn, """load data infile 'medline_author_dump'
-    #     into author;""")
-    #
-    # println("Inserting into author2article table")
-    # MySQL.execute!(conn, """insert into author2article
-    #     (pmid, auth_id)
-    #     select distinct sql_big_result ar.pmid, a.auth_id
-    #     from author_ref ar, author a
-    #     where (ar.last_name = a.last_name or (ar.last_name is null and a.last_name is null))
-    #     and (ar.first_name = a.first_name or (ar.first_name is null and a.first_name is null))
-    #     and (ar.initials = a.initials or (ar.initials is null and a.initials is null))
-    #     and (ar.suffix = a.suffix or (ar.suffix is null and a.suffix is null))
-    #     and (ar.orcid = a.orcid or (ar.orcid is null and a.orcid is null))
-    #     and (ar.collective = a.collective or (ar.collective is null and a.collective is null))
-    #     and (ar.affiliation = a.affiliation or (ar.affiliation is null and a.affiliation is null))
-    #     ;""")
-#
-#     set_innodb_checks!(conn)
-#     add_mysql_keys!(conn)
-#
-#     return nothing
-# end

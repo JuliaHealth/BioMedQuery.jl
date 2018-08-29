@@ -37,10 +37,10 @@ Insert a row of values into the specified table for a given a SQLite database ha
 
 * `db::MySQLDB`: Database object (connection and map)
 * `data_values::Dict{String, Any}`: Array of (string) values
-* `verbose`: Print debugginh info
+* `verbose`: Print debugging info
 """
-function insert_row!{T}(db::SQLite.DB, tablename, data_values::Dict{Symbol, T},
-    verbose = false)
+function insert_row!(db::SQLite.DB, tablename, data_values::Dict{Symbol, T},
+    verbose = false) where T
 
     cols_string, vals_string = assemble_cols_and_vals(data_values)
     lastid = -1
@@ -48,9 +48,9 @@ function insert_row!{T}(db::SQLite.DB, tablename, data_values::Dict{Symbol, T},
         q = SQLite.execute!(db, "INSERT INTO `$tablename` ($cols_string) values $vals_string")
     catch e
         if verbose
-            Base.showerror(STDOUT, e)
+            Base.showerror(stdout, e)
             println("\n")
-            println("Warning! Could not insert values $vals_string into table $tablename")
+            @warn "Warning! Could not insert values $vals_string into table $tablename"
         end
         return -1
     end
@@ -59,7 +59,7 @@ function insert_row!{T}(db::SQLite.DB, tablename, data_values::Dict{Symbol, T},
     lastid = lastid_query[1][1]
 
     if ismissing(lastid)
-        warn("Could not insert values $vals_string into table $tablename")
+        @warn "Could not insert values $vals_string into table $tablename"
     end
     if verbose
         println("Row successfully inserted into table: $tablename")

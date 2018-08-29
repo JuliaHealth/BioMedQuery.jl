@@ -34,15 +34,16 @@ function citations_endnote(article::Dict{String,DataFrame}, row::Int, verbose=fa
 
 
     # println("***Types: ", article.types)
-    jrnl_art = find((article["pub_type"][:name].=="Journal Article") .& (article["pub_type"][:pmid] .== article["basic"][row,:pmid]))
+    jrnl_art = findall((article["pub_type"][:name].=="Journal Article") .& (article["pub_type"][:pmid] .== article["basic"][row,:pmid]))
 
     if length(jrnl_art)!= 1
-        error("EndNote can only export Journal Articles")
+        println(article["pub_type"])
+        @error "EndNote can only export Journal Articles" exception=ErrorException
     end
 
     lines::Vector{String} = ["%0 Journal Article"]
     affiliation_str = ""
-    auth_art = article["author_ref"][find(article["author_ref"][:pmid] .== article["basic"][row,:pmid]),:]
+    auth_art = article["author_ref"][findall(article["author_ref"][:pmid] .== article["basic"][row,:pmid]),:]
     for au = 1:size(auth_art)[1]
         if ismissing(auth_art[au,:initials]) && ismissing(auth_art[au,:last_name])
             println("Skipping author, null field: ", au)
@@ -65,10 +66,10 @@ function citations_endnote(article::Dict{String,DataFrame}, row::Int, verbose=fa
     !ismissing(article["basic"][row,:pmid]) && push!(lines, "%M $(article["basic"][row,:pmid])")
     !ismissing(article["basic"][row,:url]) && push!(lines, "%U $(article["basic"][row,:url])")
 
-    abstract_full = article["abstract_full"][find(article["abstract_full"][:pmid] .== article["basic"][row,:pmid]), :abstract_text]
+    abstract_full = article["abstract_full"][findall(article["abstract_full"][:pmid] .== article["basic"][row,:pmid]), :abstract_text]
     length(abstract_full) == 1 && push!(lines, "%X $(abstract_full)")
 
-    mesh_headings = article["mesh_heading"][(find(article["mesh_heading"][:pmid] .== article["basic"][row,:pmid])),:]
+    mesh_headings = article["mesh_heading"][(findall(article["mesh_heading"][:pmid] .== article["basic"][row,:pmid])),:]
     mesh_descs = join(mesh_headings, article["mesh_desc"], on = (:desc_uid, :uid), kind=:inner)
 
     for i in 1:size(mesh_descs)[1]
@@ -87,7 +88,7 @@ Transforms a Dictionary of pubmed dataframes into text corresponding to its bibt
 """
 function citations_bibtex(article::Dict{String,DataFrame}, row::Int, verbose=false)
 
-    jrnl_art = find((article["pub_type"][:name].=="Journal Article") .& (article["pub_type"][:pmid] .== article["basic"][row,:pmid]))
+    jrnl_art = findall((article["pub_type"][:name].=="Journal Article") .& (article["pub_type"][:pmid] .== article["basic"][row,:pmid]))
 
     if length(jrnl_art)!= 1
         error("BibTex can only export Journal Articles")
@@ -95,7 +96,7 @@ function citations_bibtex(article::Dict{String,DataFrame}, row::Int, verbose=fal
 
     lines::Vector{String} = ["@article {PMID:$(article["basic"][row,:pmid]),"]
     authors_str = []
-    auth_art = article["author_ref"][(find(article["author_ref"][:pmid] .== article["basic"][row,:pmid])),:]
+    auth_art = article["author_ref"][(findall(article["author_ref"][:pmid] .== article["basic"][row,:pmid])),:]
     for au = 1:size(auth_art)[1]
         if ismissing(auth_art[au,:initials]) && ismissing(auth_art[au,:last_name])
             println("Skipping author, null field: ", au)
@@ -148,7 +149,7 @@ function save_efetch!(output::CitationOutput, articles::LightXML.XMLElement, ver
     fout = open(output_file, "a")
     nsuccess=0
 
-    articles_df = PubMed.parse(articles)
+    articles_df = PubMed.parse_articles(articles)
 
     for i = 1:n_articles
         try

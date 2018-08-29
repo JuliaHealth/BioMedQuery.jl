@@ -1,6 +1,6 @@
 language: julia
 julia:
-  - 0.6
+  - 0.7
 os:
   - linux
   - osx
@@ -28,16 +28,15 @@ after_script:
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
   # - julia -e 'Pkg.clone(pwd(), "BioMedQuery"); Pkg.build("BioMedQuery"); ENV["TRAVIS"] = "yes"; Pkg.test("BioMedQuery"; coverage=true)'
-  - julia --check-bounds=yes -e 'Pkg.update();
-          Pkg.clone(pwd(), "BioMedQuery");
-          Pkg.build("BioMedQuery");
+  - julia --check-bounds=yes -e 'import Pkg;
+          Pkg.build();
           if ENV["GROUP"] == "Test"
             Pkg.test("BioMedQuery"; coverage=true)
           elseif ENV["GROUP"] == "Examples"
-            include(Pkg.dir("BioMedQuery")*"/examples/runexamples.jl")
+            include(joinpath(@__DIR__,"examples","runexamples.jl"))
           else
                 println("Unknown test command.")
           end'
 after_success:
-  - julia -e 'cd(Pkg.dir("BioMedQuery")); Pkg.add("Documenter"); Pkg.add("Literate"); include(joinpath("docs", "make.jl"))'
-  - julia -e 'cd(Pkg.dir("BioMedQuery")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
+  - julia -e 'import Pkg; Pkg.instantiate(); Pkg.add("Documenter"); Pkg.add("Literate"); include(joinpath("docs", "make.jl"))'
+  - julia -e 'import Pkg; Pkg.instantiate(); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
