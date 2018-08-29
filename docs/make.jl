@@ -17,7 +17,7 @@ end
 makedocs()
 
 deploydocs(
-    deps   = Deps.pip("mkdocs==1.0.2", "mkdocs-material==3.0.3"),
+    deps   = Deps.pip("mkdocs==0.17.5", "mkdocs-material==2.9.4"),
     repo = "github.com/bcbi/BioMedQuery.jl.git",
     julia  = "0.7",
     osname = "linux"

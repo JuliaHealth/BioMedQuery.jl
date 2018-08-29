@@ -27,12 +27,12 @@ my_tests = [
 
 println("Running tests:")
 
-for (my_test, test_string) in my_tests
-    println("-----------------------------------------")
-    println("-----------------------------------------")
-    println(test_string)
-    println("-----------------------------------------")
-    println("-----------------------------------------")
-
-    include(my_test)
-end
+# for (my_test, test_string) in my_tests
+#     println("-----------------------------------------")
+#     println("-----------------------------------------")
+#     println(test_string)
+#     println("-----------------------------------------")
+#     println("-----------------------------------------")
+#
+#     include(my_test)
+# end
