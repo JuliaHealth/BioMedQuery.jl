@@ -17,8 +17,10 @@ end
 makedocs()
 
 deploydocs(
-    deps   = Deps.pip("mkdocs", "python-markdown-math", "mkdocs-material"),
+    deps   = Deps.pip("mkdocs==1", "mkdocs-material==3.0.3"),
     repo = "github.com/bcbi/BioMedQuery.jl.git",
-    julia  = "0.6",
+    julia  = "0.7",
     osname = "linux"
 )
+
+# MAKEDOCS ERROR - CAN'T FIND VERSION THAT SATISFIES MKDOCS-MATERIAL

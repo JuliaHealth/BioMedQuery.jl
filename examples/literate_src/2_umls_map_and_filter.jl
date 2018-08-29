@@ -102,7 +102,7 @@ db_query(db_sqlite, "SELECT * FROM mesh2umls;")
 labels2ind
 
 # Output Data Matrix
-full(occur)
+Matrix(occur)
 
 # ## DataFrames
 
@@ -122,4 +122,4 @@ dfs = Processes.pubmed_search_and_parse(email, search_term, max_articles, verbos
 labels2ind
 
 # Output Data Matrix
-full(occur)
+Matrix(occur)
