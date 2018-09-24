@@ -828,8 +828,8 @@
 <li><a href="./#BioMedQuery.PubMed.parse_month-Tuple{AbstractString}"><code>BioMedQuery.PubMed.parse_month</code></a></li>
 <li><a href="./#BioMedQuery.PubMed.parse_orcid-Tuple{String}"><code>BioMedQuery.PubMed.parse_orcid</code></a></li>
 <li><a href="./#BioMedQuery.PubMed.parse_year-Tuple{AbstractString}"><code>BioMedQuery.PubMed.parse_year</code></a></li>
-<li><a href="./#BioMedQuery.PubMed.remove_csvs"><code>BioMedQuery.PubMed.remove_csvs</code></a></li>
 <li><a href="./#BioMedQuery.PubMed.remove_csvs-Tuple{Array{String,1}}"><code>BioMedQuery.PubMed.remove_csvs</code></a></li>
+<li><a href="./#BioMedQuery.PubMed.remove_csvs"><code>BioMedQuery.PubMed.remove_csvs</code></a></li>
 <li><a href="./#BioMedQuery.PubMed.save_efetch!"><code>BioMedQuery.PubMed.save_efetch!</code></a></li>
 <li><a href="./#BioMedQuery.PubMed.save_efetch!"><code>BioMedQuery.PubMed.save_efetch!</code></a></li>
 <li><a href="./#BioMedQuery.PubMed.save_pmids!"><code>BioMedQuery.PubMed.save_pmids!</code></a></li>
@@ -903,12 +903,12 @@
 <p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/6b3a5af8eb7a502f5b1669a33fb3375c6e344edf/src/PubMed/pubmed_sql_utils.jl#L8-L13' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.db_insert!' href='#BioMedQuery.PubMed.db_insert!'>#</a>
 <strong><code>BioMedQuery.PubMed.db_insert!</code></strong> &mdash; <em>Function</em>.</p>
-<div class="codehilite"><pre><span></span><span class="nt">db_insert</span><span class="o">!(</span><span class="nt">conn</span><span class="o">,</span> <span class="nt">articles</span><span class="p">::</span><span class="nd">Dict</span><span class="p">{</span><span class="err">String,DataFrame</span><span class="p">}</span><span class="o">,</span> <span class="nt">csv_path</span><span class="o">=</span><span class="nt">pwd</span><span class="o">(),</span> <span class="nt">csv_prefix</span><span class="o">=</span><span class="s2">&quot;&lt;current date&gt;_PubMed_&quot;</span><span class="o">;</span> <span class="nt">verbose</span><span class="o">=</span><span class="nt">false</span><span class="o">,</span> <span class="nt">drop_csvs</span><span class="o">=</span><span class="nt">false</span><span class="o">)</span>
+<div class="codehilite"><pre><span></span>db_insert!(conn, csv_path=pwd(), csv_prefix=&quot;&lt;current date&gt;_PubMed_&quot;; verbose=false, drop_csvs=false)
 </pre></div>
 
 
-<p>Writes dictionary of dataframes to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/6b3a5af8eb7a502f5b1669a33fb3375c6e344edf/src/PubMed/pubmed_sql_utils.jl#L463-L467' class='documenter-source'>source</a><br></p>
+<p>Writes CSVs from PubMed parsing to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs can optionally be removed after being written to DB.</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/6b3a5af8eb7a502f5b1669a33fb3375c6e344edf/src/PubMed/pubmed_sql_utils.jl#L502-L506' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.db_insert!' href='#BioMedQuery.PubMed.db_insert!'>#</a>
 <strong><code>BioMedQuery.PubMed.db_insert!</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span><span class="nt">db_insert</span><span class="o">!(</span><span class="nt">conn</span><span class="o">,</span> <span class="nt">articles</span><span class="p">::</span><span class="nd">Dict</span><span class="p">{</span><span class="err">String,DataFrame</span><span class="p">}</span><span class="o">,</span> <span class="nt">csv_path</span><span class="o">=</span><span class="nt">pwd</span><span class="o">(),</span> <span class="nt">csv_prefix</span><span class="o">=</span><span class="s2">&quot;&lt;current date&gt;_PubMed_&quot;</span><span class="o">;</span> <span class="nt">verbose</span><span class="o">=</span><span class="nt">false</span><span class="o">,</span> <span class="nt">drop_csvs</span><span class="o">=</span><span class="nt">false</span><span class="o">)</span>
@@ -919,12 +919,12 @@
 <p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/6b3a5af8eb7a502f5b1669a33fb3375c6e344edf/src/PubMed/pubmed_sql_utils.jl#L575-L579' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.db_insert!' href='#BioMedQuery.PubMed.db_insert!'>#</a>
 <strong><code>BioMedQuery.PubMed.db_insert!</code></strong> &mdash; <em>Function</em>.</p>
-<div class="codehilite"><pre><span></span>db_insert!(conn, csv_path=pwd(), csv_prefix=&quot;&lt;current date&gt;_PubMed_&quot;; verbose=false, drop_csvs=false)
+<div class="codehilite"><pre><span></span><span class="nt">db_insert</span><span class="o">!(</span><span class="nt">conn</span><span class="o">,</span> <span class="nt">articles</span><span class="p">::</span><span class="nd">Dict</span><span class="p">{</span><span class="err">String,DataFrame</span><span class="p">}</span><span class="o">,</span> <span class="nt">csv_path</span><span class="o">=</span><span class="nt">pwd</span><span class="o">(),</span> <span class="nt">csv_prefix</span><span class="o">=</span><span class="s2">&quot;&lt;current date&gt;_PubMed_&quot;</span><span class="o">;</span> <span class="nt">verbose</span><span class="o">=</span><span class="nt">false</span><span class="o">,</span> <span class="nt">drop_csvs</span><span class="o">=</span><span class="nt">false</span><span class="o">)</span>
 </pre></div>
 
 
-<p>Writes CSVs from PubMed parsing to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs can optionally be removed after being written to DB.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/6b3a5af8eb7a502f5b1669a33fb3375c6e344edf/src/PubMed/pubmed_sql_utils.jl#L502-L506' class='documenter-source'>source</a><br></p>
+<p>Writes dictionary of dataframes to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/6b3a5af8eb7a502f5b1669a33fb3375c6e344edf/src/PubMed/pubmed_sql_utils.jl#L463-L467' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.dfs_to_csv' href='#BioMedQuery.PubMed.dfs_to_csv'>#</a>
 <strong><code>BioMedQuery.PubMed.dfs_to_csv</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>dfs_to_csv(dfs::Dict, path::String, [file_prefix::String])
@@ -971,20 +971,20 @@
 <p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/6b3a5af8eb7a502f5b1669a33fb3375c6e344edf/src/PubMed/pubmed_to_csv.jl#L168-L172' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.save_efetch!' href='#BioMedQuery.PubMed.save_efetch!'>#</a>
 <strong><code>BioMedQuery.PubMed.save_efetch!</code></strong> &mdash; <em>Function</em>.</p>
-<div class="codehilite"><pre><span></span> pubmed_save_efetch(efetch_dict, conn)
-</pre></div>
-
-
-<p>Save the results (dictionary) of an entrez-pubmed fetch to the input database.</p>
-<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/6b3a5af8eb7a502f5b1669a33fb3375c6e344edf/src/PubMed/eutils_sql_save.jl#L7-L11' class='documenter-source'>source</a><br></p>
-<p><a id='BioMedQuery.PubMed.save_efetch!' href='#BioMedQuery.PubMed.save_efetch!'>#</a>
-<strong><code>BioMedQuery.PubMed.save_efetch!</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>save_efetch!(output::CitationOutput, efetch_dict, verbose=false)
 </pre></div>
 
 
 <p>Save the results of a Entrez efetch to a bibliography file, with format and file path given by <code>output::CitationOutput</code></p>
 <p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/6b3a5af8eb7a502f5b1669a33fb3375c6e344edf/src/PubMed/citation_manager.jl#L121-L126' class='documenter-source'>source</a><br></p>
+<p><a id='BioMedQuery.PubMed.save_efetch!' href='#BioMedQuery.PubMed.save_efetch!'>#</a>
+<strong><code>BioMedQuery.PubMed.save_efetch!</code></strong> &mdash; <em>Function</em>.</p>
+<div class="codehilite"><pre><span></span> pubmed_save_efetch(efetch_dict, conn)
+</pre></div>
+
+
+<p>Save the results (dictionary) of an entrez-pubmed fetch to the input database.</p>
+<p><a target='_blank' href='https://github.com/bcbi/BioMedQuery.jl/blob/6b3a5af8eb7a502f5b1669a33fb3375c6e344edf/src/PubMed/eutils_sql_save.jl#L7-L11' class='documenter-source'>source</a><br></p>
 <p><a id='BioMedQuery.PubMed.save_pmids!' href='#BioMedQuery.PubMed.save_pmids!'>#</a>
 <strong><code>BioMedQuery.PubMed.save_pmids!</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span> save_pmids!(conn, pmids::Vector{Int64}, verbose::Bool=false)
