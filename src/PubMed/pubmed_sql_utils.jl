@@ -549,7 +549,7 @@ function db_insert!(db::MySQL.Connection, pmid::Int64, articles::Dict{String,Dat
     dfs_to_csv(articles, csv_path, csv_prefix)
 
     for (table, df) in articles
-        if ismatch(r"$mesh*", table)
+        if occursin(r"$mesh*", table)
             # check if column names all exist in mysql table
             if !col_match(db, table, df)
                 error("Each DataFrame column must match the name of a table column. $table had mismatches.")
