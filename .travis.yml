@@ -41,6 +41,7 @@ jobs:
       script:
         - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
         - julia --check-bounds=yes -e 'import Pkg;
+            Pkg.instantiate();
             include(joinpath(@__DIR__,"examples","runexamples.jl"))'
     - stage: deploy docs
       language: julia
