@@ -1,9 +1,9 @@
 language: julia
 julia:
   - 0.7
-# os:
-#   - linux
-#   - osx
+os:
+  - linux
+  - osx
 # env:
 #   - GROUP=Test
 #   - GROUP=Examples
@@ -27,9 +27,6 @@ after_success:
 jobs:
   include:
     - stage: test
-      os:
-        - linux
-        - osx
       script:
         - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
         - julia --check-bounds=yes -e 'import Pkg;
