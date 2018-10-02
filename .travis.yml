@@ -1,14 +1,10 @@
 language: julia
 julia:
   - 0.7
-os:
-  - linux
-  - osx
-# env:
-#   - GROUP=Test
-#   - GROUP=Examples
+
 notifications:
   email: true
+
 before_script:
   - echo "[mysqld]" > $HOME/.my.cnf
   - echo "secure_file_priv = \"\" ">> $HOME/.my.cnf
@@ -27,6 +23,14 @@ after_success:
 jobs:
   include:
     - stage: test
+      os: linux
+      script:
+        - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+        - julia --check-bounds=yes -e 'import Pkg;
+              Pkg.build();
+              Pkg.test("BioMedQuery"; coverage=true);'
+    - # continue test
+      os: osx
       script:
         - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
         - julia --check-bounds=yes -e 'import Pkg;
