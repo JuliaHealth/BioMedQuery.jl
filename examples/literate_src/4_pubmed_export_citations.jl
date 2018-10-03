@@ -34,7 +34,7 @@ export_citation(pmid_list, "endnote", enw_file);
 
 # #### Explore one of the output files
 
-println(readstring(enw_file))
+println(read(enw_file, String))
 
 # ### Export as a Bibtex file
 
@@ -48,4 +48,4 @@ export_citation(pmid_list, "bibtex", bib_file);
 
 # #### Explore one of the output files
 
-println(readstring(bib_file))
+println(read(bib_file, String))

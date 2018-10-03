@@ -88,7 +88,7 @@ enw_file = "$(results_dir)/pubmed_obesity_2010_2012.enw"
 endnote_citation = PubMed.CitationOutput("endnote", enw_file, true)
 Processes.pubmed_search_and_save!(email, search_term, max_articles, endnote_citation, verbose);
 
-println(readstring(enw_file))
+println(read(enw_file, String))
 
 # ### DataFrames
 # Returns a dictionary of dataframes which match the content and structure of the database tables.
