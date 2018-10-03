@@ -24,6 +24,7 @@ jobs:
   include:
     - stage: test
       os: linux
+      env: GROUP=Test
       script:
         - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
         - julia --check-bounds=yes -e 'import Pkg;
@@ -31,6 +32,7 @@ jobs:
               Pkg.test("BioMedQuery"; coverage=true);'
     - # continue test
       os: osx
+      env: GROUP=Test
       script:
         - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
         - julia --check-bounds=yes -e 'import Pkg;
@@ -38,6 +40,7 @@ jobs:
               Pkg.test("BioMedQuery"; coverage=true);'
     - stage: examples
       os: linux
+      env: GROUP=Examples
       script:
         - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
         - julia --check-bounds=yes -e 'import Pkg;
