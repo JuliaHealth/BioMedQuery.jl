@@ -50,4 +50,4 @@ jobs:
       language: julia
       os: linux
       script:
-        - julia -e 'import Pkg; Pkg.instantiate(); Pkg.add("Documenter"); Pkg.add("Literate"); include(joinpath("docs", "make.jl"))'
+        - julia -e 'import Pkg; Pkg.instantiate(); ps=Pkg.PackageSpec(name="Documenter", version="0.19"); Pkg.add(ps); Pkg.pin(ps); Pkg.add("Literate"); include(joinpath("docs", "make.jl"))'
