@@ -1,6 +1,6 @@
 repo:             BioMedQuery.jl
 site_name:        BioMedQuery.jl
-authors:
+maintainers:
   - name: Isabel Restrepo
     github_user: mirestrepo
   - name: Mary McGrath
