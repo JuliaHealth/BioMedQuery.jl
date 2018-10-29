@@ -31,7 +31,6 @@ Pkg.checkout("BioMedQuery")
 <!-- ```@contents
 Pages = ["man/eutils.md", "man/umls.md"]
 Depth = 6 -->
-```
 
 ## Related Packages
 
