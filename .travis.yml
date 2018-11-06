@@ -17,6 +17,9 @@ after_script:
   - unset OLD_PATH
 after_success:
   - julia -e 'import Pkg; Pkg.instantiate(); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
+after_failure:
+  - cat ~/.julia/packages/LibCURL/OoXMv/deps/build.log
+
 
 jobs:
   include:
@@ -28,7 +31,6 @@ jobs:
         - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
         - julia --check-bounds=yes -e 'import Pkg;
               Pkg.build();
-              run(`cat ~/.julia/packages/LibCURL/OoXMv/deps/build.log`);
               Pkg.test("BioMedQuery"; coverage=true);'
     - # continue test
       os: osx
