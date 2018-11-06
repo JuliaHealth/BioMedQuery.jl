@@ -16,7 +16,7 @@ before_script:
   - curl -V
   - sudo apt-get update
   - sudo apt-get install -y curl
-  - curl-V
+  - curl -V
 after_script:
   - export LD_LIBRARY_PATH=$OLD_PATH
   - unset OLD_PATH
