@@ -132,7 +132,7 @@ import Base.parse
         "mesh_qual", "mesh_heading", "pub_type", "abstract_structured"]
 
         for t in tables
-            q = SQLite.query(conn, "SELECT count(*) FROM "*t*";")
+            q = DataFrame(SQLite.query(conn, "SELECT count(*) FROM "*t*";"))
             count = q[1][1]
             @test count > 0
         end
@@ -181,7 +181,7 @@ import Base.parse
         "mesh_qual", "mesh_heading", "pub_type", "abstract_structured"]
 
         for t in tables
-            q = MySQL.query(conn, "SELECT count(*) FROM "*t*";")
+            q = MySQL.query(conn, "SELECT count(*) FROM $t;") |> DataFrame
             count = q[1][1]
             @test count > 0
         end

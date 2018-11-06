@@ -90,7 +90,7 @@ end
 
     all_pmids = PubMed.all_pmids(conn)
     @test length(all_pmids) == length(collect(child_elements(raw_articles)))
-    res = MySQL.query(conn, "SELECT DISTINCT orcid FROM author_ref;", DataFrame)
+    res = MySQL.query(conn, "SELECT DISTINCT orcid FROM author_ref;") |> DataFrame
     @test size(res)[1] > 2
 
     rm(joinpath(dirname(@__FILE__),"medline"), recursive=true)
