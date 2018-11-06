@@ -28,6 +28,7 @@ jobs:
         - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
         - julia --check-bounds=yes -e 'import Pkg;
               Pkg.build();
+              run("cat ~/.julia/packages/LibCURL/OoXMv/deps/build.log");
               Pkg.test("BioMedQuery"; coverage=true);'
     - # continue test
       os: osx
