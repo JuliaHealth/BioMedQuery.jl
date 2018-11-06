@@ -13,13 +13,10 @@ before_script:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then . ./ci/travis/before_install-osx.sh; fi
   - export OLD_PATH=$LD_LIBRARY_PATH
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`mariadb_config --libs | cut -d ' ' -f1 | sed 's/-L//'`
-  - curl -V
-  - sudo apt-get update
-  - sudo apt-get install -y curl
-  - curl -V
 after_script:
   - export LD_LIBRARY_PATH=$OLD_PATH
   - unset OLD_PATH
+  - cat ~/.julia/packages/LibCURL/OoXMv/deps/deps.jl
 after_success:
   - julia -e 'import Pkg; Pkg.instantiate(); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
 
