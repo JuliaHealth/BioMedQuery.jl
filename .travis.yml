@@ -14,7 +14,8 @@ before_script:
   - export OLD_PATH=$LD_LIBRARY_PATH
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`mariadb_config --libs | cut -d ' ' -f1 | sed 's/-L//'`
   - curl -V
-  - sudo apt-get update -y libcurl
+  - sudo apt-get update
+  - sudo apt-get install -y libcurl
   - curl-V
 after_script:
   - export LD_LIBRARY_PATH=$OLD_PATH
