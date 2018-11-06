@@ -141,7 +141,7 @@ Get an FTP connection
 function get_ftp_con()
     options = RequestOptions("ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/")
 
-    conn = ftp_connect(options) # returns connection and response
+    conn = ftp_connect(options, verbose=true) # returns connection and response
     return conn[1]# get ConnContext object
 end
 
