@@ -11,6 +11,7 @@ before_script:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then . ./ci/travis/before_install-osx.sh; fi
   - export OLD_PATH=$LD_LIBRARY_PATH
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`mariadb_config --libs | cut -d ' ' -f1 | sed 's/-L//'`
+  - cat ~/.curlrc
   # - mysql -e 'CREATE DATABASE myapp_test;'
 after_script:
   - export LD_LIBRARY_PATH=$OLD_PATH
