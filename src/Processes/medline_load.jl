@@ -85,7 +85,7 @@ function init_medline(output_dir::String, test::Bool=false)
     # Initialize FTP
     ftp_init()
 
-    ftp_con = get_ftp_con()
+    ftp_con = get_ftp_con(test)
 
     return ftp_con
 end
@@ -135,13 +135,23 @@ end
 
 
 """
-    get_ftp_con()
+    get_ftp_con(test = false)
 Get an FTP connection
 """
-function get_ftp_con()
+function get_ftp_con(test::Bool = false)
     options = RequestOptions("ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/")
 
-    conn = ftp_connect(options) # returns connection and response
+    try
+        global conn = ftp_connect(options) # returns connection and response
+    catch e
+        if test
+            @warn "FTP error during package test"
+            return null
+        else
+            rethrow(e)
+        end
+    end
+
     return conn[1]# get ConnContext object
 end
 

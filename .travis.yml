@@ -16,7 +16,6 @@ before_script:
 after_script:
   - export LD_LIBRARY_PATH=$OLD_PATH
   - unset OLD_PATH
-  - cat ~/.julia/packages/LibCURL/OoXMv/deps/deps.jl
 after_success:
   - julia -e 'import Pkg; Pkg.instantiate(); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
 
