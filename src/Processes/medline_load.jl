@@ -146,7 +146,7 @@ function get_ftp_con(test::Bool = false)
     catch e
         if test
             @warn "FTP error during package test"
-            return nothing
+            return ConnContext(options)
         else
             rethrow(e)
         end
