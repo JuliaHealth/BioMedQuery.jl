@@ -58,7 +58,7 @@ jobs:
               Pkg.build();
               Pkg.test("BioMedQuery"; coverage=true);'
     - stage: examples
-      os: linux
+      os: osx
       julia: 0.7
       env: GROUP=Examples
       script:
@@ -67,7 +67,7 @@ jobs:
             Pkg.instantiate();
             include(joinpath(@__DIR__,"examples","runexamples.jl"))'
     - #continue examples
-      os: linux
+      os: osx
       julia: 1.0
       env: GROUP=Examples
       script:
@@ -78,6 +78,6 @@ jobs:
     - stage: deploy docs
       language: julia
       julia: 1.0
-      os: linux
+      os: osx
       script:
         - julia -e 'import Pkg; Pkg.instantiate(); Pkg.add("Documenter"); Pkg.add("Literate"); include(joinpath("docs", "make.jl"))'
