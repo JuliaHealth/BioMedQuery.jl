@@ -5,6 +5,8 @@ julia:
 notifications:
   email: true
 
+sudo: false
+
 before_script:
   - echo "[mysqld]" > $HOME/.my.cnf
   - echo "secure_file_priv = \"\" ">> $HOME/.my.cnf
