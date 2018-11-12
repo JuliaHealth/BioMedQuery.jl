@@ -1,5 +1,5 @@
 ```@meta
-EditURL = "https://github.com/TRAVIS_REPO_SLUG/blob/master/../../julia-local-packages/BioMedQuery/examples/literate_src/2_umls_map_and_filter.jl"
+EditURL = "https://github.com/TRAVIS_REPO_SLUG/blob/master/"
 ```
 
 # Using UMLS Concepts with MeSH
@@ -91,7 +91,7 @@ labels2ind
 Output Data Matrix
 
 ```@example 2_umls_map_and_filter
-full(occur)
+Matrix(occur)
 ```
 
 ## SQLite
@@ -144,7 +144,7 @@ labels2ind
 Output Data Matrix
 
 ```@example 2_umls_map_and_filter
-full(occur)
+Matrix(occur)
 ```
 
 ## DataFrames
@@ -179,7 +179,7 @@ labels2ind
 Output Data Matrix
 
 ```@example 2_umls_map_and_filter
-full(occur)
+Matrix(occur)
 ```
 
 *This page was generated using [Literate.jl](https://github.com/fredrikekre/Literate.jl).*

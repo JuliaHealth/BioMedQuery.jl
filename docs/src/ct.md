@@ -2,7 +2,7 @@ Submit and save queries to [clinicaltrials.gov](https://clinicaltrials.gov/)
 
 ##Import
 ```
-using NLM.CT
+using BioMedQuery.CT
 ```
 
 ## Search and save
@@ -22,5 +22,5 @@ Note: The term can also indicate joint searches, e.g.
 
 ```
 fout= "./test_CT_search.zip"
-status = NLM.CT.search_ct(query, fout;)
+status = BioMedQuery.CT.search_ct(query, fout;)
 ```

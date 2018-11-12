@@ -22,11 +22,18 @@ BioMedQuery is a registered package. To install the latest **stable version**, u
 Pkg.add("BioMedQuery")
 ```
 
-To chekout the current master (development) branch:
+To use the latest **development** version:
 
 ```{Julia}
-Pkg.checkout("BioMedQuery")
+Pkg.add("BioMedQuery#master")
 ```
+
+To checkout the latest **development** version:
+
+```{Julia}
+Pkg.dev("BioMedQuery")
+```
+
 
 <!-- ```@contents
 Pages = ["man/eutils.md", "man/umls.md"]

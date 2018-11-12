@@ -1,5 +1,5 @@
 ```@meta
-EditURL = "https://github.com/TRAVIS_REPO_SLUG/blob/master/../../julia-local-packages/BioMedQuery/examples/literate_src/1_pubmed_search_and_save.jl"
+EditURL = "https://github.com/TRAVIS_REPO_SLUG/blob/master/"
 ```
 
 # Search PubMed and Save Results
@@ -134,7 +134,7 @@ enw_file = "$(results_dir)/pubmed_obesity_2010_2012.enw"
 endnote_citation = PubMed.CitationOutput("endnote", enw_file, true)
 Processes.pubmed_search_and_save!(email, search_term, max_articles, endnote_citation, verbose);
 
-println(readstring(enw_file))
+println(read(enw_file, String))
 ```
 
 ### DataFrames
