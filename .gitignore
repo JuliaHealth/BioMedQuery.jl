@@ -8,4 +8,4 @@ UTS_TGT.txt
 tests/*.sqlite
 tests/*.db
 
-manifest.toml
+Manifest.toml
