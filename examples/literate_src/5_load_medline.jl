@@ -16,9 +16,7 @@
 # This process is set up for parallel processing.  To take advantage of this, workers
 # can be added before loading the BioMedQuery package using the `addprocs` function.
 
-using BioMedQuery.DBUtils
-using BioMedQuery.PubMed
-using BioMedQuery.Processes
+using BioMedQuery
 
 # BioMedQuery has utility functions to create the database and tables. *Note: creating
 # the tables using this function will drop any tables that already exist in the target
@@ -45,4 +43,4 @@ BioMedQuery.PubMed.create_tables!(conn);
 # After loading, it is recommended you add indexes to the tables, the `add_mysql_keys!`
 # function can be used to add a standard set of indexes.
 
-add_mysql_keys!(conn)
+BioMedQuery.PubMed.add_mysql_keys!(conn)
