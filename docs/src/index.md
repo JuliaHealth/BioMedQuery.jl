@@ -18,11 +18,12 @@ Supported APIs include:
 
 BioMedQuery is a registered package. To install the latest **stable version**, use the package manager.
 
-```{Julia}
+```julia
 Pkg.add("BioMedQuery")
 ```
 
 To use the latest **development** version:
+
 
 ```{Julia}
 Pkg.add("BioMedQuery#master")
@@ -38,7 +39,6 @@ Pkg.dev("BioMedQuery")
 <!-- ```@contents
 Pages = ["man/eutils.md", "man/umls.md"]
 Depth = 6 -->
-```
 
 ## Related Packages
 
