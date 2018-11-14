@@ -1,7 +1,7 @@
-@testset "MySQL BDUtils" begin
+using BioMedQuery
+using MySQL
 
-    using BioMedQuery
-    using MySQL
+@testset "MySQL BDUtils" begin
 
     dbname="pubmed_test"
 

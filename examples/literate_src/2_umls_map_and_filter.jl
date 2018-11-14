@@ -47,6 +47,11 @@ mysql_usr = "root";
 mysql_pswd = "";
 dbname = "pubmed_obesity_2010_2012";
 
+const mysql_conn = DBUtils.init_mysql_database(host, mysql_usr, mysql_pswd, dbname) # hide
+PubMed.create_tables!(mysql_conn) # hide
+Processes.pubmed_search_and_save!(email, search_term, max_articles, mysql_conn, verbose) # hide
+MySQL.disconnect(mysql_conn) #hide 
+
 db_mysql = MySQL.connect(host, mysql_usr, mysql_pswd, db = dbname);
 
 # Map MeSH to UMLS
