@@ -23,60 +23,60 @@ after_success:
 
 jobs:
   include:
-    - stage: test
-      os: linux
-      julia: 0.7
-      env: GROUP=Test
-      script:
-        - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-        - julia --check-bounds=yes -e 'import Pkg;
-              Pkg.build();
-              Pkg.test("BioMedQuery"; coverage=true);'
-    - # continue test
-      os: osx
-      julia: 0.7
-      env: GROUP=Test
-      script:
-        - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-        - julia --check-bounds=yes -e 'import Pkg;
-              Pkg.build();
-              Pkg.test("BioMedQuery"; coverage=true);'
-    - # continue test
-      os: linux
-      julia: 1.0
-      env: GROUP=Test
-      script:
-        - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-        - julia --check-bounds=yes -e 'import Pkg;
-              Pkg.build();
-              Pkg.test("BioMedQuery"; coverage=true);'
-    - # continue test
-      os: osx
-      julia: 1.0
-      env: GROUP=Test
-      script:
-        - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-        - julia --check-bounds=yes -e 'import Pkg;
-              Pkg.build();
-              Pkg.test("BioMedQuery"; coverage=true);'
-    - stage: examples
-      os: osx
-      julia: 0.7
-      env: GROUP=Examples
-      script:
-        - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-        - julia --check-bounds=yes -e 'import Pkg;
-            Pkg.instantiate();
-            include(joinpath(@__DIR__,"examples","runexamples.jl"))'
-    - #continue examples
-      os: osx
-      julia: 1.0
-      env: GROUP=Examples
-      script:
-        - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-        - julia --check-bounds=yes -e 'import Pkg;
-            Pkg.instantiate();
-            include(joinpath(@__DIR__,"examples","runexamples.jl"))'
+    # - stage: test
+    #   os: linux
+    #   julia: 0.7
+    #   env: GROUP=Test
+    #   script:
+    #     - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+    #     - julia --check-bounds=yes -e 'import Pkg;
+    #           Pkg.build();
+    #           Pkg.test("BioMedQuery"; coverage=true);'
+    # - # continue test
+    #   os: osx
+    #   julia: 0.7
+    #   env: GROUP=Test
+    #   script:
+    #     - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+    #     - julia --check-bounds=yes -e 'import Pkg;
+    #           Pkg.build();
+    #           Pkg.test("BioMedQuery"; coverage=true);'
+    # - # continue test
+    #   os: linux
+    #   julia: 1.0
+    #   env: GROUP=Test
+    #   script:
+    #     - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+    #     - julia --check-bounds=yes -e 'import Pkg;
+    #           Pkg.build();
+    #           Pkg.test("BioMedQuery"; coverage=true);'
+    # - # continue test
+    #   os: osx
+    #   julia: 1.0
+    #   env: GROUP=Test
+    #   script:
+    #     - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+    #     - julia --check-bounds=yes -e 'import Pkg;
+    #           Pkg.build();
+    #           Pkg.test("BioMedQuery"; coverage=true);'
+    # - stage: examples
+    #   os: osx
+    #   julia: 0.7
+    #   env: GROUP=Examples
+    #   script:
+    #     - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+    #     - julia --check-bounds=yes -e 'import Pkg;
+    #         Pkg.instantiate();
+    #         include(joinpath(@__DIR__,"examples","runexamples.jl"))'
+    # - #continue examples
+    #   os: osx
+    #   julia: 1.0
+    #   env: GROUP=Examples
+    #   script:
+    #     - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+    #     - julia --check-bounds=yes -e 'import Pkg;
+    #         Pkg.instantiate();
+    #         include(joinpath(@__DIR__,"examples","runexamples.jl"))'
     - stage: deploy docs
       language: julia
       julia: 0.7
