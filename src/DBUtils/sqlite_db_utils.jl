@@ -15,7 +15,7 @@ end
 Return an array of all tables in a given MySQL database
 """
 function select_all_tables(db::SQLite.DB)
-    tables_query = DataFrame(SQLite.query(db, "SELECT name FROM sqlite_master WHERE type='table'"))
+    tables_query = DataFrame(SQLite.Query(db, "SELECT name FROM sqlite_master WHERE type='table'"))
     tables_query[1]
 end
 
@@ -25,7 +25,7 @@ end
 Execute a SQLite command
 """
 function db_query(db::SQLite.DB, query_code)
-    sel = DataFrame(SQLite.query(db, query_code))
+    sel = DataFrame(SQLite.Query(db, query_code))
     return sel
 end
 
@@ -55,7 +55,7 @@ function insert_row!(db::SQLite.DB, tablename, data_values::Dict{Symbol, T},
         return -1
     end
 
-    lastid_query = DataFrame(SQLite.query(db, "SELECT last_insert_rowid()"))
+    lastid_query = DataFrame(SQLite.Query(db, "SELECT last_insert_rowid()"))
     lastid = lastid_query[1][1]
 
     if ismissing(lastid)

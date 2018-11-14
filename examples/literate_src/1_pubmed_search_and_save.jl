@@ -44,7 +44,7 @@ all_pmids(mysql_conn)
 tables = ["author_ref", "mesh_desc", "mesh_qual", "mesh_heading"]
 for t in tables
     query_str = "SELECT * FROM $t LIMIT 5;"
-    q = MySQL.query(mysql_conn, query_str, DataFrame)
+    q = MySQL.Query(mysql_conn, query_str) |> DataFrame
     println(q)
 end
 

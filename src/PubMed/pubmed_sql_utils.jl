@@ -209,7 +209,7 @@ Adds indices/keys to MySQL PubMed tables.
 """
 function add_mysql_keys!(conn::MySQL.Connection)
 
-    res = MySQL.query(conn, "SHOW INDEX FROM basic WHERE key_name = 'pub_year'", DataFrame)
+    res = MySQL.Query(conn, "SHOW INDEX FROM basic WHERE key_name = 'pub_year'") |> DataFrame
     size(res)[1] == 1 && return nothing
 
     MySQL.execute!(conn, "ALTER TABLE `basic`
@@ -264,7 +264,7 @@ Removes keys/indices from MySQL PubMed tables.
 """
 function drop_mysql_keys!(conn::MySQL.Connection)
 
-    res = MySQL.query(conn, "SHOW INDEX FROM basic WHERE key_name = 'pub_year'", DataFrame)
+    res = MySQL.Query(conn, "SHOW INDEX FROM basic WHERE key_name = 'pub_year'", DataFrame)
     size(res)[1] == 0 && return nothing
 
     MySQL.execute!(conn, "ALTER TABLE `basic`
@@ -340,8 +340,8 @@ Return all PMIDs stored in the *basic* table of the input database
 """
 function all_pmids(conn)
     sql_engine = (typeof(conn)== MySQL.Connection) ? MySQL : SQLite
-    query = sql_engine.query(conn, "SELECT pmid FROM basic;")
-    return query[1]
+    query = sql_engine.Query(conn, "SELECT pmid FROM basic;") |> DataFrame
+    return query[:pmid]
 end
 
 """
@@ -351,7 +351,7 @@ Return all MeSH stored in the *mesh_desc* table of the input database
 """
 function all_mesh(db)
     sel = db_query(db, "SELECT name FROM mesh_desc;")
-    return sel[1]
+    return sel[:name]
 end
 
 """
@@ -410,7 +410,7 @@ function abstracts(db; local_medline=false)
 
     sel = db_query(db, query_code)
     num_abstracts = size(sel)[1]
-    println("Retrieved: ", num_abstracts, " abstracts")
+    @info "Retrieved abstracts: " num_abstracts
     return sel
 end
 
