@@ -57,7 +57,7 @@ end
 For a MySQL database, return an array of all columns in the given table
 """
 function select_columns(con::MySQL.MySQLHandle, table)
-    cols_query = MySQL.query(con, "SHOW COLUMNS FROM $table;", DataFrame)
+    cols_query = MySQL.query(con, "SHOW COLUMNS FROM $table;") |> DataFrame
     cols_query[1]
 end
 
@@ -67,7 +67,7 @@ end
 Return an array of all tables in a given MySQL database
 """
 function select_all_tables(con::MySQL.MySQLHandle)
-    tables_query = MySQL.query(con, "SHOW TABLES;", DataFrame)
+    tables_query = MySQL.query(con, "SHOW TABLES;") |> DataFrame
     tables_query[1]
 end
 
@@ -83,7 +83,7 @@ Execute a mysql command
 """
 function db_query(con::MySQLHandle, query_code)
     try
-        sel = MySQL.query(con, query_code, DataFrame)
+        sel = MySQL.query(con, query_code) |> DataFrame
         return sel
     catch
         #error("There was an error with MySQL")
@@ -108,7 +108,7 @@ function insert_row!(con::MySQL.MySQLHandle, tablename, data_values::Dict{Symbol
         @warn "Warning: Row with values $vals_string not inserted into the table: $tablename"
         # throw(MySQLInternalError(con))
     end
-    
+
     return lastid
 end
 
@@ -148,7 +148,7 @@ function create_server(con::MySQL.MySQLHandle, dbname; linkname = "fedlink", use
                  FOREIGN DATA WRAPPER mysql
                  OPTIONS (USER '$user', PASSWORD '$psswd', HOST '$host', PORT $port, DATABASE '$dbname');"
 
-    MySQL.query(con, query_str, DataFrame)
+    MySQL.query(con, query_str) |> DataFrame
 end
 
 """

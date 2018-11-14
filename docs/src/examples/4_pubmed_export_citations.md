@@ -1,5 +1,5 @@
 ```@meta
-EditURL = "https://github.com/TRAVIS_REPO_SLUG/blob/master/../../julia-local-packages/BioMedQuery/examples/literate_src/4_pubmed_export_citations.jl"
+EditURL = "https://github.com/TRAVIS_REPO_SLUG/blob/master/"
 ```
 
 # Export PubMed Citations
@@ -53,7 +53,7 @@ export_citation(pmid_list, "endnote", enw_file);
 #### Explore one of the output files
 
 ```@example 4_pubmed_export_citations
-println(readstring(enw_file))
+println(read(enw_file, String))
 ```
 
 ### Export as a Bibtex file
@@ -75,7 +75,7 @@ export_citation(pmid_list, "bibtex", bib_file);
 #### Explore one of the output files
 
 ```@example 4_pubmed_export_citations
-println(readstring(bib_file))
+println(read(bib_file, String))
 ```
 
 *This page was generated using [Literate.jl](https://github.com/fredrikekre/Literate.jl).*

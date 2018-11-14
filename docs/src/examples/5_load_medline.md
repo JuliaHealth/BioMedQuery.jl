@@ -1,5 +1,5 @@
 ```@meta
-EditURL = "https://github.com/TRAVIS_REPO_SLUG/blob/master/../../julia-local-packages/BioMedQuery/examples/literate_src/5_load_medline.jl"
+EditURL = "https://github.com/TRAVIS_REPO_SLUG/blob/master/"
 ```
 
 # Load MEDLINE
@@ -31,8 +31,8 @@ the tables using this function will drop any tables that already exist in the ta
 database.*
 
 ```@example 5_load_medline
-const conn = DBUtils.init_mysql_database("127.0.0.1","root","","test_db", true);
-PubMed.create_tables!(conn);
+const conn = BioMedQuery.DBUtils.init_mysql_database("127.0.0.1","root","","test_db", true);
+BioMedQuery.PubMed.create_tables!(conn);
 ```
 
 ### Load a Test File
@@ -40,7 +40,7 @@ As the full medline load is a large operation, it is recommended that a test run
 be completed first.
 
 ```@example 5_load_medline
-@time Processes.load_medline!(conn, pwd(), test=true)
+@time BioMedQuery.Processes.load_medline!(conn, pwd(), test=true)
 ```
 
 Review the output of this run in MySQL to make sure that it ran as expected.

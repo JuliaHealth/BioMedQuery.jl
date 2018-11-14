@@ -7,5 +7,4 @@ UTS_TGT.txt
 *.ipynb_checkpoints
 tests/*.sqlite
 tests/*.db
-
-*.toml
+Manifest.toml

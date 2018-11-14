@@ -65,7 +65,7 @@ db_query(db_mysql, "SELECT * FROM mesh2umls")
 labels2ind
 
 # Output Data Matrix
-full(occur)
+Matrix(occur)
 
 MySQL.disconnect(db_mysql) #src
 

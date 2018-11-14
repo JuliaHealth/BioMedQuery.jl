@@ -1,8 +1,9 @@
 Submit and save queries to [clinicaltrials.gov](https://clinicaltrials.gov/)
 
 ## Import
+
 ```julia
-using NLM.CT
+using BioMedQuery.CT
 ```
 
 ## Search and save
@@ -21,6 +22,6 @@ Note: The term can also indicate joint searches, e.g.
 ### Submit and save:
 
 ```julia
-fout = "./test_CT_search.zip"
-status = NLM.CT.search_ct(query, fout;)
+fout= "./test_CT_search.zip"
+status = BioMedQuery.CT.search_ct(query, fout;)
 ```
