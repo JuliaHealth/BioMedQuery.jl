@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Export to Citations · BioMedQuery.jl</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link href="../../assets/documenter.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><h1>BioMedQuery.jl</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../../search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../../">Home</a></li><li><span class="toctext">Examples</span><ul><li><a class="toctext" href="../">Overview</a></li><li><a class="toctext" href="../1_pubmed_search_and_save/">Pubmed Search and Save</a></li><li><a class="toctext" href="../2_umls_map_and_filter/">MeSH/UMLS Map and Filtering</a></li><li class="current"><a class="toctext" href>Export to Citations</a><ul class="internal"></ul></li><li><a class="toctext" href="../5_load_medline/">Load MEDLINE</a></li></ul></li><li><span class="toctext">Manual</span><ul><li><a class="toctext" href="../../processes/">Processes/Workflows</a></li><li><a class="toctext" href="../../pubmed/">PubMed</a></li><li><a class="toctext" href="../../ct/">Clinical Trials</a></li><li><a class="toctext" href="../../dbutils/">Database Utilities</a></li><li><a class="toctext" href="../../library/">Library</a></li></ul></li></ul></nav><article id="docs"><header><nav><ul><li>Examples</li><li><a href>Export to Citations</a></li></ul><a class="edit-page" href="https://github.com/bcbi/BioMedQuery.jl/blob/master/examples/literate_src/4_pubmed_export_citations.jl"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>Export to Citations</span><a class="fa fa-bars" href="#"></a></div></header><h1><a class="nav-anchor" id="Export-PubMed-Citations-1" href="#Export-PubMed-Citations-1">Export PubMed Citations</a></h1><p><a href="http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/4_pubmed_export_citations.ipynb"><img src="https://img.shields.io/badge/jupyter_notebook-nbviewer-orange.svg" alt="nbviewer"/></a> BioMedQuery has functions to search PubMed for PMIDs and save the xml data as either a BibTex or EndNote citation.</p><p>Here we export EndNote/BibTex citations from a PMID or a list of PMIDs. If you need to search Entrez/PubMed and save the results as citations, refer to Examples / PubMed Search and Save.</p><h3><a class="nav-anchor" id="Set-Up-1" href="#Set-Up-1">Set Up</a></h3><div><pre><code class="language-julia">using BioMedQuery.Processes</code></pre></div><p>The functions require a directory to save the citation files to</p><div><pre><code class="language-julia">results_dir = &quot;.&quot;;
+
+if !isdir(results_dir)
+     mkdir(results_dir)
+end</code></pre></div><p>For this example, the below PMIDs are searched and saved as citations</p><div><pre><code class="language-julia">pmid = 11748933;
+pmid_list = [24008025, 24170597];</code></pre></div><h3><a class="nav-anchor" id="Export-as-an-EndNote-library-file-1" href="#Export-as-an-EndNote-library-file-1">Export as an EndNote library file</a></h3><p>Saving one PMID&#39;s citaiton as an EndNote file</p><div><pre><code class="language-julia">enw_file = results_dir * &quot;/11748933.enw&quot;;
+export_citation(pmid, &quot;endnote&quot;, enw_file);</code></pre><pre><code class="language-none">Saving citation for 1 articles</code></pre></div><p>Saving two PMIDs&#39; citations as an EndNote file</p><div><pre><code class="language-julia">enw_file = results_dir * &quot;/pmid_list.enw&quot;;
+export_citation(pmid_list, &quot;endnote&quot;, enw_file);</code></pre><pre><code class="language-none">Saving citation for 2 articles</code></pre></div><h4><a class="nav-anchor" id="Explore-one-of-the-output-files-1" href="#Explore-one-of-the-output-files-1">Explore one of the output files</a></h4><div><pre><code class="language-julia">println(read(enw_file, String))</code></pre><pre><code class="language-none">%0 Journal Article
+%A Vega-Robledo, GB
+%A Valencia-Zavala, MP
+%A Sánchez-Olivas, M
+%A Velázquez-Sámano, G
+%A Rico-Rosillo, G
+%D 2012
+%T [Association of obesity in adults with allergic asthma].
+%J Rev Alerg Mex
+%V 59
+%N 4
+%P 173-9
+%M 24008025
+%U http://www.ncbi.nlm.nih.gov/pubmed/24008025
+%X [&quot;BACKGROUND: Obesity and asthma are diseases of high prevalence around the world. The increment in their incidence constitutes a challenge to public health. Asthma can be worse in patients with obesity. OBJECTIVE: To know the prevalence of obesity in a group of Mexican allergic asthmatic adults. METHODS: A study about the prevalence of obesity in 158 adult asthmatic allergic patients in the years 2010 and 2011 was performed, according to the body mass index (BMI) obtained from their clinical files. In addition, skin tests with allergens were done and the total serum level of IgE was determined in each one of the individuals. RESULTS: According to the BMI, 112 (70.9%) patients had a weight above normal; 76 (67.9%) were women and 36 (32.1%) were men. The highest number of patients with weight above normal corresponded to the overweight group. Mild persistent asthma presented in two-thirds of the patients with overweight and obesity. Women with overweight and obesity showed a higher severity of asthma than men. Women had more positive skin tests than men. Half of the patients had IgE levels above normal. CONCLUSIONS: We found an increased prevalence of asthmatic adults with associated obesity. Asthmatic women presented more overweight and obesity than men, as well as increased severity of asthma and more positive skin tests with allergens.&quot;]
+%K Adult
+%K Allergens
+%K Asthma
+%K Body Mass Index
+%K Humans
+%K Obesity
+%K Overweight
+%+ Departamento de Medicina Experimental, Torre de InvestigaciÛn,5∞ piso, Facultad de Medicina, UNAM, MÈxico D.F.
+
+%0 Journal Article
+%A Rogge, MM
+%A Merrill, E
+%D 2013
+%T Obesity education for nurse practitioners: perspectives from nurse practitioner faculty.
+%J J Am Assoc Nurse Pract
+%V 25
+%N 6
+%P 320-8
+%M 24170597
+%U http://www.ncbi.nlm.nih.gov/pubmed/24170597
+%X [&quot;PURPOSE: The purpose of the study was to investigate curriculum content and teaching practices about obesity in graduate nursing programs in the United States. METHODOLOGY: A survey of 1202 faculty members teaching in nurse practitioner (NP) programs was conducted using an investigator-created instrument with items based on the National Institutes of Health Obesity Education Initiative guidelines. Objective items were analyzed using descriptive and nonparametric statistics, and the open-ended questions were analyzed using content analysis. FINDINGS: NP faculty emphasized existing clinical practice guidelines, but revealed a large disparity between what is emphasized in schools of nursing and the state of the science regarding obesity etiology and management. Faculty place a priority on teaching obesity as a key factor in the development of comorbidities, and weight loss as a means of treating these comorbidities. Teaching about the pathophysiology of obesity, management of bariatric surgery patients, and pharmacologic therapy are de-emphasized. Four main themes about obesity teaching practices were identified from subjects&#39; comments to open-ended items. CONCLUSIONS: Additional education and support are needed for faculty to teach about obesity in a way that advances the care of obese patients based on emerging scientific principles.&quot;]
+%K Attitude of Health Personnel
+%K Clinical Competence
+%K Curriculum
+%K Education, Nursing, Graduate
+%K Faculty, Nursing
+%K Humans
+%K Nurse Practitioners
+%K Obesity
+%K Obesity
+%K Obesity
+%K United States
+%+ Anita Thigpen Perry School of Nursing, Texas Tech University Health Sciences Center, Lubbock, Texas.</code></pre></div><h3><a class="nav-anchor" id="Export-as-a-Bibtex-file-1" href="#Export-as-a-Bibtex-file-1">Export as a Bibtex file</a></h3><p>Saving one PMID&#39;s citation as a BibTex file</p><div><pre><code class="language-julia">bib_file = results_dir * &quot;/11748933.bib&quot;;
+export_citation(pmid, &quot;bibtex&quot;, bib_file);</code></pre><pre><code class="language-none">Saving citation for 1 articles</code></pre></div><p>Saving two PMIDs&#39; citations as a BibTex file</p><div><pre><code class="language-julia">bib_file = results_dir * &quot;/pmid_list.bib&quot;;
+export_citation(pmid_list, &quot;bibtex&quot;, bib_file);</code></pre><pre><code class="language-none">Saving citation for 2 articles</code></pre></div><h4><a class="nav-anchor" id="Explore-one-of-the-output-files-2" href="#Explore-one-of-the-output-files-2">Explore one of the output files</a></h4><div><pre><code class="language-julia">println(read(bib_file, String))</code></pre><pre><code class="language-none">@article {PMID:24008025,
+  author  = {Vega-Robledo, GB and Valencia-Zavala, MP and Sánchez-Olivas, M and Velázquez-Sámano, G and Rico-Rosillo, G},
+  title   = {[Association of obesity in adults with allergic asthma].},
+  journal = {Rev Alerg Mex},
+  year    = {2012},
+  volume  = {59},
+  number  = {4},
+  pages   = {173-9},
+  url     = {http://www.ncbi.nlm.nih.gov/pubmed/24008025},
+}
+
+
+@article {PMID:24170597,
+  author  = {Rogge, MM and Merrill, E},
+  title   = {Obesity education for nurse practitioners: perspectives from nurse practitioner faculty.},
+  journal = {J Am Assoc Nurse Pract},
+  year    = {2013},
+  volume  = {25},
+  number  = {6},
+  pages   = {320-8},
+  url     = {http://www.ncbi.nlm.nih.gov/pubmed/24170597},
+}</code></pre></div><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p><footer><hr/><a class="previous" href="../2_umls_map_and_filter/"><span class="direction">Previous</span><span class="title">MeSH/UMLS Map and Filtering</span></a><a class="next" href="../5_load_medline/"><span class="direction">Next</span><span class="title">Load MEDLINE</span></a></footer></article></body></html>
