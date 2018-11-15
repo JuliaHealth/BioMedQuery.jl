@@ -629,14 +629,6 @@ var documenterSearchIndex = {"docs": [
     "page": "PubMed",
     "title": "BioMedQuery.PubMed.db_insert!",
     "category": "function",
-    "text": "db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix=\"<current date>_PubMed_\"; verbose=false, drop_csvs=false)\n\nWrites dictionary of dataframes to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.\n\n\n\n\n\n"
-},
-
-{
-    "location": "pubmed/#BioMedQuery.PubMed.db_insert!",
-    "page": "PubMed",
-    "title": "BioMedQuery.PubMed.db_insert!",
-    "category": "function",
     "text": "db_insert!(conn, csv_path=pwd(), csv_prefix=\"<current date>_PubMed_\"; verbose=false, drop_csvs=false)\n\nWrites CSVs from PubMed parsing to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs can optionally be removed after being written to DB.\n\n\n\n\n\n"
 },
 
@@ -646,6 +638,14 @@ var documenterSearchIndex = {"docs": [
     "title": "BioMedQuery.PubMed.db_insert!",
     "category": "function",
     "text": "db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix=\"<current date>_PubMed_\"; verbose=false, drop_csvs=false)\n\nWrites dictionary of dataframes to a SQLite database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.\n\n\n\n\n\n"
+},
+
+{
+    "location": "pubmed/#BioMedQuery.PubMed.db_insert!",
+    "page": "PubMed",
+    "title": "BioMedQuery.PubMed.db_insert!",
+    "category": "function",
+    "text": "db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix=\"<current date>_PubMed_\"; verbose=false, drop_csvs=false)\n\nWrites dictionary of dataframes to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.\n\n\n\n\n\n"
 },
 
 {
@@ -693,7 +693,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PubMed",
     "title": "BioMedQuery.PubMed.save_efetch!",
     "category": "function",
-    "text": "save_efetch!(output::CitationOutput, efetch_dict, verbose=false)\n\nSave the results of a Entrez efetch to a bibliography file, with format and file path given by output::CitationOutput\n\n\n\n\n\n"
+    "text": " pubmed_save_efetch(efetch_dict, conn)\n\nSave the results (dictionary) of an entrez-pubmed fetch to the input database.\n\n\n\n\n\n"
 },
 
 {
@@ -701,7 +701,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PubMed",
     "title": "BioMedQuery.PubMed.save_efetch!",
     "category": "function",
-    "text": " pubmed_save_efetch(efetch_dict, conn)\n\nSave the results (dictionary) of an entrez-pubmed fetch to the input database.\n\n\n\n\n\n"
+    "text": "save_efetch!(output::CitationOutput, efetch_dict, verbose=false)\n\nSave the results of a Entrez efetch to a bibliography file, with format and file path given by output::CitationOutput\n\n\n\n\n\n"
 },
 
 {
