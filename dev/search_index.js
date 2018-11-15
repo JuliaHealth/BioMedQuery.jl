@@ -21,7 +21,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Home",
     "title": "Installation",
     "category": "section",
-    "text": "BioMedQuery is a registered package. To install the latest stable version, use the package manager.Pkg.add(\"BioMedQuery\")To use the latest development version:Pkg.add(\"BioMedQuery#master\")To checkout the latest development version:Pkg.dev(\"BioMedQuery\")<!– ```@contents Pages = [\"man/eutils.md\", \"man/umls.md\"] Depth = 6 –>"
+    "text": "BioMedQuery is a registered package. To install the latest stable version, use the package manager.using Pkg\nPkg.add(\"BioMedQuery\")To use the latest development version:using Pkg\nPkg.add(\"BioMedQuery#master\")To checkout the latest development version:using Pkg\nPkg.dev(\"BioMedQuery\")"
 },
 
 {
@@ -149,7 +149,7 @@ var documenterSearchIndex = {"docs": [
     "page": "MeSH/UMLS Map and Filtering",
     "title": "Using UMLS Concepts with MeSH",
     "category": "section",
-    "text": "The Medical Subject Headings (MeSH) terms returned from a PubMed search can be further analyzed by mapping them to Unified Medical Language System (UMLS) concepts, as well as filtering the MeSH Terms by concepts.For both mapping MeSH to UMLS Concepts and filtering MeSH by concept, the following backends are supported:MySQL\nSQLite\nDataFrames(Image: nbviewer)"
+    "text": "(Image: nbviewer)The Medical Subject Headings (MeSH) terms returned from a PubMed search can be further analyzed by mapping them to Unified Medical Language System (UMLS) concepts, as well as filtering the MeSH Terms by concepts.For both mapping MeSH to UMLS Concepts and filtering MeSH by concept, the following backends are supported:MySQL\nSQLite\nDataFrames"
 },
 
 {
@@ -237,7 +237,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Export to Citations",
     "title": "Export PubMed Citations",
     "category": "section",
-    "text": "(Image: nbviewer) BioMedQuery has functions to search PubMed for PMIDs and save the xml data as either a BibTex or EndNote citation.Here we export EndNote/BibTex citations from a PMID or a list of PMIDs. If you need to search Entrez/PubMed and save the results as citations, refer to Examples / PubMed Search and Save."
+    "text": "(Image: nbviewer)BioMedQuery has functions to search PubMed for PMIDs and save the xml data as either a BibTex or EndNote citation.Here we export EndNote/BibTex citations from a PMID or a list of PMIDs. If you need to search Entrez/PubMed and save the results as citations, refer to Examples / PubMed Search and Save."
 },
 
 {
@@ -637,7 +637,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PubMed",
     "title": "BioMedQuery.PubMed.db_insert!",
     "category": "function",
-    "text": "db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix=\"<current date>_PubMed_\"; verbose=false, drop_csvs=false)\n\nWrites dictionary of dataframes to a SQLite database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.\n\n\n\n\n\n"
+    "text": "db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix=\"<current date>_PubMed_\"; verbose=false, drop_csvs=false)\n\nWrites dictionary of dataframes to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.\n\n\n\n\n\n"
 },
 
 {
@@ -645,7 +645,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PubMed",
     "title": "BioMedQuery.PubMed.db_insert!",
     "category": "function",
-    "text": "db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix=\"<current date>_PubMed_\"; verbose=false, drop_csvs=false)\n\nWrites dictionary of dataframes to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.\n\n\n\n\n\n"
+    "text": "db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix=\"<current date>_PubMed_\"; verbose=false, drop_csvs=false)\n\nWrites dictionary of dataframes to a SQLite database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.\n\n\n\n\n\n"
 },
 
 {

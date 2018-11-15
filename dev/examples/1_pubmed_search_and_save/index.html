@@ -27,38 +27,38 @@ end</code></pre><pre><code class="language-none">5×9 DataFrames.DataFrame
 │ Row │ pmid     │ last_name │ first_name │ initials │ suffix  │ orcid   │ collective │ affiliation                                                                       │ ins_dt_time         │
 │     │ Int32    │ String⍰   │ String⍰    │ String⍰  │ String⍰ │ String⍰ │ String⍰    │ Union{Missing, String}                                                            │ Dates.DateTime      │
 ├─────┼──────────┼───────────┼────────────┼──────────┼─────────┼─────────┼────────────┼───────────────────────────────────────────────────────────────────────────────────┼─────────────────────┤
-│ 1   │ 25548090 │ So        │ Eun Sun    │ ES       │ missing │ missing │ missing    │ Chonbuk National University, South Korea soeunjee@naver.com.                      │ 2018-11-15T04:50:45 │
-│ 2   │ 25548090 │ Yoo       │ Kwang Soo  │ KS       │ missing │ missing │ missing    │ Chonbuk National University, South Korea.                                         │ 2018-11-15T04:50:45 │
-│ 3   │ 24694474 │ Sakurai   │ Masaru     │ M        │ missing │ missing │ missing    │ Department of Epidemiology and Public Health, Kanazawa Medical University, Japan. │ 2018-11-15T04:50:45 │
-│ 4   │ 24694474 │ Nakamura  │ Koshi      │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2018-11-15T04:50:45 │
-│ 5   │ 24694474 │ Miura     │ Katsuyuki  │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2018-11-15T04:50:45 │
+│ 1   │ 25548090 │ So        │ Eun Sun    │ ES       │ missing │ missing │ missing    │ Chonbuk National University, South Korea soeunjee@naver.com.                      │ 2018-11-15T19:02:11 │
+│ 2   │ 25548090 │ Yoo       │ Kwang Soo  │ KS       │ missing │ missing │ missing    │ Chonbuk National University, South Korea.                                         │ 2018-11-15T19:02:11 │
+│ 3   │ 24694474 │ Sakurai   │ Masaru     │ M        │ missing │ missing │ missing    │ Department of Epidemiology and Public Health, Kanazawa Medical University, Japan. │ 2018-11-15T19:02:11 │
+│ 4   │ 24694474 │ Nakamura  │ Koshi      │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2018-11-15T19:02:11 │
+│ 5   │ 24694474 │ Miura     │ Katsuyuki  │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2018-11-15T19:02:11 │
 5×3 DataFrames.DataFrame
 │ Row │ uid   │ name                 │ ins_dt_time         │
 │     │ Int32 │ String               │ Dates.DateTime      │
 ├─────┼───────┼──────────────────────┼─────────────────────┤
-│ 1   │ 328   │ Adult                │ 2018-11-15T04:50:45 │
-│ 2   │ 368   │ Aged                 │ 2018-11-15T04:50:45 │
-│ 3   │ 369   │ Aged, 80 and over    │ 2018-11-15T04:50:45 │
-│ 4   │ 704   │ Analysis of Variance │ 2018-11-15T04:50:45 │
-│ 5   │ 1835  │ Body Weight          │ 2018-11-15T04:50:45 │
+│ 1   │ 328   │ Adult                │ 2018-11-15T19:02:11 │
+│ 2   │ 368   │ Aged                 │ 2018-11-15T19:02:11 │
+│ 3   │ 369   │ Aged, 80 and over    │ 2018-11-15T19:02:11 │
+│ 4   │ 704   │ Analysis of Variance │ 2018-11-15T19:02:11 │
+│ 5   │ 1835  │ Body Weight          │ 2018-11-15T19:02:11 │
 5×3 DataFrames.DataFrame
 │ Row │ uid   │ name          │ ins_dt_time         │
 │     │ Int32 │ String        │ Dates.DateTime      │
 ├─────┼───────┼───────────────┼─────────────────────┤
-│ 1   │ 32    │ analysis      │ 2018-11-15T04:50:45 │
-│ 2   │ 97    │ blood         │ 2018-11-15T04:50:45 │
-│ 3   │ 150   │ complications │ 2018-11-15T04:50:45 │
-│ 4   │ 208   │ ethnology     │ 2018-11-15T04:50:45 │
-│ 5   │ 209   │ etiology      │ 2018-11-15T04:50:45 │
+│ 1   │ 32    │ analysis      │ 2018-11-15T19:02:11 │
+│ 2   │ 97    │ blood         │ 2018-11-15T19:02:11 │
+│ 3   │ 150   │ complications │ 2018-11-15T19:02:11 │
+│ 4   │ 208   │ ethnology     │ 2018-11-15T19:02:11 │
+│ 5   │ 209   │ etiology      │ 2018-11-15T19:02:11 │
 5×6 DataFrames.DataFrame
 │ Row │ pmid     │ desc_uid │ desc_maj_status │ qual_uid │ qual_maj_status │ ins_dt_time         │
 │     │ Int32    │ Int32    │ Int8            │ Int32⍰   │ Int8⍰           │ Dates.DateTime      │
 ├─────┼──────────┼──────────┼─────────────────┼──────────┼─────────────────┼─────────────────────┤
-│ 1   │ 25548090 │ 17677    │ 0               │ missing  │ missing         │ 2018-11-15T04:50:45 │
-│ 2   │ 25548090 │ 368      │ 0               │ missing  │ missing         │ 2018-11-15T04:50:45 │
-│ 3   │ 25548090 │ 369      │ 0               │ missing  │ missing         │ 2018-11-15T04:50:45 │
-│ 4   │ 25548090 │ 5260     │ 0               │ missing  │ missing         │ 2018-11-15T04:50:45 │
-│ 5   │ 25548090 │ 6801     │ 0               │ missing  │ missing         │ 2018-11-15T04:50:45 │</code></pre></div><div><pre><code class="language-julia">MySQL.disconnect(mysql_conn);</code></pre></div><h3><a class="nav-anchor" id="SQLite-backend-1" href="#SQLite-backend-1">SQLite backend</a></h3><div><pre><code class="language-julia">const db_path = &quot;$(results_dir)/pubmed_obesity_2010_2012.db&quot;;</code></pre></div><p>Overwrite the database if it already exists</p><div><pre><code class="language-julia">if isfile(db_path)
+│ 1   │ 25548090 │ 17677    │ 0               │ missing  │ missing         │ 2018-11-15T19:02:11 │
+│ 2   │ 25548090 │ 368      │ 0               │ missing  │ missing         │ 2018-11-15T19:02:11 │
+│ 3   │ 25548090 │ 369      │ 0               │ missing  │ missing         │ 2018-11-15T19:02:11 │
+│ 4   │ 25548090 │ 5260     │ 0               │ missing  │ missing         │ 2018-11-15T19:02:11 │
+│ 5   │ 25548090 │ 6801     │ 0               │ missing  │ missing         │ 2018-11-15T19:02:11 │</code></pre></div><div><pre><code class="language-julia">MySQL.disconnect(mysql_conn);</code></pre></div><h3><a class="nav-anchor" id="SQLite-backend-1" href="#SQLite-backend-1">SQLite backend</a></h3><div><pre><code class="language-julia">const db_path = &quot;$(results_dir)/pubmed_obesity_2010_2012.db&quot;;</code></pre></div><p>Overwrite the database if it already exists</p><div><pre><code class="language-julia">if isfile(db_path)
     rm(db_path)
 end</code></pre></div><p>Connect to the database</p><div><pre><code class="language-julia">const conn_sqlite = SQLite.DB(db_path);</code></pre></div><p>Creates (and deletes if they already exist) all tables needed to save a pubmed search</p><div><pre><code class="language-julia">PubMed.create_tables!(conn_sqlite);</code></pre></div><p>Search PubMed and save the results</p><div><pre><code class="language-julia">Processes.pubmed_search_and_save!(email, search_term, max_articles, conn_sqlite, verbose)</code></pre><pre><code class="language-none">Getting 5 articles, starting at index 0
 ------ESearch--------
@@ -85,11 +85,11 @@ end</code></pre><pre><code class="language-none">┌ Warning: `SQLite.query(db, 
 │ Row │ pmid     │ last_name │ first_name │ initials │ suffix  │ orcid   │ collective │ affiliation                                                                       │ ins_dt_time         │
 │     │ Int64⍰   │ String⍰   │ String⍰    │ String⍰  │ Any     │ Any     │ Any        │ Union{Missing, String}                                                            │ String⍰             │
 ├─────┼──────────┼───────────┼────────────┼──────────┼─────────┼─────────┼────────────┼───────────────────────────────────────────────────────────────────────────────────┼─────────────────────┤
-│ 1   │ 25548090 │ So        │ Eun Sun    │ ES       │ missing │ missing │ missing    │ Chonbuk National University, South Korea soeunjee@naver.com.                      │ 2018-11-15 04:50:51 │
-│ 2   │ 25548090 │ Yoo       │ Kwang Soo  │ KS       │ missing │ missing │ missing    │ Chonbuk National University, South Korea.                                         │ 2018-11-15 04:50:51 │
-│ 3   │ 24694474 │ Sakurai   │ Masaru     │ M        │ missing │ missing │ missing    │ Department of Epidemiology and Public Health, Kanazawa Medical University, Japan. │ 2018-11-15 04:50:51 │
-│ 4   │ 24694474 │ Nakamura  │ Koshi      │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2018-11-15 04:50:51 │
-│ 5   │ 24694474 │ Miura     │ Katsuyuki  │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2018-11-15 04:50:51 │
+│ 1   │ 25548090 │ So        │ Eun Sun    │ ES       │ missing │ missing │ missing    │ Chonbuk National University, South Korea soeunjee@naver.com.                      │ 2018-11-15 19:02:15 │
+│ 2   │ 25548090 │ Yoo       │ Kwang Soo  │ KS       │ missing │ missing │ missing    │ Chonbuk National University, South Korea.                                         │ 2018-11-15 19:02:15 │
+│ 3   │ 24694474 │ Sakurai   │ Masaru     │ M        │ missing │ missing │ missing    │ Department of Epidemiology and Public Health, Kanazawa Medical University, Japan. │ 2018-11-15 19:02:15 │
+│ 4   │ 24694474 │ Nakamura  │ Koshi      │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2018-11-15 19:02:15 │
+│ 5   │ 24694474 │ Miura     │ Katsuyuki  │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2018-11-15 19:02:15 │
 ┌ Warning: `SQLite.query(db, sql)` will return an `SQLite.Query` object in the future; to materialize a resultset, do `DataFrame(SQLite.query(db, sql))` instead
 │   caller = ip:0x0
 └ @ Core :-1
@@ -100,11 +100,11 @@ end</code></pre><pre><code class="language-none">┌ Warning: `SQLite.query(db, 
 │ Row │ uid    │ name              │ ins_dt_time         │
 │     │ Int64⍰ │ String⍰           │ String⍰             │
 ├─────┼────────┼───────────────────┼─────────────────────┤
-│ 1   │ 12016  │ Reference Values  │ 2018-11-15 04:50:49 │
-│ 2   │ 56910  │ Republic of Korea │ 2018-11-15 04:50:49 │
-│ 3   │ 12372  │ ROC Curve         │ 2018-11-15 04:50:49 │
-│ 4   │ 5221   │ Fatigue           │ 2018-11-15 04:50:49 │
-│ 5   │ 9765   │ Obesity           │ 2018-11-15 04:50:49 │
+│ 1   │ 12016  │ Reference Values  │ 2018-11-15 19:02:15 │
+│ 2   │ 56910  │ Republic of Korea │ 2018-11-15 19:02:15 │
+│ 3   │ 12372  │ ROC Curve         │ 2018-11-15 19:02:15 │
+│ 4   │ 5221   │ Fatigue           │ 2018-11-15 19:02:15 │
+│ 5   │ 9765   │ Obesity           │ 2018-11-15 19:02:15 │
 ┌ Warning: `SQLite.query(db, sql)` will return an `SQLite.Query` object in the future; to materialize a resultset, do `DataFrame(SQLite.query(db, sql))` instead
 │   caller = ip:0x0
 └ @ Core :-1
@@ -115,11 +115,11 @@ end</code></pre><pre><code class="language-none">┌ Warning: `SQLite.query(db, 
 │ Row │ uid    │ name                        │ ins_dt_time         │
 │     │ Int64⍰ │ Union{Missing, String}      │ String⍰             │
 ├─────┼────────┼─────────────────────────────┼─────────────────────┤
-│ 1   │ 208    │ ethnology                   │ 2018-11-15 04:50:50 │
-│ 2   │ 706    │ statistics &amp; numerical data │ 2018-11-15 04:50:50 │
-│ 3   │ 453    │ epidemiology                │ 2018-11-15 04:50:50 │
-│ 4   │ 502    │ physiology                  │ 2018-11-15 04:50:50 │
-│ 5   │ 32     │ analysis                    │ 2018-11-15 04:50:50 │
+│ 1   │ 208    │ ethnology                   │ 2018-11-15 19:02:15 │
+│ 2   │ 706    │ statistics &amp; numerical data │ 2018-11-15 19:02:15 │
+│ 3   │ 453    │ epidemiology                │ 2018-11-15 19:02:15 │
+│ 4   │ 502    │ physiology                  │ 2018-11-15 19:02:15 │
+│ 5   │ 32     │ analysis                    │ 2018-11-15 19:02:15 │
 ┌ Warning: `SQLite.query(db, sql)` will return an `SQLite.Query` object in the future; to materialize a resultset, do `DataFrame(SQLite.query(db, sql))` instead
 │   caller = ip:0x0
 └ @ Core :-1
@@ -130,11 +130,11 @@ end</code></pre><pre><code class="language-none">┌ Warning: `SQLite.query(db, 
 │ Row │ pmid     │ desc_uid │ desc_maj_status │ qual_uid │ qual_maj_status │ ins_dt_time         │
 │     │ Int64⍰   │ Int64⍰   │ Int64⍰          │ Any      │ Any             │ String⍰             │
 ├─────┼──────────┼──────────┼─────────────────┼──────────┼─────────────────┼─────────────────────┤
-│ 1   │ 25548090 │ 17677    │ 0               │ missing  │ missing         │ 2018-11-15 04:50:55 │
-│ 2   │ 25548090 │ 368      │ 0               │ missing  │ missing         │ 2018-11-15 04:50:55 │
-│ 3   │ 25548090 │ 369      │ 0               │ missing  │ missing         │ 2018-11-15 04:50:55 │
-│ 4   │ 25548090 │ 5260     │ 0               │ missing  │ missing         │ 2018-11-15 04:50:55 │
-│ 5   │ 25548090 │ 6801     │ 0               │ missing  │ missing         │ 2018-11-15 04:50:55 │</code></pre></div><h3><a class="nav-anchor" id="Citations-1" href="#Citations-1">Citations</a></h3><p>Citation type can be &quot;endnote&quot; or &quot;bibtex&quot;</p><div><pre><code class="language-julia">enw_file = &quot;$(results_dir)/pubmed_obesity_2010_2012.enw&quot;
+│ 1   │ 25548090 │ 17677    │ 0               │ missing  │ missing         │ 2018-11-15 19:02:15 │
+│ 2   │ 25548090 │ 368      │ 0               │ missing  │ missing         │ 2018-11-15 19:02:15 │
+│ 3   │ 25548090 │ 369      │ 0               │ missing  │ missing         │ 2018-11-15 19:02:15 │
+│ 4   │ 25548090 │ 5260     │ 0               │ missing  │ missing         │ 2018-11-15 19:02:15 │
+│ 5   │ 25548090 │ 6801     │ 0               │ missing  │ missing         │ 2018-11-15 19:02:15 │</code></pre></div><h3><a class="nav-anchor" id="Citations-1" href="#Citations-1">Citations</a></h3><p>Citation type can be &quot;endnote&quot; or &quot;bibtex&quot;</p><div><pre><code class="language-julia">enw_file = &quot;$(results_dir)/pubmed_obesity_2010_2012.enw&quot;
 endnote_citation = PubMed.CitationOutput(&quot;endnote&quot;, enw_file, true)
 Processes.pubmed_search_and_save!(email, search_term, max_articles, endnote_citation, verbose);
 
