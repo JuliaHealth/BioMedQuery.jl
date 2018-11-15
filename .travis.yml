@@ -23,7 +23,7 @@ after_success:
 
 jobs:
   include:
-    - stage: "Testing"
+    - stage: "Tests and Examples"
       os: linux
       julia: 0.7
       env: GROUP=Test
@@ -32,7 +32,7 @@ jobs:
         - julia --check-bounds=yes -e 'import Pkg;
               Pkg.build();
               Pkg.test("BioMedQuery"; coverage=true);'
-    - # continue test
+    - # continue 
       os: osx
       julia: 0.7
       env: GROUP=Test
@@ -41,7 +41,7 @@ jobs:
         - julia --check-bounds=yes -e 'import Pkg;
               Pkg.build();
               Pkg.test("BioMedQuery"; coverage=true);'
-    - # continue test
+    - # continue 
       os: linux
       julia: 1.0
       env: GROUP=Test
@@ -50,7 +50,7 @@ jobs:
         - julia --check-bounds=yes -e 'import Pkg;
               Pkg.build();
               Pkg.test("BioMedQuery"; coverage=true);'
-    - # continue test
+    - # continue 
       os: osx
       julia: 1.0
       env: GROUP=Test
@@ -59,16 +59,7 @@ jobs:
         - julia --check-bounds=yes -e 'import Pkg;
               Pkg.build();
               Pkg.test("BioMedQuery"; coverage=true);'
-    - stage: "Examples"
-      os: linux
-      julia: 0.7
-      env: GROUP=Examples
-      script:
-        - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-        - julia --check-bounds=yes -e 'import Pkg;
-            Pkg.instantiate();
-            include(joinpath(@__DIR__,"examples","runexamples.jl"))'
-    - #continue examples
+    - # continue 
       os: linux
       julia: 1.0
       env: GROUP=Examples
@@ -77,7 +68,7 @@ jobs:
         - julia --check-bounds=yes -e 'import Pkg;
             Pkg.instantiate();
             include(joinpath(@__DIR__,"examples","runexamples.jl"))'
-    - stage: "Documentation"
+    - stage: "Deploy Documentation"
       julia: 1.0
       os: linux
       script:
