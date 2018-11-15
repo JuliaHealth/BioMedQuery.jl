@@ -64,7 +64,7 @@ import Base.parse
 
         #query the article table and make sure the count is correct
         all_pmids = PubMed.all_pmids(conn)
-        @test length(all_pmids) == narticles
+        @test size(all_pmids)[1] == narticles
 
         #clean-up
         db_query(conn, "DROP DATABASE IF EXISTS $dbname;")
@@ -117,7 +117,7 @@ import Base.parse
 
         #query the article table and make sure the count is correct
         all_pmids = PubMed.all_pmids(conn)
-        @test length(all_pmids) == narticles
+        @test size(all_pmids)[1] == narticles
 
         #query the article table and make sure the count is correct
         all_abstracts = PubMed.abstracts(conn)
@@ -132,7 +132,7 @@ import Base.parse
         "mesh_qual", "mesh_heading", "pub_type", "abstract_structured"]
 
         for t in tables
-            q = DataFrame(SQLite.query(conn, "SELECT count(*) FROM "*t*";"))
+            q = DataFrame(SQLite.Query(conn, "SELECT count(*) FROM "*t*";"))
             count = q[1][1]
             @test count > 0
         end
@@ -181,7 +181,7 @@ import Base.parse
         "mesh_qual", "mesh_heading", "pub_type", "abstract_structured"]
 
         for t in tables
-            q = MySQL.query(conn, "SELECT count(*) FROM $t;") |> DataFrame
+            q = MySQL.Query(conn, "SELECT count(*) FROM $t;") |> DataFrame
             count = q[1][1]
             @test count > 0
         end

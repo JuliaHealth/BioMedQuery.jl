@@ -38,10 +38,10 @@ function map_mesh_to_umls_async!(db, user, psswd; timeout = 5, append_results=fa
     end
 
     #select all mesh descriptors
-    mq = sql_engine.query(db,"SELECT name FROM mesh_desc;")
+    mq = sql_engine.Query(db,"SELECT name FROM mesh_desc;") |> DataFrame
 
     #get the array of terms
-    mesh_terms = mq[1]
+    mesh_terms = mq[:name]
     println("----------Matching MESH to UMLS-----------")
     println(mesh_terms)
 

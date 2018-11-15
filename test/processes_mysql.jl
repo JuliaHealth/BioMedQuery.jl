@@ -60,7 +60,7 @@ credentials_set = get(ENV, "TRAVIS_SECURE_ENV_VARS", "true")=="true"
 
         map_mesh_to_umls_async!(conn, umls_user, umls_pswd; append_results=append, timeout=1)
         all_pairs_query = db_query(conn, "SELECT mesh FROM mesh2umls;")
-        all_pairs = all_pairs_query[1]
+        all_pairs = all_pairs_query[:mesh]
         @test length(all_pairs) > 0
 
         println("-----------------------------------------")
@@ -90,7 +90,7 @@ end
 
     all_pmids = PubMed.all_pmids(conn)
     @test length(all_pmids) == length(collect(child_elements(raw_articles)))
-    res = MySQL.query(conn, "SELECT DISTINCT orcid FROM author_ref;") |> DataFrame
+    res = MySQL.Query(conn, "SELECT DISTINCT orcid FROM author_ref;") |> DataFrame
     @test size(res)[1] > 2
 
     rm(joinpath(dirname(@__FILE__),"medline"), recursive=true)
