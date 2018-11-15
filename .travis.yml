@@ -31,7 +31,7 @@ jobs:
         - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
         - julia --check-bounds=yes -e 'import Pkg;
               Pkg.build();
-              Pkg.test("BioMedQuery"; coverage=true);'
+              Pkg.test("BioMedQuery"; coverage=false);'
     - # continue 
       os: osx
       julia: 0.7
@@ -40,7 +40,7 @@ jobs:
         - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
         - julia --check-bounds=yes -e 'import Pkg;
               Pkg.build();
-              Pkg.test("BioMedQuery"; coverage=true);'
+              Pkg.test("BioMedQuery"; coverage=false);'
     - # continue 
       os: linux
       julia: 1.0
@@ -58,7 +58,7 @@ jobs:
         - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
         - julia --check-bounds=yes -e 'import Pkg;
               Pkg.build();
-              Pkg.test("BioMedQuery"; coverage=true);'
+              Pkg.test("BioMedQuery"; coverage=false);'
     - # continue 
       os: linux
       julia: 1.0
