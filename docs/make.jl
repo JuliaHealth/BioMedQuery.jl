@@ -1,5 +1,6 @@
-using Documenter, BioMedQuery
+using Documenter
 using Literate
+using BioMedQuery
 
 # compile all examples in BioMedQuery/examples/literate_src into markdown and jupyter notebooks for documentation
 for (root, dirs, files) in walkdir("examples/literate_src")
@@ -14,11 +15,31 @@ for (root, dirs, files) in walkdir("examples/literate_src")
     end
 end
 
-makedocs(sitename="BioMedQuery.jl", debug=true)
+makedocs(
+    modules = [ BioMedQuery],
+    sitename = "BioMedQuery.jl",
+    debug = true,
+    pages = [
+        "Home" => "index.md",
+        "Examples" => Any[
+            "Overview" => "examples.md",
+            "Pubmed Search and Save" => "examples/1_pubmed_search_and_save.md",
+            "MeSH/UMLS Map and Filtering" => "examples/2_umls_map_and_filter.md",
+            "Export to Citations" => "examples/4_pubmed_export_citations.md",
+            "Load MEDLINE" => "examples/5_load_medline.md",
+        ],
+        "Manual" => Any[
+            "Processes/Workflows" => "processes.md",
+            "PubMed" => "pubmed.md",
+            "Clinical Trials" => "ct.md",
+            "Database Utilities" => "dbutils.md",
+            "Library" => "library.md"
+            ]
+        ]
+    )
 
 deploydocs(
-    deps   = Deps.pip("mkdocs==0.17.5", "mkdocs-material==2.9.4"),
     repo = "github.com/bcbi/BioMedQuery.jl.git",
-    julia  = "0.7",
+    julia  = "1.0",
     osname = "linux"
 )
