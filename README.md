@@ -33,18 +33,22 @@ Supported APIs include:
 
 BioMedQuery is a registered package. To install the latest **stable version**, use the package manager.
 
-The current stable version is compatible with julia v0.7.  Use BioMedQuery v0.5.0 for compatibility with julia v0.6.
-
-```julia
+```{Julia}
+using Pkg
 Pkg.add("BioMedQuery")
 ```
 
-To checkout the current master (development) branch:
+To use the latest **development** version:
 
-```julia
-Pkg.add("https://github.com/bcbi/BioMedQuery.jl.git")
+
+```{Julia}
+using Pkg
+Pkg.add("BioMedQuery#master")
 ```
-Or
-```julia
+
+To checkout the latest **development** version:
+
+```{Julia}
+using Pkg
 Pkg.dev("BioMedQuery")
 ```

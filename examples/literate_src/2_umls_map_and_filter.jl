@@ -1,5 +1,7 @@
 # # Using UMLS Concepts with MeSH
 
+#md # [![nbviewer](https://img.shields.io/badge/jupyter_notebook-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/2_umls_map_and_filter.ipynb)
+
 # The Medical Subject Headings (MeSH) terms returned from a PubMed search can be further analyzed
 # by mapping them to Unified Medical Language System (UMLS) concepts, as well as
 # filtering the MeSH Terms by concepts.
@@ -9,7 +11,6 @@
 # * SQLite
 # * DataFrames
 
-#md # [![nbviewer](https://img.shields.io/badge/jupyter_notebook-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/2_umls_map_and_filter.ipynb)
 
 # ### Set Up
 using SQLite

@@ -40,5 +40,4 @@ makedocs(
 
 deploydocs(
     repo = "github.com/bcbi/BioMedQuery.jl.git",
-    target = "build"
 )
