@@ -40,6 +40,5 @@ makedocs(
 
 deploydocs(
     repo = "github.com/bcbi/BioMedQuery.jl.git",
-    julia  = "1.0",
-    osname = "linux"
+    target = "build"
 )
