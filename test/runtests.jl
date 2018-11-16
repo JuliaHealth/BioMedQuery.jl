@@ -14,8 +14,9 @@ using DataStreams
 
 
 #For now this corresponds to JULIACIBot... since we aren't testing anywhere else
-global CI = get(ENV, "CI", "true")=="true"
-global TRAVIS = get(ENV, "TRAVIS", "true")=="true"
+global CI = get(ENV, "CI", "false")=="true"
+global TRAVIS = get(ENV, "TRAVIS", "false")=="true"
+println("CI = ", CI, ", TRAVIS = ", TRAVIS)
 global CI_SKIP_MYSQL = false
 
 if CI == true && TRAVIS == false
