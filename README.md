@@ -9,11 +9,13 @@
 
 # BioMedQuery
 
+[![Latest Release](https://img.shields.io/github/release/bcbi/BioMedQuery.jl.svg?style=flat-square)](https://github.com/bcbi/BioMedQuery.jl/releases/latest)
+[![MIT license](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](https://github.com/bcbi/BioMedQuery.jl/blob/master/LICENSE)
+[![DOI](https://zenodo.org/badge/59500020.svg)](https://zenodo.org/badge/latestdoi/59500020)
+![Lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg?style=flat-square)
 
-| Travis CI | Coverage | License | Documentation| Examples|
-|:-----------:|:----------:|:---------:|:--------------:|:--------------:|
-| [![](https://badges.herokuapp.com/travis/bcbi/BioMedQuery.jl?branch=master&env=GROUP=Test&label=tests)](https://travis-ci.org/bcbi/BioMedQuery.jl)[![](https://badges.herokuapp.com/travis/bcbi/BioMedQuery.jl?branch=master&env=GROUP=Examples&label=examples)](https://travis-ci.org/bcbi/BioMedQuery.jl)| [![codecov](https://codecov.io/gh/bcbi/BioMedQuery.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/bcbi/BioMedQuery.jl)|[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/bcbi/BioMedQuery.jl/master/LICENSE.md) | [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://bcbi.github.io/BioMedQuery.jl/stable) [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://bcbi.github.io/BioMedQuery.jl/latest) | [![nbviewer](https://img.shields.io/badge/jupyter_notebooks-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/)
 
+## Description
 
 Julia utilities to process and save results from BioMedical databases/APIs.
 
@@ -52,3 +54,19 @@ To checkout the latest **development** version:
 using Pkg
 Pkg.dev("BioMedQuery")
 ```
+
+## Testing
+
+BioMedQuery is tested against Julia `0.7` and current `1.X` on
+Linux, and OS X.
+
+
+| Latest CI Build |
+|:-----------:|
+| [![](https://badges.herokuapp.com/travis/bcbi/BioMedQuery.jl?branch=master&env=GROUP=Test&label=tests)](https://travis-ci.org/bcbi/BioMedQuery.jl)[![](https://badges.herokuapp.com/travis/bcbi/BioMedQuery.jl?branch=master&env=GROUP=Examples&label=examples)](https://travis-ci.org/bcbi/BioMedQuery.jl) [![codecov](https://codecov.io/gh/bcbi/BioMedQuery.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/bcbi/BioMedQuery.jl)| 
+
+## Documentation
+
+| Stable | Latest |  Examples |
+|:-----------:|:-----------:|:-----------:|
+|[![Stable documentation](https://img.shields.io/badge/docs-stable-blue.svg?style=flat-square)](https://bcbi.github.io/BioMedQuery.jl/stable)|[![Latest documentation](https://img.shields.io/badge/docs-latest-blue.svg?style=flat-square)](https://bcbi.github.io/BioMedQuery.jl/latest/)|[![nbviewer](https://img.shields.io/badge/jupyter_notebooks-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/)|
