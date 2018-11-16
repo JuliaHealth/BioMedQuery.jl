@@ -13,26 +13,37 @@ using SQLite
 using DataStreams
 
 
-my_tests = [
+#For now this corresponds to JULIACIBot... since we aren't testing anywhere else
+global CI = get(ENV, "CI", "true")=="true"
+global TRAVIS = get(ENV, "TRAVIS", "true")=="true"
+global CI_SKIP_MYSQL = false
+
+if CI == true && TRAVIS == false
+     CI_SKIP_MYSQL = true
+     @warn("MySQL tests not running")
+end
+
+all_tests = [
             ("dbutils_sqlite.jl",   "       Testing: DBUtils SQLite"),
-            ("dbutils_mysql.jl",    "       Testing: DBUtils MySQL"),
             ("pubmed.jl",           "       Testing: Eutils/PubMed"),
             ("export_citations.jl", "       Testing: Export Citations"),
             ("pubmed_parse.jl",     "       Testing: Entrez Parsing"),
             ("ct.jl",               "       Testing: CLINICAL TRIALS"),
-            ("processes_mysql.jl",  "       Testing: Processes MySQL"),
             ("processes_sqlite.jl", "       Testing: Processes SQLite"),
             ("processes_df.jl",     "       Testing: Processes DataFrame")
             ]
-
+if !CI_SKIP_MYSQL
+    push!(all_tests, ("dbutils_mysql.jl",    "       Testing: DBUtils MySQL"))
+    push!(all_tests, ("processes_mysql.jl",  "       Testing: Processes MySQL"))
+end
 println("Running tests:")
 
-for (my_test, test_string) in my_tests
+for (test, test_string) in all_tests
     println("-----------------------------------------")
     println("-----------------------------------------")
     println(test_string)
     println("-----------------------------------------")
     println("-----------------------------------------")
 
-    include(my_test)
+    include(test)
 end

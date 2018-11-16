@@ -50,24 +50,75 @@ import Base.parse
 
     end
 
-    @testset "Test Save PMID MySQL" begin
+    if !CI_SKIP_MYSQL
+
+        @testset "Test Save PMID MySQL" begin
+            println("-----------------------------------------")
+            println("       Test Save PMID MySQL     ")
+            dbname = "entrez_test"
+            host = "127.0.0.1";
+            user = "root"
+            pwd = ""
+
+            conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
+            PubMed.create_pmid_table!(conn)
+            PubMed.save_pmids!(conn, ids)
+
+            #query the article table and make sure the count is correct
+            all_pmids = PubMed.all_pmids(conn)
+            @test size(all_pmids)[1] == narticles
+
+            #clean-up
+            db_query(conn, "DROP DATABASE IF EXISTS $dbname;")
+
+        end
+
+        @testset "Testing MySQL Saving" begin
         println("-----------------------------------------")
-        println("       Test Save PMID MySQL     ")
-        dbname = "entrez_test"
+        println("       Testing MySQL Saving")
+
+        dbname = "efetch_test"
         host = "127.0.0.1";
         user = "root"
         pwd = ""
 
         conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
-        PubMed.create_pmid_table!(conn)
-        PubMed.save_pmids!(conn, ids)
+        PubMed.create_tables!(conn)
+        @time PubMed.save_efetch!(conn, efetch_doc, false, true)
+
+        # query the df and db tables to make sure the count is correct
+        for (table, df) in dfs_efetch
+            query_res = db_query(conn, "select count(*) from $table")
+            @test size(df)[1] == query_res[1][1]
+        end
 
         #query the article table and make sure the count is correct
         all_pmids = PubMed.all_pmids(conn)
-        @test size(all_pmids)[1] == narticles
+        @test length(all_pmids) == narticles
+
+        #query the article table and make sure the count is correct
+        all_abstracts = PubMed.abstracts(conn)
+        @test size(all_abstracts)[1] >0 && size(all_abstracts)[1] <= narticles
+
+        #check we can get the MESH descriptor for an article
+        mesh = PubMed.get_article_mesh(conn, all_pmids[1])
+        # println(mesh)
+        @test length(mesh) > 0
+
+        #check that reminder of tables are not empty
+        tables = ["author_ref", "mesh_desc",
+        "mesh_qual", "mesh_heading", "pub_type", "abstract_structured"]
+
+        for t in tables
+            q = MySQL.Query(conn, "SELECT count(*) FROM $t;") |> DataFrame
+            count = q[1][1]
+            @test count > 0
+        end
 
         #clean-up
         db_query(conn, "DROP DATABASE IF EXISTS $dbname;")
+
+    end
 
     end
 
@@ -144,53 +195,7 @@ import Base.parse
     end
 
 
-    @testset "Testing MySQL Saving" begin
-        println("-----------------------------------------")
-        println("       Testing MySQL Saving")
-
-        dbname = "efetch_test"
-        host = "127.0.0.1";
-        user = "root"
-        pwd = ""
-
-        conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
-        PubMed.create_tables!(conn)
-        @time PubMed.save_efetch!(conn, efetch_doc, false, true)
-
-        # query the df and db tables to make sure the count is correct
-        for (table, df) in dfs_efetch
-            query_res = db_query(conn, "select count(*) from $table")
-            @test size(df)[1] == query_res[1][1]
-        end
-
-        #query the article table and make sure the count is correct
-        all_pmids = PubMed.all_pmids(conn)
-        @test length(all_pmids) == narticles
-
-        #query the article table and make sure the count is correct
-        all_abstracts = PubMed.abstracts(conn)
-        @test size(all_abstracts)[1] >0 && size(all_abstracts)[1] <= narticles
-
-        #check we can get the MESH descriptor for an article
-        mesh = PubMed.get_article_mesh(conn, all_pmids[1])
-        # println(mesh)
-        @test length(mesh) > 0
-
-        #check that reminder of tables are not empty
-        tables = ["author_ref", "mesh_desc",
-        "mesh_qual", "mesh_heading", "pub_type", "abstract_structured"]
-
-        for t in tables
-            q = MySQL.Query(conn, "SELECT count(*) FROM $t;") |> DataFrame
-            count = q[1][1]
-            @test count > 0
-        end
-
-        #clean-up
-        db_query(conn, "DROP DATABASE IF EXISTS $dbname;")
-
-    end
-
+    
     println("------------End Test Eutils/PubMed--------------")
     println("-----------------------------------------")
 
