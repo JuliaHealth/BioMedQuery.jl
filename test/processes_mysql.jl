@@ -71,7 +71,8 @@ credentials_set = get(ENV, "TRAVIS_SECURE_ENV_VARS", "true")=="true" && umls_use
 
         @test length(keys(labels2ind)) > 0
         @test length(findall(x->x=="Obesity", collect(keys(labels2ind)))) ==1
-
+    else
+        @warn "Skipping UMLS tests as no credentials provided"
     end
 end
 
