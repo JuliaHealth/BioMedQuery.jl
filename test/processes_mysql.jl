@@ -49,7 +49,7 @@ PubMed.create_tables!(conn)
 
 end
 
-credentials_set = get(ENV, "TRAVIS_SECURE_ENV_VARS", "true")=="true"
+credentials_set = get(ENV, "TRAVIS_SECURE_ENV_VARS", "true")=="true" && umls_user != ""
 
 @testset "UMLS" begin
 

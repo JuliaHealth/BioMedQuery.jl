@@ -20,7 +20,7 @@ const verbose = false
 
 end
 
-credentials_set = get(ENV, "TRAVIS_SECURE_ENV_VARS", "true")=="true"
+credentials_set = get(ENV, "TRAVIS_SECURE_ENV_VARS", "true")=="true" && umls_user != ""
 
 @testset "UMLS DataFrames" begin
     if credentials_set
