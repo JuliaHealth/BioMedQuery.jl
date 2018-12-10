@@ -28,64 +28,64 @@ Saving 5 articles to database
 Finished searching, total number of articles: 5</code></pre></div><p>Map MeSH to UMLS</p><div><pre><code class="language-julia">@time map_mesh_to_umls_async!(db_mysql, umls_user, umls_pswd; append_results=false, timeout=3);</code></pre><pre><code class="language-none">----------Matching MESH to UMLS-----------
 [&quot;Adult&quot;, &quot;Aged&quot;, &quot;Aged, 80 and over&quot;, &quot;Analysis of Variance&quot;, &quot;Body Weight&quot;, &quot;C-Reactive Protein&quot;, &quot;Child&quot;, &quot;Cross-Sectional Studies&quot;, &quot;Fatigue&quot;, &quot;Female&quot;, &quot;Fibromyalgia&quot;, &quot;Germany&quot;, &quot;Health Status&quot;, &quot;Humans&quot;, &quot;Japan&quot;, &quot;Male&quot;, &quot;Middle Aged&quot;, &quot;Nutrition Surveys&quot;, &quot;Obesity&quot;, &quot;Pain&quot;, &quot;Pain Measurement&quot;, &quot;Physical Fitness&quot;, &quot;Prognosis&quot;, &quot;Quality of Life&quot;, &quot;Surveys and Questionnaires&quot;, &quot;Reference Values&quot;, &quot;Risk Factors&quot;, &quot;ROC Curve&quot;, &quot;Severity of Illness Index&quot;, &quot;Sports&quot;, &quot;Television&quot;, &quot;Thyrotropin&quot;, &quot;Biomarkers&quot;, &quot;Weight Gain&quot;, &quot;Exercise&quot;, &quot;Body Mass Index&quot;, &quot;Incidence&quot;, &quot;Prevalence&quot;, &quot;Logistic Models&quot;, &quot;Odds Ratio&quot;, &quot;Case-Control Studies&quot;, &quot;Age Distribution&quot;, &quot;Sex Distribution&quot;, &quot;Sleep Apnea, Obstructive&quot;, &quot;Metabolic Syndrome&quot;, &quot;Overweight&quot;, &quot;Waist Circumference&quot;, &quot;Young Adult&quot;, &quot;Obesity, Abdominal&quot;, &quot;Republic of Korea&quot;, &quot;Sedentary Lifestyle&quot;, &quot;Pediatric Obesity&quot;]
 [ Info: UTS: Requesting new TGT
-[ Info: Descriptor 15 out of 52: Japan
-[ Info: Descriptor 25 out of 52: Surveys and Questionnaires
-[ Info: Descriptor 19 out of 52: Obesity
-[ Info: Descriptor 21 out of 52: Pain Measurement
-[ Info: Descriptor 20 out of 52: Pain
-[ Info: Descriptor 35 out of 52: Exercise
-[ Info: Descriptor 24 out of 52: Quality of Life
-[ Info: Descriptor 26 out of 52: Reference Values
-[ Info: Descriptor 38 out of 52: Prevalence
-[ Info: Descriptor 28 out of 52: ROC Curve
-[ Info: Descriptor 36 out of 52: Body Mass Index
-[ Info: Descriptor 33 out of 52: Biomarkers
-[ Info: Descriptor 23 out of 52: Prognosis
-[ Info: Descriptor 30 out of 52: Sports
-[ Info: Descriptor 34 out of 52: Weight Gain
-[ Info: Descriptor 42 out of 52: Age Distribution
-[ Info: Descriptor 27 out of 52: Risk Factors
-[ Info: Descriptor 37 out of 52: Incidence
-[ Info: Descriptor 1 out of 52: Adult
-[ Info: Descriptor 4 out of 52: Analysis of Variance
 [ Info: Descriptor 3 out of 52: Aged, 80 and over
-[ Info: Descriptor 41 out of 52: Case-Control Studies
+[ Info: Descriptor 1 out of 52: Adult
+[ Info: Descriptor 9 out of 52: Fatigue
+[ Info: Descriptor 4 out of 52: Analysis of Variance
 [ Info: Descriptor 5 out of 52: Body Weight
-[ Info: Descriptor 8 out of 52: Cross-Sectional Studies
 [ Info: Descriptor 2 out of 52: Aged
 [ Info: Descriptor 6 out of 52: C-Reactive Protein
-[ Info: Descriptor 7 out of 52: Child
-[ Info: Descriptor 12 out of 52: Germany
 [ Info: Descriptor 11 out of 52: Fibromyalgia
-[ Info: Descriptor 18 out of 52: Nutrition Surveys
-[ Info: Descriptor 48 out of 52: Young Adult
-[ Info: Descriptor 46 out of 52: Overweight
-[ Info: Descriptor 17 out of 52: Middle Aged
-[ Info: Descriptor 50 out of 52: Republic of Korea
-[ Info: Descriptor 10 out of 52: Female
-[ Info: Descriptor 14 out of 52: Humans
-[ Info: Descriptor 9 out of 52: Fatigue
-[ Info: Descriptor 29 out of 52: Severity of Illness Index
-[ Info: Descriptor 51 out of 52: Sedentary Lifestyle
-[ Info: Descriptor 49 out of 52: Obesity, Abdominal
-[ Info: Descriptor 13 out of 52: Health Status
-[ Info: Descriptor 31 out of 52: Television
+[ Info: Descriptor 20 out of 52: Pain
+[ Info: Descriptor 21 out of 52: Pain Measurement
+[ Info: Descriptor 23 out of 52: Prognosis
+[ Info: Descriptor 30 out of 52: Sports
+[ Info: Descriptor 25 out of 52: Surveys and Questionnaires
 [ Info: Descriptor 22 out of 52: Physical Fitness
-[ Info: Descriptor 39 out of 52: Logistic Models
-[ Info: Descriptor 44 out of 52: Sleep Apnea, Obstructive
-[ Info: Descriptor 16 out of 52: Male
-[ Info: Descriptor 40 out of 52: Odds Ratio
-[ Info: Descriptor 45 out of 52: Metabolic Syndrome
+[ Info: Descriptor 8 out of 52: Cross-Sectional Studies
+[ Info: Descriptor 28 out of 52: ROC Curve
+[ Info: Descriptor 31 out of 52: Television
 [ Info: Descriptor 32 out of 52: Thyrotropin
-[ Info: Descriptor 47 out of 52: Waist Circumference
+[ Info: Descriptor 29 out of 52: Severity of Illness Index
+[ Info: Descriptor 38 out of 52: Prevalence
+[ Info: Descriptor 37 out of 52: Incidence
+[ Info: Descriptor 36 out of 52: Body Mass Index
+[ Info: Descriptor 39 out of 52: Logistic Models
+[ Info: Descriptor 27 out of 52: Risk Factors
+[ Info: Descriptor 41 out of 52: Case-Control Studies
+[ Info: Descriptor 33 out of 52: Biomarkers
+[ Info: Descriptor 7 out of 52: Child
+[ Info: Descriptor 35 out of 52: Exercise
+[ Info: Descriptor 40 out of 52: Odds Ratio
+[ Info: Descriptor 13 out of 52: Health Status
+[ Info: Descriptor 34 out of 52: Weight Gain
+[ Info: Descriptor 17 out of 52: Middle Aged
+[ Info: Descriptor 14 out of 52: Humans
+[ Info: Descriptor 12 out of 52: Germany
+[ Info: Descriptor 24 out of 52: Quality of Life
+[ Info: Descriptor 10 out of 52: Female
+[ Info: Descriptor 18 out of 52: Nutrition Surveys
+[ Info: Descriptor 15 out of 52: Japan
+[ Info: Descriptor 19 out of 52: Obesity
+[ Info: Descriptor 26 out of 52: Reference Values
+[ Info: Descriptor 16 out of 52: Male
+[ Info: Descriptor 42 out of 52: Age Distribution
 [ Info: Descriptor 43 out of 52: Sex Distribution
+[ Info: Descriptor 44 out of 52: Sleep Apnea, Obstructive
+[ Info: Descriptor 46 out of 52: Overweight
+[ Info: Descriptor 50 out of 52: Republic of Korea
+[ Info: Descriptor 51 out of 52: Sedentary Lifestyle
+[ Info: Descriptor 45 out of 52: Metabolic Syndrome
+[ Info: Descriptor 48 out of 52: Young Adult
+[ Info: Descriptor 47 out of 52: Waist Circumference
+[ Info: Descriptor 49 out of 52: Obesity, Abdominal
 [ Info: Descriptor 51 out of 52: Sedentary Lifestyle
 [ Info: Descriptor 52 out of 52: Pediatric Obesity
-  9.156859 seconds (7.40 M allocations: 375.419 MiB, 2.58% gc time)</code></pre></div><h4><a class="nav-anchor" id="Explore-the-output-table-1" href="#Explore-the-output-table-1">Explore the output table</a></h4><div><pre><code class="language-julia">db_query(db_mysql, &quot;SELECT * FROM mesh2umls&quot;)</code></pre><table class="data-frame"><thead><tr><th></th><th>mesh</th><th>umls</th></tr><tr><th></th><th>String</th><th>String</th></tr></thead><tbody><tr><th>1</th><td>Adult</td><td>Age Group</td></tr><tr><th>2</th><td>Age Distribution</td><td>Quantitative Concept</td></tr><tr><th>3</th><td>Aged</td><td>Organism Attribute</td></tr><tr><th>4</th><td>Aged, 80 and over</td><td>Age Group</td></tr><tr><th>5</th><td>Analysis of Variance</td><td>Quantitative Concept</td></tr><tr><th>6</th><td>Biomarkers</td><td>Clinical Attribute</td></tr><tr><th>7</th><td>Body Mass Index</td><td>Diagnostic Procedure</td></tr><tr><th>8</th><td>Body Weight</td><td>Organism Attribute</td></tr><tr><th>9</th><td>C-Reactive Protein</td><td>Amino Acid, Peptide, or Protein</td></tr><tr><th>10</th><td>C-Reactive Protein</td><td>Immunologic Factor</td></tr><tr><th>11</th><td>Case-Control Studies</td><td>Research Activity</td></tr><tr><th>12</th><td>Child</td><td>Age Group</td></tr><tr><th>13</th><td>Cross-Sectional Studies</td><td>Research Activity</td></tr><tr><th>14</th><td>Exercise</td><td>Daily or Recreational Activity</td></tr><tr><th>15</th><td>Fatigue</td><td>Sign or Symptom</td></tr><tr><th>16</th><td>Female</td><td>Population Group</td></tr><tr><th>17</th><td>Fibromyalgia</td><td>Disease or Syndrome</td></tr><tr><th>18</th><td>Germany</td><td>Geographic Area</td></tr><tr><th>19</th><td>Health Status</td><td>Qualitative Concept</td></tr><tr><th>20</th><td>Humans</td><td>Human</td></tr><tr><th>21</th><td>Incidence</td><td>Quantitative Concept</td></tr><tr><th>22</th><td>Japan</td><td>Geographic Area</td></tr><tr><th>23</th><td>Logistic Models</td><td>Intellectual Product</td></tr><tr><th>24</th><td>Logistic Models</td><td>Quantitative Concept</td></tr><tr><th>&vellip;</th><td>&vellip;</td><td>&vellip;</td></tr></tbody></table></div><h3><a class="nav-anchor" id="Filtering-MeSH-terms-by-UMLS-concept-1" href="#Filtering-MeSH-terms-by-UMLS-concept-1">Filtering MeSH terms by UMLS concept</a></h3><p>Getting the descriptor to index dictionary and the occurence matrix</p><div><pre><code class="language-julia">@time labels2ind, occur = umls_semantic_occurrences(db_mysql, umls_concept);</code></pre><pre><code class="language-none">Filter mesh query string : SELECT mesh FROM mesh2umls WHERE umls IN (&#39;Disease or Syndrome&#39;)
+  8.448128 seconds (7.48 M allocations: 378.681 MiB, 4.22% gc time)</code></pre></div><h4><a class="nav-anchor" id="Explore-the-output-table-1" href="#Explore-the-output-table-1">Explore the output table</a></h4><div><pre><code class="language-julia">db_query(db_mysql, &quot;SELECT * FROM mesh2umls&quot;)</code></pre><table class="data-frame"><thead><tr><th></th><th>mesh</th><th>umls</th></tr><tr><th></th><th>String</th><th>String</th></tr></thead><tbody><p>56 rows × 2 columns</p><tr><th>1</th><td>Adult</td><td>Age Group</td></tr><tr><th>2</th><td>Age Distribution</td><td>Quantitative Concept</td></tr><tr><th>3</th><td>Aged</td><td>Organism Attribute</td></tr><tr><th>4</th><td>Aged, 80 and over</td><td>Age Group</td></tr><tr><th>5</th><td>Analysis of Variance</td><td>Quantitative Concept</td></tr><tr><th>6</th><td>Biomarkers</td><td>Clinical Attribute</td></tr><tr><th>7</th><td>Body Mass Index</td><td>Diagnostic Procedure</td></tr><tr><th>8</th><td>Body Weight</td><td>Organism Attribute</td></tr><tr><th>9</th><td>C-Reactive Protein</td><td>Amino Acid, Peptide, or Protein</td></tr><tr><th>10</th><td>C-Reactive Protein</td><td>Immunologic Factor</td></tr><tr><th>11</th><td>Case-Control Studies</td><td>Research Activity</td></tr><tr><th>12</th><td>Child</td><td>Age Group</td></tr><tr><th>13</th><td>Cross-Sectional Studies</td><td>Research Activity</td></tr><tr><th>14</th><td>Exercise</td><td>Daily or Recreational Activity</td></tr><tr><th>15</th><td>Fatigue</td><td>Sign or Symptom</td></tr><tr><th>16</th><td>Female</td><td>Population Group</td></tr><tr><th>17</th><td>Fibromyalgia</td><td>Disease or Syndrome</td></tr><tr><th>18</th><td>Germany</td><td>Geographic Area</td></tr><tr><th>19</th><td>Health Status</td><td>Qualitative Concept</td></tr><tr><th>20</th><td>Humans</td><td>Human</td></tr><tr><th>21</th><td>Incidence</td><td>Quantitative Concept</td></tr><tr><th>22</th><td>Japan</td><td>Geographic Area</td></tr><tr><th>23</th><td>Logistic Models</td><td>Intellectual Product</td></tr><tr><th>24</th><td>Logistic Models</td><td>Quantitative Concept</td></tr><tr><th>&vellip;</th><td>&vellip;</td><td>&vellip;</td></tr></tbody></table></div><h3><a class="nav-anchor" id="Filtering-MeSH-terms-by-UMLS-concept-1" href="#Filtering-MeSH-terms-by-UMLS-concept-1">Filtering MeSH terms by UMLS concept</a></h3><p>Getting the descriptor to index dictionary and the occurence matrix</p><div><pre><code class="language-julia">@time labels2ind, occur = umls_semantic_occurrences(db_mysql, umls_concept);</code></pre><pre><code class="language-none">Filter mesh query string : SELECT mesh FROM mesh2umls WHERE umls IN (&#39;Disease or Syndrome&#39;)
 -------------------------------------------------------------
 Found 5 articles with valid descriptors
 -------------------------------------------------------------
-  2.084999 seconds (2.12 M allocations: 105.492 MiB, 4.20% gc time)</code></pre></div><p>Descriptor to Index Dictionary</p><div><pre><code class="language-julia">labels2ind</code></pre><pre><code class="language-none">Dict{String,Int64} with 5 entries:
+  1.111498 seconds (2.05 M allocations: 101.640 MiB, 3.98% gc time)</code></pre></div><p>Descriptor to Index Dictionary</p><div><pre><code class="language-julia">labels2ind</code></pre><pre><code class="language-none">Dict{String,Int64} with 5 entries:
   &quot;Obesity&quot;                  =&gt; 1
   &quot;Pediatric Obesity&quot;        =&gt; 2
   &quot;Sleep Apnea, Obstructive&quot; =&gt; 3
@@ -104,64 +104,64 @@ Saving 5 articles to database
 Finished searching, total number of articles: 5</code></pre></div><h3><a class="nav-anchor" id="Map-MeSH-to-UMLS-1" href="#Map-MeSH-to-UMLS-1">Map MeSH to UMLS</a></h3><div><pre><code class="language-julia">@time map_mesh_to_umls_async!(db_sqlite, umls_user, umls_pswd; append_results=false, timeout=3);</code></pre><pre><code class="language-none">----------Matching MESH to UMLS-----------
 Union{Missing, String}[&quot;Reference Values&quot;, &quot;Republic of Korea&quot;, &quot;ROC Curve&quot;, &quot;Fatigue&quot;, &quot;Obesity&quot;, &quot;Risk Factors&quot;, &quot;Logistic Models&quot;, &quot;Severity of Illness Index&quot;, &quot;Male&quot;, &quot;Case-Control Studies&quot;, &quot;Analysis of Variance&quot;, &quot;Sedentary Lifestyle&quot;, &quot;Prevalence&quot;, &quot;Quality of Life&quot;, &quot;Odds Ratio&quot;, &quot;Exercise&quot;, &quot;Body Mass Index&quot;, &quot;Aged&quot;, &quot;Child&quot;, &quot;Sex Distribution&quot;, &quot;Adult&quot;, &quot;Germany&quot;, &quot;Sports&quot;, &quot;Thyrotropin&quot;, &quot;Pediatric Obesity&quot;, &quot;Humans&quot;, &quot;Japan&quot;, &quot;Cross-Sectional Studies&quot;, &quot;Weight Gain&quot;, &quot;Middle Aged&quot;, &quot;Surveys and Questionnaires&quot;, &quot;Health Status&quot;, &quot;Young Adult&quot;, &quot;Incidence&quot;, &quot;Prognosis&quot;, &quot;Body Weight&quot;, &quot;Pain Measurement&quot;, &quot;Waist Circumference&quot;, &quot;Metabolic Syndrome&quot;, &quot;Pain&quot;, &quot;Nutrition Surveys&quot;, &quot;Fibromyalgia&quot;, &quot;Sleep Apnea, Obstructive&quot;, &quot;Television&quot;, &quot;Age Distribution&quot;, &quot;Overweight&quot;, &quot;Physical Fitness&quot;, &quot;Female&quot;, &quot;Biomarkers&quot;, &quot;Obesity, Abdominal&quot;, &quot;C-Reactive Protein&quot;, &quot;Aged, 80 and over&quot;]
 [ Info: UTS: Reading TGT from file
-[ Info: Descriptor 2 out of 52: Republic of Korea
-[ Info: Descriptor 6 out of 52: Risk Factors
-[ Info: Descriptor 4 out of 52: Fatigue
-[ Info: Descriptor 10 out of 52: Case-Control Studies
 [ Info: Descriptor 7 out of 52: Logistic Models
-[ Info: Descriptor 13 out of 52: Prevalence
+[ Info: Descriptor 6 out of 52: Risk Factors
+[ Info: Descriptor 12 out of 52: Sedentary Lifestyle
+[ Info: Descriptor 2 out of 52: Republic of Korea
+[ Info: Descriptor 4 out of 52: Fatigue
 [ Info: Descriptor 8 out of 52: Severity of Illness Index
+[ Info: Descriptor 14 out of 52: Quality of Life
+[ Info: Descriptor 16 out of 52: Exercise
+[ Info: Descriptor 5 out of 52: Obesity
+[ Info: Descriptor 21 out of 52: Adult
+[ Info: Descriptor 11 out of 52: Analysis of Variance
+[ Info: Descriptor 13 out of 52: Prevalence
+[ Info: Descriptor 15 out of 52: Odds Ratio
+[ Info: Descriptor 20 out of 52: Sex Distribution
+[ Info: Descriptor 23 out of 52: Sports
+[ Info: Descriptor 24 out of 52: Thyrotropin
+[ Info: Descriptor 10 out of 52: Case-Control Studies
+[ Info: Descriptor 17 out of 52: Body Mass Index
+[ Info: Descriptor 18 out of 52: Aged
 [ Info: Descriptor 22 out of 52: Germany
 [ Info: Descriptor 9 out of 52: Male
-[ Info: Descriptor 32 out of 52: Health Status
-[ Info: Descriptor 14 out of 52: Quality of Life
-[ Info: Descriptor 3 out of 52: ROC Curve
-[ Info: Descriptor 20 out of 52: Sex Distribution
-[ Info: Descriptor 25 out of 52: Pediatric Obesity
-[ Info: Descriptor 5 out of 52: Obesity
-[ Info: Descriptor 12 out of 52: Sedentary Lifestyle
-[ Info: Descriptor 24 out of 52: Thyrotropin
-[ Info: Descriptor 30 out of 52: Middle Aged
-[ Info: Descriptor 17 out of 52: Body Mass Index
 [ Info: Descriptor 1 out of 52: Reference Values
-[ Info: Descriptor 15 out of 52: Odds Ratio
+[ Info: Descriptor 19 out of 52: Child
+[ Info: Descriptor 3 out of 52: ROC Curve
+[ Info: Descriptor 25 out of 52: Pediatric Obesity
+[ Info: Descriptor 29 out of 52: Weight Gain
+[ Info: Descriptor 31 out of 52: Surveys and Questionnaires
+[ Info: Descriptor 30 out of 52: Middle Aged
+[ Info: Descriptor 33 out of 52: Young Adult
+[ Info: Descriptor 34 out of 52: Incidence
 [ Info: Descriptor 26 out of 52: Humans
+[ Info: Descriptor 35 out of 52: Prognosis
+[ Info: Descriptor 37 out of 52: Pain Measurement
+[ Info: Descriptor 45 out of 52: Age Distribution
+[ Info: Descriptor 32 out of 52: Health Status
+[ Info: Descriptor 41 out of 52: Nutrition Surveys
+[ Info: Descriptor 40 out of 52: Pain
 [ Info: Descriptor 39 out of 52: Metabolic Syndrome
-[ Info: Descriptor 11 out of 52: Analysis of Variance
-[ Info: Descriptor 18 out of 52: Aged
+[ Info: Descriptor 44 out of 52: Television
 [ Info: Descriptor 36 out of 52: Body Weight
 [ Info: Descriptor 27 out of 52: Japan
-[ Info: Descriptor 21 out of 52: Adult
-[ Info: Descriptor 46 out of 52: Overweight
 [ Info: Descriptor 42 out of 52: Fibromyalgia
-[ Info: Descriptor 19 out of 52: Child
-[ Info: Descriptor 33 out of 52: Young Adult
-[ Info: Descriptor 29 out of 52: Weight Gain
-[ Info: Descriptor 51 out of 52: C-Reactive Protein
 [ Info: Descriptor 48 out of 52: Female
-[ Info: Descriptor 44 out of 52: Television
-[ Info: Descriptor 28 out of 52: Cross-Sectional Studies
-[ Info: Descriptor 41 out of 52: Nutrition Surveys
-[ Info: Descriptor 16 out of 52: Exercise
-[ Info: Descriptor 37 out of 52: Pain Measurement
-[ Info: Descriptor 34 out of 52: Incidence
 [ Info: Descriptor 47 out of 52: Physical Fitness
-[ Info: Descriptor 23 out of 52: Sports
-[ Info: Descriptor 31 out of 52: Surveys and Questionnaires
 [ Info: Descriptor 38 out of 52: Waist Circumference
-[ Info: Descriptor 50 out of 52: Obesity, Abdominal
-[ Info: Descriptor 35 out of 52: Prognosis
-[ Info: Descriptor 45 out of 52: Age Distribution
-[ Info: Descriptor 40 out of 52: Pain
-[ Info: Descriptor 43 out of 52: Sleep Apnea, Obstructive
+[ Info: Descriptor 46 out of 52: Overweight
 [ Info: Descriptor 49 out of 52: Biomarkers
-[ Info: Descriptor 52 out of 52: Aged, 80 and over
 [ Info: Descriptor 51 out of 52: C-Reactive Protein
-  3.212448 seconds (1.61 M allocations: 87.577 MiB, 1.59% gc time)</code></pre></div><p>Explore the output table</p><div><pre><code class="language-julia">db_query(db_sqlite, &quot;SELECT * FROM mesh2umls;&quot;)</code></pre><table class="data-frame"><thead><tr><th></th><th>mesh</th><th>umls</th></tr><tr><th></th><th>String⍰</th><th>String⍰</th></tr></thead><tbody><tr><th>1</th><td>Case-Control Studies</td><td>Research Activity</td></tr><tr><th>2</th><td>Quality of Life</td><td>Idea or Concept</td></tr><tr><th>3</th><td>Risk Factors</td><td>Finding</td></tr><tr><th>4</th><td>Prevalence</td><td>Quantitative Concept</td></tr><tr><th>5</th><td>Republic of Korea</td><td>Geographic Area</td></tr><tr><th>6</th><td>Severity of Illness Index</td><td>Quantitative Concept</td></tr><tr><th>7</th><td>Fatigue</td><td>Sign or Symptom</td></tr><tr><th>8</th><td>Middle Aged</td><td>Age Group</td></tr><tr><th>9</th><td>Thyrotropin</td><td>Amino Acid, Peptide, or Protein</td></tr><tr><th>10</th><td>Thyrotropin</td><td>Hormone</td></tr><tr><th>11</th><td>Thyrotropin</td><td>Pharmacologic Substance</td></tr><tr><th>12</th><td>Sex Distribution</td><td>Quantitative Concept</td></tr><tr><th>13</th><td>Japan</td><td>Geographic Area</td></tr><tr><th>14</th><td>Health Status</td><td>Qualitative Concept</td></tr><tr><th>15</th><td>Body Mass Index</td><td>Diagnostic Procedure</td></tr><tr><th>16</th><td>Adult</td><td>Age Group</td></tr><tr><th>17</th><td>Sedentary Lifestyle</td><td>Finding</td></tr><tr><th>18</th><td>Odds Ratio</td><td>Quantitative Concept</td></tr><tr><th>19</th><td>Logistic Models</td><td>Intellectual Product</td></tr><tr><th>20</th><td>Logistic Models</td><td>Quantitative Concept</td></tr><tr><th>21</th><td>Germany</td><td>Geographic Area</td></tr><tr><th>22</th><td>Body Weight</td><td>Organism Attribute</td></tr><tr><th>23</th><td>Male</td><td>Organism Attribute</td></tr><tr><th>24</th><td>ROC Curve</td><td>Quantitative Concept</td></tr><tr><th>&vellip;</th><td>&vellip;</td><td>&vellip;</td></tr></tbody></table></div><h3><a class="nav-anchor" id="Filtering-MeSH-terms-by-UMLS-concept-2" href="#Filtering-MeSH-terms-by-UMLS-concept-2">Filtering MeSH terms by UMLS concept</a></h3><p>Getting the descriptor to index dictionary and occurence matrix</p><div><pre><code class="language-julia">@time labels2ind, occur = umls_semantic_occurrences(db_sqlite, umls_concept);</code></pre><pre><code class="language-none">Filter mesh query string : SELECT mesh FROM mesh2umls WHERE umls IN (&#39;Disease or Syndrome&#39;)
+[ Info: Descriptor 28 out of 52: Cross-Sectional Studies
+[ Info: Descriptor 43 out of 52: Sleep Apnea, Obstructive
+[ Info: Descriptor 50 out of 52: Obesity, Abdominal
+[ Info: Descriptor 51 out of 52: C-Reactive Protein
+[ Info: Descriptor 52 out of 52: Aged, 80 and over
+  3.379799 seconds (2.10 M allocations: 110.919 MiB, 1.54% gc time)</code></pre></div><p>Explore the output table</p><div><pre><code class="language-julia">db_query(db_sqlite, &quot;SELECT * FROM mesh2umls;&quot;)</code></pre><table class="data-frame"><thead><tr><th></th><th>mesh</th><th>umls</th></tr><tr><th></th><th>String⍰</th><th>String⍰</th></tr></thead><tbody><p>56 rows × 2 columns</p><tr><th>1</th><td>Logistic Models</td><td>Intellectual Product</td></tr><tr><th>2</th><td>Logistic Models</td><td>Quantitative Concept</td></tr><tr><th>3</th><td>Republic of Korea</td><td>Geographic Area</td></tr><tr><th>4</th><td>Risk Factors</td><td>Finding</td></tr><tr><th>5</th><td>Severity of Illness Index</td><td>Quantitative Concept</td></tr><tr><th>6</th><td>Quality of Life</td><td>Idea or Concept</td></tr><tr><th>7</th><td>Sedentary Lifestyle</td><td>Finding</td></tr><tr><th>8</th><td>Analysis of Variance</td><td>Quantitative Concept</td></tr><tr><th>9</th><td>Fatigue</td><td>Sign or Symptom</td></tr><tr><th>10</th><td>Obesity</td><td>Disease or Syndrome</td></tr><tr><th>11</th><td>Prevalence</td><td>Quantitative Concept</td></tr><tr><th>12</th><td>Adult</td><td>Age Group</td></tr><tr><th>13</th><td>Exercise</td><td>Daily or Recreational Activity</td></tr><tr><th>14</th><td>Sex Distribution</td><td>Quantitative Concept</td></tr><tr><th>15</th><td>Odds Ratio</td><td>Quantitative Concept</td></tr><tr><th>16</th><td>Thyrotropin</td><td>Amino Acid, Peptide, or Protein</td></tr><tr><th>17</th><td>Thyrotropin</td><td>Hormone</td></tr><tr><th>18</th><td>Thyrotropin</td><td>Pharmacologic Substance</td></tr><tr><th>19</th><td>Sports</td><td>Daily or Recreational Activity</td></tr><tr><th>20</th><td>Case-Control Studies</td><td>Research Activity</td></tr><tr><th>21</th><td>Aged</td><td>Organism Attribute</td></tr><tr><th>22</th><td>Body Mass Index</td><td>Diagnostic Procedure</td></tr><tr><th>23</th><td>Germany</td><td>Geographic Area</td></tr><tr><th>24</th><td>Male</td><td>Organism Attribute</td></tr><tr><th>&vellip;</th><td>&vellip;</td><td>&vellip;</td></tr></tbody></table></div><h3><a class="nav-anchor" id="Filtering-MeSH-terms-by-UMLS-concept-2" href="#Filtering-MeSH-terms-by-UMLS-concept-2">Filtering MeSH terms by UMLS concept</a></h3><p>Getting the descriptor to index dictionary and occurence matrix</p><div><pre><code class="language-julia">@time labels2ind, occur = umls_semantic_occurrences(db_sqlite, umls_concept);</code></pre><pre><code class="language-none">Filter mesh query string : SELECT mesh FROM mesh2umls WHERE umls IN (&#39;Disease or Syndrome&#39;)
 -------------------------------------------------------------
 Found 5 articles with valid descriptors
 -------------------------------------------------------------
-  1.338617 seconds (1.27 M allocations: 63.430 MiB, 3.47% gc time)</code></pre></div><p>Descriptor to Index Dictionary</p><div><pre><code class="language-julia">labels2ind</code></pre><pre><code class="language-none">Dict{String,Int64} with 5 entries:
+  0.823959 seconds (1.27 M allocations: 63.597 MiB, 4.09% gc time)</code></pre></div><p>Descriptor to Index Dictionary</p><div><pre><code class="language-julia">labels2ind</code></pre><pre><code class="language-none">Dict{String,Int64} with 5 entries:
   &quot;Obesity&quot;                  =&gt; 1
   &quot;Pediatric Obesity&quot;        =&gt; 2
   &quot;Sleep Apnea, Obstructive&quot; =&gt; 3
@@ -183,10 +183,10 @@ Dict{String,DataFrames.DataFrame} with 8 entries:
   &quot;abstract_full&quot;       =&gt; 5×2 DataFrames.DataFrame. Omitted printing of 1 colu…
   &quot;author_ref&quot;          =&gt; 35×8 DataFrames.DataFrame. Omitted printing of 3 col…
   &quot;mesh_heading&quot;        =&gt; 78×5 DataFrames.DataFrame…
-  &quot;abstract_structured&quot; =&gt; 4×4 DataFrames.DataFrame. Omitted printing of 1 colu…</code></pre></div><p>Map MeSH to UMLS and explore the output table</p><div><pre><code class="language-julia">@time res = map_mesh_to_umls_async(dfs[&quot;mesh_desc&quot;], umls_user, umls_pswd)</code></pre><table class="data-frame"><thead><tr><th></th><th>descriptor</th><th>concept</th></tr><tr><th></th><th>String</th><th>String</th></tr></thead><tbody><tr><th>1</th><td>Adult</td><td>Age Group</td></tr><tr><th>2</th><td>Age Distribution</td><td>Quantitative Concept</td></tr><tr><th>3</th><td>Aged</td><td>Organism Attribute</td></tr><tr><th>4</th><td>Aged, 80 and over</td><td>Age Group</td></tr><tr><th>5</th><td>Analysis of Variance</td><td>Quantitative Concept</td></tr><tr><th>6</th><td>Biomarkers</td><td>Clinical Attribute</td></tr><tr><th>7</th><td>Body Mass Index</td><td>Diagnostic Procedure</td></tr><tr><th>8</th><td>Body Weight</td><td>Organism Attribute</td></tr><tr><th>9</th><td>C-Reactive Protein</td><td>Amino Acid, Peptide, or Protein</td></tr><tr><th>10</th><td>C-Reactive Protein</td><td>Immunologic Factor</td></tr><tr><th>11</th><td>Case-Control Studies</td><td>Research Activity</td></tr><tr><th>12</th><td>Child</td><td>Age Group</td></tr><tr><th>13</th><td>Cross-Sectional Studies</td><td>Research Activity</td></tr><tr><th>14</th><td>Exercise</td><td>Daily or Recreational Activity</td></tr><tr><th>15</th><td>Fatigue</td><td>Sign or Symptom</td></tr><tr><th>16</th><td>Female</td><td>Population Group</td></tr><tr><th>17</th><td>Fibromyalgia</td><td>Disease or Syndrome</td></tr><tr><th>18</th><td>Germany</td><td>Geographic Area</td></tr><tr><th>19</th><td>Health Status</td><td>Qualitative Concept</td></tr><tr><th>20</th><td>Humans</td><td>Human</td></tr><tr><th>21</th><td>Incidence</td><td>Quantitative Concept</td></tr><tr><th>22</th><td>Japan</td><td>Geographic Area</td></tr><tr><th>23</th><td>Logistic Models</td><td>Intellectual Product</td></tr><tr><th>24</th><td>Logistic Models</td><td>Quantitative Concept</td></tr><tr><th>&vellip;</th><td>&vellip;</td><td>&vellip;</td></tr></tbody></table></div><p>Getting the descriptor to index dictionary and occurence matrix</p><div><pre><code class="language-julia">@time labels2ind, occur = umls_semantic_occurrences(dfs, res, umls_concept);</code></pre><pre><code class="language-none">-------------------------------------------------------------
+  &quot;abstract_structured&quot; =&gt; 4×4 DataFrames.DataFrame. Omitted printing of 1 colu…</code></pre></div><p>Map MeSH to UMLS and explore the output table</p><div><pre><code class="language-julia">@time res = map_mesh_to_umls_async(dfs[&quot;mesh_desc&quot;], umls_user, umls_pswd)</code></pre><table class="data-frame"><thead><tr><th></th><th>descriptor</th><th>concept</th></tr><tr><th></th><th>String</th><th>String</th></tr></thead><tbody><p>56 rows × 2 columns</p><tr><th>1</th><td>Adult</td><td>Age Group</td></tr><tr><th>2</th><td>Age Distribution</td><td>Quantitative Concept</td></tr><tr><th>3</th><td>Aged</td><td>Organism Attribute</td></tr><tr><th>4</th><td>Aged, 80 and over</td><td>Age Group</td></tr><tr><th>5</th><td>Analysis of Variance</td><td>Quantitative Concept</td></tr><tr><th>6</th><td>Biomarkers</td><td>Clinical Attribute</td></tr><tr><th>7</th><td>Body Mass Index</td><td>Diagnostic Procedure</td></tr><tr><th>8</th><td>Body Weight</td><td>Organism Attribute</td></tr><tr><th>9</th><td>C-Reactive Protein</td><td>Amino Acid, Peptide, or Protein</td></tr><tr><th>10</th><td>C-Reactive Protein</td><td>Immunologic Factor</td></tr><tr><th>11</th><td>Case-Control Studies</td><td>Research Activity</td></tr><tr><th>12</th><td>Child</td><td>Age Group</td></tr><tr><th>13</th><td>Cross-Sectional Studies</td><td>Research Activity</td></tr><tr><th>14</th><td>Exercise</td><td>Daily or Recreational Activity</td></tr><tr><th>15</th><td>Fatigue</td><td>Sign or Symptom</td></tr><tr><th>16</th><td>Female</td><td>Population Group</td></tr><tr><th>17</th><td>Fibromyalgia</td><td>Disease or Syndrome</td></tr><tr><th>18</th><td>Germany</td><td>Geographic Area</td></tr><tr><th>19</th><td>Health Status</td><td>Qualitative Concept</td></tr><tr><th>20</th><td>Humans</td><td>Human</td></tr><tr><th>21</th><td>Incidence</td><td>Quantitative Concept</td></tr><tr><th>22</th><td>Japan</td><td>Geographic Area</td></tr><tr><th>23</th><td>Logistic Models</td><td>Intellectual Product</td></tr><tr><th>24</th><td>Logistic Models</td><td>Quantitative Concept</td></tr><tr><th>&vellip;</th><td>&vellip;</td><td>&vellip;</td></tr></tbody></table></div><p>Getting the descriptor to index dictionary and occurence matrix</p><div><pre><code class="language-julia">@time labels2ind, occur = umls_semantic_occurrences(dfs, res, umls_concept);</code></pre><pre><code class="language-none">-------------------------------------------------------------
 Found 5 articles with valid descriptors
 -------------------------------------------------------------
-  1.100793 seconds (896.36 k allocations: 42.474 MiB, 1.72% gc time)</code></pre></div><p>Descriptor to Index Dictionary</p><div><pre><code class="language-julia">labels2ind</code></pre><pre><code class="language-none">Dict{String,Int64} with 5 entries:
+  0.640527 seconds (967.12 k allocations: 45.853 MiB, 3.55% gc time)</code></pre></div><p>Descriptor to Index Dictionary</p><div><pre><code class="language-julia">labels2ind</code></pre><pre><code class="language-none">Dict{String,Int64} with 5 entries:
   &quot;Obesity&quot;                  =&gt; 1
   &quot;Pediatric Obesity&quot;        =&gt; 2
   &quot;Sleep Apnea, Obstructive&quot; =&gt; 3
