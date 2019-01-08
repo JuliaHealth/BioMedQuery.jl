@@ -474,7 +474,6 @@ function db_insert!(db::MySQL.Connection, articles::Dict{String,DataFrame}, csv_
     MySQL.execute!(db, meta_sql)
 
     for (table, df) in articles
-
         # check if column names all exist in mysql table
         if !col_match(db, table, df)
             error("Each DataFrame column must match the name of a table column. $table had mismatches.")
