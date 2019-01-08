@@ -159,7 +159,7 @@ function parse_author(xml::LightXML.XMLElement)
         end
     end
 
-    affil_str = (affs == "" ? missing : affs[1:end-2])
+    affil_str = (affs == "" ? missing : affs[1:prevind(affs,lastindex(affs),2)])
 
     return last_name, first_name, initials, suffix, orcid, collective, affil_str
 end
