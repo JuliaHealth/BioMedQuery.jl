@@ -40,7 +40,7 @@ function load_medline!(db_con::MySQL.Connection, output_dir::String; start_file:
     pmap(x -> parse_ml_file(get_file_name(x, year, test), output_dir), start_file:end_file) # CHANGED FROM PMAP TO MAP TO GET MORE USEFUL STACKTRACE
 
     @info "Loading CSVs into MySQL"
-    @sync for n = start_file:end_file
+    for n = start_file:end_file
 
         fname = get_file_name(n, year, test) ::String
         println("Loading file: ", fname)
@@ -48,7 +48,7 @@ function load_medline!(db_con::MySQL.Connection, output_dir::String; start_file:
         csv_prefix = "$(fname[1:end-7])_"
         csv_path = joinpath(output_dir,"medline","parsed_files")
 
-        @async db_insert!(db_con, csv_path, csv_prefix)
+        db_insert!(db_con, csv_path, csv_prefix)
     end
 
     set_innodb_checks!(db_con)
