@@ -24,7 +24,6 @@ function load_medline!(db_con::MySQL.Connection, output_dir::String; start_file:
     ftp_con = init_medline(output_dir, test)
 
     set_innodb_checks!(db_con,0,0,0)
-    # drop_mysql_keys!(db_con)
 
     if test
         start_file = 1
@@ -52,7 +51,6 @@ function load_medline!(db_con::MySQL.Connection, output_dir::String; start_file:
     end
 
     set_innodb_checks!(db_con)
-    # add_mysql_keys!(db_con)
 
     @info "All files processed - closing FTP connection"
     close_cons(ftp_con)
