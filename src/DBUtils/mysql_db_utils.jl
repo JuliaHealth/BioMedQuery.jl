@@ -37,11 +37,11 @@ function init_mysql_database(con::MySQL.Connection, dbname="test", overwrite=fal
             println("Set to overwrite MySQL database $dbname")
             MySQL.execute!(con, "DROP DATABASE IF EXISTS $dbname;")
             MySQL.execute!(con, "CREATE DATABASE $dbname
-                CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
+                CHARACTER SET utf8mb4 COLLATE utf8_unicode_ci;")
         end
     else
         MySQL.execute!(con, "CREATE DATABASE $dbname
-            CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
+            CHARACTER SET utf8mb4 COLLATE utf8_unicode_ci;")
     end
 
 
