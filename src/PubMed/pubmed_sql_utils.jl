@@ -249,11 +249,6 @@ function add_mysql_keys!(conn::MySQL.Connection)
         ;"
         )
 
-    MySQL.execute!(conn, "ALTER TABLE `mesh_heading`
-          ADD UNIQUE KEY `pmid_uids` (`pmid`, `desc_uid`, `qual_uid`)
-        ;"
-        )
-
    return nothing
 end
 
