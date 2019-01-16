@@ -25,24 +25,6 @@ jobs:
   include:
     - stage: "Tests and Examples"
       os: linux
-      julia: 0.7
-      env: GROUP=Test
-      script:
-        - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-        - julia --check-bounds=yes -e 'import Pkg;
-              Pkg.build();
-              Pkg.test("BioMedQuery"; coverage=false);'
-    - # continue
-      os: osx
-      julia: 0.7
-      env: GROUP=Test
-      script:
-        - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-        - julia --check-bounds=yes -e 'import Pkg;
-              Pkg.build();
-              Pkg.test("BioMedQuery"; coverage=false);'
-    - # continue
-      os: linux
       julia: 1.0
       env: GROUP=Test
       script:
