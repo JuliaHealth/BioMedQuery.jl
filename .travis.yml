@@ -76,6 +76,7 @@ jobs:
         - julia --project=docs/ docs/make.jl
       after_success: skip
     - stage: Semantic Release
+      if: branch = master
       language: python
       os: linux
       python: 3.6
