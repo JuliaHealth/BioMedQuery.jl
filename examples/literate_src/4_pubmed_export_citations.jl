@@ -28,10 +28,12 @@ pmid_list = [24008025, 24170597];
 # Saving one PMID's citaiton as an EndNote file
 enw_file = results_dir * "/11748933.enw";
 export_citation(pmid, "endnote", enw_file);
+sleep(1) # hide
 
 # Saving two PMIDs' citations as an EndNote file
 enw_file = results_dir * "/pmid_list.enw";
 export_citation(pmid_list, "endnote", enw_file);
+sleep(1) # hide
 
 # #### Explore one of the output files
 
@@ -42,10 +44,12 @@ println(read(enw_file, String))
 # Saving one PMID's citation as a BibTex file
 bib_file = results_dir * "/11748933.bib";
 export_citation(pmid, "bibtex", bib_file);
+sleep(1) # hide
 
 # Saving two PMIDs' citations as a BibTex file
 bib_file = results_dir * "/pmid_list.bib";
 export_citation(pmid_list, "bibtex", bib_file);
+sleep(1) # hide
 
 # #### Explore one of the output files
 

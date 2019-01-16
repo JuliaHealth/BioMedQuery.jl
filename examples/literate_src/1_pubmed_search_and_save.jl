@@ -35,6 +35,7 @@ PubMed.create_tables!(mysql_conn);
 
 # Search pubmed and save results to database
 Processes.pubmed_search_and_save!(email, search_term, max_articles, mysql_conn, verbose)
+sleep(1) # hide
 
 # #### Access all PMIDs
 all_pmids(mysql_conn)
@@ -68,6 +69,7 @@ PubMed.create_tables!(conn_sqlite);
 
 # Search PubMed and save the results
 Processes.pubmed_search_and_save!(email, search_term, max_articles, conn_sqlite, verbose)
+sleep(1) # hide
 
 # #### Access all PMIDs
 all_pmids(conn_sqlite)
@@ -87,9 +89,10 @@ end
 enw_file = "$(results_dir)/pubmed_obesity_2010_2012.enw"
 endnote_citation = PubMed.CitationOutput("endnote", enw_file, true)
 Processes.pubmed_search_and_save!(email, search_term, max_articles, endnote_citation, verbose);
-
+sleep(1) # hide
 println(read(enw_file, String))
 
 # ### DataFrames
 # Returns a dictionary of dataframes which match the content and structure of the database tables.
 dfs = Processes.pubmed_search_and_parse(email, search_term, max_articles, verbose)
+sleep(1) # hide

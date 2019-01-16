@@ -51,7 +51,8 @@ dbname = "pubmed_obesity_2010_2012";
 const mysql_conn = DBUtils.init_mysql_database(host, mysql_usr, mysql_pswd, dbname) # hide
 PubMed.create_tables!(mysql_conn) # hide
 Processes.pubmed_search_and_save!(email, search_term, max_articles, mysql_conn, verbose) # hide
-MySQL.disconnect(mysql_conn) #hide 
+sleep(1) # hide
+MySQL.disconnect(mysql_conn) #hide
 
 db_mysql = MySQL.connect(host, mysql_usr, mysql_pswd, db = dbname);
 
@@ -92,6 +93,7 @@ end # hide
 db_sqlite = SQLite.DB(db_path); # hide
 PubMed.create_tables!(db_sqlite); # hide
 Processes.pubmed_search_and_save!(email, search_term, max_articles, db_sqlite, false) # hide
+sleep(1) # hide
 
 # ### Map MeSH to UMLS
 @time map_mesh_to_umls_async!(db_sqlite, umls_user, umls_pswd; append_results=false, timeout=3);
