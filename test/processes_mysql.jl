@@ -19,7 +19,7 @@ const mysql_pswd=""
 const dbname="pubmed_processes_test"
 const dbname_pmid ="pmid_processes_test"
 const medline_file = 1
-const medline_year = 2018
+const medline_year = 2019
 #*****************************************************************************
 
 const conn = DBUtils.init_mysql_database(host, mysql_usr, mysql_pswd, dbname)
