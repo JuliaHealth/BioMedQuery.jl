@@ -90,7 +90,7 @@ end
     raw_articles = root(doc)
 
     all_pmids = PubMed.all_pmids(conn)
-    @test length(all_pmids) == length(collect(child_elements(raw_articles)))
+    @test length(all_pmids) == length(get_elements_by_tagname(raw_articles, "PubmedArticle"))
     res = MySQL.Query(conn, "SELECT DISTINCT orcid FROM author_ref;") |> DataFrame
     @test size(res)[1] > 2
 
