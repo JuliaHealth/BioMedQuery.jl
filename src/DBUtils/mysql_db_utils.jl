@@ -4,7 +4,7 @@ using DataFrames
 
 """
     init_mysql_database(;host = "127.0.0.1", dbname="test",
-    username="root", pswd="", mysql_code=nothing, overwrite=false)
+    username="root", pswd="", mysql_code=nothing, overwrite=false, opts=Dict())
 
 Create a MySQL database using the code inside mysql_code
 
@@ -13,6 +13,7 @@ Create a MySQL database using the code inside mysql_code
 * `host`, `dbname`, `user`, `pswd`
 * `mysql_code::String`: String with MySQL code that crates all default tables
 * `overwrite::Bool` : Flag, if true and dbname exists, drops all database and re-creates it
+* `opts::Dict` : Dictionary containing MySQL connection options
 
 ### Output
 
