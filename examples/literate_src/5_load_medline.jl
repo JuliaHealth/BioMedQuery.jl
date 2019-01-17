@@ -22,7 +22,7 @@ using BioMedQuery
 # the tables using this function will drop any tables that already exist in the target
 # database.*
 
-const conn = BioMedQuery.DBUtils.init_mysql_database("127.0.0.1","root","","test_db", true);
+const conn = BioMedQuery.DBUtils.init_mysql_database("127.0.0.1","root","","test_db", overwrite=true);
 BioMedQuery.PubMed.create_tables!(conn);
 
 # ### Load a Test File

@@ -7,7 +7,7 @@ using DataFrames
 using Distributed
 
 """
-    load_medline(db_con, output_dir; start_file=1, end_file=928, year=2018, test=false)
+    load_medline(db_con, output_dir; start_file=1, end_file=972, year=2019, test=false)
 
 Given a MySQL connection and optionally the start and end files, fetches the medline files, parses the xml, and loads into a MySQL DB (assumes tables already exist). The raw (xml.gz) and parsed (csv) files will be stored in the output_dir.
 
@@ -19,12 +19,11 @@ Given a MySQL connection and optionally the start and end files, fetches the med
 * `year` : which year medline is (current is 2018)
 * `test` : if true, a sample file will be downloaded, parsed, and loaded instead of the baseline files
 """
-function load_medline!(db_con::MySQL.Connection, output_dir::String; start_file::Int=1, end_file::Int=928, year::Int=2018, test::Bool=false)
+function load_medline!(db_con::MySQL.Connection, output_dir::String; start_file::Int=1, end_file::Int=972, year::Int=2019, test::Bool=false)
 
     ftp_con = init_medline(output_dir, test)
 
     set_innodb_checks!(db_con,0,0,0)
-    # drop_mysql_keys!(db_con)
 
     if test
         start_file = 1
@@ -37,10 +36,10 @@ function load_medline!(db_con::MySQL.Connection, output_dir::String; start_file:
     end
 
     @info "Parsing files into CSV"
-    pmap(x -> parse_ml_file(get_file_name(x, year, test), output_dir), start_file:end_file)
+    pmap(x -> parse_ml_file(get_file_name(x, year, test), output_dir), start_file:end_file) # CHANGED FROM PMAP TO MAP TO GET MORE USEFUL STACKTRACE
 
     @info "Loading CSVs into MySQL"
-    @sync for n = start_file:end_file
+    for n = start_file:end_file
 
         fname = get_file_name(n, year, test) ::String
         println("Loading file: ", fname)
@@ -48,11 +47,10 @@ function load_medline!(db_con::MySQL.Connection, output_dir::String; start_file:
         csv_prefix = "$(fname[1:end-7])_"
         csv_path = joinpath(output_dir,"medline","parsed_files")
 
-        @async db_insert!(db_con, csv_path, csv_prefix)
+        db_insert!(db_con, csv_path, csv_prefix)
     end
 
     set_innodb_checks!(db_con)
-    # add_mysql_keys!(db_con)
 
     @info "All files processed - closing FTP connection"
     close_cons(ftp_con)

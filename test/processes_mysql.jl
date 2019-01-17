@@ -19,7 +19,7 @@ const mysql_pswd=""
 const dbname="pubmed_processes_test"
 const dbname_pmid ="pmid_processes_test"
 const medline_file = 1
-const medline_year = 2018
+const medline_year = 2019
 #*****************************************************************************
 
 const conn = DBUtils.init_mysql_database(host, mysql_usr, mysql_pswd, dbname)
@@ -90,7 +90,7 @@ end
     raw_articles = root(doc)
 
     all_pmids = PubMed.all_pmids(conn)
-    @test length(all_pmids) == length(collect(child_elements(raw_articles)))
+    @test length(all_pmids) == length(get_elements_by_tagname(raw_articles, "PubmedArticle"))
     res = MySQL.Query(conn, "SELECT DISTINCT orcid FROM author_ref;") |> DataFrame
     @test size(res)[1] > 2
 

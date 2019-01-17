@@ -20,9 +20,9 @@ Create a MySQL database using the code inside mysql_code
 
 """
 function init_mysql_database(host="127.0.0.1",
-    user="root", pwd="", dbname="test", overwrite=false)
+    user="root", pwd="", dbname="test"; overwrite=false, opts = Dict())
 
-    opts = Dict(MySQL.API.MYSQL_SET_CHARSET_NAME=>"utf8")
+    opts[MySQL.API.MYSQL_SET_CHARSET_NAME] = "utf8mb4"
 
     con = MySQL.connect(host, user, pwd, opts=opts)
 
@@ -37,11 +37,11 @@ function init_mysql_database(con::MySQL.Connection, dbname="test", overwrite=fal
             println("Set to overwrite MySQL database $dbname")
             MySQL.execute!(con, "DROP DATABASE IF EXISTS $dbname;")
             MySQL.execute!(con, "CREATE DATABASE $dbname
-                CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
+                CHARACTER SET utf8mb4;")
         end
     else
         MySQL.execute!(con, "CREATE DATABASE $dbname
-            CHARACTER SET utf8 COLLATE utf8_unicode_ci;")
+            CHARACTER SET utf8mb4;")
     end
 
 

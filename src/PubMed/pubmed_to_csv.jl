@@ -159,7 +159,7 @@ function parse_author(xml::LightXML.XMLElement)
         end
     end
 
-    affil_str = (affs == "" ? missing : affs[1:end-2])
+    affil_str = (affs == "" ? missing : affs[1:prevind(affs,lastindex(affs),2)])
 
     return last_name, first_name, initials, suffix, orcid, collective, affil_str
 end
@@ -350,7 +350,7 @@ function parse_articles(xml::LightXML.XMLElement)
                                     end #abstract if
                                 end #abstract for
                                 push!(af_pmid, this_pmid)
-                                push!(af_text, abstract_full_text[1:end-1])
+                                push!(af_text, strip(abstract_full_text))
 
 
                             # AuthorList?
@@ -373,7 +373,7 @@ function parse_articles(xml::LightXML.XMLElement)
                                     push!(au_affs, strip_newline(affs))
                                 end
 
-                                @inbounds auth_cite[i] = (this_auth_cite == "" ? missing : this_auth_cite[1:end-2])
+                                @inbounds auth_cite[i] = (this_auth_cite == "" ? missing : this_auth_cite[1:prevind(this_auth_cite,lastindex(this_auth_cite),2)])
 
                             # PublicationTypeList
                             elseif name(a_info) == "PublicationTypeList"

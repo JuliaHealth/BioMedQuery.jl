@@ -13,7 +13,9 @@ pmid_list = [24008025, 24170597]
     output_file2 = "pmid_list.enw"
 
     export_citation(pmid_list, citation_type, output_file2)
+    sleep(1)
     export_citation(pmid, citation_type, output_file1)
+    sleep(1)
 
     #Read back the files and do minimal testing
     ref_lines=[]
@@ -49,7 +51,9 @@ end
     output_file2 = "pmid_list.bibtex"
 
     export_citation(pmid, citation_type, output_file1)
+    sleep(1)
     export_citation(pmid_list, citation_type, output_file2)
+    sleep(1) 
 
     #Read back the files and do minimal testing
     ref_lines=[]
