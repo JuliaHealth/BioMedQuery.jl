@@ -77,7 +77,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Pubmed Search and Save",
     "title": "MySQL backend",
     "category": "section",
-    "text": "Initialize database, if it exists it connects to it, otherwise it creates itconst mysql_conn = DBUtils.init_mysql_database(\"127.0.0.1\", \"root\", \"\", \"pubmed_obesity_2010_2012\");Creates (and deletes if they already exist) all tables needed to save a pubmed searchPubMed.create_tables!(mysql_conn);Search pubmed and save results to databaseProcesses.pubmed_search_and_save!(email, search_term, max_articles, mysql_conn, verbose)"
+    "text": "Initialize database, if it exists it connects to it, otherwise it creates itconst mysql_conn = DBUtils.init_mysql_database(\"127.0.0.1\", \"root\", \"\", \"pubmed_obesity_2010_2012\");Creates (and deletes if they already exist) all tables needed to save a pubmed searchPubMed.create_tables!(mysql_conn);Search pubmed and save results to databaseProcesses.pubmed_search_and_save!(email, search_term, max_articles, mysql_conn, verbose)\nsleep(1) # hide"
 },
 
 {
@@ -101,7 +101,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Pubmed Search and Save",
     "title": "SQLite backend",
     "category": "section",
-    "text": "const db_path = \"$(results_dir)/pubmed_obesity_2010_2012.db\";Overwrite the database if it already existsif isfile(db_path)\n    rm(db_path)\nendConnect to the databaseconst conn_sqlite = SQLite.DB(db_path);Creates (and deletes if they already exist) all tables needed to save a pubmed searchPubMed.create_tables!(conn_sqlite);Search PubMed and save the resultsProcesses.pubmed_search_and_save!(email, search_term, max_articles, conn_sqlite, verbose)"
+    "text": "const db_path = \"$(results_dir)/pubmed_obesity_2010_2012.db\";Overwrite the database if it already existsif isfile(db_path)\n    rm(db_path)\nendConnect to the databaseconst conn_sqlite = SQLite.DB(db_path);Creates (and deletes if they already exist) all tables needed to save a pubmed searchPubMed.create_tables!(conn_sqlite);Search PubMed and save the resultsProcesses.pubmed_search_and_save!(email, search_term, max_articles, conn_sqlite, verbose)\nsleep(1) # hide"
 },
 
 {
@@ -125,7 +125,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Pubmed Search and Save",
     "title": "Citations",
     "category": "section",
-    "text": "Citation type can be \"endnote\" or \"bibtex\"enw_file = \"$(results_dir)/pubmed_obesity_2010_2012.enw\"\nendnote_citation = PubMed.CitationOutput(\"endnote\", enw_file, true)\nProcesses.pubmed_search_and_save!(email, search_term, max_articles, endnote_citation, verbose);\n\nprintln(read(enw_file, String))"
+    "text": "Citation type can be \"endnote\" or \"bibtex\"enw_file = \"$(results_dir)/pubmed_obesity_2010_2012.enw\"\nendnote_citation = PubMed.CitationOutput(\"endnote\", enw_file, true)\nProcesses.pubmed_search_and_save!(email, search_term, max_articles, endnote_citation, verbose);\nsleep(1) # hide\nprintln(read(enw_file, String))"
 },
 
 {
@@ -133,7 +133,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Pubmed Search and Save",
     "title": "DataFrames",
     "category": "section",
-    "text": "Returns a dictionary of dataframes which match the content and structure of the database tables.dfs = Processes.pubmed_search_and_parse(email, search_term, max_articles, verbose)This page was generated using Literate.jl."
+    "text": "Returns a dictionary of dataframes which match the content and structure of the database tables.dfs = Processes.pubmed_search_and_parse(email, search_term, max_articles, verbose)\nsleep(1) # hideThis page was generated using Literate.jl."
 },
 
 {
@@ -173,7 +173,7 @@ var documenterSearchIndex = {"docs": [
     "page": "MeSH/UMLS Map and Filtering",
     "title": "Map Medical Subject Headings (MeSH) to UMLS",
     "category": "section",
-    "text": "This example demonstrates the typical workflow to populate a MESH2UMLS database table relating all concepts associated with all MeSH terms in the input database.Note: this example reuses the MySQL DB from the PubMed Search and Save example.Create MySQL DB connectionhost = \"127.0.0.1\";\nmysql_usr = \"root\";\nmysql_pswd = \"\";\ndbname = \"pubmed_obesity_2010_2012\";\n\nconst mysql_conn = DBUtils.init_mysql_database(host, mysql_usr, mysql_pswd, dbname) # hide\nPubMed.create_tables!(mysql_conn) # hide\nProcesses.pubmed_search_and_save!(email, search_term, max_articles, mysql_conn, verbose) # hide\nMySQL.disconnect(mysql_conn) #hide\n\ndb_mysql = MySQL.connect(host, mysql_usr, mysql_pswd, db = dbname);Map MeSH to UMLS@time map_mesh_to_umls_async!(db_mysql, umls_user, umls_pswd; append_results=false, timeout=3);"
+    "text": "This example demonstrates the typical workflow to populate a MESH2UMLS database table relating all concepts associated with all MeSH terms in the input database.Note: this example reuses the MySQL DB from the PubMed Search and Save example.Create MySQL DB connectionhost = \"127.0.0.1\";\nmysql_usr = \"root\";\nmysql_pswd = \"\";\ndbname = \"pubmed_obesity_2010_2012\";\n\nconst mysql_conn = DBUtils.init_mysql_database(host, mysql_usr, mysql_pswd, dbname) # hide\nPubMed.create_tables!(mysql_conn) # hide\nProcesses.pubmed_search_and_save!(email, search_term, max_articles, mysql_conn, verbose) # hide\nsleep(1) # hide\nMySQL.disconnect(mysql_conn) #hide\n\ndb_mysql = MySQL.connect(host, mysql_usr, mysql_pswd, db = dbname);Map MeSH to UMLS@time map_mesh_to_umls_async!(db_mysql, umls_user, umls_pswd; append_results=false, timeout=3);"
 },
 
 {
@@ -197,7 +197,7 @@ var documenterSearchIndex = {"docs": [
     "page": "MeSH/UMLS Map and Filtering",
     "title": "SQLite",
     "category": "section",
-    "text": "This example demonstrates the typical workflow to populate a MESH2UMLS database table relating all concepts associated with all MeSH terms in the input database.Note: this example reuses the SQLite DB from the PubMed Search and Save example.Create SQLite DB connectiondb_path = \"$(results_dir)/pubmed_obesity_2010_2012.db\";\ndb_sqlite = SQLite.DB(db_path);\n\nif isfile(db_path) # hide\n    rm(db_path) # hide\nend # hide\ndb_sqlite = SQLite.DB(db_path); # hide\nPubMed.create_tables!(db_sqlite); # hide\nProcesses.pubmed_search_and_save!(email, search_term, max_articles, db_sqlite, false) # hide"
+    "text": "This example demonstrates the typical workflow to populate a MESH2UMLS database table relating all concepts associated with all MeSH terms in the input database.Note: this example reuses the SQLite DB from the PubMed Search and Save example.Create SQLite DB connectiondb_path = \"$(results_dir)/pubmed_obesity_2010_2012.db\";\ndb_sqlite = SQLite.DB(db_path);\n\nif isfile(db_path) # hide\n    rm(db_path) # hide\nend # hide\ndb_sqlite = SQLite.DB(db_path); # hide\nPubMed.create_tables!(db_sqlite); # hide\nProcesses.pubmed_search_and_save!(email, search_term, max_articles, db_sqlite, false) # hide\nsleep(1) # hide"
 },
 
 {
@@ -253,7 +253,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Export to Citations",
     "title": "Export as an EndNote library file",
     "category": "section",
-    "text": "Saving one PMID\'s citaiton as an EndNote fileenw_file = results_dir * \"/11748933.enw\";\nexport_citation(pmid, \"endnote\", enw_file);Saving two PMIDs\' citations as an EndNote fileenw_file = results_dir * \"/pmid_list.enw\";\nexport_citation(pmid_list, \"endnote\", enw_file);"
+    "text": "Saving one PMID\'s citaiton as an EndNote fileenw_file = results_dir * \"/11748933.enw\";\nexport_citation(pmid, \"endnote\", enw_file);\nsleep(1) # hideSaving two PMIDs\' citations as an EndNote fileenw_file = results_dir * \"/pmid_list.enw\";\nexport_citation(pmid_list, \"endnote\", enw_file);\nsleep(1) # hide"
 },
 
 {
@@ -269,7 +269,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Export to Citations",
     "title": "Export as a Bibtex file",
     "category": "section",
-    "text": "Saving one PMID\'s citation as a BibTex filebib_file = results_dir * \"/11748933.bib\";\nexport_citation(pmid, \"bibtex\", bib_file);Saving two PMIDs\' citations as a BibTex filebib_file = results_dir * \"/pmid_list.bib\";\nexport_citation(pmid_list, \"bibtex\", bib_file);"
+    "text": "Saving one PMID\'s citation as a BibTex filebib_file = results_dir * \"/11748933.bib\";\nexport_citation(pmid, \"bibtex\", bib_file);\nsleep(1) # hideSaving two PMIDs\' citations as a BibTex filebib_file = results_dir * \"/pmid_list.bib\";\nexport_citation(pmid_list, \"bibtex\", bib_file);\nsleep(1) # hide"
 },
 
 {
@@ -301,7 +301,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Load MEDLINE",
     "title": "Set Up",
     "category": "section",
-    "text": "The database and tables must already be created before loading the medline files. This process is set up for parallel processing.  To take advantage of this, workers can be added before loading the BioMedQuery package using the addprocs function.using BioMedQueryBioMedQuery has utility functions to create the database and tables. Note: creating the tables using this function will drop any tables that already exist in the target database.const conn = BioMedQuery.DBUtils.init_mysql_database(\"127.0.0.1\",\"root\",\"\",\"test_db\", true);\nBioMedQuery.PubMed.create_tables!(conn);"
+    "text": "The database and tables must already be created before loading the medline files. This process is set up for parallel processing.  To take advantage of this, workers can be added before loading the BioMedQuery package using the addprocs function.using BioMedQueryBioMedQuery has utility functions to create the database and tables. Note: creating the tables using this function will drop any tables that already exist in the target database.const conn = BioMedQuery.DBUtils.init_mysql_database(\"127.0.0.1\",\"root\",\"\",\"test_db\", overwrite=true);\nBioMedQuery.PubMed.create_tables!(conn);"
 },
 
 {
@@ -357,7 +357,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Processes/Workflows",
     "title": "BioMedQuery.Processes.load_medline!",
     "category": "method",
-    "text": "load_medline(db_con, output_dir; start_file=1, end_file=928, year=2018, test=false)\n\nGiven a MySQL connection and optionally the start and end files, fetches the medline files, parses the xml, and loads into a MySQL DB (assumes tables already exist). The raw (xml.gz) and parsed (csv) files will be stored in the output_dir.\n\nArguments\n\ndb_con : A MySQL Connection to a db (tables must already be created - see PubMed.create_tables!)\noutput_dir : root directory where the raw and parsed files should be stored\nstart_file : which medline file should the loading start at\nend_file : which medline file should the loading end at (default is last file in 2018 baseline)\nyear : which year medline is (current is 2018)\ntest : if true, a sample file will be downloaded, parsed, and loaded instead of the baseline files\n\n\n\n\n\n"
+    "text": "load_medline(db_con, output_dir; start_file=1, end_file=972, year=2019, test=false)\n\nGiven a MySQL connection and optionally the start and end files, fetches the medline files, parses the xml, and loads into a MySQL DB (assumes tables already exist). The raw (xml.gz) and parsed (csv) files will be stored in the output_dir.\n\nArguments\n\ndb_con : A MySQL Connection to a db (tables must already be created - see PubMed.create_tables!)\noutput_dir : root directory where the raw and parsed files should be stored\nstart_file : which medline file should the loading start at\nend_file : which medline file should the loading end at (default is last file in 2018 baseline)\nyear : which year medline is (current is 2018)\ntest : if true, a sample file will be downloaded, parsed, and loaded instead of the baseline files\n\n\n\n\n\n"
 },
 
 {
@@ -629,7 +629,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PubMed",
     "title": "BioMedQuery.PubMed.db_insert!",
     "category": "function",
-    "text": "db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix=\"<current date>_PubMed_\"; verbose=false, drop_csvs=false)\n\nWrites dictionary of dataframes to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.\n\n\n\n\n\n"
+    "text": "db_insert!(conn, csv_path=pwd(), csv_prefix=\"<current date>_PubMed_\"; verbose=false, drop_csvs=false)\n\nWrites CSVs from PubMed parsing to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs can optionally be removed after being written to DB.\n\n\n\n\n\n"
 },
 
 {
@@ -645,7 +645,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PubMed",
     "title": "BioMedQuery.PubMed.db_insert!",
     "category": "function",
-    "text": "db_insert!(conn, csv_path=pwd(), csv_prefix=\"<current date>_PubMed_\"; verbose=false, drop_csvs=false)\n\nWrites CSVs from PubMed parsing to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs can optionally be removed after being written to DB.\n\n\n\n\n\n"
+    "text": "db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix=\"<current date>_PubMed_\"; verbose=false, drop_csvs=false)\n\nWrites dictionary of dataframes to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.\n\n\n\n\n\n"
 },
 
 {
@@ -693,7 +693,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PubMed",
     "title": "BioMedQuery.PubMed.save_efetch!",
     "category": "function",
-    "text": "save_efetch!(output::CitationOutput, efetch_dict, verbose=false)\n\nSave the results of a Entrez efetch to a bibliography file, with format and file path given by output::CitationOutput\n\n\n\n\n\n"
+    "text": " pubmed_save_efetch(efetch_dict, conn)\n\nSave the results (dictionary) of an entrez-pubmed fetch to the input database.\n\n\n\n\n\n"
 },
 
 {
@@ -701,7 +701,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PubMed",
     "title": "BioMedQuery.PubMed.save_efetch!",
     "category": "function",
-    "text": " pubmed_save_efetch(efetch_dict, conn)\n\nSave the results (dictionary) of an entrez-pubmed fetch to the input database.\n\n\n\n\n\n"
+    "text": "save_efetch!(output::CitationOutput, efetch_dict, verbose=false)\n\nSave the results of a Entrez efetch to a bibliography file, with format and file path given by output::CitationOutput\n\n\n\n\n\n"
 },
 
 {

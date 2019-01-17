@@ -27,38 +27,38 @@ end</code></pre><pre><code class="language-none">5×9 DataFrames.DataFrame
 │ Row │ pmid     │ last_name │ first_name │ initials │ suffix  │ orcid   │ collective │ affiliation                                                                       │ ins_dt_time         │
 │     │ Int32    │ String⍰   │ String⍰    │ String⍰  │ String⍰ │ String⍰ │ String⍰    │ Union{Missing, String}                                                            │ Dates.DateTime      │
 ├─────┼──────────┼───────────┼────────────┼──────────┼─────────┼─────────┼────────────┼───────────────────────────────────────────────────────────────────────────────────┼─────────────────────┤
-│ 1   │ 25548090 │ So        │ Eun Sun    │ ES       │ missing │ missing │ missing    │ Chonbuk National University, South Korea soeunjee@naver.com.                      │ 2018-12-10T15:56:10 │
-│ 2   │ 25548090 │ Yoo       │ Kwang Soo  │ KS       │ missing │ missing │ missing    │ Chonbuk National University, South Korea.                                         │ 2018-12-10T15:56:10 │
-│ 3   │ 24694474 │ Sakurai   │ Masaru     │ M        │ missing │ missing │ missing    │ Department of Epidemiology and Public Health, Kanazawa Medical University, Japan. │ 2018-12-10T15:56:10 │
-│ 4   │ 24694474 │ Nakamura  │ Koshi      │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2018-12-10T15:56:10 │
-│ 5   │ 24694474 │ Miura     │ Katsuyuki  │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2018-12-10T15:56:10 │
+│ 1   │ 25548090 │ So        │ Eun Sun    │ ES       │ missing │ missing │ missing    │ Chonbuk National University, South Korea soeunjee@naver.com.                      │ 2019-01-17T16:42:13 │
+│ 2   │ 25548090 │ Yoo       │ Kwang Soo  │ KS       │ missing │ missing │ missing    │ Chonbuk National University, South Korea.                                         │ 2019-01-17T16:42:13 │
+│ 3   │ 24694474 │ Sakurai   │ Masaru     │ M        │ missing │ missing │ missing    │ Department of Epidemiology and Public Health, Kanazawa Medical University, Japan. │ 2019-01-17T16:42:13 │
+│ 4   │ 24694474 │ Nakamura  │ Koshi      │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2019-01-17T16:42:13 │
+│ 5   │ 24694474 │ Miura     │ Katsuyuki  │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2019-01-17T16:42:13 │
 5×3 DataFrames.DataFrame
 │ Row │ uid   │ name                 │ ins_dt_time         │
 │     │ Int32 │ String               │ Dates.DateTime      │
 ├─────┼───────┼──────────────────────┼─────────────────────┤
-│ 1   │ 328   │ Adult                │ 2018-12-10T15:56:10 │
-│ 2   │ 368   │ Aged                 │ 2018-12-10T15:56:10 │
-│ 3   │ 369   │ Aged, 80 and over    │ 2018-12-10T15:56:10 │
-│ 4   │ 704   │ Analysis of Variance │ 2018-12-10T15:56:10 │
-│ 5   │ 1835  │ Body Weight          │ 2018-12-10T15:56:10 │
+│ 1   │ 328   │ Adult                │ 2019-01-17T16:42:13 │
+│ 2   │ 368   │ Aged                 │ 2019-01-17T16:42:13 │
+│ 3   │ 369   │ Aged, 80 and over    │ 2019-01-17T16:42:13 │
+│ 4   │ 704   │ Analysis of Variance │ 2019-01-17T16:42:13 │
+│ 5   │ 1835  │ Body Weight          │ 2019-01-17T16:42:13 │
 5×3 DataFrames.DataFrame
 │ Row │ uid   │ name          │ ins_dt_time         │
 │     │ Int32 │ String        │ Dates.DateTime      │
 ├─────┼───────┼───────────────┼─────────────────────┤
-│ 1   │ 32    │ analysis      │ 2018-12-10T15:56:10 │
-│ 2   │ 97    │ blood         │ 2018-12-10T15:56:10 │
-│ 3   │ 150   │ complications │ 2018-12-10T15:56:10 │
-│ 4   │ 208   │ ethnology     │ 2018-12-10T15:56:10 │
-│ 5   │ 209   │ etiology      │ 2018-12-10T15:56:10 │
+│ 1   │ 32    │ analysis      │ 2019-01-17T16:42:13 │
+│ 2   │ 97    │ blood         │ 2019-01-17T16:42:13 │
+│ 3   │ 150   │ complications │ 2019-01-17T16:42:13 │
+│ 4   │ 208   │ ethnology     │ 2019-01-17T16:42:13 │
+│ 5   │ 209   │ etiology      │ 2019-01-17T16:42:13 │
 5×6 DataFrames.DataFrame
 │ Row │ pmid     │ desc_uid │ desc_maj_status │ qual_uid │ qual_maj_status │ ins_dt_time         │
 │     │ Int32    │ Int32    │ Int8            │ Int32⍰   │ Int8⍰           │ Dates.DateTime      │
 ├─────┼──────────┼──────────┼─────────────────┼──────────┼─────────────────┼─────────────────────┤
-│ 1   │ 25548090 │ 17677    │ 0               │ missing  │ missing         │ 2018-12-10T15:56:10 │
-│ 2   │ 25548090 │ 368      │ 0               │ missing  │ missing         │ 2018-12-10T15:56:10 │
-│ 3   │ 25548090 │ 369      │ 0               │ missing  │ missing         │ 2018-12-10T15:56:10 │
-│ 4   │ 25548090 │ 5260     │ 0               │ missing  │ missing         │ 2018-12-10T15:56:10 │
-│ 5   │ 25548090 │ 6801     │ 0               │ missing  │ missing         │ 2018-12-10T15:56:10 │</code></pre></div><div><pre><code class="language-julia">MySQL.disconnect(mysql_conn);</code></pre></div><h3><a class="nav-anchor" id="SQLite-backend-1" href="#SQLite-backend-1">SQLite backend</a></h3><div><pre><code class="language-julia">const db_path = &quot;$(results_dir)/pubmed_obesity_2010_2012.db&quot;;</code></pre></div><p>Overwrite the database if it already exists</p><div><pre><code class="language-julia">if isfile(db_path)
+│ 1   │ 25548090 │ 17677    │ 0               │ missing  │ missing         │ 2019-01-17T16:42:13 │
+│ 2   │ 25548090 │ 368      │ 0               │ missing  │ missing         │ 2019-01-17T16:42:13 │
+│ 3   │ 25548090 │ 369      │ 0               │ missing  │ missing         │ 2019-01-17T16:42:13 │
+│ 4   │ 25548090 │ 5260     │ 0               │ missing  │ missing         │ 2019-01-17T16:42:13 │
+│ 5   │ 25548090 │ 6801     │ 0               │ missing  │ missing         │ 2019-01-17T16:42:13 │</code></pre></div><div><pre><code class="language-julia">MySQL.disconnect(mysql_conn);</code></pre></div><h3><a class="nav-anchor" id="SQLite-backend-1" href="#SQLite-backend-1">SQLite backend</a></h3><div><pre><code class="language-julia">const db_path = &quot;$(results_dir)/pubmed_obesity_2010_2012.db&quot;;</code></pre></div><p>Overwrite the database if it already exists</p><div><pre><code class="language-julia">if isfile(db_path)
     rm(db_path)
 end</code></pre></div><p>Connect to the database</p><div><pre><code class="language-julia">const conn_sqlite = SQLite.DB(db_path);</code></pre></div><p>Creates (and deletes if they already exist) all tables needed to save a pubmed search</p><div><pre><code class="language-julia">PubMed.create_tables!(conn_sqlite);</code></pre></div><p>Search PubMed and save the results</p><div><pre><code class="language-julia">Processes.pubmed_search_and_save!(email, search_term, max_articles, conn_sqlite, verbose)</code></pre><pre><code class="language-none">Getting 5 articles, starting at index 0
 ------ESearch--------
@@ -85,11 +85,11 @@ end</code></pre><pre><code class="language-none">┌ Warning: `SQLite.query(db, 
 │ Row │ pmid     │ last_name │ first_name │ initials │ suffix  │ orcid   │ collective │ affiliation                                                                       │ ins_dt_time         │
 │     │ Int64⍰   │ String⍰   │ String⍰    │ String⍰  │ Any     │ Any     │ Any        │ Union{Missing, String}                                                            │ String⍰             │
 ├─────┼──────────┼───────────┼────────────┼──────────┼─────────┼─────────┼────────────┼───────────────────────────────────────────────────────────────────────────────────┼─────────────────────┤
-│ 1   │ 25548090 │ So        │ Eun Sun    │ ES       │ missing │ missing │ missing    │ Chonbuk National University, South Korea soeunjee@naver.com.                      │ 2018-12-10 15:56:14 │
-│ 2   │ 25548090 │ Yoo       │ Kwang Soo  │ KS       │ missing │ missing │ missing    │ Chonbuk National University, South Korea.                                         │ 2018-12-10 15:56:14 │
-│ 3   │ 24694474 │ Sakurai   │ Masaru     │ M        │ missing │ missing │ missing    │ Department of Epidemiology and Public Health, Kanazawa Medical University, Japan. │ 2018-12-10 15:56:14 │
-│ 4   │ 24694474 │ Nakamura  │ Koshi      │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2018-12-10 15:56:14 │
-│ 5   │ 24694474 │ Miura     │ Katsuyuki  │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2018-12-10 15:56:14 │
+│ 1   │ 25548090 │ So        │ Eun Sun    │ ES       │ missing │ missing │ missing    │ Chonbuk National University, South Korea soeunjee@naver.com.                      │ 2019-01-17 16:42:18 │
+│ 2   │ 25548090 │ Yoo       │ Kwang Soo  │ KS       │ missing │ missing │ missing    │ Chonbuk National University, South Korea.                                         │ 2019-01-17 16:42:18 │
+│ 3   │ 24694474 │ Sakurai   │ Masaru     │ M        │ missing │ missing │ missing    │ Department of Epidemiology and Public Health, Kanazawa Medical University, Japan. │ 2019-01-17 16:42:18 │
+│ 4   │ 24694474 │ Nakamura  │ Koshi      │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2019-01-17 16:42:18 │
+│ 5   │ 24694474 │ Miura     │ Katsuyuki  │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2019-01-17 16:42:18 │
 ┌ Warning: `SQLite.query(db, sql)` will return an `SQLite.Query` object in the future; to materialize a resultset, do `DataFrame(SQLite.query(db, sql))` instead
 │   caller = ip:0x0
 └ @ Core :-1
@@ -100,11 +100,11 @@ end</code></pre><pre><code class="language-none">┌ Warning: `SQLite.query(db, 
 │ Row │ uid    │ name              │ ins_dt_time         │
 │     │ Int64⍰ │ String⍰           │ String⍰             │
 ├─────┼────────┼───────────────────┼─────────────────────┤
-│ 1   │ 12016  │ Reference Values  │ 2018-12-10 15:56:14 │
-│ 2   │ 56910  │ Republic of Korea │ 2018-12-10 15:56:14 │
-│ 3   │ 12372  │ ROC Curve         │ 2018-12-10 15:56:14 │
-│ 4   │ 5221   │ Fatigue           │ 2018-12-10 15:56:14 │
-│ 5   │ 9765   │ Obesity           │ 2018-12-10 15:56:14 │
+│ 1   │ 12016  │ Reference Values  │ 2019-01-17 16:42:18 │
+│ 2   │ 56910  │ Republic of Korea │ 2019-01-17 16:42:18 │
+│ 3   │ 12372  │ ROC Curve         │ 2019-01-17 16:42:18 │
+│ 4   │ 5221   │ Fatigue           │ 2019-01-17 16:42:18 │
+│ 5   │ 9765   │ Obesity           │ 2019-01-17 16:42:18 │
 ┌ Warning: `SQLite.query(db, sql)` will return an `SQLite.Query` object in the future; to materialize a resultset, do `DataFrame(SQLite.query(db, sql))` instead
 │   caller = ip:0x0
 └ @ Core :-1
@@ -115,11 +115,11 @@ end</code></pre><pre><code class="language-none">┌ Warning: `SQLite.query(db, 
 │ Row │ uid    │ name                        │ ins_dt_time         │
 │     │ Int64⍰ │ Union{Missing, String}      │ String⍰             │
 ├─────┼────────┼─────────────────────────────┼─────────────────────┤
-│ 1   │ 208    │ ethnology                   │ 2018-12-10 15:56:14 │
-│ 2   │ 706    │ statistics &amp; numerical data │ 2018-12-10 15:56:14 │
-│ 3   │ 453    │ epidemiology                │ 2018-12-10 15:56:14 │
-│ 4   │ 502    │ physiology                  │ 2018-12-10 15:56:14 │
-│ 5   │ 32     │ analysis                    │ 2018-12-10 15:56:14 │
+│ 1   │ 208    │ ethnology                   │ 2019-01-17 16:42:18 │
+│ 2   │ 706    │ statistics &amp; numerical data │ 2019-01-17 16:42:18 │
+│ 3   │ 453    │ epidemiology                │ 2019-01-17 16:42:18 │
+│ 4   │ 502    │ physiology                  │ 2019-01-17 16:42:18 │
+│ 5   │ 32     │ analysis                    │ 2019-01-17 16:42:18 │
 ┌ Warning: `SQLite.query(db, sql)` will return an `SQLite.Query` object in the future; to materialize a resultset, do `DataFrame(SQLite.query(db, sql))` instead
 │   caller = ip:0x0
 └ @ Core :-1
@@ -130,14 +130,13 @@ end</code></pre><pre><code class="language-none">┌ Warning: `SQLite.query(db, 
 │ Row │ pmid     │ desc_uid │ desc_maj_status │ qual_uid │ qual_maj_status │ ins_dt_time         │
 │     │ Int64⍰   │ Int64⍰   │ Int64⍰          │ Any      │ Any             │ String⍰             │
 ├─────┼──────────┼──────────┼─────────────────┼──────────┼─────────────────┼─────────────────────┤
-│ 1   │ 25548090 │ 17677    │ 0               │ missing  │ missing         │ 2018-12-10 15:56:14 │
-│ 2   │ 25548090 │ 368      │ 0               │ missing  │ missing         │ 2018-12-10 15:56:14 │
-│ 3   │ 25548090 │ 369      │ 0               │ missing  │ missing         │ 2018-12-10 15:56:14 │
-│ 4   │ 25548090 │ 5260     │ 0               │ missing  │ missing         │ 2018-12-10 15:56:14 │
-│ 5   │ 25548090 │ 6801     │ 0               │ missing  │ missing         │ 2018-12-10 15:56:14 │</code></pre></div><h3><a class="nav-anchor" id="Citations-1" href="#Citations-1">Citations</a></h3><p>Citation type can be &quot;endnote&quot; or &quot;bibtex&quot;</p><div><pre><code class="language-julia">enw_file = &quot;$(results_dir)/pubmed_obesity_2010_2012.enw&quot;
+│ 1   │ 25548090 │ 17677    │ 0               │ missing  │ missing         │ 2019-01-17 16:42:18 │
+│ 2   │ 25548090 │ 368      │ 0               │ missing  │ missing         │ 2019-01-17 16:42:18 │
+│ 3   │ 25548090 │ 369      │ 0               │ missing  │ missing         │ 2019-01-17 16:42:18 │
+│ 4   │ 25548090 │ 5260     │ 0               │ missing  │ missing         │ 2019-01-17 16:42:18 │
+│ 5   │ 25548090 │ 6801     │ 0               │ missing  │ missing         │ 2019-01-17 16:42:18 │</code></pre></div><h3><a class="nav-anchor" id="Citations-1" href="#Citations-1">Citations</a></h3><p>Citation type can be &quot;endnote&quot; or &quot;bibtex&quot;</p><div><pre><code class="language-julia">enw_file = &quot;$(results_dir)/pubmed_obesity_2010_2012.enw&quot;
 endnote_citation = PubMed.CitationOutput(&quot;endnote&quot;, enw_file, true)
 Processes.pubmed_search_and_save!(email, search_term, max_articles, endnote_citation, verbose);
-
 println(read(enw_file, String))</code></pre><pre><code class="language-none">Getting 5 articles, starting at index 0
 ------ESearch--------
 ------EFetch--------
@@ -155,7 +154,7 @@ Finished searching, total number of articles: 5
 %P 102-17
 %M 25548090
 %U http://www.ncbi.nlm.nih.gov/pubmed/25548090
-%X [&quot;The aim is to determine the appropriate cutoff values of waist circumference (WC) for an increased risk of the metabolic syndrome in the Korean elderly population. We analyzed the WC cutoff values of four groups divided according to sex and age with a total of 2,224 elderly participants aged 65 years old and above from the Fourth Korean National Health and Nutrition Examination Survey using the receiver operating characteristic curve and multiple logistic regression. The WC cutoff values associated with an increased risk of metabolic syndrome were 89.6 cm for men and 90.5 cm for women for those who were 65 to 74 years old, and 89.9 cm for men and 87.9 cm for women for those who were 75 years old or older. WC cutoff points for estimating metabolic risk are similar in elderly men and women. Age-specific optimal WC cutoff points should be considered especially for elderly women in screening for metabolic syndrome. &quot;]
+%X [&quot;The aim is to determine the appropriate cutoff values of waist circumference (WC) for an increased risk of the metabolic syndrome in the Korean elderly population. We analyzed the WC cutoff values of four groups divided according to sex and age with a total of 2,224 elderly participants aged 65 years old and above from the Fourth Korean National Health and Nutrition Examination Survey using the receiver operating characteristic curve and multiple logistic regression. The WC cutoff values associated with an increased risk of metabolic syndrome were 89.6 cm for men and 90.5 cm for women for those who were 65 to 74 years old, and 89.9 cm for men and 87.9 cm for women for those who were 75 years old or older. WC cutoff points for estimating metabolic risk are similar in elderly men and women. Age-specific optimal WC cutoff points should be considered especially for elderly women in screening for metabolic syndrome.&quot;]
 %K Age Distribution
 %K Aged
 %K Aged, 80 and over
@@ -246,7 +245,7 @@ Finished searching, total number of articles: 5
 %K Overweight
 %K Pediatric Obesity
 %K Physical Fitness
-%K Sedentary Lifestyle
+%K Sedentary Behavior
 %K Sports
 %K Surveys and Questionnaires
 %K Television
@@ -297,7 +296,7 @@ Finished searching, total number of articles: 5
 %P 268-276
 %M 24315250
 %U http://www.ncbi.nlm.nih.gov/pubmed/24315250
-%X [&quot;Factors affecting the symptomatology of fibromyalgia (FM) are not fully understood. The aim of the present study was to analyze the relationship of weight status with pain, fatigue, and stiffness in Spanish female FM patients, with special focus on the differences between overweight and obese patients. The sample comprised 177 Spanish women with FM (51.3 ± 7.3 years old). We assessed tenderness (using pressure algometry), pain and vitality using the General Health Short-Form Survey (SF36), and pain, fatigue, morning tiredness, and stiffness using the Fibromyalgia Impact Questionnaire (FIQ). The international criteria for body mass index was used to classify the patients as normal weight, overweight, or obese. Thirty-two percent were normal-weight, 35% overweight, and 32% obese. Both overweight and obese patients had higher levels of pain than normal-weight patients, as assessed by FIQ and SF36 questionnaires and tender point count (p &lt; .01). The same pattern was observed for algometer score, yet the differences were not significant. Both overweight and obese patients had higher levels of fatigue, and morning tiredness, and stiffness (p &lt; .05) and less vitality than normal-weight patients. No significant differences were observed in any of the variables studied between overweight and obese patients. In conclusion, FM symptomatology in obese patients did not differ from overweight patients, whereas normal-weight patients significantly differed from overweight and obese patients in the studied symptoms. These findings suggest that keeping a healthy (normal) weight is not only associated with decreased risk for developing FM but might also be a relevant and useful way of improving FM symptomatology in women. &quot;]
+%X [&quot;Factors affecting the symptomatology of fibromyalgia (FM) are not fully understood. The aim of the present study was to analyze the relationship of weight status with pain, fatigue, and stiffness in Spanish female FM patients, with special focus on the differences between overweight and obese patients. The sample comprised 177 Spanish women with FM (51.3 ± 7.3 years old). We assessed tenderness (using pressure algometry), pain and vitality using the General Health Short-Form Survey (SF36), and pain, fatigue, morning tiredness, and stiffness using the Fibromyalgia Impact Questionnaire (FIQ). The international criteria for body mass index was used to classify the patients as normal weight, overweight, or obese. Thirty-two percent were normal-weight, 35% overweight, and 32% obese. Both overweight and obese patients had higher levels of pain than normal-weight patients, as assessed by FIQ and SF36 questionnaires and tender point count (p &lt; .01). The same pattern was observed for algometer score, yet the differences were not significant. Both overweight and obese patients had higher levels of fatigue, and morning tiredness, and stiffness (p &lt; .05) and less vitality than normal-weight patients. No significant differences were observed in any of the variables studied between overweight and obese patients. In conclusion, FM symptomatology in obese patients did not differ from overweight patients, whereas normal-weight patients significantly differed from overweight and obese patients in the studied symptoms. These findings suggest that keeping a healthy (normal) weight is not only associated with decreased risk for developing FM but might also be a relevant and useful way of improving FM symptomatology in women.&quot;]
 %K Adult
 %K Body Mass Index
 %K Body Weight
@@ -317,13 +316,4 @@ Finished searching, total number of articles: 5
 %+ Department of Physical Education and Sport, School of Physical Activity and Sports Sciences, University of Granada, Granada, Spain; Department of Biosciences and Nutrition, Unit for Preventive Nutrition, Novum, Karolinska Institutet, Stockholm Sweden; Department of Physiology and Institute of Nutrition and Food Technology, University of Granada, Granada, Spain. Electronic address: virginiaparicio@ugr.es.; Department of Biosciences and Nutrition, Unit for Preventive Nutrition, Novum, Karolinska Institutet, Stockholm Sweden; Department of Physiology, School of Medicine, University of Granada, Granada, Spain.; Department of Physical Education and Sport, School of Physical Activity and Sports Sciences, University of Granada, Granada, Spain; Department of Physical Education and Sport, School of Education, University of Seville, Seville, Spain.; Department of Physical Education and Sport, School of Physical Activity and Sports Sciences, University of Granada, Granada, Spain.; Department of Biosciences and Nutrition, Unit for Preventive Nutrition, Novum, Karolinska Institutet, Stockholm Sweden.; Department of Biosciences and Nutrition, Unit for Preventive Nutrition, Novum, Karolinska Institutet, Stockholm Sweden.; Department of Physical Education and Sport, School of Physical Activity and Sports Sciences, University of Granada, Granada, Spain.</code></pre></div><h3><a class="nav-anchor" id="DataFrames-1" href="#DataFrames-1">DataFrames</a></h3><p>Returns a dictionary of dataframes which match the content and structure of the database tables.</p><div><pre><code class="language-julia">dfs = Processes.pubmed_search_and_parse(email, search_term, max_articles, verbose)</code></pre><pre><code class="language-none">Getting 5 articles, starting at index 0
 ------ESearch--------
 ------EFetch--------
-------Save to dataframes--------
-Dict{String,DataFrames.DataFrame} with 8 entries:
-  &quot;basic&quot;               =&gt; 5×13 DataFrames.DataFrame. Omitted printing of 9 col…
-  &quot;mesh_desc&quot;           =&gt; 52×2 DataFrames.DataFrame…
-  &quot;mesh_qual&quot;           =&gt; 9×2 DataFrames.DataFrame…
-  &quot;pub_type&quot;            =&gt; 10×3 DataFrames.DataFrame…
-  &quot;abstract_full&quot;       =&gt; 5×2 DataFrames.DataFrame. Omitted printing of 1 colu…
-  &quot;author_ref&quot;          =&gt; 35×8 DataFrames.DataFrame. Omitted printing of 3 col…
-  &quot;mesh_heading&quot;        =&gt; 78×5 DataFrames.DataFrame…
-  &quot;abstract_structured&quot; =&gt; 4×4 DataFrames.DataFrame. Omitted printing of 1 colu…</code></pre></div><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p><footer><hr/><a class="previous" href="../"><span class="direction">Previous</span><span class="title">Overview</span></a><a class="next" href="../2_umls_map_and_filter/"><span class="direction">Next</span><span class="title">MeSH/UMLS Map and Filtering</span></a></footer></article></body></html>
+------Save to dataframes--------</code></pre></div><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p><footer><hr/><a class="previous" href="../"><span class="direction">Previous</span><span class="title">Overview</span></a><a class="next" href="../2_umls_map_and_filter/"><span class="direction">Next</span><span class="title">MeSH/UMLS Map and Filtering</span></a></footer></article></body></html>

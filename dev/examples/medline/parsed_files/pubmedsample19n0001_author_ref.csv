@@ -10,13 +10,13 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 1875346,Hartman,G D,GD,NULL,NULL,NULL,NULL
 1875346,Hunt,V,V,NULL,NULL,NULL,NULL
 1875346,Imagire,J S,JS,NULL,NULL,NULL,NULL
-5757641,Tevzadze,V G,VG,NULL,NULL,NULL,NULL
 3549656,Ohi,N,N,NULL,NULL,NULL,NULL
 3549656,Aoki,B,B,NULL,NULL,NULL,NULL
 3549656,Kuroki,T,T,NULL,NULL,NULL,NULL
 3549656,Matsumoto,M,M,NULL,NULL,NULL,NULL
 3549656,Kojima,K,K,NULL,NULL,NULL,NULL
 3549656,Nehashi,T,T,NULL,NULL,NULL,NULL
+5757641,Tevzadze,V G,VG,NULL,NULL,NULL,NULL
 8119288,Hansson,M,M,NULL,NULL,NULL,"Department of Microbiology, Lund University, Sweden."
 8119288,Hederstedt,L,L,NULL,NULL,NULL,NULL
 8219565,Moore,B S,BS,NULL,NULL,NULL,"Department of Radiology, University of California at San Diego 92103."
@@ -30,10 +30,6 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 8863847,Lau,Y T,YT,NULL,NULL,NULL,NULL
 8863847,Yang,C M,CM,NULL,NULL,NULL,NULL
 8863847,Chen,J C,JC,NULL,NULL,NULL,NULL
-9110943,Gross,A R,AR,NULL,NULL,NULL,"Chedoke-McMaster Hospitals & Schools of Rehabilitation Science, McMaster University, Hamilton, Ontario, Canada."
-9110943,Aker,P D,PD,NULL,NULL,NULL,NULL
-9110943,Goldsmith,C H,CH,NULL,NULL,NULL,NULL
-9110943,Peloso,P,P,NULL,NULL,NULL,NULL
 8941094,Perrone-Filardi,P,P,NULL,NULL,NULL,"Division of Cardiology, Federico II University Medical School, Naples, Italy."
 8941094,Pace,L,L,NULL,NULL,NULL,NULL
 8941094,Prastaro,M,M,NULL,NULL,NULL,NULL
@@ -45,6 +41,10 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 8941094,Crisci,T,T,NULL,NULL,NULL,NULL
 8941094,Salvatore,M,M,NULL,NULL,NULL,NULL
 8941094,Chiariello,M,M,NULL,NULL,NULL,NULL
+9110943,Gross,A R,AR,NULL,NULL,NULL,"Chedoke-McMaster Hospitals & Schools of Rehabilitation Science, McMaster University, Hamilton, Ontario, Canada."
+9110943,Aker,P D,PD,NULL,NULL,NULL,NULL
+9110943,Goldsmith,C H,CH,NULL,NULL,NULL,NULL
+9110943,Peloso,P,P,NULL,NULL,NULL,NULL
 9394824,Dunn-Walters,D K,DK,NULL,NULL,NULL,"Department of Histopathology, UMDS, London, Great Britain."
 9394824,Boursier,L,L,NULL,NULL,NULL,NULL
 9394824,Spencer,J,J,NULL,NULL,NULL,NULL
@@ -62,16 +62,6 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 9505772,Russell,G N,GN,NULL,NULL,NULL,NULL
 9575322,Alvarez,J A,JA,NULL,NULL,NULL,"University Hospitals of Cleveland/Case Western Reserve University, Cleveland, Ohio, USA."
 9575322,Hardy,R H,RH,Jr,NULL,NULL,NULL
-9627170,Schoenberg,M H,MH,NULL,NULL,NULL,"Department of General Surgery, University of Ulm, Germany."
-9627170,Weiss,M,M,NULL,NULL,NULL,NULL
-9627170,Radermacher,P,P,NULL,NULL,NULL,NULL
-9634358,Dunkel,E C,EC,NULL,NULL,NULL,NULL
-9634358,Scheer,D I,DI,NULL,NULL,NULL,NULL
-9634358,Zhu,Q,Q,NULL,NULL,NULL,NULL
-9634358,Whitley,R J,RJ,NULL,NULL,NULL,NULL
-9634358,Schaffer,P A,PA,NULL,NULL,NULL,NULL
-9634358,Pavan-Langston,D,D,NULL,NULL,NULL,NULL
-9634358,Whitely,R J,RJ,NULL,NULL,NULL,NULL
 9626910,Matsumori,A,A,NULL,NULL,NULL,"Kyoto University, Japan."
 9626910,Ohashi,N,N,NULL,NULL,NULL,NULL
 9626910,Hasegawa,K,K,NULL,NULL,NULL,NULL
@@ -97,36 +87,46 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 9626910,Takihara,K,K,NULL,NULL,NULL,NULL
 9626910,Tanaka,M,M,NULL,NULL,NULL,NULL
 9626910,Yokoyama,M,M,NULL,NULL,NULL,NULL
+9627170,Schoenberg,M H,MH,NULL,NULL,NULL,"Department of General Surgery, University of Ulm, Germany."
+9627170,Weiss,M,M,NULL,NULL,NULL,NULL
+9627170,Radermacher,P,P,NULL,NULL,NULL,NULL
+9634358,Dunkel,E C,EC,NULL,NULL,NULL,NULL
+9634358,Scheer,D I,DI,NULL,NULL,NULL,NULL
+9634358,Zhu,Q,Q,NULL,NULL,NULL,NULL
+9634358,Whitley,R J,RJ,NULL,NULL,NULL,NULL
+9634358,Schaffer,P A,PA,NULL,NULL,NULL,NULL
+9634358,Pavan-Langston,D,D,NULL,NULL,NULL,NULL
+9634358,Whitely,R J,RJ,NULL,NULL,NULL,NULL
 9861576,Strik,J J,JJ,NULL,NULL,NULL,"Department of Psychiatry, Maastricht University Hospital, The Netherlands."
 9861576,Honig,A,A,NULL,NULL,NULL,NULL
 9861576,Lousberg,R,R,NULL,NULL,NULL,NULL
 9861576,Cheriex,E C,EC,NULL,NULL,NULL,NULL
 9861576,Van Praag,H M,HM,NULL,NULL,NULL,NULL
-9929727,de Granda Orive,J I,JI,NULL,NULL,NULL,NULL
-9929727,Peña Miguel,T,T,NULL,NULL,NULL,NULL
-9929727,Morato Arnáiz,A,A,NULL,NULL,NULL,NULL
 9885794,Feifel,D,D,NULL,NULL,NULL,"Department of Psychiatry, University of California, San Diego, La Jolla 92093-8620, USA."
 9885794,Reza,T,T,NULL,NULL,NULL,NULL
 9885794,Robeck,S,S,NULL,NULL,NULL,NULL
+9929727,de Granda Orive,J I,JI,NULL,NULL,NULL,NULL
+9929727,Peña Miguel,T,T,NULL,NULL,NULL,NULL
+9929727,Morato Arnáiz,A,A,NULL,NULL,NULL,NULL
 10083987,Crosby,E T,ET,NULL,NULL,NULL,NULL
 10101342,Kaufman,D,D,NULL,NULL,NULL,"Division of Emergency Medicine, Northwestern University Medical School, Chicago, Illinois, USA."
 10101342,Leung,J,J,NULL,NULL,NULL,NULL
-10168751,Perry,S,S,NULL,NULL,NULL,"Medical Technology and Practice Patterns Institute, WHO Collaborating Center on Health Technology Assessment, Washington, DC 20007, USA."
-10168751,Thamer,M,M,NULL,NULL,NULL,NULL
 10097079,Haney,P J,PJ,NULL,NULL,NULL,"Department of Microbiology, University of Illinois, B103 Chemical and Life Sciences Laboratory, 601 South Goodwin Avenue, Urbana, IL 61801, USA."
 10097079,Badger,J H,JH,NULL,NULL,NULL,NULL
 10097079,Buldak,G L,GL,NULL,NULL,NULL,NULL
 10097079,Reich,C I,CI,NULL,NULL,NULL,NULL
 10097079,Woese,C R,CR,NULL,NULL,NULL,NULL
 10097079,Olsen,G J,GJ,NULL,NULL,NULL,NULL
+10168751,Perry,S,S,NULL,NULL,NULL,"Medical Technology and Practice Patterns Institute, WHO Collaborating Center on Health Technology Assessment, Washington, DC 20007, USA."
+10168751,Thamer,M,M,NULL,NULL,NULL,NULL
+10188493,Hyne,J,J,NULL,NULL,NULL,NULL
 10192114,Rajbhandari,M,M,NULL,NULL,NULL,"Institute of Pharmacy, Ernst-Moritz-Arndt-University, Greifswald, Germany."
 10192114,Schöpke,T,T,NULL,NULL,NULL,NULL
+10331748,Rothstein,J M,JM,NULL,NULL,NULL,NULL
 10192115,Jahodár,L,L,NULL,NULL,NULL,"Department of Pharmaceutical Botany and Ecology, Faculty of Pharmacy, Charles University, Hradec Králové, Czech Republic."
 10192115,Dusková,J,J,NULL,NULL,NULL,NULL
 10192115,Polásek,M,M,NULL,NULL,NULL,NULL
 10192115,Papugová,P,P,NULL,NULL,NULL,NULL
-10188493,Hyne,J,J,NULL,NULL,NULL,NULL
-10331748,Rothstein,J M,JM,NULL,NULL,NULL,NULL
 10331749,Manning,F,F,NULL,NULL,NULL,"Family Medicine, Faculty of Medicine, University of British Columbia, Vancouver, Canada."
 10331749,Dean,E,E,NULL,NULL,NULL,NULL
 10331749,Ross,J,J,NULL,NULL,NULL,NULL
@@ -143,8 +143,13 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 10540283,Westerhoff,H V,HV,NULL,NULL,NULL,NULL
 10540283,De Boer,A P,AP,NULL,NULL,NULL,NULL
 10540283,Van Spanning,R J,RJ,NULL,NULL,NULL,NULL
-10854512,Soon,M S,MS,NULL,NULL,NULL,"Division of Gastroenterology, ChangHua Christian Medical Center, ChangHua, Taiwan."
-10854512,Lin,O S,OS,NULL,NULL,NULL,NULL
+10612833,Orten,D J,DJ,NULL,NULL,NULL,"Center for Hereditary Communication Disorders, Boys Town National Research Hospital Omaha, NE, USA. ortend@boystown.org"
+10612833,Weston,M D,MD,NULL,NULL,NULL,NULL
+10612833,Kelley,P M,PM,NULL,NULL,NULL,NULL
+10612833,Cremers,C W,CW,NULL,NULL,NULL,NULL
+10612833,Wagenaar,M,M,NULL,NULL,NULL,NULL
+10612833,Jacobson,S G,SG,NULL,NULL,NULL,NULL
+10612833,Kimberling,W J,WJ,NULL,NULL,NULL,NULL
 10737756,Hale,J J,JJ,NULL,NULL,NULL,"Merck Research Laboratories, P.O. Box 2000, Rahway, New Jersey 07065, and Merck, Sharp & Dohme, Neuroscience Research Centre, Terlings Park, Eastwick Road, Harlow, Essex CM20 2QR, U.K. jeffrey_hale@merck.com"
 10737756,Mills,S G,SG,NULL,NULL,NULL,NULL
 10737756,MacCoss,M,M,NULL,NULL,NULL,NULL
@@ -170,13 +175,8 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 10737756,Hargreaves,R,R,NULL,NULL,NULL,NULL
 10737756,Metzger,J M,JM,NULL,NULL,NULL,NULL
 10737756,MacIntyre,D E,DE,NULL,NULL,NULL,NULL
-10612833,Orten,D J,DJ,NULL,NULL,NULL,"Center for Hereditary Communication Disorders, Boys Town National Research Hospital Omaha, NE, USA. ortend@boystown.org"
-10612833,Weston,M D,MD,NULL,NULL,NULL,NULL
-10612833,Kelley,P M,PM,NULL,NULL,NULL,NULL
-10612833,Cremers,C W,CW,NULL,NULL,NULL,NULL
-10612833,Wagenaar,M,M,NULL,NULL,NULL,NULL
-10612833,Jacobson,S G,SG,NULL,NULL,NULL,NULL
-10612833,Kimberling,W J,WJ,NULL,NULL,NULL,NULL
+10854512,Soon,M S,MS,NULL,NULL,NULL,"Division of Gastroenterology, ChangHua Christian Medical Center, ChangHua, Taiwan."
+10854512,Lin,O S,OS,NULL,NULL,NULL,NULL
 10972993,Rauh-Adelmann,C,C,NULL,NULL,NULL,"Department of Biology, Tufts University, Medford, Massachusetts, USA."
 10972993,Lau,K M,KM,NULL,NULL,NULL,NULL
 10972993,Sabeti,N,N,NULL,NULL,NULL,NULL
@@ -201,47 +201,16 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 11238657,Taglialatela,M,M,NULL,NULL,NULL,NULL
 11238657,Annunziato,L,L,NULL,NULL,NULL,NULL
 11238657,Marone,G,G,NULL,NULL,NULL,NULL
-11279676,Grant,A,A,NULL,NULL,NULL,"Health Services Research Unit, The Polwarth Building, Foresterhill, Aberdeen, UK, AB9 2ZD. a.grant@abdn.ac.uk"
-11279676,Glazener,C M,CM,NULL,NULL,NULL,NULL
 11243089,Ray,S K,SK,NULL,NULL,NULL,"Department of Community Medicine, Medical College, Calcutta."
 11243089,Mishra,R,R,NULL,NULL,NULL,NULL
 11243089,Biswas,R,R,NULL,NULL,NULL,NULL
 11243089,Kumar,S,S,NULL,NULL,NULL,NULL
 11243089,Halder,A,A,NULL,NULL,NULL,NULL
 11243089,Chatterjee,T,T,NULL,NULL,NULL,NULL
-11428848,Hauer ,R N,RN,NULL,NULL,NULL,"Heart Lung Center Utrecht, University Medical Center, The Netherlands."
-11428848,Aliot,E,E,NULL,NULL,NULL,NULL
-11428848,Block,M,M,NULL,NULL,NULL,NULL
-11428848,Capucci,A,A,NULL,NULL,NULL,NULL
-11428848,Lüderitz,B,B,NULL,NULL,NULL,NULL
-11428848,Santini,M,M,NULL,NULL,NULL,NULL
-11428848,Vardas,P E,PE,NULL,NULL,NULL,NULL
-11428848,NULL,NULL,NULL,NULL,NULL,European Society of Cardiology. Working Group on Arrhythmias and Working Group on Cardiac Pacing,NULL
-11431089,Tafaro,L,L,NULL,NULL,NULL,"Department of Aging Science, Policlinico Umberto I, University La Sapienza, Roma, Italy."
-11431089,Cicconetti,P,P,NULL,NULL,NULL,NULL
-11431089,Martella,S,S,NULL,NULL,NULL,NULL
-11431089,Tedeschi,G,G,NULL,NULL,NULL,NULL
-11431089,Zannino,G,G,NULL,NULL,NULL,NULL
-11431089,Troisi,G,G,NULL,NULL,NULL,NULL
-11431089,Pastena,I,I,NULL,NULL,NULL,NULL
-11431089,Fioravanti,M,M,NULL,NULL,NULL,NULL
-11431089,Marigliano,V,V,NULL,NULL,NULL,NULL
+11279676,Grant,A,A,NULL,NULL,NULL,"Health Services Research Unit, The Polwarth Building, Foresterhill, Aberdeen, UK, AB9 2ZD. a.grant@abdn.ac.uk"
+11279676,Glazener,C M,CM,NULL,NULL,NULL,NULL
 11406024,Barlow,J,J,NULL,NULL,NULL,"Health Services Research Unit, University of Oxford, Institute of Health Sciences, Old Road, Headington, Oxford, UK, OX3 7LF. esther.coren@public-health.oxford.ac.uk"
 11406024,Coren,E,E,NULL,NULL,NULL,NULL
-11441930,Gunnars,B,B,NULL,NULL,NULL,"Department of Oncology, University Hospital, Lund, Sweden."
-11441930,Nygren,P,P,NULL,NULL,NULL,NULL
-11441930,Glimelius,B,B,NULL,NULL,NULL,NULL
-11441930,NULL,NULL,NULL,NULL,NULL,SBU-group. Swedish Council of Technology Assessment in Health Care,NULL
-11442735,Wennström,J L,JL,NULL,NULL,NULL,"Department of Periodontology, Institute of Odontology, Göteborg University, SE 405 30 Göteborg, Sweden. wennstrom@odontologi.gu.se"
-11442735,Newman,H N,HN,NULL,NULL,NULL,NULL
-11442735,MacNeill,S R,SR,NULL,NULL,NULL,NULL
-11442735,Killoy,W J,WJ,NULL,NULL,NULL,NULL
-11442735,Griffiths,G S,GS,NULL,NULL,NULL,NULL
-11442735,Gillam,D G,DG,NULL,NULL,NULL,NULL
-11442735,Krok,L,L,NULL,NULL,NULL,NULL
-11442735,Needleman,I G,IG,NULL,NULL,NULL,NULL
-11442735,Weiss,G,G,NULL,NULL,NULL,NULL
-11442735,Garrett,S,S,NULL,NULL,NULL,NULL
 11237011,Lander,E S,ES,NULL,NULL,NULL,"Whitehead Institute for Biomedical Research, Center for Genome Research, Cambridge, MA 02142, USA. lander@genome.wi.mit.edu"
 11237011,Linton,L M,LM,NULL,NULL,NULL,NULL
 11237011,Birren,B,B,NULL,NULL,NULL,NULL
@@ -499,12 +468,37 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 11237011,Chen,Y J,YJ,NULL,NULL,NULL,NULL
 11237011,Szustakowki,J,J,NULL,NULL,NULL,NULL
 11237011,NULL,NULL,NULL,NULL,NULL,International Human Genome Sequencing Consortium,NULL
-11488864,Klokkevold,P R,PR,NULL,NULL,NULL,"Division of Associated Specialties, Section of Periodontics, UCLA School of Dentistry, Los Angeles, CA 90095, USA. pklok@ucla.edu"
-11488864,Johnson,P,P,NULL,NULL,NULL,NULL
-11488864,Dadgostari,S,S,NULL,NULL,NULL,NULL
-11488864,Caputo,A,A,NULL,NULL,NULL,NULL
-11488864,Davies,J E,JE,NULL,NULL,NULL,NULL
-11488864,Nishimura,R D,RD,NULL,NULL,NULL,NULL
+11428848,Hauer ,R N,RN,NULL,NULL,NULL,"Heart Lung Center Utrecht, University Medical Center, The Netherlands."
+11428848,Aliot,E,E,NULL,NULL,NULL,NULL
+11428848,Block,M,M,NULL,NULL,NULL,NULL
+11428848,Capucci,A,A,NULL,NULL,NULL,NULL
+11428848,Lüderitz,B,B,NULL,NULL,NULL,NULL
+11428848,Santini,M,M,NULL,NULL,NULL,NULL
+11428848,Vardas,P E,PE,NULL,NULL,NULL,NULL
+11428848,NULL,NULL,NULL,NULL,NULL,European Society of Cardiology. Working Group on Arrhythmias and Working Group on Cardiac Pacing,NULL
+11431089,Tafaro,L,L,NULL,NULL,NULL,"Department of Aging Science, Policlinico Umberto I, University La Sapienza, Roma, Italy."
+11431089,Cicconetti,P,P,NULL,NULL,NULL,NULL
+11431089,Martella,S,S,NULL,NULL,NULL,NULL
+11431089,Tedeschi,G,G,NULL,NULL,NULL,NULL
+11431089,Zannino,G,G,NULL,NULL,NULL,NULL
+11431089,Troisi,G,G,NULL,NULL,NULL,NULL
+11431089,Pastena,I,I,NULL,NULL,NULL,NULL
+11431089,Fioravanti,M,M,NULL,NULL,NULL,NULL
+11431089,Marigliano,V,V,NULL,NULL,NULL,NULL
+11441930,Gunnars,B,B,NULL,NULL,NULL,"Department of Oncology, University Hospital, Lund, Sweden."
+11441930,Nygren,P,P,NULL,NULL,NULL,NULL
+11441930,Glimelius,B,B,NULL,NULL,NULL,NULL
+11441930,NULL,NULL,NULL,NULL,NULL,SBU-group. Swedish Council of Technology Assessment in Health Care,NULL
+11442735,Wennström,J L,JL,NULL,NULL,NULL,"Department of Periodontology, Institute of Odontology, Göteborg University, SE 405 30 Göteborg, Sweden. wennstrom@odontologi.gu.se"
+11442735,Newman,H N,HN,NULL,NULL,NULL,NULL
+11442735,MacNeill,S R,SR,NULL,NULL,NULL,NULL
+11442735,Killoy,W J,WJ,NULL,NULL,NULL,NULL
+11442735,Griffiths,G S,GS,NULL,NULL,NULL,NULL
+11442735,Gillam,D G,DG,NULL,NULL,NULL,NULL
+11442735,Krok,L,L,NULL,NULL,NULL,NULL
+11442735,Needleman,I G,IG,NULL,NULL,NULL,NULL
+11442735,Weiss,G,G,NULL,NULL,NULL,NULL
+11442735,Garrett,S,S,NULL,NULL,NULL,NULL
 11473127,Chen,L L,LL,NULL,NULL,NULL,"Biogen, Inc., Cambridge, Massachusetts 02142, USA."
 11473127,Whitty,A,A,NULL,NULL,NULL,NULL
 11473127,Scott,D,D,NULL,NULL,NULL,NULL
@@ -514,6 +508,12 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 11473127,Petter,R C,RC,NULL,NULL,NULL,NULL
 11473127,Lobb,R R,RR,NULL,NULL,NULL,NULL
 11473127,Pepinsky,R B,RB,NULL,NULL,NULL,NULL
+11488864,Klokkevold,P R,PR,NULL,NULL,NULL,"Division of Associated Specialties, Section of Periodontics, UCLA School of Dentistry, Los Angeles, CA 90095, USA. pklok@ucla.edu"
+11488864,Johnson,P,P,NULL,NULL,NULL,NULL
+11488864,Dadgostari,S,S,NULL,NULL,NULL,NULL
+11488864,Caputo,A,A,NULL,NULL,NULL,NULL
+11488864,Davies,J E,JE,NULL,NULL,NULL,NULL
+11488864,Nishimura,R D,RD,NULL,NULL,NULL,NULL
 11488868,Zerbo,I R,IR,NULL,NULL,NULL,"Department of Oral Cell Biology, ACTA, Vrije Universiteit, Vander Boechorststraat 7, 1081 BT Amsterdam, Netherlands. IR.Zerbo.Ocb.ACTA@med.vu.nl"
 11488868,Bronckers,A L,AL,NULL,NULL,NULL,NULL
 11488868,de Lange,G L,GL,NULL,NULL,NULL,NULL
@@ -546,30 +546,34 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 11543891,Allende,L,L,NULL,NULL,NULL,NULL
 11543891,Varela,P,P,NULL,NULL,NULL,NULL
 11543891,Martínez-Laso,J,J,NULL,NULL,NULL,NULL
-11567133,Miller,V,V,NULL,NULL,NULL,"Institute of Geophysics, Victoria University of Wellington, Wellington, New Zealand."
-11567133,Savage,M,M,NULL,NULL,NULL,NULL
 11562649,Arias,A,A,NULL,NULL,NULL,"Pediatric Nurse Practitioner Program at Ohio State University College of Nursing, Columbus, USA."
 11562649,Bennison,J,J,NULL,NULL,NULL,NULL
 11562649,Justus,K,K,NULL,NULL,NULL,NULL
 11562649,Thurman,D,D,NULL,NULL,NULL,NULL
+11567133,Miller,V,V,NULL,NULL,NULL,"Institute of Geophysics, Victoria University of Wellington, Wellington, New Zealand."
+11567133,Savage,M,M,NULL,NULL,NULL,NULL
 11580607,Raychaudhuri,S,S,NULL,NULL,NULL,"Department of Physics and Astronomy, University of Rochester, Rochester, New York 14627, USA."
 11580607,Cranston,M,M,NULL,NULL,NULL,NULL
 11580607,Przybyla,C,C,NULL,NULL,NULL,NULL
 11580607,Shapir,Y,Y,NULL,NULL,NULL,NULL
-11583040,Pierazzo,E,E,NULL,NULL,NULL,"Lunar and Planetary Lab., University of Arizona, Tucson, 84721, USA. betty@lpl.arizona.edu"
-11583040,Melosh,H J,HJ,NULL,NULL,NULL,NULL
 11600210,Suciu-Foca,N,N,NULL,NULL,NULL,NULL
 11600210,Lewis,R,R,NULL,NULL,NULL,NULL
+11583040,Pierazzo,E,E,NULL,NULL,NULL,"Lunar and Planetary Lab., University of Arizona, Tucson, 84721, USA. betty@lpl.arizona.edu"
+11583040,Melosh,H J,HJ,NULL,NULL,NULL,NULL
 11600211,Tyan,D B,DB,NULL,NULL,NULL,NULL
-11612527,Donaldson,P J,PJ,NULL,NULL,NULL,NULL
 11620107,Boonstra,O W,OW,NULL,NULL,NULL,NULL
 11620107,van der Woude,A M,AM,NULL,NULL,NULL,NULL
+11612527,Donaldson,P J,PJ,NULL,NULL,NULL,NULL
 11675721,Payne,L M,LM,NULL,NULL,NULL,NULL
-11686167,Kindregan,Charles P,CP,NULL,NULL,NULL,NULL
-11686176,Bower,John J,JJ,NULL,NULL,NULL,NULL
 11694165,Bily,L,L,NULL,NULL,NULL,NULL
-11704686,Swartz,M N,MN,NULL,NULL,NULL,"Department of Medicine, Massachusetts General Hospital, Boston 02114-2696, USA."
+11686167,Kindregan,Charles P,CP,NULL,NULL,NULL,NULL
 11731716,Spector,Reynold,R,NULL,NULL,NULL,"Department of Medicine, Robert Wood Johnson Medical School, Piscataway, NJ, USA."
+11704686,Swartz,M N,MN,NULL,NULL,NULL,"Department of Medicine, Massachusetts General Hospital, Boston 02114-2696, USA."
+11686176,Bower,John J,JJ,NULL,NULL,NULL,NULL
+11831940,Dushku,Nicholas,N,NULL,NULL,NULL,NULL
+11831940,John,Molykutty K,MK,NULL,NULL,NULL,NULL
+11831940,Schultz,Gregory S,GS,NULL,NULL,NULL,NULL
+11831940,Reid,Ted W,TW,NULL,NULL,NULL,NULL
 11748851,Comeglio,P,P,NULL,NULL,NULL,"Department of Cardiological Sciences, St. George's Hospital Medical School, London, UK. p.comeglio@sghms.ac.uk"
 11748851,Evans,A L,AL,NULL,NULL,NULL,NULL
 11748851,Brice,G W,GW,NULL,NULL,NULL,NULL
@@ -579,10 +583,6 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 11748856,Diaz-Rubio,E,E,NULL,NULL,NULL,NULL
 11748856,Benito,M,M,NULL,NULL,NULL,NULL
 11748856,Caldés,T,T,NULL,NULL,NULL,NULL
-11831940,Dushku,Nicholas,N,NULL,NULL,NULL,NULL
-11831940,John,Molykutty K,MK,NULL,NULL,NULL,NULL
-11831940,Schultz,Gregory S,GS,NULL,NULL,NULL,NULL
-11831940,Reid,Ted W,TW,NULL,NULL,NULL,NULL
 11838066,Milerad,Josef,J,NULL,NULL,NULL,josef.milerad@lakartidningen.se
 11858276,Uri,J J,JJ,NULL,NULL,NULL,"NASA Johnson Space Center, Houston, TX, USA."
 11858276,Lebedev,O N,ON,NULL,NULL,NULL,NULL
@@ -598,6 +598,7 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 11892742,Oko,Richard J,RJ,NULL,NULL,NULL,NULL
 11916658,Robb-Nicholson,Celeste,C,NULL,NULL,NULL,NULL
 11953811,Satava,R M,RM,NULL,NULL,NULL,NULL
+12038483,Barengoltz,J B,JB,NULL,NULL,NULL,"Jet Propulsion Laboratory, California Institute of Technology, Pasadena, CA 91109, USA."
 11966386,Solomon,Diane,D,NULL,NULL,NULL,"EPN Room 2130, 6130 Executive Blvd, Bethesda, MD 20892, USA. ds87v@nih.gov"
 11966386,Davey,Diane,D,NULL,NULL,NULL,NULL
 11966386,Kurman,Robert,R,NULL,NULL,NULL,NULL
@@ -611,32 +612,32 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 11966386,Young,Nancy,N,NULL,NULL,NULL,NULL
 11966386,NULL,NULL,NULL,NULL,NULL,Forum Group Members,NULL
 11966386,NULL,NULL,NULL,NULL,NULL,Bethesda 2001 Workshop,NULL
-12038483,Barengoltz,J B,JB,NULL,NULL,NULL,"Jet Propulsion Laboratory, California Institute of Technology, Pasadena, CA 91109, USA."
 12101218,Datta,Pratik,P,NULL,NULL,NULL,"Department of Chemistry, Bose Institute, 93/1 Acharya Prafulla Chandra Road, Kolkata 700009, India."
 12101218,Dasgupta,Arunava,A,NULL,NULL,NULL,NULL
 12101218,Bhakta,Sanjib,S,NULL,NULL,NULL,NULL
 12101218,Basu,Joyoti,J,NULL,NULL,NULL,NULL
-12159900,Shapiro,Harold,H,NULL,NULL,NULL,NULL
-12174865,Pelin,S S,SS,NULL,NULL,NULL,"Dept. of Deontology, Faculty of Medicine, University of Ankara, Tip. Fak. Dekanligi, Morfoloji Terleskesi, Anakara, Sihhiye - 06100 Turkey."
-12174865,Arda,B,B,NULL,NULL,NULL,NULL
 12145319,Scales,Suzie J,SJ,NULL,NULL,NULL,"Howard Hughes Medical Institute, Department of Molecular and Cellular Physiology, Stanford University School of Medicine, Stanford, California 94305-5345, USA."
 12145319,Hesser,Boris A,BA,NULL,NULL,NULL,NULL
 12145319,Masuda,Esteban S,ES,NULL,NULL,NULL,NULL
 12145319,Scheller,Richard H,RH,NULL,NULL,NULL,NULL
+12159900,Shapiro,Harold,H,NULL,NULL,NULL,NULL
+12174865,Pelin,S S,SS,NULL,NULL,NULL,"Dept. of Deontology, Faculty of Medicine, University of Ankara, Tip. Fak. Dekanligi, Morfoloji Terleskesi, Anakara, Sihhiye - 06100 Turkey."
+12174865,Arda,B,B,NULL,NULL,NULL,NULL
 12192682,Ortiz,J,J,NULL,NULL,NULL,"Johnson Space Center, USA."
 12192682,Chen,G,G,NULL,NULL,NULL,NULL
 12179763,Cho,N H,NH,NULL,NULL,NULL,NULL
 12179763,Seo,M H,MH,NULL,NULL,NULL,NULL
 12179763,Tan,B A,BA,NULL,NULL,NULL,NULL
 12211241,Ottenhoff,Tom H M,TH,NULL,NULL,NULL,NULL
-12211266,Cohen,Cynthia B,CB,NULL,NULL,NULL,"Kennedy Institute of Ethics, Georgetown University, Washington, DC, USA."
 12219757,Kim,O J,OJ,NULL,NULL,NULL,"Department of the Medical History and Medical Humanities, Seoul National University College of Medicine."
+12211266,Cohen,Cynthia B,CB,NULL,NULL,NULL,"Kennedy Institute of Ethics, Georgetown University, Washington, DC, USA."
 12227380,Webster,Charles,C,NULL,NULL,NULL,"All Souls College, Oxford."
 12230355,NULL,NULL,NULL,NULL,NULL,U.S. Preventive Services Task Force,NULL
 12349809,Chinkin,C,C,NULL,NULL,NULL,NULL
 12369570,Adams,Gregory R,GR,NULL,NULL,NULL,NULL
 12501715,Cui,W,W,NULL,NULL,NULL,NULL
 12599353,Sabatino,C P,CP,NULL,NULL,NULL,"American Bar Association, Commission on Legal Problems of the Elderly, USA."
+12599354,Goldmeier,K E,KE,NULL,NULL,NULL,NULL
 12416895,Schlembach,Pamela J,PJ,NULL,NULL,NULL,"Department of Radiation Oncology, The University of Texas M. D. Anderson Cancer Center, Houston 77030-4009, USA."
 12416895,Wilder,Richard B,RB,NULL,NULL,NULL,NULL
 12416895,Jones,Dan,D,NULL,NULL,NULL,NULL
@@ -647,7 +648,21 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 12416895,Hess,Mark,M,NULL,NULL,NULL,NULL
 12416895,Cabanillas,Fernando,F,NULL,NULL,NULL,NULL
 12416895,Cox,James D,JD,NULL,NULL,NULL,NULL
-12599354,Goldmeier,K E,KE,NULL,NULL,NULL,NULL
+12742516,Elimadi,Aziz,A,NULL,NULL,NULL,"Département de Pharmacologie, Faculté de Médecine de Paris XII, Créteil, France"
+12742516,Jullien,Vincent,V,NULL,NULL,NULL,NULL
+12742516,Tillement,Jean Paul,JP,NULL,NULL,NULL,NULL
+12742516,Morin,Didier,D,NULL,NULL,NULL,NULL
+12742518,Katz,Jonathan L,JL,NULL,NULL,NULL,"Department of Health and Human Services, Medications Discovery Research Branch, NIDA Intramural Research Program, National Institutes of Health, Baltimore, MD 21224, USA. jkatz@intra.nida.nih.gov"
+12742518,Libby,Therissa A,TA,NULL,NULL,NULL,NULL
+12742518,Kopajtic,Theresa,T,NULL,NULL,NULL,NULL
+12742518,Husbands,Stephen M,SM,NULL,NULL,NULL,NULL
+12742518,Newman,Amy Hauck,AH,NULL,NULL,NULL,NULL
+12742519,Ingman,Kimmo,K,NULL,NULL,NULL,"Department of Pharmacology and Clinical Pharmacology, University of Turku, Turku, Finland"
+12742519,Honkanen,Aapo,A,NULL,NULL,NULL,NULL
+12742519,Hyytiä,Petri,P,NULL,NULL,NULL,NULL
+12742519,Huttunen,Matti O,MO,NULL,NULL,NULL,NULL
+12742519,Korpi,Esa R,ER,NULL,NULL,NULL,NULL
+13072632,WIRTH,W,W,NULL,NULL,NULL,NULL
 11909345,Aubert,B,B,NULL,NULL,NULL,"Laboratoire de Physique des Particules, F-74941 Annecy-le-Vieux, France."
 11909345,Boutigny,D,D,NULL,NULL,NULL,NULL
 11909345,Gaillard,J-M,JM,NULL,NULL,NULL,NULL
@@ -1269,21 +1284,10 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 11909345,Kordich,T M B,TM,NULL,NULL,NULL,NULL
 11909345,Neal,H,H,NULL,NULL,NULL,NULL
 11909345,NULL,NULL,NULL,NULL,NULL,BABAR Collaborations,NULL
-12742516,Elimadi,Aziz,A,NULL,NULL,NULL,"Département de Pharmacologie, Faculté de Médecine de Paris XII, Créteil, France"
-12742516,Jullien,Vincent,V,NULL,NULL,NULL,NULL
-12742516,Tillement,Jean Paul,JP,NULL,NULL,NULL,NULL
-12742516,Morin,Didier,D,NULL,NULL,NULL,NULL
-12742519,Ingman,Kimmo,K,NULL,NULL,NULL,"Department of Pharmacology and Clinical Pharmacology, University of Turku, Turku, Finland"
-12742519,Honkanen,Aapo,A,NULL,NULL,NULL,NULL
-12742519,Hyytiä,Petri,P,NULL,NULL,NULL,NULL
-12742519,Huttunen,Matti O,MO,NULL,NULL,NULL,NULL
-12742519,Korpi,Esa R,ER,NULL,NULL,NULL,NULL
-12742518,Katz,Jonathan L,JL,NULL,NULL,NULL,"Department of Health and Human Services, Medications Discovery Research Branch, NIDA Intramural Research Program, National Institutes of Health, Baltimore, MD 21224, USA. jkatz@intra.nida.nih.gov"
-12742518,Libby,Therissa A,TA,NULL,NULL,NULL,NULL
-12742518,Kopajtic,Theresa,T,NULL,NULL,NULL,NULL
-12742518,Husbands,Stephen M,SM,NULL,NULL,NULL,NULL
-12742518,Newman,Amy Hauck,AH,NULL,NULL,NULL,NULL
-13072632,WIRTH,W,W,NULL,NULL,NULL,NULL
+14177620,CESAREBASILE,R,R,NULL,NULL,NULL,NULL
+14177620,GABBRIELLI,L,L,NULL,NULL,NULL,NULL
+14177620,COLAVOLPE,V,V,NULL,NULL,NULL,NULL
+14177620,RULLI,V,V,NULL,NULL,NULL,NULL
 13634534,LICHTWITZ,A,A,NULL,NULL,NULL,NULL
 13634534,DE SEZE,S,S,NULL,NULL,NULL,NULL
 13634534,PARLIER,R,R,NULL,NULL,NULL,NULL
@@ -1291,14 +1295,10 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 13634534,BORDIER,P,P,NULL,NULL,NULL,NULL
 13634534,STRAUSS,M,M,NULL,NULL,NULL,NULL
 13634534,FERGOLA-MIRAVET,L,L,NULL,NULL,NULL,NULL
-14177620,CESAREBASILE,R,R,NULL,NULL,NULL,NULL
-14177620,GABBRIELLI,L,L,NULL,NULL,NULL,NULL
-14177620,COLAVOLPE,V,V,NULL,NULL,NULL,NULL
-14177620,RULLI,V,V,NULL,NULL,NULL,NULL
+14316043,PHILLIPS,H,H,NULL,NULL,NULL,NULL
 14337379,KOREN,Z,Z,NULL,NULL,NULL,NULL
 14337379,PFEIFER,Y,Y,NULL,NULL,NULL,NULL
 14337379,SULMAN,F G,FG,NULL,NULL,NULL,NULL
-14316043,PHILLIPS,H,H,NULL,NULL,NULL,NULL
 14594616,Cassetty,Christopher T,CT,NULL,NULL,NULL,"Ronald O. Perelman Department of Dermatology, New York University, USA."
 14594616,Leonard,Aimee L,AL,NULL,NULL,NULL,NULL
 14668029,Dorsam,Robert T,RT,NULL,NULL,NULL,NULL
@@ -1328,13 +1328,13 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 14991249,Reston,S C,SC,NULL,NULL,NULL,"Department of Orthopaedics, Queen Alexandra Hospital, Portsmouth, UK."
 14991249,Savva,N,N,NULL,NULL,NULL,NULL
 14991249,Richards,R H,RH,NULL,NULL,NULL,NULL
-15117668,Latash,M L,ML,NULL,NULL,NULL,NULL
 15110832,Hwu,Jih Ru,JR,NULL,NULL,NULL,"Institute of Chemistry, Academia Sinica, Nankang, Taipei 11529, Taiwan, ROC. jrhwu@mx.nthu.edu.tw"
 15110832,Lin,Chun Chieh,CC,NULL,NULL,NULL,NULL
 15110832,Chuang,Shih Hsien,SH,NULL,NULL,NULL,NULL
 15110832,King,Ke Yung,KY,NULL,NULL,NULL,NULL
 15110832,Su,Tzu-Rong,TR,NULL,NULL,NULL,NULL
 15110832,Tsay,Shwu-Chen,SC,NULL,NULL,NULL,NULL
+15117668,Latash,M L,ML,NULL,NULL,NULL,NULL
 15206831,Grewen,Karen M,KM,NULL,NULL,NULL,"Department of Psychiatry, University of North Carolina at Chapel Hill, 27599-7175, USA. karen_grewen@med.unc.edu"
 15206831,Anderson,Bobbi J,BJ,NULL,NULL,NULL,NULL
 15206831,Girdler,Susan S,SS,NULL,NULL,NULL,NULL
@@ -1369,7 +1369,6 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 15739502,Qiu,S,S,NULL,NULL,NULL,NULL
 15810377,Ma,X,X,NULL,NULL,NULL,"Cancer Research Institute, Hunan Medical University, Changsha."
 15810377,Tang,J,J,NULL,NULL,NULL,NULL
-16776646,Corsi,Ann K,AK,NULL,NULL,NULL,"Department of Biology, The Catholic University of America, Washington, DC 20064, USA. corsi@cua.edu"
 15968009,Buyon,Jill P,JP,NULL,NULL,NULL,"Hospital for Joint Diseases, New York University School of Medicine, New York, New York, USA. jill.buyon@nyumc.org"
 15968009,Petri,Michelle A,MA,NULL,NULL,NULL,NULL
 15968009,Kim,Mimi Y,MY,NULL,NULL,NULL,NULL
@@ -1393,26 +1392,13 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 15968009,Hearth-Holmes,Michelene,M,NULL,NULL,NULL,NULL
 15968009,Tan,Mark,M,NULL,NULL,NULL,NULL
 15968009,Licciardi,Frederick,F,NULL,NULL,NULL,NULL
+16776646,Corsi,Ann K,AK,NULL,NULL,NULL,"Department of Biology, The Catholic University of America, Washington, DC 20064, USA. corsi@cua.edu"
 16779244,Fontelo,Paul,P,NULL,NULL,NULL,"Office of High Performance Computing and Communications, National Library of Medicine, 8600 Rockville Pike, Bethesda, Maryland 20894, USA."
 16779244,Liu,Fang,F,NULL,NULL,NULL,NULL
 16779244,Ackerman,Michael,M,NULL,NULL,NULL,NULL
 16888359,Barrett,Tanya,T,NULL,NULL,NULL,"National Center for Biotechnology Information, National Institutes of Health, Bethesda, MD, USA."
 16888359,Edgar,Ron,R,NULL,NULL,NULL,NULL
 16923641,Theander,Sten S,SS,NULL,NULL,NULL,"Division of Psychiatry, Department of Clinical Neuroscience, Lund University, Sweden. sten.theander@med.lu.se"
-17059514,Takagi,S,S,NULL,NULL,NULL,"Division of Gastroenterology, Department of Internal Medicine, Tohoku University Graduate School of Medicine, Sendai, Japan. stakagi@int3.med.tohoku.ac.jp"
-17059514,Utsunomiya,K,K,NULL,NULL,NULL,NULL
-17059514,Kuriyama,S,S,NULL,NULL,NULL,NULL
-17059514,Yokoyama,H,H,NULL,NULL,NULL,NULL
-17059514,Takahashi,S,S,NULL,NULL,NULL,NULL
-17059514,Iwabuchi,M,M,NULL,NULL,NULL,NULL
-17059514,Takahashi,H,H,NULL,NULL,NULL,NULL
-17059514,Takahashi,S,S,NULL,NULL,NULL,NULL
-17059514,Kinouchi,Y,Y,NULL,NULL,NULL,NULL
-17059514,Hiwatashi,N,N,NULL,NULL,NULL,NULL
-17059514,Funayama,Y,Y,NULL,NULL,NULL,NULL
-17059514,Sasaki,I,I,NULL,NULL,NULL,NULL
-17059514,Tsuji,I,I,NULL,NULL,NULL,NULL
-17059514,Shimosegawa,T,T,NULL,NULL,NULL,NULL
 16949478,NULL,NULL,NULL,NULL,NULL,European Heart Rhythm Association,NULL
 16949478,NULL,NULL,NULL,NULL,NULL,Heart Rhythm Society,NULL
 16949478,Zipes,Douglas P,DP,NULL,NULL,NULL,NULL
@@ -1471,6 +1457,20 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 17712873,Moccia,F,F,NULL,NULL,NULL,NULL
 17712873,Francesco,M,M,NULL,NULL,NULL,NULL
 17712873,del Genio,A,A,NULL,NULL,NULL,NULL
+17059514,Takagi,S,S,NULL,NULL,NULL,"Division of Gastroenterology, Department of Internal Medicine, Tohoku University Graduate School of Medicine, Sendai, Japan. stakagi@int3.med.tohoku.ac.jp"
+17059514,Utsunomiya,K,K,NULL,NULL,NULL,NULL
+17059514,Kuriyama,S,S,NULL,NULL,NULL,NULL
+17059514,Yokoyama,H,H,NULL,NULL,NULL,NULL
+17059514,Takahashi,S,S,NULL,NULL,NULL,NULL
+17059514,Iwabuchi,M,M,NULL,NULL,NULL,NULL
+17059514,Takahashi,H,H,NULL,NULL,NULL,NULL
+17059514,Takahashi,S,S,NULL,NULL,NULL,NULL
+17059514,Kinouchi,Y,Y,NULL,NULL,NULL,NULL
+17059514,Hiwatashi,N,N,NULL,NULL,NULL,NULL
+17059514,Funayama,Y,Y,NULL,NULL,NULL,NULL
+17059514,Sasaki,I,I,NULL,NULL,NULL,NULL
+17059514,Tsuji,I,I,NULL,NULL,NULL,NULL
+17059514,Shimosegawa,T,T,NULL,NULL,NULL,NULL
 17713168,Di Giambenedetto,Simona,S,NULL,NULL,NULL,"Institute of Clinical Infectious Diseases, Catholic University, Rome, Italy. simona.digiambenedetto@rm.unicatt.it"
 17713168,Bracciale,Laura,L,NULL,NULL,NULL,NULL
 17713168,Colafigli,Manuela,M,NULL,NULL,NULL,NULL
@@ -1488,11 +1488,11 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 17926191,Haferlach,Claudia,C,NULL,NULL,NULL,NULL
 17926191,Haferlach,Torsten,T,NULL,NULL,NULL,NULL
 17926191,Schnittger,Susanne,S,NULL,NULL,NULL,NULL
+18243949,Hinz,H D,HD,NULL,NULL,NULL,NULL
+18243949,Lobl,H,H,NULL,NULL,NULL,NULL
 18122624,RIVES,J D,JD,NULL,NULL,NULL,NULL
 18122624,STRUG,L H,LH,NULL,NULL,NULL,NULL
 18122624,ESSRIG,I M,IM,NULL,NULL,NULL,NULL
-18243949,Hinz,H D,HD,NULL,NULL,NULL,NULL
-18243949,Lobl,H,H,NULL,NULL,NULL,NULL
 18964660,Meloun,M,M,NULL,NULL,NULL,"Department of Analytical Chemistry, College of Chemical Technology, CS-532 10 Pardubice, Czechoslovakia."
 18964660,Bartos,M,M,NULL,NULL,NULL,NULL
 18964660,Högfeldt,E,E,NULL,NULL,NULL,NULL
@@ -1505,8 +1505,6 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 19771122,Tittel,F K,FK,NULL,NULL,NULL,NULL
 19771122,Wisoff,P J,PJ,NULL,NULL,NULL,NULL
 19771122,Szabó,G,G,NULL,NULL,NULL,NULL
-20405411,Osinga,Klaas Johan,KJ,NULL,NULL,NULL,"International Federation of Agricultural Producers/LTO Netherland, Drachten, The Netherlands. klaasjohan@yahoo.com"
-21007460,REES,J R,JR,NULL,NULL,NULL,NULL
 18719013,Welton,Amanda J,AJ,NULL,NULL,NULL,"MRC General Practice Research Framework, Stephenson House, London NW1 2ND."
 18719013,Vickers,Madge R,MR,NULL,NULL,NULL,NULL
 18719013,Kim,Joseph,J,NULL,NULL,NULL,NULL
@@ -1517,6 +1515,8 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 18719013,Martin,Jeannett,J,NULL,NULL,NULL,NULL
 18719013,Meade,Tom W,TW,NULL,NULL,NULL,NULL
 18719013,NULL,NULL,NULL,NULL,NULL,WISDOM team,NULL
+20405411,Osinga,Klaas Johan,KJ,NULL,NULL,NULL,"International Federation of Agricultural Producers/LTO Netherland, Drachten, The Netherlands. klaasjohan@yahoo.com"
+21007460,REES,J R,JR,NULL,NULL,NULL,NULL
 21024418,CRUISE,R,R,NULL,NULL,NULL,NULL
 23674598,Mayor,Roberto,R,NULL,NULL,NULL,"Department of Cell and Developmental Biology, University College London, Gower Street, London WC1E 6BT, UK. r.mayor@ucl.ac.uk"
 23674598,Theveneau,Eric,E,NULL,NULL,NULL,NULL
@@ -1546,21 +1546,37 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 23852273,Chunara,Rumi,R,NULL,NULL,NULL,NULL
 23852273,Mandl,Kenneth,K,NULL,NULL,NULL,NULL
 23852273,Brownstein,John S,JS,NULL,NULL,NULL,NULL
-25143782,Catena,Fausto,F,NULL,NULL,NULL,"Chief of the Emergency Surgery Department, Parma University Hospital, Parma, Italy."
-25143782,Moore,Frederick,F,NULL,NULL,NULL,"Chief of Acute Care Surgery, Department of Surgery, The University of Florida, Gainesville, Florida."
 24090994,Bader,Ammar,A,NULL,NULL,NULL,"Department of Pharmacognosy, Faculty of Pharmacy, Umm Al-Qura University, Makkah, 21955, Saudi Arabia."
-24090994,Giner,Rosa M,RM,NULL,NULL,NULL,NULL
-24090994,Martini,Francesca,F,NULL,NULL,NULL,NULL
-24090994,Schinella,Guillermo R,GR,NULL,NULL,NULL,NULL
-24090994,Ríos,José L,JL,NULL,NULL,NULL,NULL
-24090994,Braca,Alessandra,A,NULL,NULL,NULL,NULL
-24090994,Prieto,José M,JM,NULL,NULL,NULL,NULL
+24090994,Giner,Rosa M,RM,NULL,NULL,NULL,"Departament de Farmacologia, Facultat de Farmacia, Universitat de Valencia, Av. Vicent Andrés Estellés, s/n. 46100 Burjassot, València, Spain."
+24090994,Martini,Francesca,F,NULL,NULL,NULL,"Departament de Farmacologia, Facultat de Farmacia, Universitat de Valencia, Av. Vicent Andrés Estellés, s/n. 46100 Burjassot, València, Spain."
+24090994,Schinella,Guillermo R,GR,NULL,NULL,NULL,"Departament de Farmacologia, Facultat de Farmacia, Universitat de Valencia, Av. Vicent Andrés Estellés, s/n. 46100 Burjassot, València, Spain; Cátedra de Farmacología Básica, Facultad de Ciencias Médicas, Universidad Nacional de La Plata, CIC Provincia de Buenos Aires, La Plata, Buenos Aires, Argentina."
+24090994,Ríos,José L,JL,NULL,NULL,NULL,"Departament de Farmacologia, Facultat de Farmacia, Universitat de Valencia, Av. Vicent Andrés Estellés, s/n. 46100 Burjassot, València, Spain."
+24090994,Braca,Alessandra,A,NULL,NULL,NULL,"Dipartimento di Farmacia, Universita di Pisa, Via Bonanno 33, 56126 Pisa, Italy."
+24090994,Prieto,José M,JM,NULL,NULL,NULL,"Departament de Farmacologia, Facultat de Farmacia, Universitat de Valencia, Av. Vicent Andrés Estellés, s/n. 46100 Burjassot, València, Spain; Centre for Pharmacognosy and Phytotherapy, University College London School of Pharmacy, 29-39 Brunswick Square, WC1N 1AX London, United Kingdom. Electronic address: j.prieto@ucl.ac.uk."
 25031417,Tobari,Yasuko,Y,NULL,0000-0003-0572-4123,NULL,"Laboratory of Integrative Brain Sciences, Department of Biology and Center for Medical Life Science, Waseda University, Shinjuku-ku, Tokyo 162-8480, Japan, and."
 25031417,Son,You Lee,YL,NULL,NULL,NULL,"Laboratory of Integrative Brain Sciences, Department of Biology and Center for Medical Life Science, Waseda University, Shinjuku-ku, Tokyo 162-8480, Japan, and."
 25031417,Ubuka,Takayoshi,T,NULL,0000-0002-4731-8118,NULL,"Laboratory of Integrative Brain Sciences, Department of Biology and Center for Medical Life Science, Waseda University, Shinjuku-ku, Tokyo 162-8480, Japan, and."
 25031417,Hasegawa,Yoshihisa,Y,NULL,NULL,NULL,"Experimental Animal Science, School of Veterinary Medicine and Animal Sciences, Kitasato University, Aomori 034-8628, Japan."
 25031417,Tsutsui,Kazuyoshi,K,NULL,NULL,NULL,"Laboratory of Integrative Brain Sciences, Department of Biology and Center for Medical Life Science, Waseda University, Shinjuku-ku, Tokyo 162-8480, Japan, and k-tsutsui@waseda.jp."
+27190381,Ebert,Natalie,N,NULL,NULL,NULL,"Institute of Public Health, Charité University Medicine, Campus Virchow, Berlin, Germany."
+27190381,Jakob,Olga,O,NULL,NULL,NULL,"Institute for Biostatistics and Clinical Epidemiology, Charité University Medicine, Campus Benjamin Franklin, Berlin, Germany."
+27190381,Gaedeke,Jens,J,NULL,NULL,NULL,"Department of Nephrology, Charité University Medicine, Campus Mitte Berlin, Germany."
+27190381,van der Giet,Markus,M,NULL,NULL,NULL,"Department of Nephrology, Charité University Medicine, Campus Benjamin Franklin, Berlin, Germany."
+27190381,Kuhlmann,Martin K,MK,NULL,NULL,NULL,"Department of Nephrology, Vivantes Klinikum im Friedrichshain, Berlin, Germany."
+27190381,Martus,Peter,P,NULL,NULL,NULL,"Institute of Clinical Epidemiology and Medical Biostatistics, Friedrich Karls-University, Tübingen, Germany."
+27190381,Mielke,Nina,N,NULL,NULL,NULL,"Institute of Public Health, Charité University Medicine, Campus Virchow, Berlin, Germany."
+27190381,Schuchardt,Mirjam,M,NULL,NULL,NULL,"Department of Nephrology, Charité University Medicine, Campus Benjamin Franklin, Berlin, Germany."
+27190381,Tölle,Markus,M,NULL,NULL,NULL,"Department of Nephrology, Charité University Medicine, Campus Benjamin Franklin, Berlin, Germany."
+27190381,Wenning,Volker,V,NULL,NULL,NULL,"AOK-Nordost - die Gesundheitskasse, Berlin, Germany."
+27190381,Schaeffner,Elke S,ES,NULL,NULL,NULL,"Institute of Public Health, Charité University Medicine, Campus Virchow, Berlin, Germany."
 27687974,Giovannoni,Stephen J,SJ,NULL,NULL,NULL,"Department of Microbiology, Oregon State University, Corvallis, Oregon 97331; email: steve.giovannoni@oregonstate.edu."
+27529501,MacPherson,Murray,M,NULL,NULL,NULL,"Institute of Medical Sciences, School of Medicine, Medical Sciences and Nutrition, University of Aberdeen , Aberdeen AB25 2ZD, U.K."
+27529501,Saka,Yasushi,Y,NULL,NULL,NULL,"Institute of Medical Sciences, School of Medicine, Medical Sciences and Nutrition, University of Aberdeen , Aberdeen AB25 2ZD, U.K."
+27763809,Young,Megan K,MK,NULL,NULL,NULL,"a School of Medicine and Menzies Health Institute Queensland , Griffith University , Gold Coast , Australia."
+27763809,Bertolini,Joseph,J,NULL,NULL,NULL,"b CSL Behring (Australia) Pty Ltd , Broadmeadows , Australia."
+27763809,Kotharu,Pushpa,P,NULL,NULL,NULL,"b CSL Behring (Australia) Pty Ltd , Broadmeadows , Australia."
+27763809,Maher,Darryl,D,NULL,NULL,NULL,"b CSL Behring (Australia) Pty Ltd , Broadmeadows , Australia."
+27763809,Cripps,Allan W,AW,NULL,NULL,NULL,"a School of Medicine and Menzies Health Institute Queensland , Griffith University , Gold Coast , Australia."
 27687975,Sedykh,Irina,I,NULL,NULL,NULL,"Department of Zoology, University of Wisconsin, Madison, WI, 53706, USA.; Department of Neuroscience, University of Wisconsin, Madison, WI, 53706, USA."
 27687975,TeSlaa,Jessica J,JJ,NULL,NULL,NULL,"Department of Zoology, University of Wisconsin, Madison, WI, 53706, USA.; Department of Neuroscience, University of Wisconsin, Madison, WI, 53706, USA.; Cellular and Molecular Biology Training Program, University of Wisconsin, Madison, WI, 53706, USA."
 27687975,Tatarsky,Rose L,RL,NULL,NULL,NULL,"Department of Zoology, University of Wisconsin, Madison, WI, 53706, USA.; Department of Neuroscience, University of Wisconsin, Madison, WI, 53706, USA."
@@ -1570,11 +1586,16 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 27687975,Nyholm,Molly K,MK,NULL,NULL,NULL,"Department of Zoology, University of Wisconsin, Madison, WI, 53706, USA.; Department of Neuroscience, University of Wisconsin, Madison, WI, 53706, USA."
 27687975,Wolman,Marc A,MA,NULL,NULL,NULL,"Department of Zoology, University of Wisconsin, Madison, WI, 53706, USA."
 27687975,Grinblat,Yevgenya,Y,NULL,NULL,NULL,"Department of Zoology, University of Wisconsin, Madison, WI, 53706, USA.; Department of Neuroscience, University of Wisconsin, Madison, WI, 53706, USA.; McPherson Eye Research Institute, University of Wisconsin, Madison, WI, 53706, USA."
-27763809,Young,Megan K,MK,NULL,NULL,NULL,"a School of Medicine and Menzies Health Institute Queensland , Griffith University , Gold Coast , Australia."
-27763809,Bertolini,Joseph,J,NULL,NULL,NULL,"b CSL Behring (Australia) Pty Ltd , Broadmeadows , Australia."
-27763809,Kotharu,Pushpa,P,NULL,NULL,NULL,"b CSL Behring (Australia) Pty Ltd , Broadmeadows , Australia."
-27763809,Maher,Darryl,D,NULL,NULL,NULL,"b CSL Behring (Australia) Pty Ltd , Broadmeadows , Australia."
-27763809,Cripps,Allan W,AW,NULL,NULL,NULL,"a School of Medicine and Menzies Health Institute Queensland , Griffith University , Gold Coast , Australia."
+28647898,Monaco,Monica,M,NULL,NULL,NULL,"Istituto Superiore di Sanità, Rome, Italy. monica.monaco@iss.it."
+28647898,Sacchi,Anna Rita,AR,NULL,NULL,NULL,"Azienda Unità Sanitaria locale, Piacenza, Italy."
+28647898,Scotti,Marzia,M,NULL,NULL,NULL,"Ospedale Guglielmo da Saliceto, Piacenza, Italy."
+28647898,Mancini,Fabiola,F,NULL,NULL,NULL,"Istituto Superiore di Sanità, Rome, Italy."
+28647898,Riccio,Carlo,C,NULL,NULL,NULL,"Azienda Unità Sanitaria locale, Piacenza, Italy."
+28647898,Errico,Giulia,G,NULL,NULL,NULL,"Istituto Superiore di Sanità, Rome, Italy."
+28647898,Ratti,Giovanna,G,NULL,NULL,NULL,"Ospedale Guglielmo da Saliceto, Piacenza, Italy."
+28647898,Bondi,Filippo,F,NULL,NULL,NULL,"Ospedale Guglielmo da Saliceto, Piacenza, Italy."
+28647898,Ciervo,Alessandra,A,NULL,NULL,NULL,"Istituto Superiore di Sanità, Rome, Italy."
+28647898,Pantosti,Annalisa,A,NULL,NULL,NULL,"Istituto Superiore di Sanità, Rome, Italy."
 29049350,Jamal,Syed Babar,SB,NULL,NULL,NULL,"PG program in Bioinformatics (LGCM), Institute of Biological Sciences, Federal University of Minas Gerais, Belo Horizonte, MG, Brazil."
 29049350,Hassan,Syed Shah,SS,NULL,NULL,NULL,"PG program in Bioinformatics (LGCM), Institute of Biological Sciences, Federal University of Minas Gerais, Belo Horizonte, MG, Brazil.; Department of Chemistry, Islamia College University Peshawar, KPK, Pakistan."
 29049350,Tiwari,Sandeep,S,NULL,NULL,NULL,"PG program in Bioinformatics (LGCM), Institute of Biological Sciences, Federal University of Minas Gerais, Belo Horizonte, MG, Brazil."
@@ -1589,16 +1610,22 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 29049350,Röttger,Richard,R,NULL,NULL,NULL,"Department of Mathematics and Computer Science, University of Southern Denmark, Odense, Denmark."
 29049350,Baumbach,Jan,J,NULL,NULL,NULL,"Department of Mathematics and Computer Science, University of Southern Denmark, Odense, Denmark."
 29049350,Azevedo,Vasco A C,VAC,NULL,NULL,NULL,"PG program in Bioinformatics (LGCM), Institute of Biological Sciences, Federal University of Minas Gerais, Belo Horizonte, MG, Brazil.; Department of General Biology (LGCM), Institute of Biologic Sciences, Federal University of Minas Gerais, Belo Horizonte, MG, Brazil."
-28647898,Monaco,Monica,M,NULL,NULL,NULL,"Istituto Superiore di Sanità, Rome, Italy. monica.monaco@iss.it."
-28647898,Sacchi,Anna Rita,AR,NULL,NULL,NULL,"Azienda Unità Sanitaria locale, Piacenza, Italy."
-28647898,Scotti,Marzia,M,NULL,NULL,NULL,"Ospedale Guglielmo da Saliceto, Piacenza, Italy."
-28647898,Mancini,Fabiola,F,NULL,NULL,NULL,"Istituto Superiore di Sanità, Rome, Italy."
-28647898,Riccio,Carlo,C,NULL,NULL,NULL,"Azienda Unità Sanitaria locale, Piacenza, Italy."
-28647898,Errico,Giulia,G,NULL,NULL,NULL,"Istituto Superiore di Sanità, Rome, Italy."
-28647898,Ratti,Giovanna,G,NULL,NULL,NULL,"Ospedale Guglielmo da Saliceto, Piacenza, Italy."
-28647898,Bondi,Filippo,F,NULL,NULL,NULL,"Ospedale Guglielmo da Saliceto, Piacenza, Italy."
-28647898,Ciervo,Alessandra,A,NULL,NULL,NULL,"Istituto Superiore di Sanità, Rome, Italy."
-28647898,Pantosti,Annalisa,A,NULL,NULL,NULL,"Istituto Superiore di Sanità, Rome, Italy."
+29635139,Degnan,Andrew J,AJ,NULL,NULL,NULL,"Department of Radiology, Children's Hospital of Philadelphia, Philadelphia, PA, United States."
+29635139,Kietz,Daniel A,DA,NULL,NULL,NULL,"Department of Rheumatology, Children's Hospital of Pittsburgh of UPMC, Pittsburgh, PA, United States."
+29635139,Grudziak,Jan S,JS,NULL,NULL,NULL,"Division of Orthopedics, Children's Hospital of Pittsburgh of UPMC, Pittsburgh, PA, United States."
+29635139,Shah,Amisha,A,NULL,NULL,NULL,"Department of Radiology, Children's Hospital of Pittsburgh of UPMC, Pittsburgh, PA, United States. Electronic address: shaha3@upmc.edu."
+29869631,Dai,Shengyun,S,NULL,NULL,NULL,"Key Laboratory of TCM-Information Engineering of State Administration of TCM, Pharmaceutical Engineering and New Drug Development of Traditional Chinese, Medicine of Ministry of Education, Beijing University of Chinese Medicine, Beijing, China."
+29869631,Pan,Xiaoning,X,NULL,NULL,NULL,"Key Laboratory of TCM-Information Engineering of State Administration of TCM, Pharmaceutical Engineering and New Drug Development of Traditional Chinese, Medicine of Ministry of Education, Beijing University of Chinese Medicine, Beijing, China."
+29869631,Ma,Lijuan,L,NULL,NULL,NULL,"Key Laboratory of TCM-Information Engineering of State Administration of TCM, Pharmaceutical Engineering and New Drug Development of Traditional Chinese, Medicine of Ministry of Education, Beijing University of Chinese Medicine, Beijing, China."
+29869631,Huang,Xingguo,X,NULL,NULL,NULL,"Key Laboratory of TCM-Information Engineering of State Administration of TCM, Pharmaceutical Engineering and New Drug Development of Traditional Chinese, Medicine of Ministry of Education, Beijing University of Chinese Medicine, Beijing, China."
+29869631,Du,Chenzhao,C,NULL,NULL,NULL,"Key Laboratory of TCM-Information Engineering of State Administration of TCM, Pharmaceutical Engineering and New Drug Development of Traditional Chinese, Medicine of Ministry of Education, Beijing University of Chinese Medicine, Beijing, China."
+29869631,Qiao,Yanjiang,Y,NULL,NULL,NULL,"Key Laboratory of TCM-Information Engineering of State Administration of TCM, Pharmaceutical Engineering and New Drug Development of Traditional Chinese, Medicine of Ministry of Education, Beijing University of Chinese Medicine, Beijing, China."
+29869631,Wu,Zhisheng,Z,NULL,NULL,NULL,"Key Laboratory of TCM-Information Engineering of State Administration of TCM, Pharmaceutical Engineering and New Drug Development of Traditional Chinese, Medicine of Ministry of Education, Beijing University of Chinese Medicine, Beijing, China."
+30426925,Machingura,Marylou C,MC,NULL,NULL,NULL,"Department of Biology, Georgia Southern University, Savannah, United States."
+30426925,Moroney,James V,JV,NULL,0000-0002-3652-5293,NULL,"Department of Biological Sciences, Louisiana State University, Baton Rouge, United States."
+29869639,Cole,Amanda M,AM,NULL,NULL,NULL,"Department of Biology and Marine Biology, Center for Marine Science, The University of North Carolina Wilmington, Wilmington, NC, United States."
+29869639,Durako,Michael J,MJ,NULL,NULL,NULL,"Department of Biology and Marine Biology, Center for Marine Science, The University of North Carolina Wilmington, Wilmington, NC, United States."
+29869639,Hall,Margaret O,MO,NULL,NULL,NULL,"Florida Fish and Wildlife Research Institute, Florida Fish and Wildlife Conservation Commission, St. Petersburg, FL, United States."
 28726616,du Plessis,Mignon,M,NULL,NULL,NULL,NULL
 28726616,Wolter,Nicole,N,NULL,NULL,NULL,NULL
 28726616,Allam,Mushal,M,NULL,NULL,NULL,NULL
@@ -1619,3 +1646,14 @@ pmid,last_name,first_name,initials,suffix,orcid,collective,affiliation
 28726616,Mlisana,Koleka,K,NULL,NULL,NULL,NULL
 28726616,McCarthy,Kerrigan,K,NULL,NULL,NULL,NULL
 28726616,von Gottberg,Anne,A,NULL,NULL,NULL,NULL
+29869640,Figueroa,Maximiliano,M,NULL,NULL,NULL,"Laboratorio Microbiología Molecular, Departamento de Biología, Facultad de Química y Biología, Universidad de Santiago de Chile, Santiago, Chile."
+29869640,Fernandez,Valentina,V,NULL,NULL,NULL,"Laboratorio Microbiología Molecular, Departamento de Biología, Facultad de Química y Biología, Universidad de Santiago de Chile, Santiago, Chile."
+29869640,Arenas-Salinas,Mauricio,M,NULL,NULL,NULL,"Centro de Bioinformática y Simulación Molecular, Universidad de Talca, Talca, Chile."
+29869640,Ahumada,Diego,D,NULL,NULL,NULL,"Laboratorio Microbiología Molecular, Departamento de Biología, Facultad de Química y Biología, Universidad de Santiago de Chile, Santiago, Chile."
+29869640,Muñoz-Villagrán,Claudia,C,NULL,NULL,NULL,"Laboratorio Microbiología Molecular, Departamento de Biología, Facultad de Química y Biología, Universidad de Santiago de Chile, Santiago, Chile.; Departamento de Ciencias Básicas, Facultad de Ciencia, Universidad Santo Tomas, Sede Santiago, Chile."
+29869640,Cornejo,Fabián,F,NULL,NULL,NULL,"Laboratorio Microbiología Molecular, Departamento de Biología, Facultad de Química y Biología, Universidad de Santiago de Chile, Santiago, Chile."
+29869640,Vargas,Esteban,E,NULL,NULL,NULL,"Center for the Development of Nanoscience and Nanotechnology, Santiago, Chile."
+29869640,Latorre,Mauricio,M,NULL,NULL,NULL,"Mathomics, Centro de Modelamiento Matemático, Universidad de Chile, Beauchef, Santiago, Chile.; Fondap-Center of Genome Regulation, Facultad de Ciencias, Universidad de Chile, Santiago, Chile.; Laboratorio de Bioinformática y Expresión Génica, INTA, Universidad de Chile, Santiago, Chile.; Instituto de Ciencias de la Ingeniería, Universidad de O'Higgins, Rancagua, Chile."
+29869640,Morales,Eduardo,E,NULL,NULL,NULL,"uBiome, San Francisco, CA, United States."
+29869640,Vásquez,Claudio,C,NULL,NULL,NULL,"Laboratorio Microbiología Molecular, Departamento de Biología, Facultad de Química y Biología, Universidad de Santiago de Chile, Santiago, Chile."
+29869640,Arenas,Felipe,F,NULL,NULL,NULL,"Laboratorio Microbiología Molecular, Departamento de Biología, Facultad de Química y Biología, Universidad de Santiago de Chile, Santiago, Chile."

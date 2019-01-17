@@ -5,6 +5,7 @@ uid,name
 4621,"Embolization, Therapeutic"
 9934,Organization and Administration
 18594,Human Body
+13019,South Africa
 16062,Porosity
 13234,Stem Cells
 2896,"Chromosomes, Human, Pair 6"
@@ -38,6 +39,7 @@ uid,name
 11618,Psychotic Disorders
 3661,Decision Support Techniques
 12091,"Repetitive Sequences, Nucleic Acid"
+59765,Homologous Recombination
 18360,"Crystallography, X-Ray"
 7093,Imidazoles
 17410,Practice Guidelines as Topic
@@ -74,6 +76,7 @@ uid,name
 5727,"Ganglia, Spinal"
 90,Acetoacetates
 3327,Coronary Disease
+13728,"Terminator Regions, Genetic"
 46508,Culture Techniques
 18480,Astronauts
 6147,Guanine
@@ -141,10 +144,12 @@ uid,name
 38622,Internationality
 16099,"Endoscopy, Gastrointestinal"
 50723,"Fractures, Bone"
+3404,Creatinine
 5884,Gingival Hemorrhage
 5503,Food Additives
 818,Animals
 58830,Serotonin 5-HT2 Receptor Antagonists
+12273,Ribulose-Bisphosphate Carboxylase
 5665,Furosemide
 49670,"History, 17th Century"
 8970,Molecular Weight
@@ -157,6 +162,7 @@ uid,name
 16133,Polymerase Chain Reaction
 9203,Myocardial Infarction
 7318,Inservice Training
+1604,Berlin
 7143,Immunoglobulin Heavy Chains
 5796,Genes
 8148,Lovastatin
@@ -171,6 +177,7 @@ uid,name
 8826,Microbial Sensitivity Tests
 16037,Single-Blind Method
 1973,Bromodeoxyuridine
+15825,"Chromosomes, Fungal"
 14586,USSR
 1098,Spider Bites
 10673,Pheochromocytoma
@@ -216,6 +223,7 @@ uid,name
 10879,Piperazines
 11215,"Practice Management, Dental"
 58925,"Receptors, Purinergic P2Y12"
+14871,Water Microbiology
 18466,Gravity Sensing
 7022,Hypotension
 6551,"Hernia, Hiatal"
@@ -280,6 +288,7 @@ uid,name
 9202,Cardiomyopathies
 14411,Neoplastic Stem Cells
 1565,Benzoates
+5919,Glomerular Filtration Rate
 5118,Extraterrestrial Environment
 13816,Thermodynamics
 15663,"Osteoporosis, Postmenopausal"
@@ -315,6 +324,7 @@ uid,name
 18616,"Ultrasonography, Doppler, Duplex"
 14157,Transcription Factors
 18907,Privacy
+15047,Zoonoses
 11518,Proto-Oncogene Proteins
 19160,Endosonography
 18518,Plant Root Cap
@@ -330,10 +340,12 @@ uid,name
 3613,Danazol
 17346,Protein-Serine-Threonine Kinases
 15854,Up-Regulation
+2736,Chloroplasts
 11203,Poverty
 5380,"Financing, Government"
 16032,Randomized Controlled Trials as Topic
 12174,Retinitis Pigmentosa
+7558,Italy
 4638,Emergency Treatment
 51379,Mice
 6651,Histocytochemistry
@@ -359,6 +371,7 @@ uid,name
 483,Alleles
 10518,Periodontitis
 9181,Mycoses
+7717,Knee
 6861,Hydrogen Peroxide
 16201,"Receptors, Lymphocyte Homing"
 10710,Phosphates
@@ -381,6 +394,7 @@ uid,name
 6648,Histocompatibility
 23482,Bioterrorism
 1027,Aortography
+15897,Comorbidity
 17748,Time Management
 11183,Postoperative Complications
 5544,Forecasting
@@ -414,6 +428,7 @@ uid,name
 7866,Leg
 14110,Touch
 16879,Salvage Therapy
+51436,"Renal Insufficiency, Chronic"
 11634,Public Health
 11157,Population Dynamics
 8669,Metallurgy
@@ -423,6 +438,7 @@ uid,name
 8466,Mechlorethamine
 20099,"Coated Materials, Biocompatible"
 17116,Low Back Pain
+16118,Anterior Cruciate Ligament
 12946,Social Welfare
 375,Aging
 12701,Serotonin
@@ -440,9 +456,11 @@ uid,name
 10936,Plant Extracts
 4251,DNA Transposable Elements
 14178,"Translocation, Genetic"
+5800,"Genes, Fungal"
 12772,"Shock, Septic"
 19411,Clinical Laboratory Techniques
 6526,Hepatitis C
+58885,Multilocus Sequence Typing
 15397,Program Evaluation
 9613,Nobel Prize
 7987,Gonadotropin-Releasing Hormone
@@ -537,6 +555,7 @@ uid,name
 1761,Bleomycin
 65127,Dopamine D2 Receptor Antagonists
 431,Ethanol
+8164,Luminescent Proteins
 11552,Pseudomonas Infections
 11153,Population
 2784,Cholesterol
@@ -545,6 +564,7 @@ uid,name
 8327,Mammography
 1104,Arbutin
 32962,Consent Forms
+9792,Oceans and Seas
 6635,Histamine H2 Antagonists
 2303,"Cardiac Output, Low"
 13026,Space Flight
@@ -576,9 +596,11 @@ uid,name
 779,"Anesthetics, Local"
 1944,Breath Tests
 12878,Skin Neoplasms
+22202,"Chromosomes, Artificial, Bacterial"
 9747,Nutritional Physiological Phenomena
 11877,Radionuclide Imaging
 2633,Chemotaxis
+10788,Photosynthesis
 11208,Powders
 9638,Norepinephrine
 16312,Treatment Refusal
@@ -587,6 +609,7 @@ uid,name
 19538,Health Care Surveys
 4739,England
 3430,Cross-Sectional Studies
+8279,Magnetic Resonance Imaging
 11795,Surveys and Questionnaires
 8024,Ligands
 1723,Birth Rate
@@ -630,6 +653,7 @@ uid,name
 16015,Logistic Models
 12297,Right to Die
 13464,Sulfuric Acids
+4283,Dog Diseases
 27724,"Reproductive Techniques, Assisted"
 16387,Women's Health
 6168,Guinea Pigs
@@ -643,6 +667,7 @@ uid,name
 14933,Women's Rights
 4305,"Dose-Response Relationship, Drug"
 8338,Mandibular Injuries
+4165,Diphtheria
 13936,Thymidine
 970,Antineoplastic Agents
 18458,Persistent Vegetative State
@@ -650,6 +675,7 @@ uid,name
 9398,Nephrology
 7223,Infant
 596,Amino Acids
+419,Albuminuria
 14302,Trinitrobenzenesulfonic Acid
 19380,Anti-HIV Agents
 2945,Cisplatin
@@ -723,6 +749,7 @@ uid,name
 18454,Spouses
 1688,Biological Products
 4622,"Embryo, Mammalian"
+10933,Plankton
 4265,DNA Helicases
 8016,Life Change Events
 6657,Histones
@@ -735,7 +762,9 @@ uid,name
 8875,Middle Aged
 10950,Plasma Cells
 5776,Gaucher Disease
+2244,Carbon
 8103,Liver Cirrhosis
+2696,Chlamydomonas
 11817,Rabbits
 7391,International Cooperation
 10406,Penicillins
@@ -747,10 +776,12 @@ uid,name
 11506,Proteins
 42522,DNA Replication Timing
 17115,Catheter Ablation
+16679,"Genome, Viral"
 16223,Advance Directives
 8942,Mitoxantrone
 18912,Arabs
 2642,Chick Embryo
+7719,Knee Joint
 13794,Thallium Radioisotopes
 15032,Zinc
 4059,Diffusion of Innovation
@@ -828,6 +859,7 @@ uid,name
 11110,"Polymorphism, Genetic"
 7621,Karyotyping
 15497,HIV-1
+8592,"Menisci, Tibial"
 12008,Recurrence
 5803,"Genes, Immunoglobulin"
 18487,"Ventricular Dysfunction, Left"
@@ -848,6 +880,7 @@ uid,name
 5066,"Euthanasia, Passive"
 16328,NF-kappa B
 23241,"Antiretroviral Therapy, Highly Active"
+16119,Posterior Cruciate Ligament
 16512,Ankle Injuries
 8956,"Models, Chemical"
 12926,"Social Control, Formal"
@@ -865,6 +898,7 @@ uid,name
 20917,"Receptor, trkA"
 1859,Bone Neoplasms
 3362,Cost-Benefit Analysis
+16825,Chlamydomonas reinhardtii
 11184,Postoperative Period
 59828,Plant Cells
 328,Adult
@@ -877,6 +911,7 @@ uid,name
 10946,"Plants, Medicinal"
 16757,"Death, Sudden, Cardiac"
 5153,Facial Neoplasms
+12441,Saccharomyces cerevisiae
 18531,Spacecraft
 1208,Asia
 6304,Health Status
@@ -903,7 +938,9 @@ uid,name
 5767,Gastrointestinal Diseases
 9249,NADP
 4379,Duodenal Neoplasms
+55316,Cystatin C
 9166,Mycobacterium leprae
+64113,CRISPR-Cas Systems
 20007,"Implants, Experimental"
 18380,Hematopoietic Stem Cell Transplantation
 18522,Gravitropism
@@ -913,6 +950,7 @@ uid,name
 18559,Exobiology
 2578,Uterine Cervical Dysplasia
 9204,Myocardial Revascularization
+5813,"Genes, Synthetic"
 2621,Chemistry
 24682,BRCA2 Protein
 2908,Chronic Disease
@@ -947,6 +985,7 @@ uid,name
 6684,HLA-DR Antigens
 5243,Feces
 2470,Cell Survival
+58615,Synthetic Biology
 30541,"Databases, Genetic"
 12646,Self Administration
 4452,Echocardiography
@@ -963,15 +1002,18 @@ uid,name
 255,Adenosine Triphosphate
 39781,PubMed
 15398,Signal Transduction
+12042,Registries
 18786,Bone Substitutes
 1321,Autistic Disorder
 1315,Australia
 16265,Conflict of Interest
 1792,Blood Platelets
+4196,Disease Outbreaks
 2583,Uterine Cervical Neoplasms
 2574,Cervical Vertebrae
 2227,Carbazoles
 11653,Pulmonary Diffusing Capacity
+5818,Genetic Engineering
 18474,Weightlessness Simulation
 19072,Antibiotic Prophylaxis
 35843,Biomedical Research
@@ -997,6 +1039,7 @@ uid,name
 16745,Root Planing
 3131,Combined Modality Therapy
 6291,Health Policy
+1171,"Arthritis, Juvenile"
 16292,Conscious Sedation
 4359,"Drug Therapy, Combination"
 30161,Avian Proteins
@@ -1041,10 +1084,12 @@ uid,name
 11057,Politics
 9475,"Neurons, Afferent"
 14118,"Toxins, Biological"
+72600,Meniscus
 7125,Immunogenetics
 16676,"Macrophages, Alveolar"
 13516,"Oral Surgical Procedures, Preprosthetic"
 49673,"History, 20th Century"
+73336,Whole Genome Sequencing
 5347,Fibroblasts
 3627,"Data Interpretation, Statistical"
 4791,Enzyme Inhibitors
@@ -1078,6 +1123,7 @@ uid,name
 7585,Jews
 19415,Torque
 15837,Vestibular Diseases
+49674,"History, 21st Century"
 3561,Cytarabine
 12333,"RNA, Messenger"
 7568,Jaw
