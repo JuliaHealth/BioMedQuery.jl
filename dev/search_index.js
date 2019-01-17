@@ -629,7 +629,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PubMed",
     "title": "BioMedQuery.PubMed.db_insert!",
     "category": "function",
-    "text": "db_insert!(conn, csv_path=pwd(), csv_prefix=\"<current date>_PubMed_\"; verbose=false, drop_csvs=false)\n\nWrites CSVs from PubMed parsing to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs can optionally be removed after being written to DB.\n\n\n\n\n\n"
+    "text": "db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix=\"<current date>_PubMed_\"; verbose=false, drop_csvs=false)\n\nWrites dictionary of dataframes to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.\n\n\n\n\n\n"
 },
 
 {
@@ -645,7 +645,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PubMed",
     "title": "BioMedQuery.PubMed.db_insert!",
     "category": "function",
-    "text": "db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix=\"<current date>_PubMed_\"; verbose=false, drop_csvs=false)\n\nWrites dictionary of dataframes to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.\n\n\n\n\n\n"
+    "text": "db_insert!(conn, csv_path=pwd(), csv_prefix=\"<current date>_PubMed_\"; verbose=false, drop_csvs=false)\n\nWrites CSVs from PubMed parsing to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs can optionally be removed after being written to DB.\n\n\n\n\n\n"
 },
 
 {
