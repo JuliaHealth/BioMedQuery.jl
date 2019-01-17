@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>MeSH/UMLS Map and Filtering · BioMedQuery.jl</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link href="../../assets/documenter.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><h1>BioMedQuery.jl</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../../search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../../">Home</a></li><li><span class="toctext">Examples</span><ul><li><a class="toctext" href="../">Overview</a></li><li><a class="toctext" href="../1_pubmed_search_and_save/">Pubmed Search and Save</a></li><li class="current"><a class="toctext" href>MeSH/UMLS Map and Filtering</a><ul class="internal"><li><a class="toctext" href="#MySQL-1">MySQL</a></li><li><a class="toctext" href="#SQLite-1">SQLite</a></li><li><a class="toctext" href="#DataFrames-1">DataFrames</a></li></ul></li><li><a class="toctext" href="../4_pubmed_export_citations/">Export to Citations</a></li><li><a class="toctext" href="../5_load_medline/">Load MEDLINE</a></li></ul></li><li><span class="toctext">Manual</span><ul><li><a class="toctext" href="../../processes/">Processes/Workflows</a></li><li><a class="toctext" href="../../pubmed/">PubMed</a></li><li><a class="toctext" href="../../ct/">Clinical Trials</a></li><li><a class="toctext" href="../../dbutils/">Database Utilities</a></li><li><a class="toctext" href="../../library/">Library</a></li></ul></li></ul></nav><article id="docs"><header><nav><ul><li>Examples</li><li><a href>MeSH/UMLS Map and Filtering</a></li></ul><a class="edit-page" href="https://github.com/bcbi/BioMedQuery.jl/blob/master/examples/literate_src/2_umls_map_and_filter.jl"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>MeSH/UMLS Map and Filtering</span><a class="fa fa-bars" href="#"></a></div></header><h1><a class="nav-anchor" id="Using-UMLS-Concepts-with-MeSH-1" href="#Using-UMLS-Concepts-with-MeSH-1">Using UMLS Concepts with MeSH</a></h1><p><a href="http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/2_umls_map_and_filter.ipynb"><img src="https://img.shields.io/badge/jupyter_notebook-nbviewer-orange.svg" alt="nbviewer"/></a></p><p>The Medical Subject Headings (MeSH) terms returned from a PubMed search can be further analyzed by mapping them to Unified Medical Language System (UMLS) concepts, as well as filtering the MeSH Terms by concepts.</p><p>For both mapping MeSH to UMLS Concepts and filtering MeSH by concept, the following backends are supported:</p><ul><li>MySQL</li><li>SQLite</li><li>DataFrames</li></ul><h3><a class="nav-anchor" id="Set-Up-1" href="#Set-Up-1">Set Up</a></h3><div><pre><code class="language-julia">using SQLite
+using MySQL
+using BioMedQuery.DBUtils
+using BioMedQuery.Processes
+using BioServices.UMLS
+using BioMedQuery.PubMed
+using DataFrames</code></pre></div><p>Credentials are environment variables (e.g set in your .juliarc.jl)</p><div><pre><code class="language-julia">umls_user = ENV[&quot;UMLS_USER&quot;];
+umls_pswd = ENV[&quot;UMLS_PSSWD&quot;];
+email = &quot;&quot;; # Only needed if you want to contact NCBI with inqueries
+search_term = &quot;&quot;&quot;(obesity[MeSH Major Topic]) AND (&quot;2010&quot;[Date - Publication] : &quot;2012&quot;[Date - Publication])&quot;&quot;&quot;;
+umls_concept = &quot;Disease or Syndrome&quot;;
+max_articles = 5;
+results_dir = &quot;.&quot;;
+verbose = true;
+
+results_dir = &quot;.&quot;;</code></pre></div><h2><a class="nav-anchor" id="MySQL-1" href="#MySQL-1">MySQL</a></h2><h3><a class="nav-anchor" id="Map-Medical-Subject-Headings-(MeSH)-to-UMLS-1" href="#Map-Medical-Subject-Headings-(MeSH)-to-UMLS-1">Map Medical Subject Headings (MeSH) to UMLS</a></h3><p>This example demonstrates the typical workflow to populate a MESH2UMLS database table relating all concepts associated with all MeSH terms in the input database.</p><p><em>Note: this example reuses the MySQL DB from the PubMed Search and Save example.</em></p><p>Create MySQL DB connection</p><div><pre><code class="language-julia">host = &quot;127.0.0.1&quot;;
+mysql_usr = &quot;root&quot;;
+mysql_pswd = &quot;&quot;;
+dbname = &quot;pubmed_obesity_2010_2012&quot;;
+
+
+db_mysql = MySQL.connect(host, mysql_usr, mysql_pswd, db = dbname);</code></pre><pre><code class="language-none">Getting 5 articles, starting at index 0
+------ESearch--------
+------EFetch--------
+------Save to database--------
+Saving 5 articles to database
+Finished searching, total number of articles: 5</code></pre></div><p>Map MeSH to UMLS</p><div><pre><code class="language-julia">@time map_mesh_to_umls_async!(db_mysql, umls_user, umls_pswd; append_results=false, timeout=3);</code></pre><pre><code class="language-none">----------Matching MESH to UMLS-----------
+[&quot;Adult&quot;, &quot;Aged&quot;, &quot;Aged, 80 and over&quot;, &quot;Analysis of Variance&quot;, &quot;Body Weight&quot;, &quot;C-Reactive Protein&quot;, &quot;Child&quot;, &quot;Cross-Sectional Studies&quot;, &quot;Fatigue&quot;, &quot;Female&quot;, &quot;Fibromyalgia&quot;, &quot;Germany&quot;, &quot;Health Status&quot;, &quot;Humans&quot;, &quot;Japan&quot;, &quot;Male&quot;, &quot;Middle Aged&quot;, &quot;Nutrition Surveys&quot;, &quot;Obesity&quot;, &quot;Pain&quot;, &quot;Pain Measurement&quot;, &quot;Physical Fitness&quot;, &quot;Prognosis&quot;, &quot;Quality of Life&quot;, &quot;Surveys and Questionnaires&quot;, &quot;Reference Values&quot;, &quot;Risk Factors&quot;, &quot;ROC Curve&quot;, &quot;Severity of Illness Index&quot;, &quot;Sports&quot;, &quot;Television&quot;, &quot;Thyrotropin&quot;, &quot;Biomarkers&quot;, &quot;Weight Gain&quot;, &quot;Exercise&quot;, &quot;Body Mass Index&quot;, &quot;Incidence&quot;, &quot;Prevalence&quot;, &quot;Logistic Models&quot;, &quot;Odds Ratio&quot;, &quot;Case-Control Studies&quot;, &quot;Age Distribution&quot;, &quot;Sex Distribution&quot;, &quot;Sleep Apnea, Obstructive&quot;, &quot;Metabolic Syndrome&quot;, &quot;Overweight&quot;, &quot;Waist Circumference&quot;, &quot;Young Adult&quot;, &quot;Obesity, Abdominal&quot;, &quot;Republic of Korea&quot;, &quot;Sedentary Behavior&quot;, &quot;Pediatric Obesity&quot;]
+[ Info: UTS: Requesting new TGT
+[ Info: Descriptor 36 out of 52: Body Mass Index
+[ Info: Descriptor 30 out of 52: Sports
+[ Info: Descriptor 1 out of 52: Adult
+[ Info: Descriptor 31 out of 52: Television
+[ Info: Descriptor 43 out of 52: Sex Distribution
+[ Info: Descriptor 34 out of 52: Weight Gain
+[ Info: Descriptor 2 out of 52: Aged
+[ Info: Descriptor 32 out of 52: Thyrotropin
+[ Info: Descriptor 40 out of 52: Odds Ratio
+[ Info: Descriptor 27 out of 52: Risk Factors
+[ Info: Descriptor 45 out of 52: Metabolic Syndrome
+[ Info: Descriptor 4 out of 52: Analysis of Variance
+[ Info: Descriptor 48 out of 52: Young Adult
+[ Info: Descriptor 37 out of 52: Incidence
+[ Info: Descriptor 29 out of 52: Severity of Illness Index
+[ Info: Descriptor 39 out of 52: Logistic Models
+[ Info: Descriptor 46 out of 52: Overweight
+[ Info: Descriptor 35 out of 52: Exercise
+[ Info: Descriptor 47 out of 52: Waist Circumference
+[ Info: Descriptor 41 out of 52: Case-Control Studies
+[ Info: Descriptor 50 out of 52: Republic of Korea
+[ Info: Descriptor 51 out of 52: Sedentary Behavior
+[ Info: Descriptor 44 out of 52: Sleep Apnea, Obstructive
+[ Info: Descriptor 5 out of 52: Body Weight
+[ Info: Descriptor 33 out of 52: Biomarkers
+[ Info: Descriptor 3 out of 52: Aged, 80 and over
+[ Info: Descriptor 38 out of 52: Prevalence
+[ Info: Descriptor 15 out of 52: Japan
+[ Info: Descriptor 42 out of 52: Age Distribution
+[ Info: Descriptor 10 out of 52: Female
+[ Info: Descriptor 7 out of 52: Child
+[ Info: Descriptor 8 out of 52: Cross-Sectional Studies
+[ Info: Descriptor 11 out of 52: Fibromyalgia
+[ Info: Descriptor 17 out of 52: Middle Aged
+[ Info: Descriptor 12 out of 52: Germany
+[ Info: Descriptor 9 out of 52: Fatigue
+[ Info: Descriptor 18 out of 52: Nutrition Surveys
+[ Info: Descriptor 49 out of 52: Obesity, Abdominal
+[ Info: Descriptor 14 out of 52: Humans
+[ Info: Descriptor 26 out of 52: Reference Values
+[ Info: Descriptor 6 out of 52: C-Reactive Protein
+[ Info: Descriptor 16 out of 52: Male
+[ Info: Descriptor 13 out of 52: Health Status
+[ Info: Descriptor 22 out of 52: Physical Fitness
+[ Info: Descriptor 28 out of 52: ROC Curve
+[ Info: Descriptor 21 out of 52: Pain Measurement
+[ Info: Descriptor 19 out of 52: Obesity
+[ Info: Descriptor 20 out of 52: Pain
+[ Info: Descriptor 23 out of 52: Prognosis
+[ Info: Descriptor 25 out of 52: Surveys and Questionnaires
+[ Info: Descriptor 24 out of 52: Quality of Life
+[ Info: Descriptor 51 out of 52: Sedentary Behavior
+[ Info: Descriptor 52 out of 52: Pediatric Obesity
+  8.479060 seconds (7.39 M allocations: 374.610 MiB, 3.10% gc time)</code></pre></div><h4><a class="nav-anchor" id="Explore-the-output-table-1" href="#Explore-the-output-table-1">Explore the output table</a></h4><div><pre><code class="language-julia">db_query(db_mysql, &quot;SELECT * FROM mesh2umls&quot;)</code></pre><table class="data-frame"><thead><tr><th></th><th>mesh</th><th>umls</th></tr><tr><th></th><th>String</th><th>String</th></tr></thead><tbody><p>56 rows × 2 columns</p><tr><th>1</th><td>Adult</td><td>Age Group</td></tr><tr><th>2</th><td>Age Distribution</td><td>Quantitative Concept</td></tr><tr><th>3</th><td>Aged</td><td>Organism Attribute</td></tr><tr><th>4</th><td>Aged, 80 and over</td><td>Age Group</td></tr><tr><th>5</th><td>Analysis of Variance</td><td>Quantitative Concept</td></tr><tr><th>6</th><td>Biomarkers</td><td>Clinical Attribute</td></tr><tr><th>7</th><td>Body Mass Index</td><td>Diagnostic Procedure</td></tr><tr><th>8</th><td>Body Weight</td><td>Organism Attribute</td></tr><tr><th>9</th><td>C-Reactive Protein</td><td>Amino Acid, Peptide, or Protein</td></tr><tr><th>10</th><td>C-Reactive Protein</td><td>Immunologic Factor</td></tr><tr><th>11</th><td>Case-Control Studies</td><td>Research Activity</td></tr><tr><th>12</th><td>Child</td><td>Age Group</td></tr><tr><th>13</th><td>Cross-Sectional Studies</td><td>Research Activity</td></tr><tr><th>14</th><td>Exercise</td><td>Daily or Recreational Activity</td></tr><tr><th>15</th><td>Fatigue</td><td>Sign or Symptom</td></tr><tr><th>16</th><td>Female</td><td>Population Group</td></tr><tr><th>17</th><td>Fibromyalgia</td><td>Disease or Syndrome</td></tr><tr><th>18</th><td>Germany</td><td>Geographic Area</td></tr><tr><th>19</th><td>Health Status</td><td>Qualitative Concept</td></tr><tr><th>20</th><td>Humans</td><td>Human</td></tr><tr><th>21</th><td>Incidence</td><td>Quantitative Concept</td></tr><tr><th>22</th><td>Japan</td><td>Geographic Area</td></tr><tr><th>23</th><td>Logistic Models</td><td>Intellectual Product</td></tr><tr><th>24</th><td>Logistic Models</td><td>Quantitative Concept</td></tr><tr><th>&vellip;</th><td>&vellip;</td><td>&vellip;</td></tr></tbody></table></div><h3><a class="nav-anchor" id="Filtering-MeSH-terms-by-UMLS-concept-1" href="#Filtering-MeSH-terms-by-UMLS-concept-1">Filtering MeSH terms by UMLS concept</a></h3><p>Getting the descriptor to index dictionary and the occurence matrix</p><div><pre><code class="language-julia">@time labels2ind, occur = umls_semantic_occurrences(db_mysql, umls_concept);</code></pre><pre><code class="language-none">Filter mesh query string : SELECT mesh FROM mesh2umls WHERE umls IN (&#39;Disease or Syndrome&#39;)
+-------------------------------------------------------------
+Found 5 articles with valid descriptors
+-------------------------------------------------------------
+  1.134158 seconds (2.07 M allocations: 102.776 MiB, 3.09% gc time)</code></pre></div><p>Descriptor to Index Dictionary</p><div><pre><code class="language-julia">labels2ind</code></pre><pre><code class="language-none">Dict{String,Int64} with 5 entries:
+  &quot;Obesity&quot;                  =&gt; 1
+  &quot;Pediatric Obesity&quot;        =&gt; 2
+  &quot;Sleep Apnea, Obstructive&quot; =&gt; 3
+  &quot;Metabolic Syndrome&quot;       =&gt; 4
+  &quot;Fibromyalgia&quot;             =&gt; 5</code></pre></div><p>Output Data Matrix</p><div><pre><code class="language-julia">Matrix(occur)</code></pre><pre><code class="language-none">5×5 Array{Float64,2}:
+ 1.0  1.0  0.0  1.0  0.0
+ 0.0  0.0  1.0  0.0  0.0
+ 0.0  1.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  1.0
+ 1.0  0.0  0.0  0.0  0.0</code></pre></div><h2><a class="nav-anchor" id="SQLite-1" href="#SQLite-1">SQLite</a></h2><p>This example demonstrates the typical workflow to populate a MESH2UMLS database table relating all concepts associated with all MeSH terms in the input database.</p><p><em>Note: this example reuses the SQLite DB from the PubMed Search and Save example.</em></p><p>Create SQLite DB connection</p><div><pre><code class="language-julia">db_path = &quot;$(results_dir)/pubmed_obesity_2010_2012.db&quot;;
+db_sqlite = SQLite.DB(db_path);</code></pre><pre><code class="language-none">Getting 5 articles, starting at index 0
+------ESearch--------
+------EFetch--------
+------Save to database--------
+Saving 5 articles to database
+Finished searching, total number of articles: 5</code></pre></div><h3><a class="nav-anchor" id="Map-MeSH-to-UMLS-1" href="#Map-MeSH-to-UMLS-1">Map MeSH to UMLS</a></h3><div><pre><code class="language-julia">@time map_mesh_to_umls_async!(db_sqlite, umls_user, umls_pswd; append_results=false, timeout=3);</code></pre><pre><code class="language-none">----------Matching MESH to UMLS-----------
+Union{Missing, String}[&quot;Reference Values&quot;, &quot;Republic of Korea&quot;, &quot;ROC Curve&quot;, &quot;Fatigue&quot;, &quot;Obesity&quot;, &quot;Risk Factors&quot;, &quot;Logistic Models&quot;, &quot;Severity of Illness Index&quot;, &quot;Male&quot;, &quot;Case-Control Studies&quot;, &quot;Analysis of Variance&quot;, &quot;Sedentary Behavior&quot;, &quot;Prevalence&quot;, &quot;Quality of Life&quot;, &quot;Odds Ratio&quot;, &quot;Exercise&quot;, &quot;Body Mass Index&quot;, &quot;Aged&quot;, &quot;Child&quot;, &quot;Sex Distribution&quot;, &quot;Adult&quot;, &quot;Germany&quot;, &quot;Sports&quot;, &quot;Thyrotropin&quot;, &quot;Pediatric Obesity&quot;, &quot;Humans&quot;, &quot;Japan&quot;, &quot;Cross-Sectional Studies&quot;, &quot;Weight Gain&quot;, &quot;Middle Aged&quot;, &quot;Surveys and Questionnaires&quot;, &quot;Health Status&quot;, &quot;Young Adult&quot;, &quot;Incidence&quot;, &quot;Prognosis&quot;, &quot;Body Weight&quot;, &quot;Pain Measurement&quot;, &quot;Waist Circumference&quot;, &quot;Metabolic Syndrome&quot;, &quot;Pain&quot;, &quot;Nutrition Surveys&quot;, &quot;Fibromyalgia&quot;, &quot;Sleep Apnea, Obstructive&quot;, &quot;Television&quot;, &quot;Age Distribution&quot;, &quot;Overweight&quot;, &quot;Physical Fitness&quot;, &quot;Female&quot;, &quot;Biomarkers&quot;, &quot;Obesity, Abdominal&quot;, &quot;C-Reactive Protein&quot;, &quot;Aged, 80 and over&quot;]
+[ Info: UTS: Reading TGT from file
+[ Info: Descriptor 2 out of 52: Republic of Korea
+[ Info: Descriptor 7 out of 52: Logistic Models
+[ Info: Descriptor 1 out of 52: Reference Values
+[ Info: Descriptor 5 out of 52: Obesity
+[ Info: Descriptor 3 out of 52: ROC Curve
+[ Info: Descriptor 8 out of 52: Severity of Illness Index
+[ Info: Descriptor 12 out of 52: Sedentary Behavior
+[ Info: Descriptor 4 out of 52: Fatigue
+[ Info: Descriptor 15 out of 52: Odds Ratio
+[ Info: Descriptor 13 out of 52: Prevalence
+[ Info: Descriptor 14 out of 52: Quality of Life
+[ Info: Descriptor 10 out of 52: Case-Control Studies
+[ Info: Descriptor 9 out of 52: Male
+[ Info: Descriptor 24 out of 52: Thyrotropin
+[ Info: Descriptor 23 out of 52: Sports
+[ Info: Descriptor 18 out of 52: Aged
+[ Info: Descriptor 21 out of 52: Adult
+[ Info: Descriptor 17 out of 52: Body Mass Index
+[ Info: Descriptor 6 out of 52: Risk Factors
+[ Info: Descriptor 11 out of 52: Analysis of Variance
+[ Info: Descriptor 31 out of 52: Surveys and Questionnaires
+[ Info: Descriptor 16 out of 52: Exercise
+[ Info: Descriptor 26 out of 52: Humans
+[ Info: Descriptor 20 out of 52: Sex Distribution
+[ Info: Descriptor 22 out of 52: Germany
+[ Info: Descriptor 28 out of 52: Cross-Sectional Studies
+[ Info: Descriptor 33 out of 52: Young Adult
+[ Info: Descriptor 19 out of 52: Child
+[ Info: Descriptor 29 out of 52: Weight Gain
+[ Info: Descriptor 27 out of 52: Japan
+[ Info: Descriptor 30 out of 52: Middle Aged
+[ Info: Descriptor 42 out of 52: Fibromyalgia
+[ Info: Descriptor 25 out of 52: Pediatric Obesity
+[ Info: Descriptor 35 out of 52: Prognosis
+[ Info: Descriptor 39 out of 52: Metabolic Syndrome
+[ Info: Descriptor 49 out of 52: Biomarkers
+[ Info: Descriptor 38 out of 52: Waist Circumference
+[ Info: Descriptor 44 out of 52: Television
+[ Info: Descriptor 34 out of 52: Incidence
+[ Info: Descriptor 41 out of 52: Nutrition Surveys
+[ Info: Descriptor 37 out of 52: Pain Measurement
+[ Info: Descriptor 32 out of 52: Health Status
+[ Info: Descriptor 43 out of 52: Sleep Apnea, Obstructive
+[ Info: Descriptor 47 out of 52: Physical Fitness
+[ Info: Descriptor 46 out of 52: Overweight
+[ Info: Descriptor 40 out of 52: Pain
+[ Info: Descriptor 51 out of 52: C-Reactive Protein
+[ Info: Descriptor 36 out of 52: Body Weight
+[ Info: Descriptor 48 out of 52: Female
+[ Info: Descriptor 50 out of 52: Obesity, Abdominal
+[ Info: Descriptor 45 out of 52: Age Distribution
+[ Info: Descriptor 51 out of 52: C-Reactive Protein
+[ Info: Descriptor 52 out of 52: Aged, 80 and over
+  3.579878 seconds (1.77 M allocations: 94.855 MiB, 1.24% gc time)</code></pre></div><p>Explore the output table</p><div><pre><code class="language-julia">db_query(db_sqlite, &quot;SELECT * FROM mesh2umls;&quot;)</code></pre><table class="data-frame"><thead><tr><th></th><th>mesh</th><th>umls</th></tr><tr><th></th><th>String⍰</th><th>String⍰</th></tr></thead><tbody><p>56 rows × 2 columns</p><tr><th>1</th><td>Republic of Korea</td><td>Geographic Area</td></tr><tr><th>2</th><td>ROC Curve</td><td>Quantitative Concept</td></tr><tr><th>3</th><td>Logistic Models</td><td>Intellectual Product</td></tr><tr><th>4</th><td>Logistic Models</td><td>Quantitative Concept</td></tr><tr><th>5</th><td>Fatigue</td><td>Sign or Symptom</td></tr><tr><th>6</th><td>Odds Ratio</td><td>Quantitative Concept</td></tr><tr><th>7</th><td>Sedentary Behavior</td><td>Finding</td></tr><tr><th>8</th><td>Reference Values</td><td>Quantitative Concept</td></tr><tr><th>9</th><td>Obesity</td><td>Disease or Syndrome</td></tr><tr><th>10</th><td>Severity of Illness Index</td><td>Quantitative Concept</td></tr><tr><th>11</th><td>Case-Control Studies</td><td>Research Activity</td></tr><tr><th>12</th><td>Male</td><td>Organism Attribute</td></tr><tr><th>13</th><td>Prevalence</td><td>Quantitative Concept</td></tr><tr><th>14</th><td>Japan</td><td>Geographic Area</td></tr><tr><th>15</th><td>Sports</td><td>Daily or Recreational Activity</td></tr><tr><th>16</th><td>Thyrotropin</td><td>Amino Acid, Peptide, or Protein</td></tr><tr><th>17</th><td>Thyrotropin</td><td>Hormone</td></tr><tr><th>18</th><td>Thyrotropin</td><td>Pharmacologic Substance</td></tr><tr><th>19</th><td>Adult</td><td>Age Group</td></tr><tr><th>20</th><td>Quality of Life</td><td>Idea or Concept</td></tr><tr><th>21</th><td>Exercise</td><td>Daily or Recreational Activity</td></tr><tr><th>22</th><td>Weight Gain</td><td>Finding</td></tr><tr><th>23</th><td>Aged</td><td>Organism Attribute</td></tr><tr><th>24</th><td>Analysis of Variance</td><td>Quantitative Concept</td></tr><tr><th>&vellip;</th><td>&vellip;</td><td>&vellip;</td></tr></tbody></table></div><h3><a class="nav-anchor" id="Filtering-MeSH-terms-by-UMLS-concept-2" href="#Filtering-MeSH-terms-by-UMLS-concept-2">Filtering MeSH terms by UMLS concept</a></h3><p>Getting the descriptor to index dictionary and occurence matrix</p><div><pre><code class="language-julia">@time labels2ind, occur = umls_semantic_occurrences(db_sqlite, umls_concept);</code></pre><pre><code class="language-none">Filter mesh query string : SELECT mesh FROM mesh2umls WHERE umls IN (&#39;Disease or Syndrome&#39;)
+-------------------------------------------------------------
+Found 5 articles with valid descriptors
+-------------------------------------------------------------
+  0.718337 seconds (1.27 M allocations: 64.018 MiB, 3.53% gc time)</code></pre></div><p>Descriptor to Index Dictionary</p><div><pre><code class="language-julia">labels2ind</code></pre><pre><code class="language-none">Dict{String,Int64} with 5 entries:
+  &quot;Obesity&quot;                  =&gt; 1
+  &quot;Sleep Apnea, Obstructive&quot; =&gt; 2
+  &quot;Pediatric Obesity&quot;        =&gt; 3
+  &quot;Metabolic Syndrome&quot;       =&gt; 4
+  &quot;Fibromyalgia&quot;             =&gt; 5</code></pre></div><p>Output Data Matrix</p><div><pre><code class="language-julia">Matrix(occur)</code></pre><pre><code class="language-none">5×5 Array{Float64,2}:
+ 1.0  1.0  0.0  1.0  0.0
+ 0.0  1.0  0.0  0.0  0.0
+ 0.0  0.0  1.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  1.0
+ 1.0  0.0  0.0  0.0  0.0</code></pre></div><h2><a class="nav-anchor" id="DataFrames-1" href="#DataFrames-1">DataFrames</a></h2><p>This example demonstrates the typical workflow to create a MeSH to UMLS map as a DataFrame relating all concepts associated with all MeSH terms in the input dataframe.</p><p>Get the articles (same as example in PubMed Search and Parse)</p><div><pre><code class="language-julia">dfs = Processes.pubmed_search_and_parse(email, search_term, max_articles, verbose)</code></pre><pre><code class="language-none">Getting 5 articles, starting at index 0
+------ESearch--------
+------EFetch--------
+------Save to dataframes--------
+Dict{String,DataFrames.DataFrame} with 8 entries:
+  &quot;basic&quot;               =&gt; 5×13 DataFrames.DataFrame. Omitted printing of 9 col…
+  &quot;mesh_desc&quot;           =&gt; 52×2 DataFrames.DataFrame…
+  &quot;mesh_qual&quot;           =&gt; 9×2 DataFrames.DataFrame…
+  &quot;pub_type&quot;            =&gt; 10×3 DataFrames.DataFrame…
+  &quot;abstract_full&quot;       =&gt; 5×2 DataFrames.DataFrame. Omitted printing of 1 colu…
+  &quot;author_ref&quot;          =&gt; 35×8 DataFrames.DataFrame. Omitted printing of 3 col…
+  &quot;mesh_heading&quot;        =&gt; 78×5 DataFrames.DataFrame…
+  &quot;abstract_structured&quot; =&gt; 4×4 DataFrames.DataFrame. Omitted printing of 1 colu…</code></pre></div><p>Map MeSH to UMLS and explore the output table</p><div><pre><code class="language-julia">@time res = map_mesh_to_umls_async(dfs[&quot;mesh_desc&quot;], umls_user, umls_pswd)</code></pre><table class="data-frame"><thead><tr><th></th><th>descriptor</th><th>concept</th></tr><tr><th></th><th>String</th><th>String</th></tr></thead><tbody><p>56 rows × 2 columns</p><tr><th>1</th><td>Adult</td><td>Age Group</td></tr><tr><th>2</th><td>Age Distribution</td><td>Quantitative Concept</td></tr><tr><th>3</th><td>Aged</td><td>Organism Attribute</td></tr><tr><th>4</th><td>Aged, 80 and over</td><td>Age Group</td></tr><tr><th>5</th><td>Analysis of Variance</td><td>Quantitative Concept</td></tr><tr><th>6</th><td>Biomarkers</td><td>Clinical Attribute</td></tr><tr><th>7</th><td>Body Mass Index</td><td>Diagnostic Procedure</td></tr><tr><th>8</th><td>Body Weight</td><td>Organism Attribute</td></tr><tr><th>9</th><td>C-Reactive Protein</td><td>Amino Acid, Peptide, or Protein</td></tr><tr><th>10</th><td>C-Reactive Protein</td><td>Immunologic Factor</td></tr><tr><th>11</th><td>Case-Control Studies</td><td>Research Activity</td></tr><tr><th>12</th><td>Child</td><td>Age Group</td></tr><tr><th>13</th><td>Cross-Sectional Studies</td><td>Research Activity</td></tr><tr><th>14</th><td>Exercise</td><td>Daily or Recreational Activity</td></tr><tr><th>15</th><td>Fatigue</td><td>Sign or Symptom</td></tr><tr><th>16</th><td>Female</td><td>Population Group</td></tr><tr><th>17</th><td>Fibromyalgia</td><td>Disease or Syndrome</td></tr><tr><th>18</th><td>Germany</td><td>Geographic Area</td></tr><tr><th>19</th><td>Health Status</td><td>Qualitative Concept</td></tr><tr><th>20</th><td>Humans</td><td>Human</td></tr><tr><th>21</th><td>Incidence</td><td>Quantitative Concept</td></tr><tr><th>22</th><td>Japan</td><td>Geographic Area</td></tr><tr><th>23</th><td>Logistic Models</td><td>Intellectual Product</td></tr><tr><th>24</th><td>Logistic Models</td><td>Quantitative Concept</td></tr><tr><th>&vellip;</th><td>&vellip;</td><td>&vellip;</td></tr></tbody></table></div><p>Getting the descriptor to index dictionary and occurence matrix</p><div><pre><code class="language-julia">@time labels2ind, occur = umls_semantic_occurrences(dfs, res, umls_concept);</code></pre><pre><code class="language-none">-------------------------------------------------------------
+Found 5 articles with valid descriptors
+-------------------------------------------------------------
+  0.810852 seconds (1.27 M allocations: 60.218 MiB, 4.66% gc time)</code></pre></div><p>Descriptor to Index Dictionary</p><div><pre><code class="language-julia">labels2ind</code></pre><pre><code class="language-none">Dict{String,Int64} with 5 entries:
+  &quot;Obesity&quot;                  =&gt; 1
+  &quot;Pediatric Obesity&quot;        =&gt; 2
+  &quot;Sleep Apnea, Obstructive&quot; =&gt; 3
+  &quot;Metabolic Syndrome&quot;       =&gt; 4
+  &quot;Fibromyalgia&quot;             =&gt; 5</code></pre></div><p>Output Data Matrix</p><div><pre><code class="language-julia">Matrix(occur)</code></pre><pre><code class="language-none">5×5 Array{Float64,2}:
+ 0.0  1.0  0.0  1.0  1.0
+ 0.0  0.0  1.0  0.0  0.0
+ 0.0  0.0  0.0  1.0  0.0
+ 1.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  1.0</code></pre></div><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p><footer><hr/><a class="previous" href="../1_pubmed_search_and_save/"><span class="direction">Previous</span><span class="title">Pubmed Search and Save</span></a><a class="next" href="../4_pubmed_export_citations/"><span class="direction">Next</span><span class="title">Export to Citations</span></a></footer></article></body></html>
