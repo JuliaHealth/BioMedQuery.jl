@@ -317,7 +317,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Load MEDLINE",
     "title": "Performing a Full Load",
     "category": "section",
-    "text": "To run a full load, use the same code as above, but do not pass the test variable. It is also possible to break up the load by passing which files to start and stop at - simply pass start_file=n andend_file=p`.After loading, it is recommended you add indexes to the tables, the add_mysql_keys! function can be used to add a standard set of indexes.BioMedQuery.PubMed.add_mysql_keys!(conn)This page was generated using Literate.jl."
+    "text": "To run a full load, use the same code as above, but do not pass the test variable. It is also possible to break up the load by passing which files to start and stop at - simply pass start_file=n andendfile=p`. Currently the default endfile reflects the last file of the 2019 baseline.After loading, it is recommended you add indexes to the tables, the add_mysql_keys! function can be used to add a standard set of indexes.BioMedQuery.PubMed.add_mysql_keys!(conn)This page was generated using Literate.jl."
 },
 
 {
@@ -629,7 +629,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PubMed",
     "title": "BioMedQuery.PubMed.db_insert!",
     "category": "function",
-    "text": "db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix=\"<current date>_PubMed_\"; verbose=false, drop_csvs=false)\n\nWrites dictionary of dataframes to a SQLite database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.\n\n\n\n\n\n"
+    "text": "db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix=\"<current date>_PubMed_\"; verbose=false, drop_csvs=false)\n\nWrites dictionary of dataframes to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.\n\n\n\n\n\n"
 },
 
 {
@@ -645,7 +645,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PubMed",
     "title": "BioMedQuery.PubMed.db_insert!",
     "category": "function",
-    "text": "db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix=\"<current date>_PubMed_\"; verbose=false, drop_csvs=false)\n\nWrites dictionary of dataframes to a MySQL database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.\n\n\n\n\n\n"
+    "text": "db_insert!(conn, articles::Dict{String,DataFrame}, csv_path=pwd(), csv_prefix=\"<current date>_PubMed_\"; verbose=false, drop_csvs=false)\n\nWrites dictionary of dataframes to a SQLite database.  Tables must already exist (see PubMed.create_tables!).  CSVs that are created during writing can be saved (default) or removed.\n\n\n\n\n\n"
 },
 
 {
@@ -693,7 +693,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PubMed",
     "title": "BioMedQuery.PubMed.save_efetch!",
     "category": "function",
-    "text": "save_efetch!(output::CitationOutput, efetch_dict, verbose=false)\n\nSave the results of a Entrez efetch to a bibliography file, with format and file path given by output::CitationOutput\n\n\n\n\n\n"
+    "text": " pubmed_save_efetch(efetch_dict, conn)\n\nSave the results (dictionary) of an entrez-pubmed fetch to the input database.\n\n\n\n\n\n"
 },
 
 {
@@ -701,7 +701,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PubMed",
     "title": "BioMedQuery.PubMed.save_efetch!",
     "category": "function",
-    "text": " pubmed_save_efetch(efetch_dict, conn)\n\nSave the results (dictionary) of an entrez-pubmed fetch to the input database.\n\n\n\n\n\n"
+    "text": "save_efetch!(output::CitationOutput, efetch_dict, verbose=false)\n\nSave the results of a Entrez efetch to a bibliography file, with format and file path given by output::CitationOutput\n\n\n\n\n\n"
 },
 
 {
@@ -941,7 +941,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Database Utilities",
     "title": "BioMedQuery.DBUtils.init_mysql_database",
     "category": "function",
-    "text": "init_mysql_database(;host = \"127.0.0.1\", dbname=\"test\",\nusername=\"root\", pswd=\"\", mysql_code=nothing, overwrite=false)\n\nCreate a MySQL database using the code inside mysql_code\n\nArguments\n\nhost, dbname, user, pswd\nmysql_code::String: String with MySQL code that crates all default tables\noverwrite::Bool : Flag, if true and dbname exists, drops all database and re-creates it\n\nOutput\n\ncon: Database connection and table-column names map\n\n\n\n\n\n"
+    "text": "init_mysql_database(;host = \"127.0.0.1\", dbname=\"test\",\nusername=\"root\", pswd=\"\", mysql_code=nothing, overwrite=false, opts=Dict())\n\nCreate a MySQL database using the code inside mysql_code\n\nArguments\n\nhost, dbname, user, pswd\nmysql_code::String: String with MySQL code that crates all default tables\noverwrite::Bool : Flag, if true and dbname exists, drops all database and re-creates it\nopts::Dict : Dictionary containing MySQL connection options\n\nOutput\n\ncon: Database connection and table-column names map\n\n\n\n\n\n"
 },
 
 {
