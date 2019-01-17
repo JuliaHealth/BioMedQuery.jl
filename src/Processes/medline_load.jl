@@ -36,7 +36,7 @@ function load_medline!(db_con::MySQL.Connection, output_dir::String; start_file:
     end
 
     @info "Parsing files into CSV"
-    pmap(x -> parse_ml_file(get_file_name(x, year, test), output_dir), start_file:end_file) # CHANGED FROM PMAP TO MAP TO GET MORE USEFUL STACKTRACE
+    pmap(x -> parse_ml_file(get_file_name(x, year, test), output_dir), start_file:end_file)
 
     @info "Loading CSVs into MySQL"
     for n = start_file:end_file
@@ -67,17 +67,24 @@ function init_medline(output_dir::String, test::Bool=false)
     ## SET UP ENVIRONMENT
     @info "======Setting up folders and creating FTP Connection======"
 
-    try
-        mkdir(joinpath(output_dir,"medline"))
-    catch
+    ml_dir = joinpath(output_dir,"medline")
+
+    if isdir(ml_dir)
         println("medline directory already exists")
+    else
+        mkdir(ml_dir)
     end
 
-    try
-        mkdir(joinpath(output_dir,"medline","raw_files"))
-        mkdir(joinpath(output_dir,"medline","parsed_files"))
-    catch
-        println("files directories already exists")
+    if isdir(joinpath(ml_dir, "raw_files"))
+        println("raw files directory already exists")
+    else
+        mkdir(joinpath(ml_dir, "raw_files"))
+    end
+
+    if isdir(joinpath(ml_dir, "parsed_files"))
+        println("parsed files directory already exists")
+    else
+        mkdir(joinpath(ml_dir, "parsed_files"))
     end
 
     # Initialize FTP
