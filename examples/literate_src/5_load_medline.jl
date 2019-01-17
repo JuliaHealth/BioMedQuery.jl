@@ -38,7 +38,8 @@ BioMedQuery.PubMed.create_tables!(conn);
 # ### Performing a Full Load
 # To run a full load, use the same code as above, but do not pass the test variable.
 # It is also possible to break up the load by passing which files to start and stop at -
-# simply pass `start_file=n and `end_file=p`.
+# simply pass `start_file=n and `end_file=p`. Currently the default end_file reflects the
+# last file of the 2019 baseline.
 #
 # After loading, it is recommended you add indexes to the tables, the `add_mysql_keys!`
 # function can be used to add a standard set of indexes.
