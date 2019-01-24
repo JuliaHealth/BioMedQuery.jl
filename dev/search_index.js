@@ -693,7 +693,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PubMed",
     "title": "BioMedQuery.PubMed.save_efetch!",
     "category": "function",
-    "text": " pubmed_save_efetch(efetch_dict, conn)\n\nSave the results (dictionary) of an entrez-pubmed fetch to the input database.\n\n\n\n\n\n"
+    "text": "save_efetch!(output::CitationOutput, efetch_dict, verbose=false)\n\nSave the results of a Entrez efetch to a bibliography file, with format and file path given by output::CitationOutput\n\n\n\n\n\n"
 },
 
 {
@@ -701,7 +701,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PubMed",
     "title": "BioMedQuery.PubMed.save_efetch!",
     "category": "function",
-    "text": "save_efetch!(output::CitationOutput, efetch_dict, verbose=false)\n\nSave the results of a Entrez efetch to a bibliography file, with format and file path given by output::CitationOutput\n\n\n\n\n\n"
+    "text": " pubmed_save_efetch(efetch_dict, conn)\n\nSave the results (dictionary) of an entrez-pubmed fetch to the input database.\n\n\n\n\n\n"
 },
 
 {
