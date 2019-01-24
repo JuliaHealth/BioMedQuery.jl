@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Pubmed Search and Save · BioMedQuery.jl</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link href="../../assets/documenter.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><h1>BioMedQuery.jl</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../../search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../../">Home</a></li><li><span class="toctext">Examples</span><ul><li><a class="toctext" href="../">Overview</a></li><li class="current"><a class="toctext" href>Pubmed Search and Save</a><ul class="internal"></ul></li><li><a class="toctext" href="../2_umls_map_and_filter/">MeSH/UMLS Map and Filtering</a></li><li><a class="toctext" href="../4_pubmed_export_citations/">Export to Citations</a></li><li><a class="toctext" href="../5_load_medline/">Load MEDLINE</a></li></ul></li><li><span class="toctext">Manual</span><ul><li><a class="toctext" href="../../processes/">Processes/Workflows</a></li><li><a class="toctext" href="../../pubmed/">PubMed</a></li><li><a class="toctext" href="../../ct/">Clinical Trials</a></li><li><a class="toctext" href="../../dbutils/">Database Utilities</a></li><li><a class="toctext" href="../../library/">Library</a></li></ul></li></ul></nav><article id="docs"><header><nav><ul><li>Examples</li><li><a href>Pubmed Search and Save</a></li></ul><a class="edit-page" href="https://github.com/bcbi/BioMedQuery.jl/blob/master/examples/literate_src/1_pubmed_search_and_save.jl"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>Pubmed Search and Save</span><a class="fa fa-bars" href="#"></a></div></header><h1><a class="nav-anchor" id="Search-PubMed-and-Save-Results-1" href="#Search-PubMed-and-Save-Results-1">Search PubMed and Save Results</a></h1><p><a href="http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/1_pubmed_search_and_save.ipynb"><img src="https://img.shields.io/badge/jupyter_notebook-nbviewer-orange.svg" alt="nbviewer"/></a></p><p>This example demonstrates the typical workflow to query pubmed and store the results. The following backends are supported for storing the results:</p><ul><li>MySQL</li><li>SQLite</li><li>Citation (endnote/bibtex)</li><li>DataFrames</li></ul><h3><a class="nav-anchor" id="Set-Up-1" href="#Set-Up-1">Set Up</a></h3><div><pre><code class="language-julia">using BioMedQuery.DBUtils
+using BioMedQuery.PubMed
+using BioMedQuery.Processes
+using DataFrames
+using MySQL
+using SQLite</code></pre></div><p>Variables used to search PubMed</p><div><pre><code class="language-julia">email = &quot;&quot;; # Only needed if you want to contact NCBI with inqueries
+search_term = &quot;&quot;&quot;(obesity[MeSH Major Topic]) AND (&quot;2010&quot;[Date - Publication] : &quot;2012&quot;[Date - Publication])&quot;&quot;&quot;;
+max_articles = 5;
+results_dir = &quot;.&quot;;
+verbose = true;</code></pre></div><h3><a class="nav-anchor" id="MySQL-backend-1" href="#MySQL-backend-1">MySQL backend</a></h3><p>Initialize database, if it exists it connects to it, otherwise it creates it</p><div><pre><code class="language-julia">const mysql_conn = DBUtils.init_mysql_database(&quot;127.0.0.1&quot;, &quot;root&quot;, &quot;&quot;, &quot;pubmed_obesity_2010_2012&quot;);</code></pre></div><p>Creates (and deletes if they already exist) all tables needed to save a pubmed search</p><div><pre><code class="language-julia">PubMed.create_tables!(mysql_conn);</code></pre></div><p>Search pubmed and save results to database</p><div><pre><code class="language-julia">Processes.pubmed_search_and_save!(email, search_term, max_articles, mysql_conn, verbose)</code></pre><pre><code class="language-none">Getting 5 articles, starting at index 0
+------ESearch--------
+------EFetch--------
+------Save to database--------
+Saving 5 articles to database
+Finished searching, total number of articles: 5</code></pre></div><h4><a class="nav-anchor" id="Access-all-PMIDs-1" href="#Access-all-PMIDs-1">Access all PMIDs</a></h4><div><pre><code class="language-julia">all_pmids(mysql_conn)</code></pre><pre><code class="language-none">5-element Array{Int32,1}:
+ 24315250
+ 24444198
+ 24533500
+ 24694474
+ 25548090</code></pre></div><h4><a class="nav-anchor" id="Explore-tables-1" href="#Explore-tables-1">Explore tables</a></h4><p>You may use the MySQL command directly. If you want the return type to be a DataFrame, you need to explicitly request so.</p><div><pre><code class="language-julia">tables = [&quot;author_ref&quot;, &quot;mesh_desc&quot;, &quot;mesh_qual&quot;, &quot;mesh_heading&quot;]
+for t in tables
+    query_str = &quot;SELECT * FROM $t LIMIT 5;&quot;
+    q = MySQL.Query(mysql_conn, query_str) |&gt; DataFrame
+    println(q)
+end</code></pre><pre><code class="language-none">5×9 DataFrames.DataFrame
+│ Row │ pmid     │ last_name │ first_name │ initials │ suffix  │ orcid   │ collective │ affiliation                                                                       │ ins_dt_time         │
+│     │ Int32    │ String⍰   │ String⍰    │ String⍰  │ String⍰ │ String⍰ │ String⍰    │ Union{Missing, String}                                                            │ Dates.DateTime      │
+├─────┼──────────┼───────────┼────────────┼──────────┼─────────┼─────────┼────────────┼───────────────────────────────────────────────────────────────────────────────────┼─────────────────────┤
+│ 1   │ 25548090 │ So        │ Eun Sun    │ ES       │ missing │ missing │ missing    │ Chonbuk National University, South Korea soeunjee@naver.com.                      │ 2019-01-24T19:36:59 │
+│ 2   │ 25548090 │ Yoo       │ Kwang Soo  │ KS       │ missing │ missing │ missing    │ Chonbuk National University, South Korea.                                         │ 2019-01-24T19:36:59 │
+│ 3   │ 24694474 │ Sakurai   │ Masaru     │ M        │ missing │ missing │ missing    │ Department of Epidemiology and Public Health, Kanazawa Medical University, Japan. │ 2019-01-24T19:36:59 │
+│ 4   │ 24694474 │ Nakamura  │ Koshi      │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2019-01-24T19:36:59 │
+│ 5   │ 24694474 │ Miura     │ Katsuyuki  │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2019-01-24T19:36:59 │
+5×3 DataFrames.DataFrame
+│ Row │ uid   │ name                 │ ins_dt_time         │
+│     │ Int32 │ String               │ Dates.DateTime      │
+├─────┼───────┼──────────────────────┼─────────────────────┤
+│ 1   │ 328   │ Adult                │ 2019-01-24T19:36:59 │
+│ 2   │ 368   │ Aged                 │ 2019-01-24T19:36:59 │
+│ 3   │ 369   │ Aged, 80 and over    │ 2019-01-24T19:36:59 │
+│ 4   │ 704   │ Analysis of Variance │ 2019-01-24T19:36:59 │
+│ 5   │ 1835  │ Body Weight          │ 2019-01-24T19:36:59 │
+5×3 DataFrames.DataFrame
+│ Row │ uid   │ name          │ ins_dt_time         │
+│     │ Int32 │ String        │ Dates.DateTime      │
+├─────┼───────┼───────────────┼─────────────────────┤
+│ 1   │ 32    │ analysis      │ 2019-01-24T19:36:59 │
+│ 2   │ 97    │ blood         │ 2019-01-24T19:36:59 │
+│ 3   │ 150   │ complications │ 2019-01-24T19:36:59 │
+│ 4   │ 208   │ ethnology     │ 2019-01-24T19:36:59 │
+│ 5   │ 209   │ etiology      │ 2019-01-24T19:36:59 │
+5×6 DataFrames.DataFrame
+│ Row │ pmid     │ desc_uid │ desc_maj_status │ qual_uid │ qual_maj_status │ ins_dt_time         │
+│     │ Int32    │ Int32    │ Int8            │ Int32⍰   │ Int8⍰           │ Dates.DateTime      │
+├─────┼──────────┼──────────┼─────────────────┼──────────┼─────────────────┼─────────────────────┤
+│ 1   │ 25548090 │ 17677    │ 0               │ missing  │ missing         │ 2019-01-24T19:36:59 │
+│ 2   │ 25548090 │ 368      │ 0               │ missing  │ missing         │ 2019-01-24T19:36:59 │
+│ 3   │ 25548090 │ 369      │ 0               │ missing  │ missing         │ 2019-01-24T19:36:59 │
+│ 4   │ 25548090 │ 5260     │ 0               │ missing  │ missing         │ 2019-01-24T19:36:59 │
+│ 5   │ 25548090 │ 6801     │ 0               │ missing  │ missing         │ 2019-01-24T19:36:59 │</code></pre></div><div><pre><code class="language-julia">MySQL.disconnect(mysql_conn);</code></pre></div><h3><a class="nav-anchor" id="SQLite-backend-1" href="#SQLite-backend-1">SQLite backend</a></h3><div><pre><code class="language-julia">const db_path = &quot;$(results_dir)/pubmed_obesity_2010_2012.db&quot;;</code></pre></div><p>Overwrite the database if it already exists</p><div><pre><code class="language-julia">if isfile(db_path)
+    rm(db_path)
+end</code></pre></div><p>Connect to the database</p><div><pre><code class="language-julia">const conn_sqlite = SQLite.DB(db_path);</code></pre></div><p>Creates (and deletes if they already exist) all tables needed to save a pubmed search</p><div><pre><code class="language-julia">PubMed.create_tables!(conn_sqlite);</code></pre></div><p>Search PubMed and save the results</p><div><pre><code class="language-julia">Processes.pubmed_search_and_save!(email, search_term, max_articles, conn_sqlite, verbose)</code></pre><pre><code class="language-none">Getting 5 articles, starting at index 0
+------ESearch--------
+------EFetch--------
+------Save to database--------
+Saving 5 articles to database
+Finished searching, total number of articles: 5</code></pre></div><h4><a class="nav-anchor" id="Access-all-PMIDs-2" href="#Access-all-PMIDs-2">Access all PMIDs</a></h4><div><pre><code class="language-julia">all_pmids(conn_sqlite)</code></pre><pre><code class="language-none">5-element Array{Union{Missing, Int64},1}:
+ 24315250
+ 24444198
+ 24533500
+ 24694474
+ 25548090</code></pre></div><h4><a class="nav-anchor" id="Explore-the-tables-1" href="#Explore-the-tables-1">Explore the tables</a></h4><p>You may use the SQLite commands directly. The return type is a DataFrame.</p><div><pre><code class="language-julia">tables = [&quot;author_ref&quot;, &quot;mesh_desc&quot;, &quot;mesh_qual&quot;, &quot;mesh_heading&quot;]
+for t in tables
+    query_str = &quot;SELECT * FROM $t LIMIT 5;&quot;
+    q = SQLite.query(conn_sqlite, query_str)
+    println(q)
+end</code></pre><pre><code class="language-none">┌ Warning: `SQLite.query(db, sql)` will return an `SQLite.Query` object in the future; to materialize a resultset, do `DataFrame(SQLite.query(db, sql))` instead
+│   caller = ip:0x0
+└ @ Core :-1
+┌ Warning: `SQLite.Source(db, sql)` is deprecated in favor of `SQLite.Query(db, sql)` which executes a query and returns a row iterator
+│   caller = ip:0x0
+└ @ Core :-1
+5×9 DataFrames.DataFrame
+│ Row │ pmid     │ last_name │ first_name │ initials │ suffix  │ orcid   │ collective │ affiliation                                                                       │ ins_dt_time         │
+│     │ Int64⍰   │ String⍰   │ String⍰    │ String⍰  │ Any     │ Any     │ Any        │ Union{Missing, String}                                                            │ String⍰             │
+├─────┼──────────┼───────────┼────────────┼──────────┼─────────┼─────────┼────────────┼───────────────────────────────────────────────────────────────────────────────────┼─────────────────────┤
+│ 1   │ 25548090 │ So        │ Eun Sun    │ ES       │ missing │ missing │ missing    │ Chonbuk National University, South Korea soeunjee@naver.com.                      │ 2019-01-24 19:37:05 │
+│ 2   │ 25548090 │ Yoo       │ Kwang Soo  │ KS       │ missing │ missing │ missing    │ Chonbuk National University, South Korea.                                         │ 2019-01-24 19:37:05 │
+│ 3   │ 24694474 │ Sakurai   │ Masaru     │ M        │ missing │ missing │ missing    │ Department of Epidemiology and Public Health, Kanazawa Medical University, Japan. │ 2019-01-24 19:37:05 │
+│ 4   │ 24694474 │ Nakamura  │ Koshi      │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2019-01-24 19:37:05 │
+│ 5   │ 24694474 │ Miura     │ Katsuyuki  │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2019-01-24 19:37:05 │
+┌ Warning: `SQLite.query(db, sql)` will return an `SQLite.Query` object in the future; to materialize a resultset, do `DataFrame(SQLite.query(db, sql))` instead
+│   caller = ip:0x0
+└ @ Core :-1
+┌ Warning: `SQLite.Source(db, sql)` is deprecated in favor of `SQLite.Query(db, sql)` which executes a query and returns a row iterator
+│   caller = ip:0x0
+└ @ Core :-1
+5×3 DataFrames.DataFrame
+│ Row │ uid    │ name              │ ins_dt_time         │
+│     │ Int64⍰ │ String⍰           │ String⍰             │
+├─────┼────────┼───────────────────┼─────────────────────┤
+│ 1   │ 12016  │ Reference Values  │ 2019-01-24 19:37:04 │
+│ 2   │ 56910  │ Republic of Korea │ 2019-01-24 19:37:04 │
+│ 3   │ 12372  │ ROC Curve         │ 2019-01-24 19:37:04 │
+│ 4   │ 5221   │ Fatigue           │ 2019-01-24 19:37:04 │
+│ 5   │ 9765   │ Obesity           │ 2019-01-24 19:37:04 │
+┌ Warning: `SQLite.query(db, sql)` will return an `SQLite.Query` object in the future; to materialize a resultset, do `DataFrame(SQLite.query(db, sql))` instead
+│   caller = ip:0x0
+└ @ Core :-1
+┌ Warning: `SQLite.Source(db, sql)` is deprecated in favor of `SQLite.Query(db, sql)` which executes a query and returns a row iterator
+│   caller = ip:0x0
+└ @ Core :-1
+5×3 DataFrames.DataFrame
+│ Row │ uid    │ name                        │ ins_dt_time         │
+│     │ Int64⍰ │ Union{Missing, String}      │ String⍰             │
+├─────┼────────┼─────────────────────────────┼─────────────────────┤
+│ 1   │ 208    │ ethnology                   │ 2019-01-24 19:37:04 │
+│ 2   │ 706    │ statistics &amp; numerical data │ 2019-01-24 19:37:04 │
+│ 3   │ 453    │ epidemiology                │ 2019-01-24 19:37:04 │
+│ 4   │ 502    │ physiology                  │ 2019-01-24 19:37:04 │
+│ 5   │ 32     │ analysis                    │ 2019-01-24 19:37:04 │
+┌ Warning: `SQLite.query(db, sql)` will return an `SQLite.Query` object in the future; to materialize a resultset, do `DataFrame(SQLite.query(db, sql))` instead
+│   caller = ip:0x0
+└ @ Core :-1
+┌ Warning: `SQLite.Source(db, sql)` is deprecated in favor of `SQLite.Query(db, sql)` which executes a query and returns a row iterator
+│   caller = ip:0x0
+└ @ Core :-1
+5×6 DataFrames.DataFrame
+│ Row │ pmid     │ desc_uid │ desc_maj_status │ qual_uid │ qual_maj_status │ ins_dt_time         │
+│     │ Int64⍰   │ Int64⍰   │ Int64⍰          │ Any      │ Any             │ String⍰             │
+├─────┼──────────┼──────────┼─────────────────┼──────────┼─────────────────┼─────────────────────┤
+│ 1   │ 25548090 │ 17677    │ 0               │ missing  │ missing         │ 2019-01-24 19:37:05 │
+│ 2   │ 25548090 │ 368      │ 0               │ missing  │ missing         │ 2019-01-24 19:37:05 │
+│ 3   │ 25548090 │ 369      │ 0               │ missing  │ missing         │ 2019-01-24 19:37:05 │
+│ 4   │ 25548090 │ 5260     │ 0               │ missing  │ missing         │ 2019-01-24 19:37:05 │
+│ 5   │ 25548090 │ 6801     │ 0               │ missing  │ missing         │ 2019-01-24 19:37:05 │</code></pre></div><h3><a class="nav-anchor" id="Citations-1" href="#Citations-1">Citations</a></h3><p>Citation type can be &quot;endnote&quot; or &quot;bibtex&quot;</p><div><pre><code class="language-julia">enw_file = &quot;$(results_dir)/pubmed_obesity_2010_2012.enw&quot;
+endnote_citation = PubMed.CitationOutput(&quot;endnote&quot;, enw_file, true)
+Processes.pubmed_search_and_save!(email, search_term, max_articles, endnote_citation, verbose);
+println(read(enw_file, String))</code></pre><pre><code class="language-none">Getting 5 articles, starting at index 0
+------ESearch--------
+------EFetch--------
+------Save to database--------
+Saving citation for 5 articles
+Finished searching, total number of articles: 5
+%0 Journal Article
+%A So, ES
+%A Yoo, KS
+%D 2015
+%T Waist circumference cutoff points for central obesity in the Korean elderly population.
+%J J Appl Gerontol
+%V 34
+%N 1
+%P 102-17
+%M 25548090
+%U http://www.ncbi.nlm.nih.gov/pubmed/25548090
+%X [&quot;The aim is to determine the appropriate cutoff values of waist circumference (WC) for an increased risk of the metabolic syndrome in the Korean elderly population. We analyzed the WC cutoff values of four groups divided according to sex and age with a total of 2,224 elderly participants aged 65 years old and above from the Fourth Korean National Health and Nutrition Examination Survey using the receiver operating characteristic curve and multiple logistic regression. The WC cutoff values associated with an increased risk of metabolic syndrome were 89.6 cm for men and 90.5 cm for women for those who were 65 to 74 years old, and 89.9 cm for men and 87.9 cm for women for those who were 75 years old or older. WC cutoff points for estimating metabolic risk are similar in elderly men and women. Age-specific optimal WC cutoff points should be considered especially for elderly women in screening for metabolic syndrome.&quot;]
+%K Age Distribution
+%K Aged
+%K Aged, 80 and over
+%K Female
+%K Humans
+%K Logistic Models
+%K Male
+%K Metabolic Syndrome
+%K Nutrition Surveys
+%K Obesity, Abdominal
+%K ROC Curve
+%K Republic of Korea
+%K Risk Factors
+%K Sex Distribution
+%K Waist Circumference
+%+ Chonbuk National University, South Korea soeunjee@naver.com.; Chonbuk National University, South Korea.
+
+%0 Journal Article
+%A Sakurai, M
+%A Nakamura, K
+%A Miura, K
+%A Yoshita, K
+%A Takamura, T
+%A Nagasawa, SY
+%A Morikawa, Y
+%A Ishizaki, M
+%A Kido, T
+%A Naruse, Y
+%A Nakashima, M
+%A Nogawa, K
+%A Suwazono, Y
+%A Nakagawa, H
+%D 2014
+%T Association between a serum thyroid-stimulating hormone concentration within the normal range and indices of obesity in Japanese men and women.
+%J Intern. Med.
+%V 53
+%N 7
+%P 669-74
+%M 24694474
+%U http://www.ncbi.nlm.nih.gov/pubmed/24694474
+%X [&quot;OBJECTIVE: This cross-sectional study investigated the associations between the serum thyroid-stimulating hormone (TSH) concentration and indices of obesity in middle-aged Japanese men and women. METHODS: The participants were 2,037 employees (1,044 men and 993 women; age, 36-55 yr) of a metal products factory in Japan. Clinical examinations were conducted in 2009. We obtained a medical history and anthropometric measurements (body weight, body mass index [BMI] and waist circumference) and measured the serum TSH concentrations. The anthropometric indices were compared across serum TSH quartiles. The associations were evaluated separately according to the smoking status in men. RESULTS: The mean body weight (kg), BMI (kg/m(2)) and waist circumference (cm) were 69.2, 23.7 and 83.2 in men and 55.3, 22.3 and 74.3 in women, respectively. Men with a higher TSH concentration had higher body weight and BMI values (p for trend=0.016 and 0.019, respectively), and these significant associations were observed even after adjusting for age, smoking status and other potential confounders. The TSH level was not associated with waist circumference. We found a significant interaction between the TSH level and the smoking status on body weight (p for interaction=0.013) and a significant association between the TSH level and body weight in nonsmokers, but not in current smokers. No significant associations were observed between the TSH level and the anthropometric indices in women. CONCLUSION: Significant positive associations between the serum TSH concentration, body weight and BMI were detected in men only, and an interaction with the smoking status was observed for this association.&quot;]
+%K Adult
+%K Biomarkers
+%K Body Mass Index
+%K Body Weight
+%K Cross-Sectional Studies
+%K Female
+%K Humans
+%K Incidence
+%K Japan
+%K Male
+%K Middle Aged
+%K Obesity
+%K Obesity
+%K Obesity
+%K Prevalence
+%K Prognosis
+%K Reference Values
+%K Surveys and Questionnaires
+%K Thyrotropin
+%+ Department of Epidemiology and Public Health, Kanazawa Medical University, Japan.
+
+%0 Journal Article
+%A Drenowatz, C
+%A Kobel, S
+%A Kettner, S
+%A Kesztyüs, D
+%A Steinacker, JM
+%D 2014
+%T Interaction of sedentary behaviour, sports participation and fitness with weight status in elementary school children.
+%J Eur J Sport Sci
+%V 14
+%N 1
+%P 100-5
+%M 24533500
+%U http://www.ncbi.nlm.nih.gov/pubmed/24533500
+%X [&quot;Even though the effect of single components contributing to weight gain in children have been addressed only limited research is available on the combined association of sports participation, physical fitness and time spent watching TV with body weight in children. Baseline data from 1594 children (809 male; 785 female), 7.1 ± 0.6 years of age participating in a large school-based intervention in southern Germany was used. Height and weight was measured and body mass index (BMI) percentiles (BMIPCT) were determined accordingly. Sports participation and time spent watching TV was assessed via parent questionnaire while fitness was determined via a composite fitness test. Combined and single associations of sports participation, TV time and fitness with BMIPCT and weight status were assessed via ANCOVA as well as logistic regression analysis, controlling for age and sex. A significant interaction of TV time, sports participation and fitness on BMIPCT occurred, despite low correlations among the three components. Further, there was a combined association of sports participation and TV time on BMIPCT. TV time and fitness were also independently associated with BMIPCT. Similarly, only increased TV time and lower fitness were associated with a higher odds ratio for overweight/obesity. These results underline the complex interaction of TV time, sports participation and fitness with BMIPCT. In children, TV time and fitness have a stronger influence on BMIPCT compared to sports participation. Sports participation, however, may not reflect overall activity levels of children appropriately. More research is necessary to examine the complex interaction of various behaviours and fitness with BMIPCT.&quot;]
+%K Analysis of Variance
+%K Body Mass Index
+%K Child
+%K Exercise
+%K Female
+%K Germany
+%K Humans
+%K Logistic Models
+%K Male
+%K Odds Ratio
+%K Overweight
+%K Pediatric Obesity
+%K Physical Fitness
+%K Sedentary Behavior
+%K Sports
+%K Surveys and Questionnaires
+%K Television
+%K Weight Gain
+%+ a Division of Sport and Rehabilitation Medicine , Ulm University Medical Center , Ulm , Germany.
+
+%0 Journal Article
+%A Cavagnolli, DA
+%A Esteves, AM
+%A Ackel-D&#39;Elia, C
+%A Maeda, MY
+%A de Faria, AP
+%A Tufik, S
+%A de Mello, MT
+%D 2014
+%T Aerobic exercise does not change C-reactive protein levels in non-obese patients with obstructive sleep apnoea.
+%J Eur J Sport Sci
+%V 14 Suppl 1
+%P S142-7
+%M 24444198
+%U http://www.ncbi.nlm.nih.gov/pubmed/24444198
+%X [&quot;The aim of this study is to evaluate the effects of a 2-month aerobic exercise training programme on C-reactive protein (CRP) levels in non-obese patients with obstructive sleep apnoea. Twenty non-obese and sedentary adult male volunteers underwent polysomnography (PSG) to assess their sleep parameters. After the PSG analysis, the subjects were divided into two groups (CTRL, control and OSA, obstructive sleep apnoea). Twenty-four sessions of aerobic exercise were performed, and PSG was repeated on the night that followed the last physical training session (24th). Blood samples were collected for CRP analysis before the first exercise session and after the last session. The OSA group demonstrated a reduction in sleep latency (SL) after 2 months of physical exercise, and 80% of them showed a lower apnoea-hypopnoea index (AHI), although this difference was not statistically significant. The differences between the CRP values for the CTRL and OSA groups were also not statistically significant at baseline or after 2 months of physical exercise. Furthermore, there was no correlation between the CRP levels and body mass index (BMI) in the two groups assessed. Our results suggest that in non-obese patients with OSA, CRP levels were normal and did not change after 2 months of aerobic exercise training.&quot;]
+%K Adult
+%K C-Reactive Protein
+%K Case-Control Studies
+%K Exercise
+%K Humans
+%K Male
+%K Middle Aged
+%K Obesity
+%K Sleep Apnea, Obstructive
+%K Young Adult
+%+ a Departamento de Psicobiologia , Universidade Federal de São Paulo , São Paulo , Brazil.
+
+%0 Journal Article
+%A Aparicio, VA
+%A Ortega, FB
+%A Carbonell-Baeza, A
+%A Gatto-Cardia, C
+%A Sjöström, M
+%A Ruiz, JR
+%A Delgado-Fernández, M
+%D 2013
+%T Fibromyalgia&#39;s key symptoms in normal-weight, overweight, and obese female patients.
+%J Pain Manag Nurs
+%V 14
+%N 4
+%P 268-276
+%M 24315250
+%U http://www.ncbi.nlm.nih.gov/pubmed/24315250
+%X [&quot;Factors affecting the symptomatology of fibromyalgia (FM) are not fully understood. The aim of the present study was to analyze the relationship of weight status with pain, fatigue, and stiffness in Spanish female FM patients, with special focus on the differences between overweight and obese patients. The sample comprised 177 Spanish women with FM (51.3 ± 7.3 years old). We assessed tenderness (using pressure algometry), pain and vitality using the General Health Short-Form Survey (SF36), and pain, fatigue, morning tiredness, and stiffness using the Fibromyalgia Impact Questionnaire (FIQ). The international criteria for body mass index was used to classify the patients as normal weight, overweight, or obese. Thirty-two percent were normal-weight, 35% overweight, and 32% obese. Both overweight and obese patients had higher levels of pain than normal-weight patients, as assessed by FIQ and SF36 questionnaires and tender point count (p &lt; .01). The same pattern was observed for algometer score, yet the differences were not significant. Both overweight and obese patients had higher levels of fatigue, and morning tiredness, and stiffness (p &lt; .05) and less vitality than normal-weight patients. No significant differences were observed in any of the variables studied between overweight and obese patients. In conclusion, FM symptomatology in obese patients did not differ from overweight patients, whereas normal-weight patients significantly differed from overweight and obese patients in the studied symptoms. These findings suggest that keeping a healthy (normal) weight is not only associated with decreased risk for developing FM but might also be a relevant and useful way of improving FM symptomatology in women.&quot;]
+%K Adult
+%K Body Mass Index
+%K Body Weight
+%K Fatigue
+%K Female
+%K Fibromyalgia
+%K Health Status
+%K Humans
+%K Middle Aged
+%K Obesity
+%K Overweight
+%K Pain
+%K Pain Measurement
+%K Quality of Life
+%K Severity of Illness Index
+%K Surveys and Questionnaires
+%+ Department of Physical Education and Sport, School of Physical Activity and Sports Sciences, University of Granada, Granada, Spain; Department of Biosciences and Nutrition, Unit for Preventive Nutrition, Novum, Karolinska Institutet, Stockholm Sweden; Department of Physiology and Institute of Nutrition and Food Technology, University of Granada, Granada, Spain. Electronic address: virginiaparicio@ugr.es.; Department of Biosciences and Nutrition, Unit for Preventive Nutrition, Novum, Karolinska Institutet, Stockholm Sweden; Department of Physiology, School of Medicine, University of Granada, Granada, Spain.; Department of Physical Education and Sport, School of Physical Activity and Sports Sciences, University of Granada, Granada, Spain; Department of Physical Education and Sport, School of Education, University of Seville, Seville, Spain.; Department of Physical Education and Sport, School of Physical Activity and Sports Sciences, University of Granada, Granada, Spain.; Department of Biosciences and Nutrition, Unit for Preventive Nutrition, Novum, Karolinska Institutet, Stockholm Sweden.; Department of Biosciences and Nutrition, Unit for Preventive Nutrition, Novum, Karolinska Institutet, Stockholm Sweden.; Department of Physical Education and Sport, School of Physical Activity and Sports Sciences, University of Granada, Granada, Spain.</code></pre></div><h3><a class="nav-anchor" id="DataFrames-1" href="#DataFrames-1">DataFrames</a></h3><p>Returns a dictionary of dataframes which match the content and structure of the database tables.</p><div><pre><code class="language-julia">dfs = Processes.pubmed_search_and_parse(email, search_term, max_articles, verbose)</code></pre><pre><code class="language-none">Getting 5 articles, starting at index 0
+------ESearch--------
+------EFetch--------
+------Save to dataframes--------</code></pre></div><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p><footer><hr/><a class="previous" href="../"><span class="direction">Previous</span><span class="title">Overview</span></a><a class="next" href="../2_umls_map_and_filter/"><span class="direction">Next</span><span class="title">MeSH/UMLS Map and Filtering</span></a></footer></article></body></html>
