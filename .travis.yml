@@ -25,7 +25,7 @@ jobs:
   include:
     - stage: "Tests and Examples"
       os: linux
-      julia: 1.0
+      julia: 1.1
       env: GROUP=Test
       script:
         - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
@@ -34,7 +34,7 @@ jobs:
               Pkg.test("BioMedQuery"; coverage=true);'
     - # continue
       os: osx
-      julia: 1.0
+      julia: 1.1
       env: GROUP=Test
       script:
         - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
@@ -44,6 +44,15 @@ jobs:
     - # continue
       os: linux
       julia: 1.0
+      env: GROUP=Test
+      script:
+        - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+        - julia --check-bounds=yes -e 'import Pkg;
+              Pkg.build();
+              Pkg.test("BioMedQuery"; coverage=true);'
+    - # continue
+      os: linux
+      julia: 1.1
       env: GROUP=Examples
       script:
         - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
@@ -51,7 +60,7 @@ jobs:
             Pkg.instantiate();
             include(joinpath(@__DIR__,"examples","runexamples.jl"))'
     - stage: "Deploy Documentation"
-      julia: 1.0
+      julia: 1.1
       os: linux
       script:
         - julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd())); Pkg.instantiate()'
