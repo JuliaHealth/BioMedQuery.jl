@@ -1,7 +1,7 @@
 name = "BioMedQuery"
 uuid = "e96904bf-1073-5077-9b57-b0ce0ff5555a"
 author = ["Brown Center for Biomedical Informatics"]
-version = '0.6.2'
+version = '0.6.3'
 
 [deps]
 BioServices = "a0d4ced5-b29c-5395-b614-ca030a679c4b"
