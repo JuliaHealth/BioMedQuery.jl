@@ -1,12 +1,3 @@
-<!--
-@Author: isa
-@Date:   2016-05-13T16:37:00-04:00
-@Last modified by:   isa
-@Last modified time: 2016-05-19T16:12:10-04:00
--->
-
-
-
 # BioMedQuery
 
 [![Latest Release](https://img.shields.io/github/release/bcbi/BioMedQuery.jl.svg?style=flat-square)](https://github.com/bcbi/BioMedQuery.jl/releases/latest)
@@ -14,6 +5,11 @@
 [![DOI](https://zenodo.org/badge/59500020.svg)](https://zenodo.org/badge/latestdoi/59500020)
 ![Lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg?style=flat-square)
 
+## Documentation
+
+| Stable | Latest |  Examples |
+|:-----------:|:-----------:|:-----------:|
+|[![Stable documentation](https://img.shields.io/badge/docs-stable-blue.svg?style=flat-square)](https://bcbi.github.io/BioMedQuery.jl/stable)|[![Latest documentation](https://img.shields.io/badge/docs-latest-blue.svg?style=flat-square)](https://bcbi.github.io/BioMedQuery.jl/latest/)|[![nbviewer](https://img.shields.io/badge/jupyter_notebooks-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/)|
 
 ## Description
 
@@ -63,7 +59,7 @@ Linux, and OS X.
 
 | Latest CI Build |
 |:-----------:|
-| [![](https://badges.herokuapp.com/travis/bcbi/BioMedQuery.jl?branch=master&env=GROUP=Test&label=tests)](https://travis-ci.org/bcbi/BioMedQuery.jl)[![](https://badges.herokuapp.com/travis/bcbi/BioMedQuery.jl?branch=master&env=GROUP=Examples&label=examples)](https://travis-ci.org/bcbi/BioMedQuery.jl) [![codecov](https://codecov.io/gh/bcbi/BioMedQuery.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/bcbi/BioMedQuery.jl)| 
+| [![](https://badges.herokuapp.com/travis/bcbi/BioMedQuery.jl?branch=master&env=GROUP=Test&label=tests)](https://travis-ci.org/bcbi/BioMedQuery.jl)[![](https://badges.herokuapp.com/travis/bcbi/BioMedQuery.jl?branch=master&env=GROUP=Examples&label=examples)](https://travis-ci.org/bcbi/BioMedQuery.jl) [![codecov](https://codecov.io/gh/bcbi/BioMedQuery.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/bcbi/BioMedQuery.jl)|
 
 ## Documentation
 
