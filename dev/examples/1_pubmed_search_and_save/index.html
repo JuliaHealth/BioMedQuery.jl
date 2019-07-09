@@ -33,38 +33,38 @@ end</code></pre><pre><code class="language-none">5×9 DataFrames.DataFrame
 │ Row │ pmid     │ last_name │ first_name │ initials │ suffix  │ orcid   │ collective │ affiliation                                                                       │ ins_dt_time         │
 │     │ Int32    │ String⍰   │ String⍰    │ String⍰  │ String⍰ │ String⍰ │ String⍰    │ Union{Missing, String}                                                            │ Dates.DateTime      │
 ├─────┼──────────┼───────────┼────────────┼──────────┼─────────┼─────────┼────────────┼───────────────────────────────────────────────────────────────────────────────────┼─────────────────────┤
-│ 1   │ 25548090 │ So        │ Eun Sun    │ ES       │ missing │ missing │ missing    │ Chonbuk National University, South Korea soeunjee@naver.com.                      │ 2019-07-09T19:48:27 │
-│ 2   │ 25548090 │ Yoo       │ Kwang Soo  │ KS       │ missing │ missing │ missing    │ Chonbuk National University, South Korea.                                         │ 2019-07-09T19:48:27 │
-│ 3   │ 24694474 │ Sakurai   │ Masaru     │ M        │ missing │ missing │ missing    │ Department of Epidemiology and Public Health, Kanazawa Medical University, Japan. │ 2019-07-09T19:48:27 │
-│ 4   │ 24694474 │ Nakamura  │ Koshi      │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2019-07-09T19:48:27 │
-│ 5   │ 24694474 │ Miura     │ Katsuyuki  │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2019-07-09T19:48:27 │
+│ 1   │ 25548090 │ So        │ Eun Sun    │ ES       │ missing │ missing │ missing    │ Chonbuk National University, South Korea soeunjee@naver.com.                      │ 2019-07-09T20:18:38 │
+│ 2   │ 25548090 │ Yoo       │ Kwang Soo  │ KS       │ missing │ missing │ missing    │ Chonbuk National University, South Korea.                                         │ 2019-07-09T20:18:38 │
+│ 3   │ 24694474 │ Sakurai   │ Masaru     │ M        │ missing │ missing │ missing    │ Department of Epidemiology and Public Health, Kanazawa Medical University, Japan. │ 2019-07-09T20:18:38 │
+│ 4   │ 24694474 │ Nakamura  │ Koshi      │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2019-07-09T20:18:38 │
+│ 5   │ 24694474 │ Miura     │ Katsuyuki  │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2019-07-09T20:18:38 │
 5×3 DataFrames.DataFrame
 │ Row │ uid   │ name                 │ ins_dt_time         │
 │     │ Int32 │ String               │ Dates.DateTime      │
 ├─────┼───────┼──────────────────────┼─────────────────────┤
-│ 1   │ 328   │ Adult                │ 2019-07-09T19:48:27 │
-│ 2   │ 368   │ Aged                 │ 2019-07-09T19:48:27 │
-│ 3   │ 369   │ Aged, 80 and over    │ 2019-07-09T19:48:27 │
-│ 4   │ 704   │ Analysis of Variance │ 2019-07-09T19:48:27 │
-│ 5   │ 1835  │ Body Weight          │ 2019-07-09T19:48:27 │
+│ 1   │ 328   │ Adult                │ 2019-07-09T20:18:38 │
+│ 2   │ 368   │ Aged                 │ 2019-07-09T20:18:38 │
+│ 3   │ 369   │ Aged, 80 and over    │ 2019-07-09T20:18:38 │
+│ 4   │ 704   │ Analysis of Variance │ 2019-07-09T20:18:38 │
+│ 5   │ 1835  │ Body Weight          │ 2019-07-09T20:18:38 │
 5×3 DataFrames.DataFrame
 │ Row │ uid   │ name          │ ins_dt_time         │
 │     │ Int32 │ String        │ Dates.DateTime      │
 ├─────┼───────┼───────────────┼─────────────────────┤
-│ 1   │ 32    │ analysis      │ 2019-07-09T19:48:27 │
-│ 2   │ 97    │ blood         │ 2019-07-09T19:48:27 │
-│ 3   │ 150   │ complications │ 2019-07-09T19:48:27 │
-│ 4   │ 208   │ ethnology     │ 2019-07-09T19:48:27 │
-│ 5   │ 209   │ etiology      │ 2019-07-09T19:48:27 │
+│ 1   │ 32    │ analysis      │ 2019-07-09T20:18:38 │
+│ 2   │ 97    │ blood         │ 2019-07-09T20:18:38 │
+│ 3   │ 150   │ complications │ 2019-07-09T20:18:38 │
+│ 4   │ 208   │ ethnology     │ 2019-07-09T20:18:38 │
+│ 5   │ 209   │ etiology      │ 2019-07-09T20:18:38 │
 5×6 DataFrames.DataFrame
 │ Row │ pmid     │ desc_uid │ desc_maj_status │ qual_uid │ qual_maj_status │ ins_dt_time         │
 │     │ Int32    │ Int32    │ Int8            │ Int32⍰   │ Int8⍰           │ Dates.DateTime      │
 ├─────┼──────────┼──────────┼─────────────────┼──────────┼─────────────────┼─────────────────────┤
-│ 1   │ 25548090 │ 17677    │ 0               │ missing  │ missing         │ 2019-07-09T19:48:27 │
-│ 2   │ 25548090 │ 368      │ 0               │ missing  │ missing         │ 2019-07-09T19:48:27 │
-│ 3   │ 25548090 │ 369      │ 0               │ missing  │ missing         │ 2019-07-09T19:48:27 │
-│ 4   │ 25548090 │ 5260     │ 0               │ missing  │ missing         │ 2019-07-09T19:48:27 │
-│ 5   │ 25548090 │ 6801     │ 0               │ missing  │ missing         │ 2019-07-09T19:48:27 │</code></pre><pre><code class="language-julia">MySQL.disconnect(mysql_conn);</code></pre><h3><a class="nav-anchor" id="SQLite-backend-1" href="#SQLite-backend-1">SQLite backend</a></h3><pre><code class="language-julia">const db_path = &quot;$(results_dir)/pubmed_obesity_2010_2012.db&quot;;</code></pre><pre><code class="language-none">&quot;./pubmed_obesity_2010_2012.db&quot;</code></pre><p>Overwrite the database if it already exists</p><pre><code class="language-julia">if isfile(db_path)
+│ 1   │ 25548090 │ 17677    │ 0               │ missing  │ missing         │ 2019-07-09T20:18:38 │
+│ 2   │ 25548090 │ 368      │ 0               │ missing  │ missing         │ 2019-07-09T20:18:38 │
+│ 3   │ 25548090 │ 369      │ 0               │ missing  │ missing         │ 2019-07-09T20:18:38 │
+│ 4   │ 25548090 │ 5260     │ 0               │ missing  │ missing         │ 2019-07-09T20:18:38 │
+│ 5   │ 25548090 │ 6801     │ 0               │ missing  │ missing         │ 2019-07-09T20:18:38 │</code></pre><pre><code class="language-julia">MySQL.disconnect(mysql_conn);</code></pre><h3><a class="nav-anchor" id="SQLite-backend-1" href="#SQLite-backend-1">SQLite backend</a></h3><pre><code class="language-julia">const db_path = &quot;$(results_dir)/pubmed_obesity_2010_2012.db&quot;;</code></pre><pre><code class="language-none">&quot;./pubmed_obesity_2010_2012.db&quot;</code></pre><p>Overwrite the database if it already exists</p><pre><code class="language-julia">if isfile(db_path)
     rm(db_path)
 end</code></pre><p>Connect to the database</p><pre><code class="language-julia">const conn_sqlite = SQLite.DB(db_path);</code></pre><pre><code class="language-none">SQLite.DB(&quot;./pubmed_obesity_2010_2012.db&quot;)</code></pre><p>Creates (and deletes if they already exist) all tables needed to save a pubmed search</p><pre><code class="language-julia">PubMed.create_tables!(conn_sqlite);</code></pre><pre><code class="language-none">101</code></pre><p>Search PubMed and save the results</p><pre><code class="language-julia">Processes.pubmed_search_and_save!(email, search_term, max_articles, conn_sqlite, verbose)</code></pre><pre><code class="language-none">Getting 5 articles, starting at index 0
 ------ESearch--------
@@ -81,10 +81,10 @@ for t in tables
     query_str = &quot;SELECT * FROM $t LIMIT 5;&quot;
     q = SQLite.Query(conn_sqlite, query_str)
     println(q)
-end</code></pre><pre><code class="language-none">SQLite.Query{NamedTuple{(:pmid, :last_name, :first_name, :initials, :suffix, :orcid, :collective, :affiliation, :ins_dt_time),Tuple{Union{Missing, Int64},Union{Missing, String},Union{Missing, String},Union{Missing, String},Any,Any,Any,Union{Missing, String},Union{Missing, String}}}}(SQLite.Stmt(SQLite.DB(&quot;./pubmed_obesity_2010_2012.db&quot;), Ptr{Nothing} @0x0000000006961a88), Base.RefValue{Int32}(100))
-SQLite.Query{NamedTuple{(:uid, :name, :ins_dt_time),Tuple{Union{Missing, Int64},Union{Missing, String},Union{Missing, String}}}}(SQLite.Stmt(SQLite.DB(&quot;./pubmed_obesity_2010_2012.db&quot;), Ptr{Nothing} @0x00000000069636a8), Base.RefValue{Int32}(100))
-SQLite.Query{NamedTuple{(:uid, :name, :ins_dt_time),Tuple{Union{Missing, Int64},Union{Missing, String},Union{Missing, String}}}}(SQLite.Stmt(SQLite.DB(&quot;./pubmed_obesity_2010_2012.db&quot;), Ptr{Nothing} @0x000000000695aa08), Base.RefValue{Int32}(100))
-SQLite.Query{NamedTuple{(:pmid, :desc_uid, :desc_maj_status, :qual_uid, :qual_maj_status, :ins_dt_time),Tuple{Union{Missing, Int64},Union{Missing, Int64},Union{Missing, Int64},Any,Any,Union{Missing, String}}}}(SQLite.Stmt(SQLite.DB(&quot;./pubmed_obesity_2010_2012.db&quot;), Ptr{Nothing} @0x0000000006956868), Base.RefValue{Int32}(100))</code></pre><h3><a class="nav-anchor" id="Citations-1" href="#Citations-1">Citations</a></h3><p>Citation type can be &quot;endnote&quot; or &quot;bibtex&quot;</p><pre><code class="language-julia">enw_file = &quot;$(results_dir)/pubmed_obesity_2010_2012.enw&quot;
+end</code></pre><pre><code class="language-none">SQLite.Query{NamedTuple{(:pmid, :last_name, :first_name, :initials, :suffix, :orcid, :collective, :affiliation, :ins_dt_time),Tuple{Union{Missing, Int64},Union{Missing, String},Union{Missing, String},Union{Missing, String},Any,Any,Any,Union{Missing, String},Union{Missing, String}}}}(SQLite.Stmt(SQLite.DB(&quot;./pubmed_obesity_2010_2012.db&quot;), Ptr{Nothing} @0x0000000006500368), Base.RefValue{Int32}(100))
+SQLite.Query{NamedTuple{(:uid, :name, :ins_dt_time),Tuple{Union{Missing, Int64},Union{Missing, String},Union{Missing, String}}}}(SQLite.Stmt(SQLite.DB(&quot;./pubmed_obesity_2010_2012.db&quot;), Ptr{Nothing} @0x0000000006501628), Base.RefValue{Int32}(100))
+SQLite.Query{NamedTuple{(:uid, :name, :ins_dt_time),Tuple{Union{Missing, Int64},Union{Missing, String},Union{Missing, String}}}}(SQLite.Stmt(SQLite.DB(&quot;./pubmed_obesity_2010_2012.db&quot;), Ptr{Nothing} @0x00000000064f8028), Base.RefValue{Int32}(100))
+SQLite.Query{NamedTuple{(:pmid, :desc_uid, :desc_maj_status, :qual_uid, :qual_maj_status, :ins_dt_time),Tuple{Union{Missing, Int64},Union{Missing, Int64},Union{Missing, Int64},Any,Any,Union{Missing, String}}}}(SQLite.Stmt(SQLite.DB(&quot;./pubmed_obesity_2010_2012.db&quot;), Ptr{Nothing} @0x00000000064ef838), Base.RefValue{Int32}(100))</code></pre><h3><a class="nav-anchor" id="Citations-1" href="#Citations-1">Citations</a></h3><p>Citation type can be &quot;endnote&quot; or &quot;bibtex&quot;</p><pre><code class="language-julia">enw_file = &quot;$(results_dir)/pubmed_obesity_2010_2012.enw&quot;
 endnote_citation = PubMed.CitationOutput(&quot;endnote&quot;, enw_file, true)
 Processes.pubmed_search_and_save!(email, search_term, max_articles, endnote_citation, verbose);
 println(read(enw_file, String))</code></pre><pre><code class="language-none">Getting 5 articles, starting at index 0
