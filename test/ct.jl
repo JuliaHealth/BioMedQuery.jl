@@ -11,12 +11,16 @@ using ZipFile
 
     #test all files are .xml
     not_xml = false
-    r = ZipFile.Reader(fout);
-    for f in r.files
-        if !occursin(r"^.*\.xml.*$", f.name)
-          not_xml = true
-          break
+    r = ZipFile.Reader(fout)
+    try
+        for f in r.files
+            if !occursin(r"^.*\.xml.*$", f.name)
+              not_xml = true
+              break
+            end
         end
+    finally
+        close(r)
     end
 
     @test not_xml == false
