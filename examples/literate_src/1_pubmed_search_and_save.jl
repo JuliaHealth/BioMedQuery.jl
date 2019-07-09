@@ -79,7 +79,7 @@ all_pmids(conn_sqlite)
 tables = ["author_ref", "mesh_desc", "mesh_qual", "mesh_heading"]
 for t in tables
     query_str = "SELECT * FROM $t LIMIT 5;"
-    q = SQLite.query(conn_sqlite, query_str)
+    q = SQLite.Query(conn_sqlite, query_str)
     println(q)
 end
 
