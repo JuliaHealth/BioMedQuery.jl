@@ -3,6 +3,11 @@
 #
 using Test
 
+# Hack: force the loading of MbedTLS as otherwise it conflicts with the version in LibCURL
+# Entropy() was chosen as a fairly quick exported function
+using MbedTLS
+MbedTLS.Entropy()
+
 using XMLDict
 using BioMedQuery.Processes
 using BioMedQuery.PubMed
