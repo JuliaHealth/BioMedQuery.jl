@@ -9,14 +9,8 @@ const verbose = false
 const umls_user = get(ENV, "UMLS_USER", "")
 const umls_pswd = get(ENV, "UMLS_PSSWD", "")
 #************************ SQLite **************************
-const db_path="./test_processes.sqlite"
-#***************************************************************************
 
-if isfile(db_path)
-    rm(db_path)
-end
-
-const conn_sql = SQLite.DB(db_path)
+const conn_sql = SQLite.DB()
 PubMed.create_tables!(conn_sql)
 
 @testset "Save and Search" begin
@@ -63,9 +57,5 @@ global credentials_set = get(ENV, "TRAVIS_SECURE_ENV_VARS", "true")=="true" && u
 
 end
 
-# remove temp files
-if isfile(db_path)
-    rm(db_path)
-end
 println("------------End Test Processes SQLite-----------")
 println("------------------------------------------------")

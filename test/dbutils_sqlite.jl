@@ -2,8 +2,7 @@ using SQLite
 
 @testset "SQLite DBUtils" begin
 
-    db_path = "test_db.sqlite"
-    conn = SQLite.DB(db_path)
+    conn = SQLite.DB()
     PubMed.create_tables!(conn)
 
     #check collection of tables
@@ -19,8 +18,4 @@ using SQLite
 
     @test length(sel[1]) == 1
     @test sel[1][1] == 1234
-
-    if isfile(db_path)
-        rm(db_path)
-    end
 end

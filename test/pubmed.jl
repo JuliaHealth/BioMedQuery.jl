@@ -154,9 +154,7 @@ import Base.parse
         println("-----------------------------------------")
         println("       Testing SQLite Saving")
 
-        db_path = "./test_db.db"
-
-        conn = SQLite.DB(db_path)
+        conn = SQLite.DB()
         PubMed.create_tables!(conn)
         PubMed.save_efetch!(conn, efetch_doc,false, true)
 
@@ -186,11 +184,6 @@ import Base.parse
             q = DataFrame(SQLite.Query(conn, "SELECT count(*) FROM "*t*";"))
             count = q[1][1]
             @test count > 0
-        end
-
-        # remove temp files
-        if isfile(db_path)
-            rm(db_path)
         end
     end
 
