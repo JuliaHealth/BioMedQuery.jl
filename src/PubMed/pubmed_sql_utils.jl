@@ -511,8 +511,7 @@ function db_insert!(db::MySQL.Connection, csv_path::String = pwd(), csv_prefix::
             path = joinpath(csv_path, "$(csv_prefix)$(table).csv")
             drop_csv && push!(paths,path)
 
-            headers = CSV.read(path, DataFrame, rows = 1)
-            # return headers
+            headers = CSV.read(path, limit=1)
 
             cols = String.(getfield(headers, :colindex).names)
             if !col_match(db, table, cols)
