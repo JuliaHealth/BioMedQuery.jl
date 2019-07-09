@@ -1,0 +1,63 @@
+/* Links */
+
+a {
+    color: #e35d6a;
+}
+
+a:hover, a:focus {
+    color: #dc3545;
+}
+
+/* Navigation */
+
+nav.toc ul a:hover,
+nav.toc ul.internal a:hover {
+    color: #FFFFFF;
+    background-color: #e35d6a;
+}
+
+nav.toc ul .toctext {
+    color: #FFFFFF;
+}
+
+nav.toc {
+    box-shadow: none;
+    color: #FFFFFF;
+    background-color: #dc3545;
+}
+
+nav.toc li.current > .toctext {
+    color: #FFFFFF;
+    background-color: #e35d6a;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+}
+
+nav.toc ul.internal a {
+    color: #dc3545;
+    background-color: #FFFFFF;
+}
+
+/* Text */
+
+article#docs a.nav-anchor {
+    color: #dc3545;
+}
+
+article#docs blockquote {
+    font-style: italic;
+}
+
+/* Code */
+
+code .hljs-meta {
+    color: #e35d6a;
+}
+
+code .hljs-keyword {
+    color: #dc3545;
+}
+
+pre, code {
+    font-family: "Liberation Mono", "Consolas", "DejaVu Sans Mono", "Ubuntu Mono", "Courier New", "andale mono", "lucida console", monospace;
+}
