@@ -5,6 +5,16 @@
 [![DOI](https://zenodo.org/badge/59500020.svg)](https://zenodo.org/badge/latestdoi/59500020)
 ![Lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg?style=flat-square)
 
+<a href="https://app.bors.tech/repositories/12275"><img src="https://bors.tech/images/badge_small.svg" alt="Bors enabled"></a>
+
+BioMedQuery is tested against Julia `0.7` and current `1.X` on
+Linux, and OS X.
+
+| Latest CI Build |
+|:-----------:|
+| [![](https://badges.herokuapp.com/travis/bcbi/BioMedQuery.jl?branch=master&env=GROUP=Test&label=tests)](https://travis-ci.org/bcbi/BioMedQuery.jl)[![](https://badges.herokuapp.com/travis/bcbi/BioMedQuery.jl?branch=master&env=GROUP=Examples&label=examples)](https://travis-ci.org/bcbi/BioMedQuery.jl) [![codecov](https://codecov.io/gh/bcbi/BioMedQuery.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/bcbi/BioMedQuery.jl)|
+
+
 ## Documentation
 
 | Stable | Latest |  Examples |
@@ -50,13 +60,3 @@ To checkout the latest **development** version:
 using Pkg
 Pkg.dev("BioMedQuery")
 ```
-
-## Testing
-
-BioMedQuery is tested against Julia `0.7` and current `1.X` on
-Linux, and OS X.
-
-
-| Latest CI Build |
-|:-----------:|
-| [![](https://badges.herokuapp.com/travis/bcbi/BioMedQuery.jl?branch=master&env=GROUP=Test&label=tests)](https://travis-ci.org/bcbi/BioMedQuery.jl)[![](https://badges.herokuapp.com/travis/bcbi/BioMedQuery.jl?branch=master&env=GROUP=Examples&label=examples)](https://travis-ci.org/bcbi/BioMedQuery.jl) [![codecov](https://codecov.io/gh/bcbi/BioMedQuery.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/bcbi/BioMedQuery.jl)|
