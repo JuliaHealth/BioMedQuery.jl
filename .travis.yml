@@ -30,10 +30,15 @@ jobs:
     - # continue
       os: osx
       julia: 1.1
-      env: GROUP=Test
       script:
         - julia -e 'import Pkg; Pkg.build(); Pkg.test(coverage=false);'
       after_success: skip
+    - stage: examples
+      os: linux
+      julia: 1.1
+      env: GROUP=Examples
+      script:
+        - julia -e 'import Pkg; Pkg.instantiate(); include(joinpath(@__DIR__,"examples","runexamples.jl"))'
     - stage: deploy docs
       julia: 1.1
       os: linux
