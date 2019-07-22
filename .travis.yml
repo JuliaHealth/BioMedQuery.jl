@@ -35,6 +35,7 @@ after_success:
   - julia -e 'import Pkg; Pkg.instantiate(); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
 
 jobs:
+  include:
     - stage: tests
       os: osx
       julia: 1.1
