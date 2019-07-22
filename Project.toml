@@ -1,7 +1,7 @@
 name = "BioMedQuery"
 uuid = "e96904bf-1073-5077-9b57-b0ce0ff5555a"
 author = ["Brown Center for Biomedical Informatics"]
-version = '0.6.4'
+version = "0.6.5"
 
 [deps]
 BioServices = "a0d4ced5-b29c-5395-b614-ca030a679c4b"
@@ -19,11 +19,12 @@ SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 XMLDict = "228000da-037f-5747-90a9-8195ccbf91a5"
 
 [compat]
-julia = ">=0.7"
+julia = ">=1.0"
 
 [extras]
+MbedTLS = "739be429-bea8-5141-9913-cc70e7f3736d"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 ZipFile = "a5390f91-8eb1-5f08-bee0-b1d1ffed6cea"
 
 [targets]
-test = ["Test", "ZipFile"]
+test = ["MbedTLS", "Test", "ZipFile"]

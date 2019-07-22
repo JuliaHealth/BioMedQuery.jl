@@ -13,9 +13,9 @@ const verbose = false
 
 
 #************************ MYSQL **********************************************
-const host="127.0.0.1" #If want to hide - use enviroment variables instead
-const mysql_usr="root"
-const mysql_pswd=""
+const host=MYSQL_HOST #If want to hide - use enviroment variables instead
+const mysql_usr=MYSQL_USER
+const mysql_pswd=MYSQL_PASSWORD
 const dbname="pubmed_processes_test"
 const dbname_pmid ="pmid_processes_test"
 const medline_file = 1
