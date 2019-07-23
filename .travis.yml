@@ -36,14 +36,14 @@ after_success:
 
 jobs:
   include:
-    - stage: tests
+    - stage: test
       os: osx
       julia: 1.1
       env: GROUP=Test
       script:
         - julia -e 'import Pkg; Pkg.build(); Pkg.test(coverage=false);'
       after_success: skip
-    - stage: examples
+    - stage: example
       os: linux
       julia: 1.1
       env: GROUP=Examples
