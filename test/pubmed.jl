@@ -56,11 +56,11 @@ import Base.parse
             println("-----------------------------------------")
             println("       Test Save PMID MySQL     ")
             dbname = "entrez_test"
-            host = "127.0.0.1";
-            user = "root"
-            pwd = ""
+            host = MYSQL_HOST
+            user = MYSQL_USER
+            pswd = MYSQL_PASSWORD
 
-            conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
+            conn = DBUtils.init_mysql_database(host, user, pswd, dbname)
             PubMed.create_pmid_table!(conn)
             PubMed.save_pmids!(conn, ids)
 
@@ -78,11 +78,11 @@ import Base.parse
         println("       Testing MySQL Saving")
 
         dbname = "efetch_test"
-        host = "127.0.0.1";
-        user = "root"
-        pwd = ""
+        host = MYSQL_HOST
+        user = MYSQL_USER
+        pswd = MYSQL_PASSWORD
 
-        conn = DBUtils.init_mysql_database(host, user, pwd, dbname)
+        conn = DBUtils.init_mysql_database(host, user, pswd, dbname)
         PubMed.create_tables!(conn)
         @time PubMed.save_efetch!(conn, efetch_doc, false, true)
 
