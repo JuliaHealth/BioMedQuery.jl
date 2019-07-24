@@ -24,10 +24,11 @@ sudo: false
 addons:
   apt:
     packages:
-    - maria-server
+    - mariadb-server
   homebrew:
     packages:
     - mariadb
+    update: true
 
 before_script:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then mysql.server start; fi
