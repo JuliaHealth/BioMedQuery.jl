@@ -22,15 +22,13 @@ notifications:
 sudo: false
 
 addons:
-  mariadb: '10.4'
+  apt:
+    packages:
+    - mariadb-server
+  homebrew:
+    packages:
+    - mariadb
 
-script:
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then . ./ci/travis/before_install-osx.sh; fi
-  - export OLD_PATH=$LD_LIBRARY_PATH
-  - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`mariadb_config --libs | cut -d ' ' -f1 | sed 's/-L//'`
-after_script:
-  - export LD_LIBRARY_PATH=$OLD_PATH
-  - unset OLD_PATH
 after_success:
   - julia -e 'import Pkg; Pkg.instantiate(); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
 
@@ -39,14 +37,12 @@ jobs:
     - stage: test
       os: osx
       julia: 1.1
-      env: GROUP=Test
       script:
         - julia -e 'import Pkg; Pkg.build(); Pkg.test(coverage=false);'
       after_success: skip
     - stage: example
       os: linux
       julia: 1.1
-      env: GROUP=Examples
       script:
         - julia -e 'import Pkg; Pkg.instantiate(); include(joinpath(@__DIR__, "examples", "runexamples.jl"))'
     - stage: deploy documentation
