@@ -31,7 +31,7 @@ addon:
 
 before_script:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then mysql.server start; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux"]; then sudo service mysql start; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo service mysql start; fi
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`mysql_config --libs | cut -d ' ' -f1 | sed 's/-L//'`
 
 after_success:
