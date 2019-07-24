@@ -21,7 +21,7 @@ notifications:
 
 sudo: false
 
-addon:
+addons:
   apt:
     packages:
     - maria-server
@@ -36,6 +36,10 @@ before_script:
 
 after_success:
   - julia -e 'import Pkg; Pkg.instantiate(); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
+
+matrix:
+  allow_failures:
+  - julia: 1.2
 
 jobs:
   include:
