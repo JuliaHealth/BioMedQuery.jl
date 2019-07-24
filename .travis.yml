@@ -21,14 +21,17 @@ notifications:
 
 sudo: false
 
+addon:
+  apt:
+    packages:
+    - maria-server
+  homebrew:
+    package:
+    - mariadb
+
 before_script:
-  - echo "[mysqld]" > $HOME/.my.cnf
-  - echo "secure_file_priv = \"\" ">> $HOME/.my.cnf
-  - echo "default_authentication_plugin = mysql_native_password" >> $HOME/.my.cnf
-  - echo "local_infile = 1" >> $HOME/.my.cnf
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then . ./ci/travis/before_install-osx.sh; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux"]; then apt-get install -y mariadb-server mariadb-server-10.4; sudo service mysql start; fi
-  - export OLD_PATH=$LD_LIBRARY_PATH
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then mysql.server start; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux"]; then sudo service mysql start; fi
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`mysql_config --libs | cut -d ' ' -f1 | sed 's/-L//'`
 
 after_success:
