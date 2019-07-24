@@ -26,7 +26,7 @@ addon:
     packages:
     - maria-server
   homebrew:
-    package:
+    packages:
     - mariadb
 
 before_script:
