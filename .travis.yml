@@ -29,8 +29,7 @@ addons:
     update: true
 
 before_script:
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then ./ci/travis/before_install-osx.sh; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo service mysql start; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then . ./ci/travis/before_install-osx.sh; fi
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`mysql_config --libs | cut -d ' ' -f1 | sed 's/-L//'`
 
 after_success:
