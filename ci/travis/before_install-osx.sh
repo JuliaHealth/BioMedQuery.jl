@@ -5,11 +5,6 @@ echo Running before_install-osx.sh...
 echo "------------------------------------------"
 
 # Install and start MySQL on OSX
-echo ">>> brew install mariadb"
-brew update
-brew install mariadb
-brew link mariadb
-
 echo ">>> configure mariadb"
 mkdir -p /usr/local/etc/my.cnf.d
 echo "[mysqld]" > $HOME/.my.cnf
