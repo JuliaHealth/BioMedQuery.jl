@@ -8,6 +8,7 @@ echo "------------------------------------------"
 echo ">>> brew install mariadb"
 brew update
 brew install mariadb
+brew link mariadb
 
 echo ">>> configure mariadb"
 echo "[mysqld]" > $HOME/.my.cnf
