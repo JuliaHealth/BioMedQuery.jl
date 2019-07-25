@@ -22,7 +22,7 @@ notifications:
 sudo: false
 
 addons:
-  mariadb:
+  mariadb: 10
   homebrew:
     packages:
     - mariadb
