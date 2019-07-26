@@ -5,7 +5,7 @@ using MySQL
 
     dbname="pubmed_test"
 
-    conn = DBUtils.init_mysql_database("127.0.0.1", "root", "", dbname)
+    conn = DBUtils.init_mysql_database(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, dbname)
     PubMed.create_tables!(conn)
 
     println(conn)

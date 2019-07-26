@@ -17,7 +17,6 @@ using MySQL
 using SQLite
 using DataStreams
 
-
 #For now this corresponds to JULIACIBot... since we aren't testing anywhere else
 global CI = get(ENV, "CI", "false")=="true"
 global TRAVIS = get(ENV, "TRAVIS", "false")=="true"
@@ -39,6 +38,21 @@ all_tests = [
             ("processes_df.jl",     "       Testing: Processes DataFrame")
             ]
 if !CI_SKIP_MYSQL
+    # on MacOS host name must be localhost
+    if Sys.isapple()
+        global const MYSQL_HOST = "localhost"
+    else
+        global const MYSQL_HOST = "127.0.0.1"
+    end
+
+    if Sys.isapple()
+        global const MYSQL_USER = get(ENV, "MYSQL_USER", get(ENV, "LOGNAME", "root"))
+    else
+        global const MYSQL_USER = get(ENV, "MYSQL_USER", "root")
+    end
+
+    global const MYSQL_PASSWORD = get(ENV, "MYSQL_PASSWORD", "")
+
     push!(all_tests, ("dbutils_mysql.jl",    "       Testing: DBUtils MySQL"))
     push!(all_tests, ("processes_mysql.jl",  "       Testing: Processes MySQL"))
 end
