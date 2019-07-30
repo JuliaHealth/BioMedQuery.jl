@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Pubmed Search and Save · BioMedQuery.jl</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link href="../../assets/documenter.css" rel="stylesheet" type="text/css"/><link href="../../assets/favicon.ico" rel="icon" type="image/x-icon"/><link href="../../assets/bcbi.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><a href="../../index.html"><img class="logo" src="../../assets/logo.png" alt="BioMedQuery.jl logo"/></a><h1>BioMedQuery.jl</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../../search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../../">Home</a></li><li><span class="toctext">Examples</span><ul><li><a class="toctext" href="../">Overview</a></li><li class="current"><a class="toctext" href>Pubmed Search and Save</a><ul class="internal"></ul></li><li><a class="toctext" href="../2_umls_map_and_filter/">MeSH/UMLS Map and Filtering</a></li><li><a class="toctext" href="../4_pubmed_export_citations/">Export to Citations</a></li><li><a class="toctext" href="../5_load_medline/">Load MEDLINE</a></li></ul></li><li><span class="toctext">Manual</span><ul><li><a class="toctext" href="../../processes/">Processes/Workflows</a></li><li><a class="toctext" href="../../pubmed/">PubMed</a></li><li><a class="toctext" href="../../ct/">Clinical Trials</a></li><li><a class="toctext" href="../../dbutils/">Database Utilities</a></li><li><a class="toctext" href="../../library/">Library</a></li></ul></li></ul></nav><article id="docs"><header><nav><ul><li>Examples</li><li><a href>Pubmed Search and Save</a></li></ul><a class="edit-page" href="https://github.com/bcbi/BioMedQuery.jl/blob/master/examples/literate_src/1_pubmed_search_and_save.jl"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>Pubmed Search and Save</span><a class="fa fa-bars" href="#"></a></div></header><h1><a class="nav-anchor" id="Search-PubMed-and-Save-Results-1" href="#Search-PubMed-and-Save-Results-1">Search PubMed and Save Results</a></h1><p><a href="http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/1_pubmed_search_and_save.ipynb"><img src="https://img.shields.io/badge/jupyter_notebook-nbviewer-orange.svg" alt="nbviewer"/></a></p><p>This example demonstrates the typical workflow to query pubmed and store the results. The following backends are supported for storing the results:</p><ul><li>MySQL</li><li>SQLite</li><li>Citation (endnote/bibtex)</li><li>DataFrames</li></ul><h3><a class="nav-anchor" id="Set-Up-1" href="#Set-Up-1">Set Up</a></h3><pre><code class="language-julia">using BioMedQuery.DBUtils
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Pubmed Search and Save · BioMedQuery.jl</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link href="../../assets/documenter.css" rel="stylesheet" type="text/css"/><link href="../../assets/favicon.ico" rel="icon" type="image/x-icon"/><link href="../../assets/bcbi.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><a href="../../"><img class="logo" src="../../assets/logo.png" alt="BioMedQuery.jl logo"/></a><h1>BioMedQuery.jl</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../../search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../../">Home</a></li><li><span class="toctext">Examples</span><ul><li><a class="toctext" href="../">Overview</a></li><li class="current"><a class="toctext" href>Pubmed Search and Save</a><ul class="internal"></ul></li><li><a class="toctext" href="../2_umls_map_and_filter/">MeSH/UMLS Map and Filtering</a></li><li><a class="toctext" href="../4_pubmed_export_citations/">Export to Citations</a></li><li><a class="toctext" href="../5_load_medline/">Load MEDLINE</a></li></ul></li><li><span class="toctext">Manual</span><ul><li><a class="toctext" href="../../processes/">Processes/Workflows</a></li><li><a class="toctext" href="../../pubmed/">PubMed</a></li><li><a class="toctext" href="../../ct/">Clinical Trials</a></li><li><a class="toctext" href="../../dbutils/">Database Utilities</a></li><li><a class="toctext" href="../../library/">Library</a></li></ul></li></ul></nav><article id="docs"><header><nav><ul><li>Examples</li><li><a href>Pubmed Search and Save</a></li></ul><a class="edit-page" href="https://github.com/bcbi/BioMedQuery.jl/blob/master/examples/literate_src/1_pubmed_search_and_save.jl"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>Pubmed Search and Save</span><a class="fa fa-bars" href="#"></a></div></header><h1><a class="nav-anchor" id="Search-PubMed-and-Save-Results-1" href="#Search-PubMed-and-Save-Results-1">Search PubMed and Save Results</a></h1><p><a href="http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/1_pubmed_search_and_save.ipynb"><img src="https://img.shields.io/badge/jupyter_notebook-nbviewer-orange.svg" alt="nbviewer"/></a></p><p>This example demonstrates the typical workflow to query pubmed and store the results. The following backends are supported for storing the results:</p><ul><li>MySQL</li><li>SQLite</li><li>Citation (endnote/bibtex)</li><li>DataFrames</li></ul><h3><a class="nav-anchor" id="Set-Up-1" href="#Set-Up-1">Set Up</a></h3><pre><code class="language-julia">using BioMedQuery.DBUtils
 using BioMedQuery.PubMed
 using BioMedQuery.Processes
 using DataFrames
@@ -19,6 +19,9 @@ DB:
 ------EFetch--------
 ------Save to database--------
 Saving 5 articles to database
+┌ Warning: `getindex(df::DataFrame, col_ind::ColumnIndex)` is deprecated, use `df[!, col_ind]` instead.
+│   caller = select_columns(::MySQL.Connection, ::String) at mysql_db_utils.jl:62
+└ @ BioMedQuery.DBUtils ~/build/bcbi/BioMedQuery.jl/src/DBUtils/mysql_db_utils.jl:62
 Finished searching, total number of articles: 5</code></pre><h4><a class="nav-anchor" id="Access-all-PMIDs-1" href="#Access-all-PMIDs-1">Access all PMIDs</a></h4><pre><code class="language-julia">all_pmids(mysql_conn)</code></pre><pre><code class="language-none">5-element Array{Int32,1}:
  24315250
  24444198
@@ -33,44 +36,50 @@ end</code></pre><pre><code class="language-none">5×9 DataFrames.DataFrame
 │ Row │ pmid     │ last_name │ first_name │ initials │ suffix  │ orcid   │ collective │ affiliation                                                                       │ ins_dt_time         │
 │     │ Int32    │ String⍰   │ String⍰    │ String⍰  │ String⍰ │ String⍰ │ String⍰    │ Union{Missing, String}                                                            │ Dates.DateTime      │
 ├─────┼──────────┼───────────┼────────────┼──────────┼─────────┼─────────┼────────────┼───────────────────────────────────────────────────────────────────────────────────┼─────────────────────┤
-│ 1   │ 25548090 │ So        │ Eun Sun    │ ES       │ missing │ missing │ missing    │ Chonbuk National University, South Korea soeunjee@naver.com.                      │ 2019-07-09T20:18:38 │
-│ 2   │ 25548090 │ Yoo       │ Kwang Soo  │ KS       │ missing │ missing │ missing    │ Chonbuk National University, South Korea.                                         │ 2019-07-09T20:18:38 │
-│ 3   │ 24694474 │ Sakurai   │ Masaru     │ M        │ missing │ missing │ missing    │ Department of Epidemiology and Public Health, Kanazawa Medical University, Japan. │ 2019-07-09T20:18:38 │
-│ 4   │ 24694474 │ Nakamura  │ Koshi      │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2019-07-09T20:18:38 │
-│ 5   │ 24694474 │ Miura     │ Katsuyuki  │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2019-07-09T20:18:38 │
+│ 1   │ 25548090 │ So        │ Eun Sun    │ ES       │ missing │ missing │ missing    │ Chonbuk National University, South Korea soeunjee@naver.com.                      │ 2019-07-30T07:07:01 │
+│ 2   │ 25548090 │ Yoo       │ Kwang Soo  │ KS       │ missing │ missing │ missing    │ Chonbuk National University, South Korea.                                         │ 2019-07-30T07:07:01 │
+│ 3   │ 24694474 │ Sakurai   │ Masaru     │ M        │ missing │ missing │ missing    │ Department of Epidemiology and Public Health, Kanazawa Medical University, Japan. │ 2019-07-30T07:07:01 │
+│ 4   │ 24694474 │ Nakamura  │ Koshi      │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2019-07-30T07:07:01 │
+│ 5   │ 24694474 │ Miura     │ Katsuyuki  │ K        │ missing │ missing │ missing    │ missing                                                                           │ 2019-07-30T07:07:01 │
 5×3 DataFrames.DataFrame
 │ Row │ uid   │ name                 │ ins_dt_time         │
 │     │ Int32 │ String               │ Dates.DateTime      │
 ├─────┼───────┼──────────────────────┼─────────────────────┤
-│ 1   │ 328   │ Adult                │ 2019-07-09T20:18:38 │
-│ 2   │ 368   │ Aged                 │ 2019-07-09T20:18:38 │
-│ 3   │ 369   │ Aged, 80 and over    │ 2019-07-09T20:18:38 │
-│ 4   │ 704   │ Analysis of Variance │ 2019-07-09T20:18:38 │
-│ 5   │ 1835  │ Body Weight          │ 2019-07-09T20:18:38 │
+│ 1   │ 328   │ Adult                │ 2019-07-30T07:07:01 │
+│ 2   │ 368   │ Aged                 │ 2019-07-30T07:07:01 │
+│ 3   │ 369   │ Aged, 80 and over    │ 2019-07-30T07:07:01 │
+│ 4   │ 704   │ Analysis of Variance │ 2019-07-30T07:07:01 │
+│ 5   │ 1835  │ Body Weight          │ 2019-07-30T07:07:01 │
 5×3 DataFrames.DataFrame
 │ Row │ uid   │ name          │ ins_dt_time         │
 │     │ Int32 │ String        │ Dates.DateTime      │
 ├─────┼───────┼───────────────┼─────────────────────┤
-│ 1   │ 32    │ analysis      │ 2019-07-09T20:18:38 │
-│ 2   │ 97    │ blood         │ 2019-07-09T20:18:38 │
-│ 3   │ 150   │ complications │ 2019-07-09T20:18:38 │
-│ 4   │ 208   │ ethnology     │ 2019-07-09T20:18:38 │
-│ 5   │ 209   │ etiology      │ 2019-07-09T20:18:38 │
+│ 1   │ 32    │ analysis      │ 2019-07-30T07:07:01 │
+│ 2   │ 97    │ blood         │ 2019-07-30T07:07:01 │
+│ 3   │ 150   │ complications │ 2019-07-30T07:07:01 │
+│ 4   │ 208   │ ethnology     │ 2019-07-30T07:07:01 │
+│ 5   │ 209   │ etiology      │ 2019-07-30T07:07:01 │
 5×6 DataFrames.DataFrame
 │ Row │ pmid     │ desc_uid │ desc_maj_status │ qual_uid │ qual_maj_status │ ins_dt_time         │
 │     │ Int32    │ Int32    │ Int8            │ Int32⍰   │ Int8⍰           │ Dates.DateTime      │
 ├─────┼──────────┼──────────┼─────────────────┼──────────┼─────────────────┼─────────────────────┤
-│ 1   │ 25548090 │ 17677    │ 0               │ missing  │ missing         │ 2019-07-09T20:18:38 │
-│ 2   │ 25548090 │ 368      │ 0               │ missing  │ missing         │ 2019-07-09T20:18:38 │
-│ 3   │ 25548090 │ 369      │ 0               │ missing  │ missing         │ 2019-07-09T20:18:38 │
-│ 4   │ 25548090 │ 5260     │ 0               │ missing  │ missing         │ 2019-07-09T20:18:38 │
-│ 5   │ 25548090 │ 6801     │ 0               │ missing  │ missing         │ 2019-07-09T20:18:38 │</code></pre><pre><code class="language-julia">MySQL.disconnect(mysql_conn);</code></pre><h3><a class="nav-anchor" id="SQLite-backend-1" href="#SQLite-backend-1">SQLite backend</a></h3><pre><code class="language-julia">const db_path = &quot;$(results_dir)/pubmed_obesity_2010_2012.db&quot;;</code></pre><pre><code class="language-none">&quot;./pubmed_obesity_2010_2012.db&quot;</code></pre><p>Overwrite the database if it already exists</p><pre><code class="language-julia">if isfile(db_path)
+│ 1   │ 25548090 │ 17677    │ 0               │ missing  │ missing         │ 2019-07-30T07:07:01 │
+│ 2   │ 25548090 │ 368      │ 0               │ missing  │ missing         │ 2019-07-30T07:07:01 │
+│ 3   │ 25548090 │ 369      │ 0               │ missing  │ missing         │ 2019-07-30T07:07:01 │
+│ 4   │ 25548090 │ 5260     │ 0               │ missing  │ missing         │ 2019-07-30T07:07:01 │
+│ 5   │ 25548090 │ 6801     │ 0               │ missing  │ missing         │ 2019-07-30T07:07:01 │</code></pre><pre><code class="language-julia">MySQL.disconnect(mysql_conn);</code></pre><h3><a class="nav-anchor" id="SQLite-backend-1" href="#SQLite-backend-1">SQLite backend</a></h3><pre><code class="language-julia">const db_path = &quot;$(results_dir)/pubmed_obesity_2010_2012.db&quot;;</code></pre><pre><code class="language-none">&quot;./pubmed_obesity_2010_2012.db&quot;</code></pre><p>Overwrite the database if it already exists</p><pre><code class="language-julia">if isfile(db_path)
     rm(db_path)
 end</code></pre><p>Connect to the database</p><pre><code class="language-julia">const conn_sqlite = SQLite.DB(db_path);</code></pre><pre><code class="language-none">SQLite.DB(&quot;./pubmed_obesity_2010_2012.db&quot;)</code></pre><p>Creates (and deletes if they already exist) all tables needed to save a pubmed search</p><pre><code class="language-julia">PubMed.create_tables!(conn_sqlite);</code></pre><pre><code class="language-none">101</code></pre><p>Search PubMed and save the results</p><pre><code class="language-julia">Processes.pubmed_search_and_save!(email, search_term, max_articles, conn_sqlite, verbose)</code></pre><pre><code class="language-none">Getting 5 articles, starting at index 0
 ------ESearch--------
 ------EFetch--------
 ------Save to database--------
 Saving 5 articles to database
+┌ Warning: `getindex(df::DataFrame, col_ind::ColumnIndex)` is deprecated, use `df[!, col_ind]` instead.
+│   caller = select_columns at sqlite_db_utils.jl:9 [inlined]
+└ @ Core ~/build/bcbi/BioMedQuery.jl/src/DBUtils/sqlite_db_utils.jl:9
+┌ Warning: `getindex(df::DataFrame, col_ind::ColumnIndex)` is deprecated, use `df[!, col_ind]` instead.
+│   caller = insert_row!(::SQLite.DB, ::String, ::Dict{Symbol,Any}, ::Bool) at sqlite_db_utils.jl:59
+└ @ BioMedQuery.DBUtils ~/build/bcbi/BioMedQuery.jl/src/DBUtils/sqlite_db_utils.jl:59
 Finished searching, total number of articles: 5</code></pre><h4><a class="nav-anchor" id="Access-all-PMIDs-2" href="#Access-all-PMIDs-2">Access all PMIDs</a></h4><pre><code class="language-julia">all_pmids(conn_sqlite)</code></pre><pre><code class="language-none">5-element Array{Union{Missing, Int64},1}:
  24315250
  24444198
@@ -81,10 +90,10 @@ for t in tables
     query_str = &quot;SELECT * FROM $t LIMIT 5;&quot;
     q = SQLite.Query(conn_sqlite, query_str)
     println(q)
-end</code></pre><pre><code class="language-none">SQLite.Query{NamedTuple{(:pmid, :last_name, :first_name, :initials, :suffix, :orcid, :collective, :affiliation, :ins_dt_time),Tuple{Union{Missing, Int64},Union{Missing, String},Union{Missing, String},Union{Missing, String},Any,Any,Any,Union{Missing, String},Union{Missing, String}}}}(SQLite.Stmt(SQLite.DB(&quot;./pubmed_obesity_2010_2012.db&quot;), Ptr{Nothing} @0x0000000006500368), Base.RefValue{Int32}(100))
-SQLite.Query{NamedTuple{(:uid, :name, :ins_dt_time),Tuple{Union{Missing, Int64},Union{Missing, String},Union{Missing, String}}}}(SQLite.Stmt(SQLite.DB(&quot;./pubmed_obesity_2010_2012.db&quot;), Ptr{Nothing} @0x0000000006501628), Base.RefValue{Int32}(100))
-SQLite.Query{NamedTuple{(:uid, :name, :ins_dt_time),Tuple{Union{Missing, Int64},Union{Missing, String},Union{Missing, String}}}}(SQLite.Stmt(SQLite.DB(&quot;./pubmed_obesity_2010_2012.db&quot;), Ptr{Nothing} @0x00000000064f8028), Base.RefValue{Int32}(100))
-SQLite.Query{NamedTuple{(:pmid, :desc_uid, :desc_maj_status, :qual_uid, :qual_maj_status, :ins_dt_time),Tuple{Union{Missing, Int64},Union{Missing, Int64},Union{Missing, Int64},Any,Any,Union{Missing, String}}}}(SQLite.Stmt(SQLite.DB(&quot;./pubmed_obesity_2010_2012.db&quot;), Ptr{Nothing} @0x00000000064ef838), Base.RefValue{Int32}(100))</code></pre><h3><a class="nav-anchor" id="Citations-1" href="#Citations-1">Citations</a></h3><p>Citation type can be &quot;endnote&quot; or &quot;bibtex&quot;</p><pre><code class="language-julia">enw_file = &quot;$(results_dir)/pubmed_obesity_2010_2012.enw&quot;
+end</code></pre><pre><code class="language-none">SQLite.Query{NamedTuple{(:pmid, :last_name, :first_name, :initials, :suffix, :orcid, :collective, :affiliation, :ins_dt_time),Tuple{Union{Missing, Int64},Union{Missing, String},Union{Missing, String},Union{Missing, String},Any,Any,Any,Union{Missing, String},Union{Missing, String}}}}(SQLite.Stmt(SQLite.DB(&quot;./pubmed_obesity_2010_2012.db&quot;), Ptr{Nothing} @0x00000000074f7298), Base.RefValue{Int32}(100))
+SQLite.Query{NamedTuple{(:uid, :name, :ins_dt_time),Tuple{Union{Missing, Int64},Union{Missing, String},Union{Missing, String}}}}(SQLite.Stmt(SQLite.DB(&quot;./pubmed_obesity_2010_2012.db&quot;), Ptr{Nothing} @0x00000000074ee5f8), Base.RefValue{Int32}(100))
+SQLite.Query{NamedTuple{(:uid, :name, :ins_dt_time),Tuple{Union{Missing, Int64},Union{Missing, String},Union{Missing, String}}}}(SQLite.Stmt(SQLite.DB(&quot;./pubmed_obesity_2010_2012.db&quot;), Ptr{Nothing} @0x00000000074f6488), Base.RefValue{Int32}(100))
+SQLite.Query{NamedTuple{(:pmid, :desc_uid, :desc_maj_status, :qual_uid, :qual_maj_status, :ins_dt_time),Tuple{Union{Missing, Int64},Union{Missing, Int64},Union{Missing, Int64},Any,Any,Union{Missing, String}}}}(SQLite.Stmt(SQLite.DB(&quot;./pubmed_obesity_2010_2012.db&quot;), Ptr{Nothing} @0x00000000074f9818), Base.RefValue{Int32}(100))</code></pre><h3><a class="nav-anchor" id="Citations-1" href="#Citations-1">Citations</a></h3><p>Citation type can be &quot;endnote&quot; or &quot;bibtex&quot;</p><pre><code class="language-julia">enw_file = &quot;$(results_dir)/pubmed_obesity_2010_2012.enw&quot;
 endnote_citation = PubMed.CitationOutput(&quot;endnote&quot;, enw_file, true)
 Processes.pubmed_search_and_save!(email, search_term, max_articles, endnote_citation, verbose);
 println(read(enw_file, String))</code></pre><pre><code class="language-none">Getting 5 articles, starting at index 0
@@ -92,6 +101,21 @@ println(read(enw_file, String))</code></pre><pre><code class="language-none">Get
 ------EFetch--------
 ------Save to database--------
 Saving citation for 5 articles
+┌ Warning: `getindex(df::DataFrame, col_ind::ColumnIndex)` is deprecated, use `df[!, col_ind]` instead.
+│   caller = citations_endnote(::Dict{String,DataFrames.DataFrame}, ::Int64, ::Bool) at citation_manager.jl:37
+└ @ BioMedQuery.PubMed ~/build/bcbi/BioMedQuery.jl/src/PubMed/citation_manager.jl:37
+┌ Warning: `getindex(df::DataFrame, col_ind::ColumnIndex)` is deprecated, use `df[!, col_ind]` instead.
+│   caller = citations_endnote(::Dict{String,DataFrames.DataFrame}, ::Int64, ::Bool) at citation_manager.jl:37
+└ @ BioMedQuery.PubMed ~/build/bcbi/BioMedQuery.jl/src/PubMed/citation_manager.jl:37
+┌ Warning: `getindex(df::DataFrame, col_ind::ColumnIndex)` is deprecated, use `df[!, col_ind]` instead.
+│   caller = citations_endnote(::Dict{String,DataFrames.DataFrame}, ::Int64, ::Bool) at citation_manager.jl:46
+└ @ BioMedQuery.PubMed ~/build/bcbi/BioMedQuery.jl/src/PubMed/citation_manager.jl:46
+┌ Warning: `getindex(df::DataFrame, col_ind::ColumnIndex)` is deprecated, use `df[!, col_ind]` instead.
+│   caller = citations_endnote(::Dict{String,DataFrames.DataFrame}, ::Int64, ::Bool) at citation_manager.jl:69
+└ @ BioMedQuery.PubMed ~/build/bcbi/BioMedQuery.jl/src/PubMed/citation_manager.jl:69
+┌ Warning: `getindex(df::DataFrame, col_ind::ColumnIndex)` is deprecated, use `df[!, col_ind]` instead.
+│   caller = citations_endnote(::Dict{String,DataFrames.DataFrame}, ::Int64, ::Bool) at citation_manager.jl:72
+└ @ BioMedQuery.PubMed ~/build/bcbi/BioMedQuery.jl/src/PubMed/citation_manager.jl:72
 Finished searching, total number of articles: 5
 %0 Journal Article
 %A So, ES
