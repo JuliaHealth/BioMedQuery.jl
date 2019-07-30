@@ -9,3 +9,7 @@ status = [
 ]
 
 timeout_sec = 576000
+
+[committer]
+name = "BCBI Bot"
+email = "bcbi-git@brown.edu"
