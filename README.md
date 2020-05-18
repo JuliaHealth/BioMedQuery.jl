@@ -1,7 +1,7 @@
 # BioMedQuery
 
-[![Latest Release](https://img.shields.io/github/release/bcbi/BioMedQuery.jl.svg?style=flat-square)](https://github.com/bcbi/BioMedQuery.jl/releases/latest)
-[![MIT license](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](https://github.com/bcbi/BioMedQuery.jl/blob/master/LICENSE)
+[![Latest Release](https://img.shields.io/github/release/JuliaHealth/BioMedQuery.jl.svg?style=flat-square)](https://github.com/JuliaHealth/BioMedQuery.jl/releases/latest)
+[![MIT license](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](https://github.com/JuliaHealth/BioMedQuery.jl/blob/master/LICENSE)
 ![Lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg?style=flat-square)
 ![Bors Enabled](https://bors.tech/images/badge_small.svg)
 
@@ -9,14 +9,14 @@ BioMedQuery is tested against Julia `1.X` on Linux, and OS X.
 
 | Latest CI Build |
 |:-----------:|
-| [![Tests](https://badges.herokuapp.com/travis/bcbi/BioMedQuery.jl?branch=master&label=tests)](https://travis-ci.org/bcbi/BioMedQuery.jl) [![Code Coverage](https://codecov.io/gh/bcbi/BioMedQuery.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/bcbi/BioMedQuery.jl)|
+| [![Build Status](https://travis-ci.com/JuliaHealth/BioMedQuery.jl.svg?branch=master)](https://travis-ci.com/JuliaHealth/BioMedQuery.jl) [![Code Coverage](https://codecov.io/gh/JuliaHealth/BioMedQuery.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JuliaHealth/BioMedQuery.jl)|
 
 
 ## Documentation
 
 | Stable | Latest |  Examples |
 |:-----------:|:-----------:|:-----------:|
-|[![Stable documentation](https://img.shields.io/badge/docs-stable-blue.svg?style=flat-square)](https://bcbi.github.io/BioMedQuery.jl/stable)|[![Latest documentation](https://img.shields.io/badge/docs-latest-blue.svg?style=flat-square)](https://bcbi.github.io/BioMedQuery.jl/latest/)|[![nbviewer](https://img.shields.io/badge/jupyter_notebooks-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/bcbi/BioMedQuery.jl/tree/master/docs/src/notebooks/)|
+|[![Stable documentation](https://img.shields.io/badge/docs-stable-blue.svg?style=flat-square)](https://juliahealth.org/BioMedQuery.jl/stable)|[![Latest documentation](https://img.shields.io/badge/docs-latest-blue.svg?style=flat-square)](https://juliahealth.org/BioMedQuery.jl/latest/)|[![nbviewer](https://img.shields.io/badge/jupyter_notebooks-nbviewer-orange.svg)](http://nbviewer.jupyter.org/github/JuliaHealth/BioMedQuery.jl/tree/master/docs/src/notebooks/)|
 
 ## Description
 
